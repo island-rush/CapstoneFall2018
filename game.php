@@ -44,8 +44,8 @@ include("db.php");
     <body>
         <div id="whole_game">
             <div id="side_panel">
-                <div class="titlebar">Reinforcements</div>
-                <div class="purchase_buttons_container">
+                <div id="titlebar">Reinforcements</div>
+                <div id="purchase_buttons_container">
                     <div class="purchase_square transport" id="transport"></div>
                     <div class="purchase_square submarine" id="submarine"></div>
                     <div class="purchase_square destroyer" id="destroyer"></div>
@@ -62,11 +62,11 @@ include("db.php");
                     <div class="purchase_square stealthBomber" id="stealthBomber"></div>
                     <div class="purchase_square tanker" id="tanker"></div>
                 </div>
-                <div class="shopping_things">
-                    <div class="purchased_container" id="purchased_container" data-positionId="118"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
-                    <div class="trashbox">*Trash*</div>
+                <div id="shopping_things">
+                    <div id="purchased_container" id="purchased_container" data-positionId="118"></div>
+                    <div id="trashbox">*Trash*</div>
                 </div>
-                <div class="rest_things">
+                <div id="rest_things">
                     <div id="phase_indicator">Phase Indicator</div>
                     <div id="team_indicator">Team Indicator</div>
                     <button>Undo Movement</button>
@@ -78,7 +78,7 @@ include("db.php");
                 </div>
             </div>
 
-            <div id="game_board">
+            <div id="game_board" onclick="clickGameBoard(event, this);">
                 <div class="gridblockLeftBig" id="special_island13">
                     <div class="gridblockTiny" data-groundtype="land" id="pos13a" data-positionId="55"></div>
                     <div class="gridblockTiny" data-groundtype="land" id="pos13b" data-positionId="56"></div>
@@ -91,7 +91,7 @@ include("db.php");
                     <div class="gridblockTiny" data-groundtype="land" id="pos13i" data-positionId="63"></div>
                     <div class="gridblockTiny" data-groundtype="land" id="pos13j" data-positionId="64"></div>
                 </div>
-                <div class="gridblock" data-positionId="0" data-groundType="water" onclick="clickWater(event, this);"></div>
+                <div class="gridblock" data-positionId="0" data-groundType="water" onclick="clickWater(event, this);"><?php $positionId = 0; include("pieceDisplay.php"); ?></div>
                 <div class="gridblock" data-positionId="1" data-groundType="water" onclick="clickWater(event, this);"></div>
                 <div class="gridblock" data-positionId="2" data-groundType="water" onclick="clickWater(event, this);"></div>
                 <div class="gridblock" data-positionId="3" data-groundType="water" onclick="clickWater(event, this);"></div>
@@ -153,7 +153,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="16" data-groundType="water" onclick="clickWater(event, this);"></div>
                 <div class="gridblock" data-positionId="17" data-groundType="water" onclick="clickWater(event, this);"></div>
                 <div class="gridblock" data-positionId="18" data-groundType="water" onclick="clickWater(event, this);"></div>
-                <div class="gridblockEmptyLeft"></div>
+                <div class="gridblockEmptyLeft" onclick="clickGameBoard(event, this);"></div>
                 <div class="gridblock" data-positionId="19" data-groundType="water" onclick="clickWater(event, this);"></div>
                 <div class="gridblock" data-positionId="20" data-groundType="water" onclick="clickWater(event, this);"></div>
                 <div class="gridblock" data-positionId="21" data-groundType="water" onclick="clickWater(event, this);"></div>

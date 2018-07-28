@@ -22,6 +22,14 @@ function clickWater(event, callingElement) {
     event.stopPropagation();
 }
 
+function clickGameBoard(event, callingElement) {
+    event.preventDefault();
+
+    hideIslands();
+
+    event.stopPropagation();
+}
+
 
 function hideIslands() {
     let x = document.getElementsByClassName("bigblock3x3");

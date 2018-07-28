@@ -3,7 +3,8 @@ $gameId = $_SESSION['gameId'];
 
 if (isset($positionId)) {
 
-    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?)';
+    //Get all pieces from this game and this position
+    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementUnitId = unitId)';
     $query = $db->prepare($query);
     $query->bind_param("ii", $gameId, $positionId);
     $query->execute();
@@ -26,7 +27,7 @@ if (isset($positionId)) {
             if ($placementContainerId == 999999) {
 
                 //opening for overall piece
-                echo "<div class='".$unitName." game_piece' data-placementId='".$placementId."' data-unitTerrain='".$unitTerrain."' data-container='".$placementContainerId."' data-team='".$placementTeamId."' data-unitName='".$unitName."' data-unitId='".$unitId."' data-moves='".$placementCurrentMoves."' ";
+                echo "<div class='".$unitName." gamePiece' data-placementId='".$placementId."' data-unitTerrain='".$unitTerrain."' data-container='".$placementContainerId."' data-team='".$placementTeamId."' data-unitName='".$unitName."' data-unitId='".$unitId."' data-moves='".$placementCurrentMoves."' ";
 
                 //functions for all pieces (container/non-container)
                 echo "";
@@ -54,7 +55,7 @@ if (isset($positionId)) {
                     //open the container
                     echo "<div class='".$classthing."' data-groundtype='".$classthing."' data-positionId='".$placementPositionId."'>";
 
-                    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementContainerId = ?)';
+                    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementContainerId = ?) AND (placementUnitId = unitId)';
                     $query = $db->prepare($query);
                     $query->bind_param("ii", $gameId, $placementId);
                     $query->execute();
@@ -73,11 +74,14 @@ if (isset($positionId)) {
                             $unitTerrain2 = $x['unitTerrain'];
 
                             //assume only non-containers within a container (opening for piece within container)
-                            echo "<div class='".$unitName2." game_piece' data-placementId='".$placementId2."' data-unitTerrain='".$unitTerrain2."' data-container='".$placementContainerId."' data-team='".$placementTeamId2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' data-moves='".$placementCurrentMoves2."' ";
+                            echo "<div class='".$unitName2." game_piece' data-placementId='".$placementId2."' data-unitTerrain='".$unitTerrain2."' data-container='".$placementContainerId2."' data-team='".$placementTeamId2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' data-moves='".$placementCurrentMoves2."' ";
 
                             //functions for all pieces (but only non-container)
+                            echo "";
 
-                            echo "></div>";  // end the piece within container
+                            echo ">";
+
+                            echo "</div>";  // end the piece within container
                         }
                     }
                     echo "</div>";  // end the container
@@ -87,4 +91,5 @@ if (isset($positionId)) {
         }
     }
 }
+
 unset($positionId);

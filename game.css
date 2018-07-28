@@ -1,3 +1,6 @@
+/*Island Rush CSS File*/
+/*Created By C1C Spencer Adolph (7/28/2018)*/
+
 html, body {
     margin: 0;
     padding: 0;
@@ -13,6 +16,12 @@ html, body {
 }
 
 
+
+
+
+/*----------------------------------------------------------------------------------------------*/
+/*SIDEPANEL CSS*/
+
 #side_panel {
     height: 96.5%;
     width: 23%;
@@ -21,12 +30,12 @@ html, body {
     float: left;
     background-color: antiquewhite;
 }
-.titlebar{
+#titlebar{
     width: 100%;
     height: 5%;
     text-align: center;
 }
-.purchase_buttons_container{
+#purchase_buttons_container{
     width: 100%;
     padding-bottom: 60%;
 }
@@ -35,29 +44,35 @@ html, body {
     width: 20%;
     padding-top: 20%;
 }
-.shopping_things{
+#shopping_things{
     width: 100%;
     height: 35%;
 }
-.purchased_container{
+#purchased_container{
     width: 80%;
     height: 100%;
     float: left;
 }
-.trashbox{
+#trashbox{
     width: 20%;
     height: 100%;
     float: left;
     text-align: center;
     background-color: green;
 }
-.rest_things{
+#rest_things{
     width: 100%;
     height: 22%;
 }
 
 
 
+
+
+
+
+/*----------------------------------------------------------------------------------------------*/
+/*GAMEBOARD CSS*/
 
 #game_board {
     height: 100%;
@@ -102,9 +117,7 @@ html, body {
 .gridblock:hover {
     background-color: rgba(236, 1, 255, 0.15);
 }
-
-
-.bigblock3x3{
+.bigblock3x3 {
     width: 300%;
     height: 300%;
     position: absolute;
@@ -116,8 +129,35 @@ html, body {
     background-position: center;
     display: none;
 }
+.special_island1{background-image: url("resources/mapImages/special_island1.png");}
+.special_island2{background-image: url("resources/mapImages/special_island2.png");}
+.special_island3{background-image: url("resources/mapImages/special_island3.png");}
+.special_island4{background-image: url("resources/mapImages/special_island4.png");}
+.special_island5{background-image: url("resources/mapImages/special_island5.png");}
+.special_island6{background-image: url("resources/mapImages/special_island6.png");}
+.special_island7{background-image: url("resources/mapImages/special_island7.png");}
+.special_island8{background-image: url("resources/mapImages/special_island8.png");}
+.special_island9{background-image: url("resources/mapImages/special_island9.png");}
+.special_island10{background-image: url("resources/mapImages/special_island10.png");}
+.special_island11{background-image: url("resources/mapImages/special_island11.png");}
+.special_island12{background-image: url("resources/mapImages/special_island12.png");}
 
 
+
+
+
+
+
+
+/*----------------------------------------------------------------------------------------------*/
+/*GAME PIECE CSS*/
+
+.gamePiece {
+    width: 33.333%;
+    height: 33.333%;
+    float: left;
+    position: relative;
+}
 .transport{background-color: black;}
 .submarine{background-color: red;}
 .destroyer{background-color: indianred;}
@@ -136,26 +176,16 @@ html, body {
 .test_piece{background-color: deeppink;}
 
 
-.special_island1{background-image: url("resources/mapImages/special_island1.png");}
-.special_island2{background-image: url("resources/mapImages/special_island2.png");}
-.special_island3{background-image: url("resources/mapImages/special_island3.png");}
-.special_island4{background-image: url("resources/mapImages/special_island4.png");}
-.special_island5{background-image: url("resources/mapImages/special_island5.png");}
-.special_island6{background-image: url("resources/mapImages/special_island6.png");}
-.special_island7{background-image: url("resources/mapImages/special_island7.png");}
-.special_island8{background-image: url("resources/mapImages/special_island8.png");}
-.special_island9{background-image: url("resources/mapImages/special_island9.png");}
-.special_island10{background-image: url("resources/mapImages/special_island10.png");}
-.special_island11{background-image: url("resources/mapImages/special_island11.png");}
-.special_island12{background-image: url("resources/mapImages/special_island12.png");}
 
 
 
+
+/*----------------------------------------------------------------------------------------------*/
+/*ISLAND POSITIONS CSS*/
 
 .gridblockTiny:hover{
     background-color: rgba(255, 15, 0, 0.31);
 }
-
 
 #pos13a{}
 #pos13b{}
