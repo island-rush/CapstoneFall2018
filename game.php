@@ -63,7 +63,7 @@ include("db.php");
                     <div class="purchase_square tanker" id="tanker"></div>
                 </div>
                 <div class="shopping_things">
-                    <div class="purchased_container" id="purchased_container" data-positionId="119"></div>
+                    <div class="purchased_container" id="purchased_container" data-positionId="118"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
                     <div class="trashbox">*Trash*</div>
                 </div>
                 <div class="rest_things">
