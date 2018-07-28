@@ -16,13 +16,13 @@ CREATE TABLE IF NOT EXISTS `games`(
     `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameCurrentTeam`  varchar(5) NOT NULL, -- 'Red' or 'Blue'
     `gameTurn` int(4) NOT NULL, -- 0, 1, 2, 3...
-    `gamePhase`  int(3) NOT NULL, --  1 = news, 0 = reinforcements...
+    `gamePhase`  int(1) NOT NULL, --  1 = news, 2 = reinforcements...
     `gameRedRpoints` int(5) NOT NULL,
     `gameBlueRpoints` int(5) NOT NULL,
     `gameRedHybridPoints` int(5) NOT NULL,
     `gameBlueHybridpoints` int(5) NOT NULL,
-    `gameRedJoined` int(1) NOT NULL, -- 0 or 1
-    `gameBlueJoined` int(1) NOT NULL, -- 0 or 1
+    `gameRedJoined` int(1) NOT NULL, -- 0 or 1 (1 = joined)
+    `gameBlueJoined` int(1) NOT NULL,
     `gameBattleSection` varchar(20) NOT NULL,  -- "none" (no popup), "attack", "counter", "asktorepeat"
     `gameBattleSubSection` varchar(20) NOT NULL, -- "choosing_pieces", "attacked_popup", "defense_popup"
     `gameBattleLastRoll` int(1) NOT NULL, -- 0 for default (or no roll to display anymore/reset), 1-6 for roll
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `placements`(
 CREATE TABLE IF NOT EXISTS `battlePieces`(
 	`battlePieceId` int(5) NOT NULL AUTO_INCREMENT,  -- piece must already exist, this refers to the placementId
     `battleGameId` int(5) NOT NULL,
+	`battlePieceState` int(4) NOT NULL,  -- "unused_attacker" (0), "used_defender", "selected..." (in battle center), "destroyed?" (this maybe not used, piece will be deleted here and also from real board)
     `battlePieceWasHit` varchar(20) NOT NULL, -- false or true
-    `battlePieceState` int(4) NOT NULL,  -- "unused_attacker" (0), "used_defender", "selected..." (in battle center), "destroyed?" (this maybe not used, piece will be deleted here and also from real board)
     PRIMARY KEY(`battlePieceId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
@@ -87,16 +87,15 @@ CREATE TABLE IF NOT EXISTS `battlePieces`(
 -- Table of Movements
 CREATE TABLE IF NOT EXISTS `movements`(
 	`movementId` int(16) NOT NULL AUTO_INCREMENT,
-    `movementFromPosition` int(4) NOT NULL,  -- meat of what is used
-    `movementNowPlacement` int(16) NOT NULL,  -- used for undo moves
-    `movementFromContainer` int(16),
-    `movementCost` int(3) NOT NULL,
-    `movementGameId` int(5) NOT NULL,  -- which game is the movement
+    `movementGameId` int(5) NOT NULL,
     `movementTurn` int(5) NOT NULL,  -- need what phase/turn movement was made (only undo current phase/turn)
     `movementPhase` varchar(20) NOT NULL,
+    `movementFromPosition` int(4) NOT NULL,
+    `movementFromContainer` int(16),
+    `movementNowPlacement` int(16) NOT NULL,  -- placement contains current position/container
+    `movementCost` int(3) NOT NULL,  -- cost of moves
     PRIMARY KEY(`movementId`),
     FOREIGN KEY (movementGameId) REFERENCES games(gameId),
-    FOREIGN KEY (movementFromPosition) REFERENCES positions(positionId),
     FOREIGN KEY (movementNowPlacement) REFERENCES placements(placementId)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
