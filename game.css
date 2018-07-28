@@ -12,6 +12,7 @@ html, body {
     background-color: black;
 }
 
+
 #side_panel {
     height: 96.5%;
     width: 23%;
@@ -20,6 +21,8 @@ html, body {
     float: left;
     background-color: antiquewhite;
 }
+
+
 
 #game_board {
     height: 100%;
@@ -30,7 +33,6 @@ html, body {
     background-repeat: no-repeat;
     background-color: black;
 }
-
 .gridblockLeftBig {
     position: relative;
     width: 20%;
@@ -66,5 +68,144 @@ html, body {
 }
 
 
+.bigblock3x3{
+    width: 300%;
+    height: 300%;
+    position: absolute;
+    margin-left: -100%;
+    margin-top: -75%;
+    background-repeat: no-repeat;
+    background-size: 98% 98%;
+    background-color: #a30004;
+    background-position: center;
+    display: none;
+}
 
 
+.special_island1{background-image: url("resources/mapImages/special_island1.png");}
+.special_island2{background-image: url("resources/mapImages/special_island2.png");}
+.special_island3{background-image: url("resources/mapImages/special_island3.png");}
+.special_island4{background-image: url("resources/mapImages/special_island4.png");}
+.special_island5{background-image: url("resources/mapImages/special_island5.png");}
+.special_island6{background-image: url("resources/mapImages/special_island6.png");}
+.special_island7{background-image: url("resources/mapImages/special_island7.png");}
+.special_island8{background-image: url("resources/mapImages/special_island8.png");}
+.special_island9{background-image: url("resources/mapImages/special_island9.png");}
+.special_island10{background-image: url("resources/mapImages/special_island10.png");}
+.special_island11{background-image: url("resources/mapImages/special_island11.png");}
+.special_island12{background-image: url("resources/mapImages/special_island12.png");}
+
+
+
+
+
+
+#pos13a{
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    margin-top: 95px;
+}
+#pos13b{
+    width: 45px;
+    height: 45px;
+    margin-left: 100px;
+    margin-top: 10px;
+}
+#pos13c{
+    width: 22%;
+    height: 22%;
+    margin-left: 28%;
+    margin-top: 68%;
+    -ms-transform: rotate(-20deg); /* IE 9 */
+    -webkit-transform: rotate(-20deg); /* Safari */
+    transform: rotate(-20deg);
+}
+#pos13d{
+    width: 45px;
+    height: 45px;
+    margin-left: 35px;
+    margin-top: 28px;
+    -ms-transform: rotate(-36deg);
+    -webkit-transform: rotate(-36deg);
+    transform: rotate(-36deg);
+}
+#pos13e{}
+#pos13f{}
+#pos13g{/*This position has no letter (small bottom triangle shit)*/}
+#pos13h{}
+#pos13i{}
+#pos13j{}
+#pos14a{
+    width: 30%;
+    height: 15%;
+    margin-left: 50%;
+    margin-top: 55%;
+}
+#pos14b{
+    width: 30%;
+    height: 19%;
+    margin-left: 7%;
+    margin-top: 12%;
+}
+#pos14c{}
+#pos14d{}
+#pos14e{}
+#pos14f{}
+#pos14g{}
+#pos14h{}
+#pos14i{}
+#pos14j{}
+#pos1a{
+    width: 50px;
+    height: 50px;
+    margin-left: 85px;
+    margin-top: 45px;
+}
+#pos1b{
+    width: 45px;
+    height: 45px;
+    margin-left: 110px;
+    margin-top: 98px;
+}
+#pos1c{}
+#pos1d{}
+#pos2a{}
+#pos2b{}
+#pos2c{}
+#pos2d{}
+#pos3a{}
+#pos3b{}
+#pos3c{}
+#pos4a{}
+#pos4b{}
+#pos4c{}
+#pos4d{}
+#pos5a{}
+#pos5b{}
+#pos5c{}
+#pos5d{}
+#pos6a{}
+#pos6b{}
+#pos6c{}
+#pos7a{}
+#pos7b{}
+#pos7c{}
+#pos8a{}
+#pos8b{}
+#pos8c{}
+#pos9a{}
+#pos9b{}
+#pos9c{}
+#pos9d{}
+#pos10a{}
+#pos10b{}
+#pos10c{}
+#pos10d{}
+#pos11a{}
+#pos11b{}
+#pos11c{}
+#pos12a{}
+#pos12b{}
+#pos12c{}
+#pos12d{}
