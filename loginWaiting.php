@@ -30,7 +30,7 @@ session_start();
             }
 
             function start_game() {
-                window.open("playGame.php", "_self")
+                window.open("game.php", "_self")
             }
         </script>
     </head>

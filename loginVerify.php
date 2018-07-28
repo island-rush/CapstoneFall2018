@@ -27,7 +27,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
 
     //If other team has joined, one of these values will be 1...go directly to playGame
     if ($r['gameRedJoined'] == 1 || $r['gameBlueJoined'] == 1) {
-        header("location:playGame.php");
+        header("location:game.php");
     } else {
         header("location:loginWaiting.php");
     }
