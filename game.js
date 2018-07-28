@@ -60,7 +60,7 @@ function pieceDragstart(event, callingElement) {
 }
 
 
-function pieceDrop(event, callingElement) {
+function pieceDrop(event, newContainerElement) {
     event.preventDefault();
     //Already approved to move by pieceDragstart (same team and good phase)
     let placementId = event.dataTransfer.getData("placementId");
@@ -78,16 +78,29 @@ function pieceDrop(event, callingElement) {
     let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
     let new_placementContainerId = event.target.getAttribute("data-positionContainerId");
 
-    let placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
+    let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
 
-    //Can this unit travel onto this terrain?
     if (movementTerrainCheck(unitTerrain, positionType) === "true") {
-        //Does this unit have enough moves to travel there?
-        let new_placementCurrentMoves = movementWithinMoves(unitName, old_positionId, new_positionId, placementCurrentMoves);
-        if (new_placementCurrentMoves !== -1) {
-            //If going to container, is it already full? (certain combinations allowed)
-            if (new_placementContainerId !== 999999 && containerHasSpotOpen(new_placementContainerId, unitName) === "true") {
+        let movementCost = movementWithinMoves(unitName, old_positionId, new_positionId, old_placementCurrentMoves);
+        if (movementCost !== -1) {
+            if ((new_placementContainerId !== 999999 && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === 999999) {
 
+                //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
+
+                let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
+
+                //Update the placement in the database and add a movement to the database
+                let phpRequest = new XMLHttpRequest();
+                phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
+                phpRequest.send();
+
+                //Update the html by moving the piece and changing the piece's attributes
+                newContainerElement.appendChild(pieceDropped);
+                pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
+                pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
+                if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+                    pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
+                }
             }
         }
     }
@@ -107,58 +120,16 @@ function pieceDragover(event, callingElement) {
 }
 
 
-
-
-
-// function olddrop (event, element) {
-//     event.preventDefault();
-//     if (canMove === "true") {
-//             var pieceTeam = event.dataTransfer.getData("team");
-//             if (pieceTeam === myTeam) {
-//                 var groundtype = event.target.getAttribute("data-groundtype");
-//                 var unitTerrain = event.dataTransfer.getData("unitTerrain");
-//                 var placementId = event.dataTransfer.getData("placementId");  // the id of piece that was dropped
-//                 var newPos = event.target.getAttribute("data-positionId");  // the position of where to drop it
-//                 var oldPos = event.dataTransfer.getData("positionId");  // the old position of where it was picked up
-//                 var moves = event.dataTransfer.getData("moves");  // the number of moves before it was picked up
-//                 var oldcontainer = event.dataTransfer.getData("oldcontainer");  // the containerId it was in before (999999 if not in one)
-//                 var newcontainer = 999999;  // the containerId it is going into (dropping into) (999999 if not dropping in one)
-//                 var xmlhttp = new XMLHttpRequest();
-//                 xmlhttp.onreadystatechange = function () {
-//                     if (this.readyState === 4 && this.status === 200) {
-//                         var answer = this.responseText;
-//                         if (answer !== "false") {  // false gets echo'd if not valid (from moves + other stuff) (transport on water only...other stuff not on water?)
-//                             var xmlhttp2 = new XMLHttpRequest();
-//                             xmlhttp2.open("POST", "update_position.php?placementId=" + placementId + "&newPos=" + newPos + "&oldPos=" + oldPos + "&newmoves=" + answer + "&oldcontainer=" + oldcontainer + "&newcontainer=" + newcontainer, true);
-//                             xmlhttp2.send();
-//                             element.appendChild(document.querySelector("[data-placementId='" + placementId + "']"));  // add the piece to the html of where it is going
-//                             document.querySelector("[data-placementId='" + placementId + "']").setAttribute("data-moves", answer);  // change the moves inside the html to be updated
-//                             var gamepiece = document.querySelector("[data-placementId='" + placementId + "']");  // piece for what was just moved
-//                             var unitName = gamepiece.getAttribute("data-unitName");
-//                             if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {  // if a transport was moved, set the new position inside the container (used elsewhere)
-//                                 gamepiece.firstChild.setAttribute("data-positionId", element.getAttribute("data-positionId"));
-//                             }
-//                         }
-//                     }
-//                 };
-//                 xmlhttp.open("POST", "checkvalid.php?newPos=" + newPos + "&oldPos=" + oldPos + "&moves=" + moves, true);
-//                 xmlhttp.send();
-//             }
-//         }
-//
-// }
-
-
-
-
 function movementTerrainCheck(unitTerrain, positionType) {
     return "true";
 }
+
 
 function movementWithinMoves(unitName, old_positionId, new_positionId, placementCurrentMoves) {
     //Return -1 for not within usable moves
     return 5;
 }
+
 
 function containerHasSpotOpen(new_placementContainerId, unitName) {
     return "true";

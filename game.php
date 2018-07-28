@@ -23,7 +23,7 @@ include("db.php");
 
             var gameId = "<?php echo $_SESSION['gameId']; ?>";
             var gamePhase = "<?php echo $_SESSION['gamePhase']; ?>";
-            var gameCurrentTurn = "<?php echo $_SESSION['gameTurn']; ?>";
+            var gameTurn = "<?php echo $_SESSION['gameTurn']; ?>";
             var gameCurrentTeam = "<?php echo $_SESSION['gameCurrentTeam']; ?>";
             var myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
