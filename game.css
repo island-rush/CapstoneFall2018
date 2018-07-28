@@ -62,6 +62,7 @@ html, body {
     float: left;
     margin-right: .2%;
     margin-bottom: .45%;
+    z-index: 10;
 }
 .gridblock:hover {
     background-color: rgba(236, 1, 255, 0.15);
@@ -98,56 +99,31 @@ html, body {
 
 
 
+.gridblockTiny:hover{
+    background-color: rgba(255, 15, 0, 0.31);
+}
 
 
-#pos13a{
-    width: 50px;
-    height: 50px;
-    margin-left: 10px;
-    margin-top: 95px;
-}
-#pos13b{
-    width: 45px;
-    height: 45px;
-    margin-left: 100px;
-    margin-top: 10px;
-}
+#pos13a{}
+#pos13b{}
 #pos13c{
-    width: 22%;
-    height: 22%;
-    margin-left: 28%;
-    margin-top: 68%;
-    -ms-transform: rotate(-20deg); /* IE 9 */
-    -webkit-transform: rotate(-20deg); /* Safari */
-    transform: rotate(-20deg);
+    /*width: 22%;*/
+    /*height: 22%;*/
+    /*margin-left: 28%;*/
+    /*margin-top: 68%;*/
+    /*-ms-transform: rotate(-20deg); !* IE 9 *!*/
+    /*-webkit-transform: rotate(-20deg); !* Safari *!*/
+    /*transform: rotate(-20deg);*/
 }
-#pos13d{
-    width: 45px;
-    height: 45px;
-    margin-left: 35px;
-    margin-top: 28px;
-    -ms-transform: rotate(-36deg);
-    -webkit-transform: rotate(-36deg);
-    transform: rotate(-36deg);
-}
+#pos13d{}
 #pos13e{}
 #pos13f{}
 #pos13g{/*This position has no letter (small bottom triangle shit)*/}
 #pos13h{}
 #pos13i{}
 #pos13j{}
-#pos14a{
-    width: 30%;
-    height: 15%;
-    margin-left: 50%;
-    margin-top: 55%;
-}
-#pos14b{
-    width: 30%;
-    height: 19%;
-    margin-left: 7%;
-    margin-top: 12%;
-}
+#pos14a{}
+#pos14b{}
 #pos14c{}
 #pos14d{}
 #pos14e{}
@@ -156,18 +132,8 @@ html, body {
 #pos14h{}
 #pos14i{}
 #pos14j{}
-#pos1a{
-    width: 50px;
-    height: 50px;
-    margin-left: 85px;
-    margin-top: 45px;
-}
-#pos1b{
-    width: 45px;
-    height: 45px;
-    margin-left: 110px;
-    margin-top: 98px;
-}
+#pos1a{}
+#pos1b{}
 #pos1c{}
 #pos1d{}
 #pos2a{}
