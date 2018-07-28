@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <title>Island Rush Login</title>
-        <link rel="stylesheet" type="text/css" href="../kulpable2/homepageStyle.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
         <script type="text/javascript">
                 function checkLoginForm(){
                     const sectionRegex = /^[MmTt][1-7][ABCDEFabcdef]$/;

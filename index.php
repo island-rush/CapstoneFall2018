@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Island Rush Homepage</title>
-        <link rel="stylesheet" type="text/css" href="homepageStyle.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
     </head>
 
     <body>

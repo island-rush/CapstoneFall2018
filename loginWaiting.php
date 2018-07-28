@@ -6,7 +6,7 @@ session_start();
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <title>Waiting for Players...</title>
-        <link rel="stylesheet" type="text/css" href="../kulpable2/homepageStyle.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
         <script>
             var time_to_wait = 250;  // how often to check if the other player has joined
             var intUpdate;  // used to do functions on a timer
