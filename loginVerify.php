@@ -46,6 +46,90 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $results->free();
     $db->close();
 
+    //Set the Phase of the game
+    if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
+        //not this team's turn, don't allow anything
+        $canMove = "false";
+        $canPurchase = "false";
+        $canUndo = "false";
+        $canNextPhase = "false";
+        $canTrash = "false";
+        $canAttack = "false";
+    } else {
+        if ($_SESSION['gamePhase'] == 1) {
+            //news alert
+            $canMove = "false";
+            $canPurchase = "false";
+            $canUndo = "false";
+            $canNextPhase = "true";
+            $canTrash = "false";
+            $canAttack = "false";
+        } elseif ($_SESSION['gamePhase'] == 2) {
+            //reinforcement purchase
+            $canMove = "false";
+            $canPurchase = "true";
+            $canUndo = "false";
+            $canNextPhase = "true";
+            $canTrash = "true";
+            $canAttack = "false";
+        } elseif ($_SESSION['gamePhase'] == 3) {
+            //combat
+            $canMove = "true";
+            $canPurchase = "false";
+            $canUndo = "true";
+            $canNextPhase = "true";
+            $canTrash = "false";
+            $canAttack = "false";
+        } elseif ($_SESSION['gamePhase'] == 4) {
+            //fortification movement
+            $canMove = "true";
+            $canPurchase = "false";
+            $canUndo = "true";
+            $canNextPhase = "true";
+            $canTrash = "false";
+            $canAttack = "false";
+        } elseif ($_SESSION['gamePhase'] == 5) {
+            //reinforcement place
+            $canMove = "true";
+            $canPurchase = "false";
+            $canUndo = "true";
+            $canNextPhase = "true";
+            $canTrash = "false";
+            $canAttack = "false";
+        } elseif ($_SESSION['gamePhase'] == 6) {
+            //hybrid warfare
+            $canMove = "false";
+            $canPurchase = "false";
+            $canUndo = "false";
+            $canNextPhase = "true";
+            $canTrash = "false";
+            $canAttack = "false";
+        } else {
+            //tally points (7)
+            $canMove = "false";
+            $canPurchase = "false";
+            $canUndo = "false";
+            $canNextPhase = "true";
+            $canTrash = "false";
+            $canAttack = "false";
+        }
+    }
+
+    //for testing purposes (always allow everything)
+    $canMove = "true";
+    $canPurchase = "true";
+    $canUndo = "true";
+    $canNextPhase = "true";
+    $canTrash = "true";
+    $canAttack = "true";
+
+    $_SESSION['canMove'] = $canMove;
+    $_SESSION['canPurchase'] = $canPurchase;
+    $_SESSION['canUndo'] = $canUndo;
+    $_SESSION['canNextPhase'] = $canNextPhase;
+    $_SESSION['canTrash'] = $canTrash;
+    $_SESSION['canAttack'] = $canAttack;
+
 } else {
     header("location:login.php?err=1");
 }
