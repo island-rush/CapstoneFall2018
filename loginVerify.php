@@ -43,11 +43,9 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $query->bind_param("i", $joinedValue, $_SESSION['gameId']);
     $query->execute();
 
-    $preparedQuery->close();
+    $results->free();
     $db->close();
-    exit;
 
 } else {
     header("location:login.php?err=1");
-    exit;
 }
