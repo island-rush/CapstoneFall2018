@@ -36,12 +36,12 @@
     </head>
 
     <body>
-<!--    TODO: Change section to drop down menus for less user error, add passwords to the game/team? (more secure)-->
+<!--    TODO: Change section to drop down menus for less user error, add passwords to the game/team? (more secure)...and simplify the form table-->
         <h1>Island Rush Login</h1>
 
         <nav>
             <a href="./index.php">Home</a>
-            <a class="active" href="./game_login.php">Play the Game</a>
+            <a class="active" href="login.php">Play the Game</a>
         </nav>
 
         <div class="spacer">
@@ -51,7 +51,7 @@
                         <td colspan="4">
                             <br />
                             <div id="login_header">Login to Your Island Rush Game:</div>
-                            <form name="login" method="post" id="login" action="game_login_verify.php" onsubmit="return checkLoginForm()">
+                            <form name="login" method="post" id="login" action="loginVerify.php" onsubmit="return checkLoginForm()">
                                 <table border="0" cellpadding="3" cellspacing="1">
                                     <tr>
                                         <td colspan="2">

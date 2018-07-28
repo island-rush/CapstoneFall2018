@@ -11,7 +11,7 @@
 
         <nav>
             <a class="active" href="index.php">Home</a>
-            <a href="game_login.php">Play the Game</a>
+            <a href="login.php">Play the Game</a>
         </nav>
 
         <div class="spacer">
