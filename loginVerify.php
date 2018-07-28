@@ -40,7 +40,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     }
     $query = $db->prepare($query);
     $joinedValue = 1;
-    $query->bind_param("i", $joinedValue, $_SESSION['gameId']);
+    $query->bind_param("ii", $joinedValue, $_SESSION['gameId']);
     $query->execute();
 
     $results->free();
