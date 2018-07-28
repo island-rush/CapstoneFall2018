@@ -4,12 +4,14 @@
 
 function clickIsland(event, callingElement) {
     event.preventDefault();
-    hideIslands();
+
+    hideIslands();  //only 1 island visible at a time
+
     document.getElementsByClassName(callingElement.id)[0].style.display = "block";
     callingElement.style.zIndex = 20;  //default for a gridblock is 10
+
     event.stopPropagation();
 }
-
 
 
 function clickWater(event, callingElement) {
@@ -19,7 +21,6 @@ function clickWater(event, callingElement) {
 
     event.stopPropagation();
 }
-
 
 
 function hideIslands() {

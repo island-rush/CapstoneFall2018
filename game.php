@@ -7,7 +7,8 @@ include("db.php");
     <head>
         <title>Island Rush Game</title>
         <link rel="stylesheet" type="text/css" href="game.css">
-        <script type="text/javascript" src="game.js">
+        <script src="game.js"></script>
+        <script type="text/javascript">
             var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
             var unitsMoves = <?php $query = 'SELECT * FROM units'; $query = $db->prepare($query); $query->execute(); $results = $query->get_result(); $num_results = $results->num_rows; $arr = array();
                 if ($num_results > 0) {
