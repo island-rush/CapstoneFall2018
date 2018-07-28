@@ -65,7 +65,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="6" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="7" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="8" data-groundType="water"></div>
-                <div class="gridblock" id="special_island1">
+                <div class="gridblock" id="special_island1" onclick="showIsland(event, this);">
                     <div id="bigblock1" class="special_island1 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos1a" data-positionId="75"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos1b" data-positionId="76"></div>
@@ -75,7 +75,7 @@ include("db.php");
                 </div>
                 <div class="gridblock" data-positionId="9" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="10" data-groundType="water"></div>
-                <div class="gridblock" id="special_island2">
+                <div class="gridblock" id="special_island2" onclick="showIsland(event, this);">
                     <div id="bigblock2" class="special_island2 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos2a" data-positionId="79"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos2b" data-positionId="80"></div>
@@ -84,7 +84,7 @@ include("db.php");
                     </div>
                 </div>
                 <div class="gridblock" data-positionId="11" data-groundType="water"></div>
-                <div class="gridblock" id="special_island3">
+                <div class="gridblock" id="special_island3" onclick="showIsland(event, this);">
                     <div id="bigblock3" class="special_island3 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos3a" data-positionId="83"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos3b" data-positionId="84"></div>
@@ -107,7 +107,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="13" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="14" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="15" data-groundType="water"></div>
-                <div class="gridblock" id="special_island4">
+                <div class="gridblock" id="special_island4" onclick="showIsland(event, this);">
                     <div id="bigblock4" class="special_island4 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos4a" data-positionId="86"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos4b" data-positionId="87"></div>
@@ -122,7 +122,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="19" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="20" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="21" data-groundType="water"></div>
-                <div class="gridblock" id="special_island5">
+                <div class="gridblock" id="special_island5" onclick="showIsland(event, this);">
                     <div id="bigblock5" class="special_island5 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos5a" data-positionId="90"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos5b" data-positionId="91"></div>
@@ -133,7 +133,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="22" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="23" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="24" data-groundType="water"></div>
-                <div class="gridblock" id="special_island6">
+                <div class="gridblock" id="special_island6" onclick="showIsland(event, this);">
                     <div id="bigblock6" class="special_island6 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos6a" data-positionId="94"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos6b" data-positionId="95"></div>
@@ -142,7 +142,7 @@ include("db.php");
                 </div>
                 <div class="gridblock" data-positionId="25" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="26" data-groundType="water"></div>
-                <div class="gridblock" id="special_island7">
+                <div class="gridblock" id="special_island7" onclick="showIsland(event, this);">
                     <div id="bigblock7" class="special_island7 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos7a" data-positionId="97"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos7b" data-positionId="98"></div>
@@ -150,9 +150,11 @@ include("db.php");
                     </div>
                 </div>
                 <div class="gridblock" data-positionId="27" data-groundType="water"></div>
-                <div class="gridblock"></div>
+                <div class="gridblock">
+<!--                    TODO: Deal with this exception later (special_island5)-->
+                </div>
                 <div class="gridblock" data-positionId="28" data-groundType="water"></div>
-                <div class="gridblock" id="special_island8">
+                <div class="gridblock" id="special_island8" onclick="showIsland(event, this);">
                     <div id="bigblock8" class="special_island8 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos8a" data-positionId="100"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos8b" data-positionId="101"></div>
@@ -166,7 +168,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="33" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="34" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="35" data-groundType="water"></div>
-                <div class="gridblock" id="special_island9">
+                <div class="gridblock" id="special_island9" onclick="showIsland(event, this);">
                     <div id="bigblock9" class="special_island9 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos9a" data-positionId="103"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos9b" data-positionId="104"></div>
@@ -176,7 +178,7 @@ include("db.php");
                 </div>
                 <div class="gridblock" data-positionId="36" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="37" data-groundType="water"></div>
-                <div class="gridblock" id="special_island10">
+                <div class="gridblock" id="special_island10" onclick="showIsland(event, this);">
                     <div id="bigblock10" class="special_island10 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos10a" data-positionId="107"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos10b" data-positionId="108"></div>
@@ -187,7 +189,7 @@ include("db.php");
                 <div class="gridblock" data-positionId="38" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="39" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="40" data-groundType="water"></div>
-                <div class="gridblock" id="special_island11">
+                <div class="gridblock" id="special_island11" onclick="showIsland(event, this);">
                     <div id="bigblock11" class="special_island11 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos11a" data-positionId="111"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos11b" data-positionId="112"></div>
@@ -196,7 +198,7 @@ include("db.php");
                 </div>
                 <div class="gridblock" data-positionId="41" data-groundType="water"></div>
                 <div class="gridblock" data-positionId="42" data-groundType="water"></div>
-                <div class="gridblock" id="special_island12">
+                <div class="gridblock" id="special_island12" onclick="showIsland(event, this);">
                     <div id="bigblock12" class="special_island12 bigblock bigblock3x3">
                         <div class="gridblockTiny" data-groundtype="land" id="pos12a" data-positionId="114"></div>
                         <div class="gridblockTiny" data-groundtype="land" id="pos12b" data-positionId="115"></div>
