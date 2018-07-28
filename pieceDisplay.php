@@ -1,5 +1,4 @@
 <?php
-$gameId = $_SESSION['gameId'];
 
 if (isset($positionId)) {
 
