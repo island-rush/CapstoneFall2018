@@ -64,6 +64,10 @@ function pieceDrop(event, callingElement) {
     event.preventDefault();
     //Already approved to move by pieceDragstart (same team and good phase)
     let placementId = event.dataTransfer.getData("placementId");
+    let unitName = event.dataTransfer.getData("unitName");
+    let unitId = event.dataTransfer.getData("unitId");
+
+    let pieceDropped = document.querySelector("[data-placementId='" + placementId + "']");
 
     let positionType = event.target.getAttribute("data-positionType");
     let unitTerrain = event.dataTransfer.getData("unitTerrain");
@@ -76,9 +80,17 @@ function pieceDrop(event, callingElement) {
 
     let placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
 
-    //Check good terrain (another function)
-    //Check within # of moves (dist matrix)
-    //Check spot not full?
+    //Can this unit travel onto this terrain?
+    if (movementTerrainCheck(unitTerrain, positionType) === "true") {
+        //Does this unit have enough moves to travel there?
+        let new_placementCurrentMoves = movementWithinMoves(unitName, old_positionId, new_positionId, placementCurrentMoves);
+        if (new_placementCurrentMoves !== -1) {
+            //If going to container, is it already full? (certain combinations allowed)
+            if (new_placementContainerId !== 999999 && containerHasSpotOpen(new_placementContainerId, unitName) === "true") {
+
+            }
+        }
+    }
 
     event.stopPropagation();
 }
@@ -115,7 +127,7 @@ function pieceDragover(event, callingElement) {
 //                 xmlhttp.onreadystatechange = function () {
 //                     if (this.readyState === 4 && this.status === 200) {
 //                         var answer = this.responseText;
-//                         if (answer !== "false") {  // false gets echo'd if not valid (from moves + other stuff) TODO: add more checks in php for random rules (transport on water only...other stuff not on water?)
+//                         if (answer !== "false") {  // false gets echo'd if not valid (from moves + other stuff) (transport on water only...other stuff not on water?)
 //                             var xmlhttp2 = new XMLHttpRequest();
 //                             xmlhttp2.open("POST", "update_position.php?placementId=" + placementId + "&newPos=" + newPos + "&oldPos=" + oldPos + "&newmoves=" + answer + "&oldcontainer=" + oldcontainer + "&newcontainer=" + newcontainer, true);
 //                             xmlhttp2.send();
@@ -135,3 +147,24 @@ function pieceDragover(event, callingElement) {
 //         }
 //
 // }
+
+
+
+
+function movementTerrainCheck(unitTerrain, positionType) {
+    return "true";
+}
+
+function movementWithinMoves(unitName, old_positionId, new_positionId, placementCurrentMoves) {
+    //Return -1 for not within usable moves
+    return 5;
+}
+
+function containerHasSpotOpen(new_placementContainerId, unitName) {
+    return "true";
+}
+
+
+
+
+
