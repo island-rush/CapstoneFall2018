@@ -21,6 +21,41 @@ html, body {
     float: left;
     background-color: antiquewhite;
 }
+.titlebar{
+    width: 100%;
+    height: 5%;
+    text-align: center;
+}
+.purchase_buttons_container{
+    width: 100%;
+    padding-bottom: 60%;
+}
+.purchase_square{
+    float: left;
+    width: 20%;
+    padding-top: 20%;
+}
+.shopping_things{
+    width: 100%;
+    height: 35%;
+}
+.purchased_container{
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+.trashbox{
+    width: 20%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    background-color: green;
+}
+.rest_things{
+    width: 100%;
+    height: 22%;
+}
+
 
 
 
@@ -81,6 +116,24 @@ html, body {
     background-position: center;
     display: none;
 }
+
+
+.transport{background-color: black;}
+.submarine{background-color: red;}
+.destroyer{background-color: indianred;}
+.aircraftCarrier{background-color: yellow;}
+.soldier{background-color: lightgreen;}
+.artillery{background-color: greenyellow;}
+.tank{background-color: lawngreen;}
+.marine{background-color: deepskyblue;}
+.lav{background-color: dodgerblue;}
+.attackHeli{background-color: lightblue;}
+.sam{background-color: blue;}
+.fighter{background-color: mediumpurple;}
+.bomber{background-color: purple;}
+.stealthBomber{background-color: violet;}
+.tanker{background-color: maroon;}
+.test_piece{background-color: deeppink;}
 
 
 .special_island1{background-image: url("resources/mapImages/special_island1.png");}

@@ -43,7 +43,41 @@ include("db.php");
 
     <body>
         <div id="whole_game">
-            <div id="side_panel"></div>
+            <div id="side_panel">
+                <div class="titlebar">Reinforcements</div>
+                <div class="purchase_buttons_container">
+                    <div class="purchase_square transport" id="transport"></div>
+                    <div class="purchase_square submarine" id="submarine"></div>
+                    <div class="purchase_square destroyer" id="destroyer"></div>
+                    <div class="purchase_square aircraftCarrier" id="aircraftCarrier"></div>
+                    <div class="purchase_square soldier" id="soldier"></div>
+                    <div class="purchase_square artillery" id="artillery"></div>
+                    <div class="purchase_square tank" id="tank"></div>
+                    <div class="purchase_square marine" id="marine"></div>
+                    <div class="purchase_square lav" id="lav"></div>
+                    <div class="purchase_square attackHeli" id="attackHeli"></div>
+                    <div class="purchase_square sam" id="sam"></div>
+                    <div class="purchase_square fighter" id="fighter"></div>
+                    <div class="purchase_square bomber" id="bomber"></div>
+                    <div class="purchase_square stealthBomber" id="stealthBomber"></div>
+                    <div class="purchase_square tanker" id="tanker"></div>
+                </div>
+                <div class="shopping_things">
+                    <div class="purchased_container" id="purchased_container" data-positionId="119"></div>
+                    <div class="trashbox">*Trash*</div>
+                </div>
+                <div class="rest_things">
+                    <div id="phase_indicator">Phase Indicator</div>
+                    <div id="team_indicator">Team Indicator</div>
+                    <button>Undo Movement</button>
+                    <button>Next Phase</button>
+                    <button>Select BattlePos</button>
+                    <button>Select BattlePieces</button>
+                    <button>Start Battle</button>
+                    <button>Exit Game</button>
+                </div>
+            </div>
+
             <div id="game_board">
                 <div class="gridblockLeftBig" id="special_island13">
                     <div class="gridblockTiny" data-groundtype="land" id="pos13a" data-positionId="55"></div>
