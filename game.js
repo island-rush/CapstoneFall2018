@@ -150,3 +150,27 @@ function containerHasSpotOpen(new_placementContainerId, unitName) {
     return "true";
 }
 
+
+function piecePurchase(event, purchaseButton) {
+    event.preventDefault();
+    if (canPurchase === "true") {
+        let unitId = purchaseButton.getAttribute("data-unitId");
+        let unitName = event.target.id;
+        let unitMoves = unitsMoves[unitName];
+        let terrain = purchaseButton.getAttribute("data-unitTerrain");
+
+        let phpPurchaseRequest = new XMLHttpRequest();
+        phpPurchaseRequest.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let parent = document.getElementById("purchased_container");
+                parent.innerHTML += this.responseText;
+                // if (unitName === "transport"  || unitName === "aircraftCarrier" || unitName === "lav") {
+                //     document.getElementById("purchased_container").lastChild.firstChild.style.display = "none";
+                // }
+            }
+        };
+        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
+        phpPurchaseRequest.send();
+    }
+}
+

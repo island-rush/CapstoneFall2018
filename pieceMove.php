@@ -38,5 +38,4 @@ $query->bind_param("iiiiiii", $gameId, $gameTurn, $gamePhase, $old_positionId, $
 $query->execute();
 
 
-
 $db->close();

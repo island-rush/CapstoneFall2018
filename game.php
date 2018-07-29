@@ -47,21 +47,21 @@ $gameId = $_SESSION['gameId'];
             <div id="side_panel">
                 <div id="titlebar">Reinforcements</div>
                 <div id="purchase_buttons_container">
-                    <div class="purchase_square transport" id="transport" data-unitId="0"></div>
-                    <div class="purchase_square submarine" id="submarine" data-unitId="1"></div>
-                    <div class="purchase_square destroyer" id="destroyer" data-unitId="2"></div>
-                    <div class="purchase_square aircraftCarrier" id="aircraftCarrier" data-unitId="3"></div>
-                    <div class="purchase_square soldier" id="soldier" data-unitId="4"></div>
-                    <div class="purchase_square artillery" id="artillery" data-unitId="5"></div>
-                    <div class="purchase_square tank" id="tank" data-unitId="6"></div>
-                    <div class="purchase_square marine" id="marine" data-unitId="7"></div>
-                    <div class="purchase_square lav" id="lav" data-unitId="8"></div>
-                    <div class="purchase_square attackHeli" id="attackHeli" data-unitId="9"></div>
-                    <div class="purchase_square sam" id="sam" data-unitId="10"></div>
-                    <div class="purchase_square fighter" id="fighter" data-unitId="11"></div>
-                    <div class="purchase_square bomber" id="bomber" data-unitId="12"></div>
-                    <div class="purchase_square stealthBomber" id="stealthBomber" data-unitId="13"></div>
-                    <div class="purchase_square tanker" id="tanker" data-unitId="14"></div>
+                    <div class="purchase_square transport" id="transport" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square submarine" id="submarine" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square destroyer" id="destroyer" data-unitId="2" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square aircraftCarrier" id="aircraftCarrier" data-unitId="3" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square soldier" id="soldier" data-unitId="4" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square artillery" id="artillery" data-unitId="5" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square tank" id="tank" data-unitId="6" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square marine" id="marine" data-unitId="7" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square lav" id="lav" data-unitId="8" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square attackHeli" id="attackHeli" data-unitId="9" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square sam" id="sam" data-unitId="10" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square fighter" id="fighter" data-unitId="11" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square bomber" id="bomber" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square stealthBomber" id="stealthBomber" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+                    <div class="purchase_square tanker" id="tanker" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
                 </div>
                 <div id="shopping_things">
                     <div id="purchased_container" data-positionType="purchased_container" data-positionId="118" data-positionContainerId="999999"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
