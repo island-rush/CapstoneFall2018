@@ -103,6 +103,20 @@ function pieceDragover(event, callingElement) {
 }
 
 
+function pieceTrash(event, trashElement) {
+    event.preventDefault();
+    if (canTrash === "true") {
+        if (event.dataTransfer.getData("positionId") === "118") {
+            let placementId = event.dataTransfer.getData("placementId");
+            document.querySelector("[data-placementId='" + placementId + "']").remove();
+            let phpTrashRequest = new XMLHttpRequest();
+            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId, true);
+            phpTrashRequest.send();
+        }
+    }
+}
+
+
 function pieceMoveUndo() {
     if (canUndo === "true") {
         let phpUndoRequest = new XMLHttpRequest();
