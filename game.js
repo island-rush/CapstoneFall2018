@@ -8,6 +8,7 @@ function clickIsland(event, callingElement) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
+    clearHighlighted();
     document.getElementsByClassName(callingElement.id)[0].style.display = "block";
     callingElement.style.zIndex = 20;  //default for a gridblock is 10
     callingElement.setAttribute("data-islandPopped", "true");
@@ -21,6 +22,7 @@ function clickWater(event, callingElement) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
+    clearHighlighted();
     event.stopPropagation();
 }
 
@@ -31,6 +33,7 @@ function clickGameBoard(event, callingElement) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
+    clearHighlighted();
     event.stopPropagation();
 }
 
@@ -265,7 +268,7 @@ function popupDragleave(event, callingElement) {
 
 function pieceClick(event, callingElement) {
     event.preventDefault();
-
+    //open container if applicable
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
         hideContainers("transportContainer");
@@ -277,12 +280,40 @@ function pieceClick(event, callingElement) {
             callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
         }
     }
-
-    //show the pieces moves
-
-
-
+    clearHighlighted();
+    //show the piece's moves
+    let thisMoves = callingElement.getAttribute("data-moves");
+    let thisPos = callingElement.parentNode.getAttribute("data-positionId");
+    let phpAvailableMoves = new XMLHttpRequest();
+    phpAvailableMoves.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+            let decoded = JSON.parse(this.responseText);
+            let g;
+            for (g = 0; g < decoded.length; g++) {
+                let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+                gridThing.classList.add("highlighted");
+                if (gridThing.classList[0] === "gridblockTiny") {
+                    let parent = gridThing.parentNode;
+                    let parclass = parent.classList;
+                    if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+                        let islandsquare = document.getElementById(parclass[0]);
+                        islandsquare.classList.add("highlighted");
+                    }
+                }
+            }
+        }
+    };
+    phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
+    phpAvailableMoves.send();
     event.stopPropagation();
+}
+
+
+function clearHighlighted() {
+    let highlighted_things = document.getElementsByClassName("highlighted");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("highlighted");
+    }
 }
 
 
