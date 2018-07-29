@@ -25,23 +25,8 @@ $r= $results->fetch_assoc();
 $new_placementId = $r['LAST_INSERT_ID()'];
 
 
-//opening for overall piece
-echo "<div class='".$unitName." gamePiece' data-placementId='".$new_placementId."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' ";
+echo "<div class='".$unitName." gamePiece' data-placementId='".$new_placementId."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);'>";
 
-//functions for all pieces (container/non-container)
-echo "draggable='true' ondragstart='pieceDragstart(event, this)' ";
-
-if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
-    //functions for containers (click to open / show moves)
-    echo "";
-} else {
-    //functions for non-containers (click to open)
-    echo "";
-}
-
-echo ">";  // end of opening for overall piece
-
-//build containers for container pieces + pieces inside of them
 if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
     if ($unitName == "transport") {
         $classthing = "transportContainer";
@@ -50,7 +35,6 @@ if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "
     } else {
         $classthing = "lavContainer";
     }
-    //build container
     echo "<div class='".$classthing."' data-positionContainerId='".$new_placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."'></div>";
 }
 

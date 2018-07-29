@@ -5,6 +5,9 @@
 function clickIsland(event, callingElement) {
     event.preventDefault();
     hideIslands();  //only 1 island visible at a time
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
     document.getElementsByClassName(callingElement.id)[0].style.display = "block";
     callingElement.style.zIndex = 20;  //default for a gridblock is 10
     callingElement.setAttribute("data-islandPopped", "true");
@@ -15,6 +18,9 @@ function clickIsland(event, callingElement) {
 function clickWater(event, callingElement) {
     event.preventDefault();
     hideIslands();
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
     event.stopPropagation();
 }
 
@@ -33,6 +39,16 @@ function hideIslands() {
         x[i].style.display = "none";
         x[i].parentNode.style.zIndex = 10;  //10 is the default
         x[i].parentNode.setAttribute("data-islandPopped", "false");
+    }
+}
+
+
+function hideContainers(containerType) {
+    let s = document.getElementsByClassName(containerType);
+    let r;
+    for (r = 0; r < s.length; r++) {
+        s[r].style.display = "none";
+        s[r].parentNode.style.zIndex = 15;
     }
 }
 
@@ -214,3 +230,39 @@ function popupDragleave(event, callingElement) {
     hoverTimer = setTimeout(function() { hideIslands();}, 1000);
     event.stopPropagation();
 }
+
+
+function pieceClick(event, callingElement) {
+    event.preventDefault();
+
+    let unitName = callingElement.getAttribute("data-unitName");
+    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+            callingElement.childNodes[0].style.display = "block";
+            callingElement.style.zIndex = 30;
+        }
+    }
+
+    //show the pieces moves
+
+
+
+    event.stopPropagation();
+}
+
+
+function pieceDragenter(event, callingElement) {
+    event.preventDefault();
+
+    let unitName = callingElement.getAttribute("data-unitName");
+    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        //only dragenter to open up container pieces...set timer for it
+        if (callingElement.parent.getAttribute("data-positionId") !== "118") {
+
+        }
+    }
+
+    event.stopPropagation();
+}
+
+

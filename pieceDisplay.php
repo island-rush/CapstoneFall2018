@@ -26,20 +26,7 @@ if (isset($positionId)) {
             if ($placementContainerId == 999999) {
 
                 //opening for overall piece
-                echo "<div class='".$unitName." gamePiece' data-placementId='".$placementId."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' ";
-
-                //functions for all pieces (container/non-container)
-                echo "draggable='true' ondragstart='pieceDragstart(event, this)' ";
-
-                if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
-                    //functions for containers (click to open / show moves)
-                    echo "";
-                } else {
-                    //functions for non-containers (click to open)
-                    echo "";
-                }
-
-                echo ">";  // end of opening for overall piece
+                echo "<div class='".$unitName." gamePiece' data-placementId='".$placementId."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);'>";
 
                 //build containers for container pieces + pieces inside of them
                 if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
@@ -75,7 +62,7 @@ if (isset($positionId)) {
                             //assume only non-containers within a container (opening for piece within container)
                             echo "<div class='".$unitName2." gamePiece' data-placementId='".$placementId2."' data-placementContainerId='".$placementContainerId2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementTeamId='".$placementTeamId2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' data-unitTerrain='".$unitTerrain2."' ";
 
-                            //functions for all pieces (but only non-container)
+                            //functions (only non-container pieces will be in here)
                             echo "";
 
                             echo ">";

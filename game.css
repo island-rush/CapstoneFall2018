@@ -162,6 +162,7 @@ html, body {
     height: 33.333%;
     float: left;
     position: relative;
+    z-index: 15;
 }
 .transport{background-color: black;}
 .submarine{background-color: red;}
@@ -184,6 +185,35 @@ html, body {
     width: 40px;
     height: 40px;
 }
+
+.transportContainer{
+    height: 200%;
+    width: 200%;
+    background-color: orangered;
+    margin: 0;
+    position: absolute;
+    display: none;
+    /*z-index: 15;*/
+}
+.aircraftCarrierContainer{
+    height: 100%;
+    width: 200%;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    display: none;
+    /*z-index: 15;*/
+}
+.lavContainer{
+    height: 100%;
+    width: 200%;
+    background-color: rosybrown;
+    margin: 0;
+    position: absolute;
+    display: none;
+    /*z-index: 15;*/
+}
+
 
 
 /*----------------------------------------------------------------------------------------------*/
