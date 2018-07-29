@@ -52,6 +52,7 @@ function hideContainers(containerType) {
     for (r = 0; r < s.length; r++) {
         s[r].style.display = "none";
         s[r].parentNode.style.zIndex = 15;
+        s[r].setAttribute("data-containerPopped", "false");
     }
 }
 
@@ -111,12 +112,21 @@ function positionDrop(event, newContainerElement) {
                         }
                     }
                 }
-
-
             }
         };
         phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves, true);
         phpMoveCheck.send();
+    }
+    event.stopPropagation();
+}
+
+
+function pieceDragleave(event, callingElement) {
+    event.preventDefault();
+    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier" || callingElement.getAttribute("data-unitName") === "lav") {
+        if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
+            clearTimeout(hoverTimer);
+        }
     }
     event.stopPropagation();
 }
@@ -264,6 +274,7 @@ function pieceClick(event, callingElement) {
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
             callingElement.childNodes[0].style.display = "block";
             callingElement.style.zIndex = 30;
+            callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
         }
     }
 

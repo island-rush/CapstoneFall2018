@@ -26,7 +26,7 @@ if (isset($positionId)) {
             if ($placementContainerId == 999999) {
 
                 //opening for overall piece
-                echo "<div class='".$unitName." gamePiece' data-placementId='".$placementId."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);'>";
+                echo "<div class='".$unitName." gamePiece' data-placementId='".$placementId."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this);' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
                 //build containers for container pieces + pieces inside of them
                 if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
@@ -39,7 +39,7 @@ if (isset($positionId)) {
                     }
 
                     //open the container
-                    echo "<div class='".$classthing."' data-positionContainerId='".$placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragleave='containerDragleave(event, this);' ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'>";
+                    echo "<div class='".$classthing."' data-containerPopped='false' data-positionContainerId='".$placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragleave='containerDragleave(event, this);' ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'>";
 
                     $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementContainerId = ?) AND (placementUnitId = unitId)';
                     $query = $db->prepare($query);
@@ -60,7 +60,7 @@ if (isset($positionId)) {
                             $unitTerrain2 = $x['unitTerrain'];
 
                             //assume only non-containers within a container (opening for piece within container)
-                            echo "<div class='".$unitName2." gamePiece' data-placementId='".$placementId2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementContainerId='".$placementContainerId2."' data-placementTeamId='".$placementTeamId2."' data-unitTerrain='".$unitTerrain2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);'></div>";
+                            echo "<div class='".$unitName2." gamePiece' data-placementId='".$placementId2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementContainerId='".$placementContainerId2."' data-placementTeamId='".$placementTeamId2."' data-unitTerrain='".$unitTerrain2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'></div>";
                         }
                     }
                     echo "</div>";  // end the container

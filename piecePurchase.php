@@ -25,7 +25,7 @@ $r= $results->fetch_assoc();
 $new_placementId = $r['LAST_INSERT_ID()'];
 
 
-echo "<div class='".$unitName." gamePiece' data-placementId='".$new_placementId."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);'>";
+echo "<div class='".$unitName." gamePiece' data-placementId='".$new_placementId."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
 if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
     if ($unitName == "transport") {
@@ -35,7 +35,7 @@ if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "
     } else {
         $classthing = "lavContainer";
     }
-    echo "<div class='".$classthing."' data-positionContainerId='".$new_placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
+    echo "<div class='".$classthing."' data-containerPopped='false' data-positionContainerId='".$new_placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
 }
 
 echo "</div>";  // end the overall piece
