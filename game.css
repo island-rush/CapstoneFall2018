@@ -214,6 +214,20 @@ html, body {
     /*z-index: 15;*/
 }
 
+.aircraftCarrierContainer > .gamePiece{
+    height: 100%;
+    width: 50%;
+}
+
+.lavContainer > .gamePiece{
+    height: 100%;
+    width: 50%;
+}
+
+.transportContainer > .gamePiece{
+    height: 50%;
+    width: 50%;
+}
 
 
 /*----------------------------------------------------------------------------------------------*/

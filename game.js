@@ -256,7 +256,7 @@ function pieceDragenter(event, callingElement) {
 
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-        //only dragenter to open up container pieces...set timer for it
+        //only dragenter to open up container pieces
         if (callingElement.parent.getAttribute("data-positionId") !== "118") {
 
         }

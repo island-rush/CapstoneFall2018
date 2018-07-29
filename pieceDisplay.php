@@ -39,7 +39,7 @@ if (isset($positionId)) {
                     }
 
                     //open the container
-                    echo "<div class='".$classthing."' data-positionContainerId='".$placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."'>";
+                    echo "<div class='".$classthing."' data-positionContainerId='".$placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'>";
 
                     $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementContainerId = ?) AND (placementUnitId = unitId)';
                     $query = $db->prepare($query);
@@ -60,14 +60,7 @@ if (isset($positionId)) {
                             $unitTerrain2 = $x['unitTerrain'];
 
                             //assume only non-containers within a container (opening for piece within container)
-                            echo "<div class='".$unitName2." gamePiece' data-placementId='".$placementId2."' data-placementContainerId='".$placementContainerId2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementTeamId='".$placementTeamId2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' data-unitTerrain='".$unitTerrain2."' ";
-
-                            //functions (only non-container pieces will be in here)
-                            echo "";
-
-                            echo ">";
-
-                            echo "</div>";  // end the piece within container
+                            echo "<div class='".$unitName2." gamePiece' data-placementId='".$placementId2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementContainerId='".$placementContainerId2."' data-placementTeamId='".$placementTeamId2."' data-unitTerrain='".$unitTerrain2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);'></div>";
                         }
                     }
                     echo "</div>";  // end the container
