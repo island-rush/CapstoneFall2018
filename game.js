@@ -282,11 +282,11 @@ function pieceClick(event, callingElement) {
     }
     clearHighlighted();
     //show the piece's moves
-    let thisMoves = callingElement.getAttribute("data-moves");
+    let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
     let thisPos = callingElement.parentNode.getAttribute("data-positionId");
     let phpAvailableMoves = new XMLHttpRequest();
     phpAvailableMoves.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+        if (this.readyState === 4 && this.status === 200) {
             let decoded = JSON.parse(this.responseText);
             let g;
             for (g = 0; g < decoded.length; g++) {
