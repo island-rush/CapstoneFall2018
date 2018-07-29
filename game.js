@@ -28,6 +28,9 @@ function clickWater(event, callingElement) {
 function clickGameBoard(event, callingElement) {
     event.preventDefault();
     hideIslands();
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
     event.stopPropagation();
 }
 
@@ -89,7 +92,7 @@ function positionDrop(event, newContainerElement) {
     if (movementTerrainCheck(unitTerrain, positionType) === "true") {
         let movementCost = movementWithinMoves(unitName, old_positionId, new_positionId, old_placementCurrentMoves);
         if (movementCost !== -1) {
-            if ((new_placementContainerId !== 999999 && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === 999999) {
+            if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
                 //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
                 let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
                 //Update the placement in the database and add a movement to the database
@@ -179,6 +182,13 @@ function movementWithinMoves(unitName, old_positionId, new_positionId, placement
 
 
 function containerHasSpotOpen(new_placementContainerId, unitName) {
+    //Can't put transport inside another transport
+    if (new_placementContainerId !== "999999") {
+        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+            return "false";
+        }
+    }
+
     return "true";
 }
 
@@ -237,6 +247,9 @@ function pieceClick(event, callingElement) {
 
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        hideContainers("transportContainer");
+        hideContainers("aircraftCarrierContainer");
+        hideContainers("lavContainer");
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
             callingElement.childNodes[0].style.display = "block";
             callingElement.style.zIndex = 30;
@@ -257,7 +270,7 @@ function pieceDragenter(event, callingElement) {
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
         //only dragenter to open up container pieces
-        if (callingElement.parent.getAttribute("data-positionId") !== "118") {
+        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
 
         }
     }
