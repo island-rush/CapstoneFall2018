@@ -56,7 +56,7 @@ function pieceDragstart(event, callingElement) {
 }
 
 
-function pieceDrop(event, newContainerElement) {
+function positionDrop(event, newContainerElement) {
     event.preventDefault();
     //Already approved to move by pieceDragstart (same team and good phase)
     let placementId = event.dataTransfer.getData("placementId");
@@ -94,7 +94,7 @@ function pieceDrop(event, newContainerElement) {
 }
 
 
-function pieceDragover(event, callingElement) {
+function positionDragover(event, callingElement) {
     event.preventDefault();
     //Stops from Dropping into another piece (non-container element) (containers should not be draggable, only parent pieces)
     if (event.target.getAttribute("draggable") === "true") {
@@ -204,5 +204,13 @@ function islandDragleave(event, callingElement) {
     if (callingElement.getAttribute("data-islandPopped") === "false") {
         clearTimeout(hoverTimer);
     }
+    event.stopPropagation();
+}
+
+
+function popupDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
     event.stopPropagation();
 }
