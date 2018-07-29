@@ -266,3 +266,38 @@ function pieceDragenter(event, callingElement) {
 }
 
 
+function bodyLoader() {
+
+    document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
+    document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+
+}
+
+
+function changePhase() {
+    if (canNextPhase === "true") {
+        let phpPhaseChange = new XMLHttpRequest();
+        phpPhaseChange.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+                let decoded = JSON.parse(this.responseText);
+                gamePhase = decoded.gamePhase;
+                gameTurn = decoded.gameTurn;
+                gameCurrentTeam = decoded.gameCurrentTeam;
+                canMove = decoded.canMove;
+                canPurchase = decoded.canPurchase;
+                canUndo = decoded.canUndo;
+                canNextPhase = decoded.canNextPhase;
+                canTrash = decoded.canTrash;
+                canAttack = decoded.canAttack;
+                document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
+                document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+            }
+        };
+        phpPhaseChange.open("GET", "gamePhaseChange.php", true);  // removes the element from the database
+        phpPhaseChange.send();
+    }
+}
+
+
+
+

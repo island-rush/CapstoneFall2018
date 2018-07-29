@@ -44,7 +44,7 @@ $gameId = $_SESSION['gameId'];
         </script>
     </head>
 
-    <body>
+    <body onload="bodyLoader();">
         <div id="whole_game">
             <div id="side_panel">
                 <div id="titlebar">Reinforcements</div>
@@ -74,7 +74,7 @@ $gameId = $_SESSION['gameId'];
                     <div id="phase_indicator">Phase Indicator THIS CHANGES</div>
                     <div id="team_indicator">Team Indicator THIS CHANGES</div>
                     <button onclick="pieceMoveUndo();">Undo Movement</button>
-                    <button>Next Phase</button>
+                    <button onclick="changePhase();">Next Phase</button>
                     <button>Select BattlePos</button>
                     <button>Select BattlePieces</button>
                     <button>Start Battle</button>

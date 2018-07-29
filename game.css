@@ -182,8 +182,8 @@ html, body {
 .test_piece{background-color: deeppink;}
 
 #purchased_container > .gamePiece{
-    width: 40px;
-    height: 40px;
+    width: 15%;
+    height: 15%;
 }
 
 .transportContainer{
