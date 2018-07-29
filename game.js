@@ -4,29 +4,23 @@
 
 function clickIsland(event, callingElement) {
     event.preventDefault();
-
     hideIslands();  //only 1 island visible at a time
-
     document.getElementsByClassName(callingElement.id)[0].style.display = "block";
     callingElement.style.zIndex = 20;  //default for a gridblock is 10
-
     event.stopPropagation();
 }
 
 
 function clickWater(event, callingElement) {
     event.preventDefault();
-
     hideIslands();
-
     event.stopPropagation();
 }
 
+
 function clickGameBoard(event, callingElement) {
     event.preventDefault();
-
     hideIslands();
-
     event.stopPropagation();
 }
 
@@ -66,34 +60,24 @@ function pieceDrop(event, newContainerElement) {
     let placementId = event.dataTransfer.getData("placementId");
     let unitName = event.dataTransfer.getData("unitName");
     let unitId = event.dataTransfer.getData("unitId");
-
     let pieceDropped = document.querySelector("[data-placementId='" + placementId + "']");
-
     let positionType = event.target.getAttribute("data-positionType");
     let unitTerrain = event.dataTransfer.getData("unitTerrain");
-
     let new_positionId = event.target.getAttribute("data-positionId");
     let old_positionId = event.dataTransfer.getData("positionId");
-
     let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
     let new_placementContainerId = event.target.getAttribute("data-positionContainerId");
-
     let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
-
     if (movementTerrainCheck(unitTerrain, positionType) === "true") {
         let movementCost = movementWithinMoves(unitName, old_positionId, new_positionId, old_placementCurrentMoves);
         if (movementCost !== -1) {
             if ((new_placementContainerId !== 999999 && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === 999999) {
-
                 //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
-
                 let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
-
                 //Update the placement in the database and add a movement to the database
                 let phpRequest = new XMLHttpRequest();
                 phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                 phpRequest.send();
-
                 //Update the html by moving the piece and changing the piece's attributes
                 newContainerElement.appendChild(pieceDropped);
                 pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
@@ -104,7 +88,6 @@ function pieceDrop(event, newContainerElement) {
             }
         }
     }
-
     event.stopPropagation();
 }
 
@@ -116,6 +99,38 @@ function pieceDragover(event, callingElement) {
         event.dataTransfer.dropEffect = "none";
     } else {
         event.dataTransfer.dropEffect = "all";
+    }
+}
+
+
+function pieceMoveUndo() {
+    if (canUndo === "true") {
+        let phpUndoRequest = new XMLHttpRequest();
+        phpUndoRequest.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let decoded = JSON.parse(this.responseText);
+                if (decoded.placementId !== null) {
+                    //Update the piece's attributes
+                    let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
+                    pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
+                    pieceToUndo.setAttribute("data-placementCurrentMoves", (parseInt(pieceToUndo.getAttribute("data-placementCurrentMoves")) + decoded.movementCost));
+                    //Remove from Old Position
+                    if (decoded.old_placementContainerId !== 999999) {
+                        document.querySelector("[data-placementId='" + decoded.old_placementContainerId + "']").firstChild.removeChild(pieceToUndo);
+                    } else {
+                        document.querySelector("[data-positionId='" + decoded.old_placementPositionId + "']").removeChild(pieceToUndo);
+                    }
+                    //Append to New Position
+                    if (decoded.new_placementContainerId !== 999999) {
+                        document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
+                    } else {
+                        document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
+                    }
+                }
+            }
+        };
+        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase, true);
+        phpUndoRequest.send();
     }
 }
 
@@ -134,8 +149,4 @@ function movementWithinMoves(unitName, old_positionId, new_positionId, placement
 function containerHasSpotOpen(new_placementContainerId, unitName) {
     return "true";
 }
-
-
-
-
 

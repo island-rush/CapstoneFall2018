@@ -68,9 +68,9 @@ $gameId = $_SESSION['gameId'];
                     <div id="trashbox">*Trash*</div>
                 </div>
                 <div id="rest_things">
-                    <div id="phase_indicator">Phase Indicator</div>
-                    <div id="team_indicator">Team Indicator</div>
-                    <button>Undo Movement</button>
+                    <div id="phase_indicator">Phase Indicator THIS CHANGES</div>
+                    <div id="team_indicator">Team Indicator THIS CHANGES</div>
+                    <button onclick="pieceMoveUndo();">Undo Movement</button>
                     <button>Next Phase</button>
                     <button>Select BattlePos</button>
                     <button>Select BattlePieces</button>
