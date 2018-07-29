@@ -44,6 +44,11 @@ html, body {
     width: 20%;
     padding-top: 20%;
 }
+#purchase_seperator {
+    width: 100%;
+    height: 5%;
+    text-align: center;
+}
 #shopping_things{
     width: 100%;
     height: 35%;

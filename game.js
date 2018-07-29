@@ -7,6 +7,7 @@ function clickIsland(event, callingElement) {
     hideIslands();  //only 1 island visible at a time
     document.getElementsByClassName(callingElement.id)[0].style.display = "block";
     callingElement.style.zIndex = 20;  //default for a gridblock is 10
+    callingElement.setAttribute("data-islandPopped", "true");
     event.stopPropagation();
 }
 
@@ -31,6 +32,7 @@ function hideIslands() {
     for (i = 0; i < x.length; i++) {
         x[i].style.display = "none";
         x[i].parentNode.style.zIndex = 10;  //10 is the default
+        x[i].parentNode.setAttribute("data-islandPopped", "false");
     }
 }
 
@@ -188,3 +190,19 @@ function piecePurchase(event, purchaseButton) {
     }
 }
 
+
+function islandDragenter(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { clickIsland(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+
+function islandDragleave(event, callingElement) {
+    event.preventDefault();
+    if (callingElement.getAttribute("data-islandPopped") === "false") {
+        clearTimeout(hoverTimer);
+    }
+    event.stopPropagation();
+}

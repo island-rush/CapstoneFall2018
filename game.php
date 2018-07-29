@@ -10,8 +10,8 @@ $gameId = $_SESSION['gameId'];
         <link rel="stylesheet" type="text/css" href="game.css">
         <script src="game.js"></script>
         <script type="text/javascript">
-            var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
-            var unitsMoves = <?php $query = 'SELECT * FROM units'; $query = $db->prepare($query); $query->execute(); $results = $query->get_result(); $num_results = $results->num_rows; $arr = array();
+            let phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
+            let unitsMoves = <?php $query = 'SELECT * FROM units'; $query = $db->prepare($query); $query->execute(); $results = $query->get_result(); $num_results = $results->num_rows; $arr = array();
                 if ($num_results > 0) {
                     for ($i=0; $i < $num_results; $i++) {
                         $r= $results->fetch_assoc();
@@ -22,23 +22,25 @@ $gameId = $_SESSION['gameId'];
                 }
                 echo json_encode($arr); ?>;
 
-            var gameId = "<?php echo $_SESSION['gameId']; ?>";
-            var gamePhase = "<?php echo $_SESSION['gamePhase']; ?>";
-            var gameTurn = "<?php echo $_SESSION['gameTurn']; ?>";
-            var gameCurrentTeam = "<?php echo $_SESSION['gameCurrentTeam']; ?>";
-            var myTeam = "<?php echo $_SESSION['myTeam']; ?>";
+            let gameId = "<?php echo $_SESSION['gameId']; ?>";
+            let gamePhase = "<?php echo $_SESSION['gamePhase']; ?>";
+            let gameTurn = "<?php echo $_SESSION['gameTurn']; ?>";
+            let gameCurrentTeam = "<?php echo $_SESSION['gameCurrentTeam']; ?>";
+            let myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
-            var gameBattleSection = "<?php echo $_SESSION['gameBattleSection']; ?>";
-            var gameBattleSubSection = "<?php echo $_SESSION['gameBattleSubSection']; ?>";
-            var gameBattleLastRoll = "<?php echo $_SESSION['gameBattleLastRoll']; ?>";
-            var gameBattleLastMessage = "<?php echo $_SESSION['gameBattleLastMessage']; ?>";
+            let gameBattleSection = "<?php echo $_SESSION['gameBattleSection']; ?>";
+            let gameBattleSubSection = "<?php echo $_SESSION['gameBattleSubSection']; ?>";
+            let gameBattleLastRoll = "<?php echo $_SESSION['gameBattleLastRoll']; ?>";
+            let gameBattleLastMessage = "<?php echo $_SESSION['gameBattleLastMessage']; ?>";
 
-            var canMove = "<?php echo $_SESSION['canMove']; ?>";
-            var canPurchase = "<?php echo $_SESSION['canPurchase']; ?>";
-            var canUndo = "<?php echo $_SESSION['canUndo']; ?>";
-            var canNextPhase = "<?php echo $_SESSION['canNextPhase']; ?>";
-            var canTrash = "<?php echo $_SESSION['canTrash']; ?>";
-            var canAttack = "<?php echo $_SESSION['canAttack']; ?>";
+            let canMove = "<?php echo $_SESSION['canMove']; ?>";
+            let canPurchase = "<?php echo $_SESSION['canPurchase']; ?>";
+            let canUndo = "<?php echo $_SESSION['canUndo']; ?>";
+            let canNextPhase = "<?php echo $_SESSION['canNextPhase']; ?>";
+            let canTrash = "<?php echo $_SESSION['canTrash']; ?>";
+            let canAttack = "<?php echo $_SESSION['canAttack']; ?>";
+
+            let hoverTimer;
         </script>
     </head>
 
@@ -63,6 +65,7 @@ $gameId = $_SESSION['gameId'];
                     <div class="purchase_square stealthBomber" id="stealthBomber" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
                     <div class="purchase_square tanker" id="tanker" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
                 </div>
+                <div id="purchase_seperator">Inventory</div>
                 <div id="shopping_things">
                     <div id="purchased_container" data-positionType="purchased_container" data-positionId="118" data-positionContainerId="999999"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
                     <div id="trashbox" ondragover="pieceDragover(event, this);" ondrop="pieceTrash(event, this);">*Trash*</div>
@@ -101,7 +104,7 @@ $gameId = $_SESSION['gameId'];
                 <div class="gridblock" data-positionId="6" data-positionContainerId="999999" data-positionType="water" onclick="clickWater(event, this);" ondragover="pieceDragover(event, this);" ondrop="pieceDrop(event, this);"><?php $positionId = 6; include("pieceDisplay.php"); ?></div>
                 <div class="gridblock" data-positionId="7" data-positionContainerId="999999" data-positionType="water" onclick="clickWater(event, this);" ondragover="pieceDragover(event, this);" ondrop="pieceDrop(event, this);"><?php $positionId = 7; include("pieceDisplay.php"); ?></div>
                 <div class="gridblock" data-positionId="8" data-positionContainerId="999999" data-positionType="water" onclick="clickWater(event, this);" ondragover="pieceDragover(event, this);" ondrop="pieceDrop(event, this);"><?php $positionId = 8; include("pieceDisplay.php"); ?></div>
-                <div class="gridblock" id="special_island1" onclick="clickIsland(event, this);">
+                <div class="gridblock" id="special_island1" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="clickIsland(event, this);">
                     <div id="bigblock1" class="special_island1 bigblock3x3">
                         <div class="gridblockTiny" data-positionType="land" id="pos1a" data-positionId="75" data-positionContainerId="999999"><?php $positionId = 75; include("pieceDisplay.php"); ?></div>
                         <div class="gridblockTiny" data-positionType="land" id="pos1b" data-positionId="76" data-positionContainerId="999999"><?php $positionId = 76; include("pieceDisplay.php"); ?></div>
