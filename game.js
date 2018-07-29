@@ -225,6 +225,14 @@ function islandDragenter(event, callingElement) {
 }
 
 
+function containerDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { clickWater(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+
 function islandDragleave(event, callingElement) {
     event.preventDefault();
     if (callingElement.getAttribute("data-islandPopped") === "false") {
@@ -266,15 +274,14 @@ function pieceClick(event, callingElement) {
 
 function pieceDragenter(event, callingElement) {
     event.preventDefault();
-
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
         //only dragenter to open up container pieces
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-
+            clearTimeout(hoverTimer);
+            hoverTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
         }
     }
-
     event.stopPropagation();
 }
 

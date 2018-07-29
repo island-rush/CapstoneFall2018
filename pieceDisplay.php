@@ -39,7 +39,7 @@ if (isset($positionId)) {
                     }
 
                     //open the container
-                    echo "<div class='".$classthing."' data-positionContainerId='".$placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'>";
+                    echo "<div class='".$classthing."' data-positionContainerId='".$placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragleave='containerDragleave(event, this);' ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'>";
 
                     $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementContainerId = ?) AND (placementUnitId = unitId)';
                     $query = $db->prepare($query);
