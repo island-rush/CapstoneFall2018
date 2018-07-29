@@ -71,8 +71,8 @@ $gameId = $_SESSION['gameId'];
                     <div id="trashbox" ondragover="positionDragover(event, this);" ondrop="pieceTrash(event, this);">*Trash*</div>
                 </div>
                 <div id="rest_things">
-                    <div id="phase_indicator">Phase Indicator THIS CHANGES</div>
-                    <div id="team_indicator">Team Indicator THIS CHANGES</div>
+                    <div id="phase_indicator">Current Phase = Loading...</div>
+                    <div id="team_indicator">Current Team = Loading...</div>
                     <button onclick="pieceMoveUndo();">Undo Movement</button>
                     <button onclick="changePhase();">Next Phase</button>
                     <button>Select BattlePos</button>

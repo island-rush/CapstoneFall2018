@@ -8,7 +8,6 @@ $gameCurrentTeam = $_SESSION['gameCurrentTeam'];
 $gameTurn = $_SESSION['gameTurn'];
 $myTeam = $_SESSION['myTeam'];
 
-
 $new_gamePhase = ($gamePhase % 7) + 1;
 $new_gameTurn = $gameTurn + 1;
 
