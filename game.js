@@ -287,10 +287,8 @@ function pieceDragenter(event, callingElement) {
 
 
 function bodyLoader() {
-
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
-
 }
 
 

@@ -35,7 +35,7 @@ if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "
     } else {
         $classthing = "lavContainer";
     }
-    echo "<div class='".$classthing."' data-positionContainerId='".$new_placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
+    echo "<div class='".$classthing."' data-positionContainerId='".$new_placementId."' data-positionType='".$classthing."' data-positionId='".$placementPositionId."' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
 }
 
 echo "</div>";  // end the overall piece
