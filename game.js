@@ -214,7 +214,7 @@ function pieceTrash(event, trashElement) {
 
 
 function hideIslands() {
-    let x = document.getElementsByClassName("bigblock3x3");
+    let x = document.getElementsByClassName("special_island3x3");
     let i;
     for (i = 0; i < x.length; i++) {
         x[i].style.display = "none";
@@ -435,6 +435,9 @@ function battleSelectPosition(positionId) {
     //display "are you sure?" or something before moving on...
 
     gameBattlePosSelected = positionId;
+
+    let positionThing = document.querySelector("[data-positionId='" + positionId + "']");
+
 
     //php file to auto grab the defense pieces and create the battle pieces from them?
 
