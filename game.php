@@ -254,6 +254,22 @@ $gameId = $_SESSION['gameId'];
                 <div class="gridblock" data-positionId="52" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 52; include("pieceDisplay.php"); ?></div>
                 <div class="gridblock" data-positionId="53" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 53; include("pieceDisplay.php"); ?></div>
                 <div class="gridblock" data-positionId="54" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 54; include("pieceDisplay.php"); ?></div>
+                <div id="battleZonePopup">
+                    <div id="unused_attacker" data-boxId="1"><?php $boxId = 1; include("battlePieceDisplay.php"); ?></div>
+                    <div id="unused_defender" data-boxId="2"><?php $boxId = 2; include("battlePieceDisplay.php"); ?></div>
+                    <div id="used_attacker" data-boxId="3"><?php $boxId = 3; include("battlePieceDisplay.php"); ?></div>
+                    <div id="used_defender" data-boxId="4"><?php $boxId = 4; include("battlePieceDisplay.php"); ?></div>
+                    <div id="center_attacker" data-boxId="5"><?php $boxId = 5; include("battlePieceDisplay.php"); ?></div>
+                    <div id="center_defender" data-boxId="6"><?php $boxId = 6; include("battlePieceDisplay.php"); ?></div>
+                    <div id="battle_outcome"></div>
+                    <div id="battle_buttons">
+                        <button id="attackButton" onclick="battleAttackCenter('attack')" disabled>Attack!</button>
+                        <button id="changeSectionButton" onclick="battleChangeSection('counter')">End My Turn</button>
+                    </div>
+                    <div id="actionPopup">
+                        <button id="actionPopupButton">Button?</button>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
