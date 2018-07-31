@@ -131,7 +131,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $_SESSION['canAttack'] = $canAttack;
 
 
-    $filename = 'resources/matrixFiles/adjMatrix.csv';
+    $filename = 'resources/gameData/adjMatrix.csv';
     if (($handle = fopen($filename, "r")) !== FALSE) {
         $counter = 0;
         while(($data = fgetcsv($handle, 0, ",")) !== FALSE) {
@@ -157,7 +157,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
         }
     }
 
-    $filename2 = 'resources/matrixFiles/attackMatrix.csv';
+    $filename2 = 'resources/gameData/attackMatrix.csv';
     if (($handle = fopen($filename2, "r")) !== FALSE) {
         $counter = 0;
         while(($data = fgetcsv($handle, 0, ",")) !== FALSE) {
