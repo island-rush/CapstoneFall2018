@@ -335,6 +335,13 @@ function bodyLoader() {
     } else {
         document.getElementById("battle_button").disabled = true;
     }
+
+    if (gameBattleSection !== "none") {
+        document.getElementById("battleZonePopup").style.display = "block";
+        if (gameBattleSubSection !== "choosing_pieces") {
+            document.getElementById("battleActionPopup").style.display = "block";
+        }
+    }
 }
 
 
@@ -365,6 +372,16 @@ function changePhase() {
         phpPhaseChange.open("GET", "gamePhaseChange.php", true);  // removes the element from the database
         phpPhaseChange.send();
     }
+}
+
+
+function battleAttackCenter(type) {
+
+}
+
+
+function battleChangeSection(newSection) {
+
 }
 
 

@@ -16,9 +16,6 @@ html, body {
 }
 
 
-
-
-
 /*----------------------------------------------------------------------------------------------*/
 /*SIDEPANEL CSS*/
 
@@ -78,6 +75,10 @@ html, body {
 
 /*----------------------------------------------------------------------------------------------*/
 /*GAMEBOARD CSS*/
+
+.highlighted {
+    background-color: rgba(236, 1, 255, 0.15);
+}
 
 #game_board {
     height: 100%;
@@ -150,6 +151,99 @@ html, body {
 
 
 
+
+/*----------------------------------------------------------------------------------------------*/
+/*BattleZone CSS*/
+
+#battleZonePopup{
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    display: none;
+    background-image: url("resources/mapImages/battle_zone.png");
+    background-repeat: no-repeat;
+    background-size: 390px 490px;
+    background-color: #000000;
+    background-position: center;
+    z-index: 500;
+    margin-left: 300px;
+    margin-top: 75px;
+}
+
+#unused_defender{
+    width: 28%;
+    height: 34%;
+    margin-left: 4%;
+    margin-top: 71%;
+    position: absolute;
+}
+
+#unused_attacker{
+    width: 29%;
+    height: 34%;
+    margin-left: 68%;
+    margin-top: 71%;
+    position: absolute;
+}
+
+#used_defender{
+    width: 28%;
+    height: 30%;
+    margin-left: 4%;
+    margin-top: 32%;
+    position: absolute;
+}
+
+#used_attacker{
+    width: 29%;
+    height: 30%;
+    margin-left: 68%;
+    margin-top: 32%;
+    position: absolute;
+}
+
+#center_attacker{
+    width: 16%;
+    height: 27%;
+    margin-left: 51%;
+    margin-top: 51%;
+    position: absolute;
+}
+
+#center_defender{
+    width: 16%;
+    height: 27%;
+    margin-left: 33.5%;
+    margin-top: 51%;
+    position: absolute;
+}
+
+#battle_buttons{
+    width: 33%;
+    height: 20%;
+    margin-left: 34%;
+    margin-top: 93%;
+    position: absolute;
+}
+
+#battle_outcome{
+    width: 33%;
+    height: 20%;
+    margin-left: 34%;
+    margin-top: 23%;
+    position: absolute;
+}
+
+#battleActionPopup{
+    width: 96%;
+    height: 96%;
+    margin-left: 2%;
+    margin-top: 2%;
+    background-color: white;
+    position: absolute;
+    z-index: 100;
+    display: none;
+}
 
 
 
@@ -229,9 +323,33 @@ html, body {
     width: 50%;
 }
 
-.highlighted {
-    background-color: rgba(236, 1, 255, 0.15);
+#unused_attacker > .game_piece{
+    width: 33%;
+    height: 40px;
 }
+#unused_defender > .game_piece{
+    width: 33%;
+    height: 40px;
+}
+#used_attacker > .game_piece{
+    width: 33%;
+    height: 40px;
+}
+#used_defender > .game_piece{
+    width: 33%;
+    height: 40px;
+}
+
+#center_attacker > .game_piece{
+    width: 40px;
+    height: 40px;
+}
+#center_defender > .game_piece{
+    width: 40px;
+    height: 40px;
+}
+
+
 
 
 /*----------------------------------------------------------------------------------------------*/

@@ -266,7 +266,7 @@ $gameId = $_SESSION['gameId'];
                         <button id="attackButton" onclick="battleAttackCenter('attack')" disabled>Attack!</button>
                         <button id="changeSectionButton" onclick="battleChangeSection('counter')">End My Turn</button>
                     </div>
-                    <div id="actionPopup">
+                    <div id="battleActionPopup">
                         <button id="actionPopupButton">Button?</button>
                     </div>
                 </div>
