@@ -434,7 +434,9 @@ function battleChangeSection(newSection) {
 
 
 function battleSelectPosition(positionId) {
+    let battleTerrain = document.querySelector("[data-positionId='" + positionId + "']").getAttribute("data-positionType");
     let defenseTeam;
+
     if (gameCurrentTeam === "Red") {
         defenseTeam = "Blue";
     } else {
@@ -448,7 +450,7 @@ function battleSelectPosition(positionId) {
             document.getElementById("unused_defender").innerHTML += this.responseText;
         }
     };
-    phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + positionId + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam, true);
+    phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + positionId + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam + "&battleTerrain=" + battleTerrain, true);
     phpPositionSelect.send();
 
     battleChangeSection("selectPieces");
