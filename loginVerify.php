@@ -79,7 +79,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
             $canUndo = "true";
             $canNextPhase = "true";
             $canTrash = "false";
-            $canAttack = "false";
+            $canAttack = "true";
         } elseif ($_SESSION['gamePhase'] == 4) {
             //fortification movement
             $canMove = "true";

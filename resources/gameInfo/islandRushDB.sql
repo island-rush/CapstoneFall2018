@@ -4,6 +4,8 @@
 DROP DATABASE IF EXISTS islandRushDB;
 CREATE DATABASE islandRushDB;
 USE islandRushDB;
+
+SET SQL_SAFE_UPDATES = 0;
 -- -----------------------------------------------------------------------------
 
 
@@ -23,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `games`(
     `gameBlueHybridpoints` int(5) NOT NULL,
     `gameRedJoined` int(1) NOT NULL, -- 0 or 1 (1 = joined)
     `gameBlueJoined` int(1) NOT NULL,
-    `gameBattleSection` varchar(20) NOT NULL,  -- "none" (no popup), "attack", "counter", "asktorepeat"
+    `gameBattleSection` varchar(20) NOT NULL,  -- "none" (no popup), "attack", "counter", "asktorepeat"......"selecting pos", "selecting pieces"?
     `gameBattleSubSection` varchar(20) NOT NULL, -- "choosing_pieces", "attacked_popup", "defense_popup"
     `gameBattleLastRoll` int(1) NOT NULL, -- 0 for default (or no roll to display anymore/reset), 1-6 for roll
     `gameBattleLastMessage` varchar(50), -- used for explaining what happened "red killed blue's fighter with fighter" ex...
@@ -34,7 +36,7 @@ INSERT INTO `games` VALUES (1, 'M1A', 'Darcy', 'Jacobs', 'Brown', 'Red', 0, 1, 0
 INSERT INTO `games` VALUES (2, 'T1A', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message');
 
 
--- Table of Units
+-- Table of Units (static)
 CREATE TABLE IF NOT EXISTS `units`(
 	`unitId` int(5) NOT NULL ,
     `unitName` varchar(20) NOT NULL,
@@ -62,25 +64,16 @@ INSERT INTO `units` VALUES (14, 'tanker', 'air', 5);
 -- Table of game pieces and where they are in each game
 CREATE TABLE IF NOT EXISTS `placements`(
 	`placementId` int(16) NOT NULL AUTO_INCREMENT,
-    `gameId` int(5) NOT NULL,
-    `unitId` int(5) NOT NULL,
-    `teamId` varchar(10) NOT NULL,  -- "Red" or "Blue"
-	`containerId` int(16) NOT NULL,  -- placementId of the container its in (999999 used instead of null)
-    `currentMoves` int(3) NOT NULL,
-    `positionId` int(4) NOT NULL,  -- references what spot its in on the board (map is available in resources / gameInfo)
+    `placementGameId` int(5) NOT NULL,
+    `placementUnitId` int(5) NOT NULL,
+    `placementTeamId` varchar(10) NOT NULL,  -- "Red" or "Blue"
+	`placementContainerId` int(16) NOT NULL,  -- placementId of the container its in (999999 used instead of null)
+    `placementCurrentMoves` int(3) NOT NULL,
+    `placementPositionId` int(4) NOT NULL,  -- references what spot its in on the board (map is available in resources / gameInfo)
+    `placementBattleUsed` int(1) NOT NULL, -- 0 for not yet used, 1 for used
     PRIMARY KEY(`placementId`),
-    FOREIGN KEY (unitId) REFERENCES units(unitId),
-    FOREIGN KEY (gameId) REFERENCES games(gameId)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
-
-
--- Table of pieces involved in battles (duplicate pieces with battle only info)
-CREATE TABLE IF NOT EXISTS `battlePieces`(
-	`battlePieceId` int(5) NOT NULL AUTO_INCREMENT,  -- piece must already exist, this refers to the placementId
-    `battleGameId` int(5) NOT NULL,
-	`battlePieceState` int(4) NOT NULL,  -- "unused_attacker" (0), "used_defender", "selected..." (in battle center), "destroyed?" (this maybe not used, piece will be deleted here and also from real board)
-    `battlePieceWasHit` varchar(20) NOT NULL, -- false or true
-    PRIMARY KEY(`battlePieceId`)
+    FOREIGN KEY (placementUnitId) REFERENCES units(unitId),
+    FOREIGN KEY (placementGameId) REFERENCES games(gameId)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
@@ -100,6 +93,34 @@ CREATE TABLE IF NOT EXISTS `movements`(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
+-- Table of pieces involved in battles (duplicate pieces with battle only info)
+CREATE TABLE IF NOT EXISTS `battlePieces`(
+	`battlePieceId` int(5) NOT NULL AUTO_INCREMENT,  -- piece must already exist, this refers to the placementId
+    `battleGameId` int(5) NOT NULL,
+	`battlePieceState` int(4) NOT NULL,  -- "unused_attacker" (0), "used_defender", "selected..." (in battle center), "destroyed?" (this maybe not used, piece will be deleted here and also from real board)
+    `battlePieceWasHit` varchar(20) NOT NULL, -- false or true
+    PRIMARY KEY(`battlePieceId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
+
 
 
 UPDATE games SET gameBlueJoined=1 WHERE gameId = 1;
+
+-- SELECT * FROM games;
+
+
+
+
+SELECT * FROM placements;
+
+SELECT * FROM movements;
+
+SELECT * FROM games;
+
+SELECT * FROM battlePieces;
+
+
+
+

@@ -62,7 +62,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canUndo = "true";
         $canNextPhase = "true";
         $canTrash = "false";
-        $canAttack = "false";
+        $canAttack = "true";
     } elseif ($_SESSION['gamePhase'] == 4) {
         //fortification movement
         $canMove = "true";

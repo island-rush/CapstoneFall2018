@@ -1,5 +1,9 @@
 # Kulpable2
 
-New Repo, all new files and major refactor using old files as reference...
+Island Rush Game created by MSS team, computerized by CS team.
 
-First Commit and Push Test -Spencer
+This is the second iteration of computerization, this being a major refactoring of the first with improvements made to
+performance, simplicity, and readability (of code)...among other changes.
+
+
+

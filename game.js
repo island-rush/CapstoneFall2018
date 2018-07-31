@@ -2,7 +2,7 @@
 //Created by C1C Spencer Adolph (7/28/2018)
 
 
-function clickIsland(event, callingElement) {
+function islandClick(event, callingElement) {
     event.preventDefault();
     hideIslands();  //only 1 island visible at a time
     hideContainers("transportContainer");
@@ -16,7 +16,7 @@ function clickIsland(event, callingElement) {
 }
 
 
-function clickWater(event, callingElement) {
+function waterClick(event, callingElement) {
     event.preventDefault();
     hideIslands();
     hideContainers("transportContainer");
@@ -27,7 +27,7 @@ function clickWater(event, callingElement) {
 }
 
 
-function clickGameBoard(event, callingElement) {
+function gameboardClick(event, callingElement) {
     event.preventDefault();
     hideIslands();
     hideContainers("transportContainer");
@@ -36,6 +36,159 @@ function clickGameBoard(event, callingElement) {
     clearHighlighted();
     event.stopPropagation();
 }
+
+
+//---------------------------------------------------
+function pieceClick(event, callingElement) {
+    event.preventDefault();
+    //open container if applicable
+    let unitName = callingElement.getAttribute("data-unitName");
+    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        hideContainers("transportContainer");
+        hideContainers("aircraftCarrierContainer");
+        hideContainers("lavContainer");
+        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+            callingElement.childNodes[0].style.display = "block";
+            callingElement.style.zIndex = 30;
+            callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+        }
+    }
+    clearHighlighted();
+    //show the piece's moves
+    let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
+    let thisPos = callingElement.parentNode.getAttribute("data-positionId");
+    let phpAvailableMoves = new XMLHttpRequest();
+    phpAvailableMoves.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let decoded = JSON.parse(this.responseText);
+            let g;
+            for (g = 0; g < decoded.length; g++) {
+                let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+                gridThing.classList.add("highlighted");
+                if (gridThing.classList[0] === "gridblockTiny") {
+                    let parent = gridThing.parentNode;
+                    let parclass = parent.classList;
+                    if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+                        let islandsquare = document.getElementById(parclass[0]);
+                        islandsquare.classList.add("highlighted");
+                    }
+                }
+            }
+        }
+    };
+    phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
+    phpAvailableMoves.send();
+    event.stopPropagation();
+}
+
+function pieceDragstart(event, callingElement) {
+    //canMove is dictated by phase and current Team
+    if (canMove === "true" && event.target.getAttribute("data-placementTeamId") === myTeam) {
+        //From the container (parent of the piece)
+        event.dataTransfer.setData("positionId", event.target.parentNode.getAttribute("data-positionId"));
+        //From the Piece
+        event.dataTransfer.setData("placementId", event.target.getAttribute("data-placementId"));
+        event.dataTransfer.setData("placementContainerId", event.target.getAttribute("data-placementContainerId"));
+        event.dataTransfer.setData("placementCurrentMoves", event.target.getAttribute("data-placementCurrentMoves"));
+        event.dataTransfer.setData("placementTeamId", event.target.getAttribute("data-placementTeamId"));
+        event.dataTransfer.setData("unitTerrain", event.target.getAttribute("data-unitTerrain"));
+        event.dataTransfer.setData("unitName", event.target.getAttribute("data-unitName"));
+        event.dataTransfer.setData("unitId", event.target.getAttribute("data-unitId"));
+    } else {
+        event.preventDefault();  // This stops the drag
+    }
+}
+
+function pieceDragleave(event, callingElement) {
+    event.preventDefault();
+    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier" || callingElement.getAttribute("data-unitName") === "lav") {
+        if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
+            clearTimeout(hoverTimer);
+        }
+    }
+    event.stopPropagation();
+}
+
+function pieceDragenter(event, callingElement) {
+    event.preventDefault();
+    let unitName = callingElement.getAttribute("data-unitName");
+    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        //only dragenter to open up container pieces
+        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+            clearTimeout(hoverTimer);
+            hoverTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
+        }
+    }
+    event.stopPropagation();
+}
+
+function piecePurchase(event, purchaseButton) {
+    event.preventDefault();
+    if (canPurchase === "true") {
+        let unitId = purchaseButton.getAttribute("data-unitId");
+        let unitName = event.target.id;
+        let unitMoves = unitsMoves[unitName];
+        let terrain = purchaseButton.getAttribute("data-unitTerrain");
+
+        let phpPurchaseRequest = new XMLHttpRequest();
+        phpPurchaseRequest.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let parent = document.getElementById("purchased_container");
+                parent.innerHTML += this.responseText;
+                // if (unitName === "transport"  || unitName === "aircraftCarrier" || unitName === "lav") {
+                //     document.getElementById("purchased_container").lastChild.firstChild.style.display = "none";
+                // }
+            }
+        };
+        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
+        phpPurchaseRequest.send();
+    }
+}
+
+function pieceMoveUndo() {
+    if (canUndo === "true") {
+        let phpUndoRequest = new XMLHttpRequest();
+        phpUndoRequest.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let decoded = JSON.parse(this.responseText);
+                if (decoded.placementId !== null) {
+                    //Update the piece's attributes
+                    let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
+                    pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
+                    pieceToUndo.setAttribute("data-placementCurrentMoves", (parseInt(pieceToUndo.getAttribute("data-placementCurrentMoves")) + decoded.movementCost));
+                    //Remove from Old Position
+                    if (decoded.old_placementContainerId !== 999999) {
+                        document.querySelector("[data-placementId='" + decoded.old_placementContainerId + "']").firstChild.removeChild(pieceToUndo);
+                    } else {
+                        document.querySelector("[data-positionId='" + decoded.old_placementPositionId + "']").removeChild(pieceToUndo);
+                    }
+                    //Append to New Position
+                    if (decoded.new_placementContainerId !== 999999) {
+                        document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
+                    } else {
+                        document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
+                    }
+                }
+            }
+        };
+        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase, true);
+        phpUndoRequest.send();
+    }
+}
+
+function pieceTrash(event, trashElement) {
+    event.preventDefault();
+    if (canTrash === "true") {
+        if (event.dataTransfer.getData("positionId") === "118") {
+            let placementId = event.dataTransfer.getData("placementId");
+            document.querySelector("[data-placementId='" + placementId + "']").remove();
+            let phpTrashRequest = new XMLHttpRequest();
+            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId, true);
+            phpTrashRequest.send();
+        }
+    }
+}
+//---------------------------------------------------
 
 
 function hideIslands() {
@@ -56,25 +209,6 @@ function hideContainers(containerType) {
         s[r].style.display = "none";
         s[r].parentNode.style.zIndex = 15;
         s[r].setAttribute("data-containerPopped", "false");
-    }
-}
-
-
-function pieceDragstart(event, callingElement) {
-    //canMove is dictated by phase and current Team
-    if (canMove === "true" && event.target.getAttribute("data-placementTeamId") === myTeam) {
-        //From the container (parent of the piece)
-        event.dataTransfer.setData("positionId", event.target.parentNode.getAttribute("data-positionId"));
-        //From the Piece
-        event.dataTransfer.setData("placementId", event.target.getAttribute("data-placementId"));
-        event.dataTransfer.setData("placementContainerId", event.target.getAttribute("data-placementContainerId"));
-        event.dataTransfer.setData("placementCurrentMoves", event.target.getAttribute("data-placementCurrentMoves"));
-        event.dataTransfer.setData("placementTeamId", event.target.getAttribute("data-placementTeamId"));
-        event.dataTransfer.setData("unitTerrain", event.target.getAttribute("data-unitTerrain"));
-        event.dataTransfer.setData("unitName", event.target.getAttribute("data-unitName"));
-        event.dataTransfer.setData("unitId", event.target.getAttribute("data-unitId"));
-    } else {
-        event.preventDefault();  // This stops the drag
     }
 }
 
@@ -124,17 +258,6 @@ function positionDrop(event, newContainerElement) {
 }
 
 
-function pieceDragleave(event, callingElement) {
-    event.preventDefault();
-    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier" || callingElement.getAttribute("data-unitName") === "lav") {
-        if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
-            clearTimeout(hoverTimer);
-        }
-    }
-    event.stopPropagation();
-}
-
-
 function positionDragover(event, callingElement) {
     event.preventDefault();
     //Stops from Dropping into another piece (non-container element) (containers should not be draggable, only parent pieces)
@@ -142,52 +265,6 @@ function positionDragover(event, callingElement) {
         event.dataTransfer.dropEffect = "none";
     } else {
         event.dataTransfer.dropEffect = "all";
-    }
-}
-
-
-function pieceTrash(event, trashElement) {
-    event.preventDefault();
-    if (canTrash === "true") {
-        if (event.dataTransfer.getData("positionId") === "118") {
-            let placementId = event.dataTransfer.getData("placementId");
-            document.querySelector("[data-placementId='" + placementId + "']").remove();
-            let phpTrashRequest = new XMLHttpRequest();
-            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId, true);
-            phpTrashRequest.send();
-        }
-    }
-}
-
-
-function pieceMoveUndo() {
-    if (canUndo === "true") {
-        let phpUndoRequest = new XMLHttpRequest();
-        phpUndoRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let decoded = JSON.parse(this.responseText);
-                if (decoded.placementId !== null) {
-                    //Update the piece's attributes
-                    let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
-                    pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
-                    pieceToUndo.setAttribute("data-placementCurrentMoves", (parseInt(pieceToUndo.getAttribute("data-placementCurrentMoves")) + decoded.movementCost));
-                    //Remove from Old Position
-                    if (decoded.old_placementContainerId !== 999999) {
-                        document.querySelector("[data-placementId='" + decoded.old_placementContainerId + "']").firstChild.removeChild(pieceToUndo);
-                    } else {
-                        document.querySelector("[data-positionId='" + decoded.old_placementPositionId + "']").removeChild(pieceToUndo);
-                    }
-                    //Append to New Position
-                    if (decoded.new_placementContainerId !== 999999) {
-                        document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
-                    } else {
-                        document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
-                    }
-                }
-            }
-        };
-        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase, true);
-        phpUndoRequest.send();
     }
 }
 
@@ -209,34 +286,10 @@ function containerHasSpotOpen(new_placementContainerId, unitName) {
 }
 
 
-function piecePurchase(event, purchaseButton) {
-    event.preventDefault();
-    if (canPurchase === "true") {
-        let unitId = purchaseButton.getAttribute("data-unitId");
-        let unitName = event.target.id;
-        let unitMoves = unitsMoves[unitName];
-        let terrain = purchaseButton.getAttribute("data-unitTerrain");
-
-        let phpPurchaseRequest = new XMLHttpRequest();
-        phpPurchaseRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let parent = document.getElementById("purchased_container");
-                parent.innerHTML += this.responseText;
-                // if (unitName === "transport"  || unitName === "aircraftCarrier" || unitName === "lav") {
-                //     document.getElementById("purchased_container").lastChild.firstChild.style.display = "none";
-                // }
-            }
-        };
-        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
-        phpPurchaseRequest.send();
-    }
-}
-
-
 function islandDragenter(event, callingElement) {
     event.preventDefault();
     clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { clickIsland(event, callingElement);}, 1000);
+    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
     event.stopPropagation();
 }
 
@@ -244,7 +297,7 @@ function islandDragenter(event, callingElement) {
 function containerDragleave(event, callingElement) {
     event.preventDefault();
     clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { clickWater(event, callingElement);}, 1000);
+    hoverTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
     event.stopPropagation();
 }
 
@@ -266,49 +319,6 @@ function popupDragleave(event, callingElement) {
 }
 
 
-function pieceClick(event, callingElement) {
-    event.preventDefault();
-    //open container if applicable
-    let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-        hideContainers("transportContainer");
-        hideContainers("aircraftCarrierContainer");
-        hideContainers("lavContainer");
-        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-            callingElement.childNodes[0].style.display = "block";
-            callingElement.style.zIndex = 30;
-            callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
-        }
-    }
-    clearHighlighted();
-    //show the piece's moves
-    let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-    let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-    let phpAvailableMoves = new XMLHttpRequest();
-    phpAvailableMoves.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let decoded = JSON.parse(this.responseText);
-            let g;
-            for (g = 0; g < decoded.length; g++) {
-                let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-                gridThing.classList.add("highlighted");
-                if (gridThing.classList[0] === "gridblockTiny") {
-                    let parent = gridThing.parentNode;
-                    let parclass = parent.classList;
-                    if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-                        let islandsquare = document.getElementById(parclass[0]);
-                        islandsquare.classList.add("highlighted");
-                    }
-                }
-            }
-        }
-    };
-    phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-    phpAvailableMoves.send();
-    event.stopPropagation();
-}
-
-
 function clearHighlighted() {
     let highlighted_things = document.getElementsByClassName("highlighted");
     while (highlighted_things.length) {
@@ -317,23 +327,14 @@ function clearHighlighted() {
 }
 
 
-function pieceDragenter(event, callingElement) {
-    event.preventDefault();
-    let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-        //only dragenter to open up container pieces
-        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-            clearTimeout(hoverTimer);
-            hoverTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
-        }
-    }
-    event.stopPropagation();
-}
-
-
 function bodyLoader() {
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+    if (canAttack === "true") {
+        document.getElementById("battle_button").disabled = false;
+    } else {
+        document.getElementById("battle_button").disabled = true;
+    }
 }
 
 
@@ -352,6 +353,11 @@ function changePhase() {
                 canNextPhase = decoded.canNextPhase;
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
+                if (canAttack === "true") {
+                    document.getElementById("battle_button").disabled = false;
+                } else {
+                    document.getElementById("battle_button").disabled = true;
+                }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
             }

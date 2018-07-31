@@ -10,10 +10,11 @@ $gameId = $_REQUEST['gameId'];
 $placementTeamId = $_REQUEST['placementTeamId'];
 $placementContainerId = 999999;
 $placementPositionId = 118;
+$placementBattleUsed = 0;
 
-$query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId) VALUES(?, ?, ?, ?, ?, ?)';
+$query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iisiii", $gameId, $unitId, $placementTeamId, $placementContainerId, $unitMoves, $placementPositionId);
+$query->bind_param("iisiiii", $gameId, $unitId, $placementTeamId, $placementContainerId, $unitMoves, $placementPositionId, $placementBattleUsed);
 $query->execute();
 
 $query = 'SELECT LAST_INSERT_ID()';
@@ -25,7 +26,7 @@ $r= $results->fetch_assoc();
 $new_placementId = $r['LAST_INSERT_ID()'];
 
 
-echo "<div class='".$unitName." gamePiece' data-placementId='".$new_placementId."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+echo "<div class='".$unitName." gamePiece' data-placementId='".$new_placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
 if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
     if ($unitName == "transport") {
