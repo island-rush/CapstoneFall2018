@@ -24,6 +24,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $_SESSION['gameBattleSubSection'] = $r['gameBattleSubSection'];
     $_SESSION['gameBattleLastRoll'] = $r['gameBattleLastRoll'];
     $_SESSION['gameBattleLastMessage'] = $r['gameBattleLastMessage'];
+    $_SESSION['gameBattlePosSelected'] = $r['gameBattlePosSelected'];
 
     //If other team has joined, one of these values will be 1...go directly to playGame
     if ($r['gameRedJoined'] == 1 || $r['gameBlueJoined'] == 1) {

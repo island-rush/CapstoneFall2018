@@ -28,6 +28,7 @@ $gameId = $_SESSION['gameId'];
             let gameCurrentTeam = "<?php echo $_SESSION['gameCurrentTeam']; ?>";
             let myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
+            let gameBattlePosSelected = "<?php echo $_SESSION['gameBattlePosSelected']; ?>";
             let gameBattleSection = "<?php echo $_SESSION['gameBattleSection']; ?>";
             let gameBattleSubSection = "<?php echo $_SESSION['gameBattleSubSection']; ?>";
             let gameBattleLastRoll = "<?php echo $_SESSION['gameBattleLastRoll']; ?>";
@@ -75,13 +76,13 @@ $gameId = $_SESSION['gameId'];
                     <div id="team_indicator">Current Team = Loading...</div>
                     <button id="undo_button" onclick="pieceMoveUndo();">Undo Movement</button>
                     <button id="phase_button" onclick="changePhase();">Next Phase</button>
-                    <button id="battle_button">Start Battle</button>
+                    <button id="battle_button" onclick="battleChangeSection('selectPos');">Start Battle</button>
                 </div>
             </div>
 
             <div id="game_board" onclick="gameboardClick(event, this);">
                 <div class="gridblockLeftBig" id="special_island13">
-                    <div class="gridblockTiny" data-positionType="land" id="pos13a" data-positionId="55" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 55; include("pieceDisplay.php"); ?></div>
+                    <div class="gridblockTiny" data-positionType="land" id="pos13a" data-positionId="55" data-positionContainerId="999999" onclick="landClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 55; include("pieceDisplay.php"); ?></div>
                     <div class="gridblockTiny" data-positionType="land" id="pos13b" data-positionId="56" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 56; include("pieceDisplay.php"); ?></div>
                     <div class="gridblockTiny" data-positionType="land" id="pos13c" data-positionId="57" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 57; include("pieceDisplay.php"); ?></div>
                     <div class="gridblockTiny" data-positionType="land" id="pos13d" data-positionId="58" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 58; include("pieceDisplay.php"); ?></div>

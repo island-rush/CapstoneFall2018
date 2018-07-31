@@ -23,6 +23,22 @@ function waterClick(event, callingElement) {
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
     clearHighlighted();
+
+    if (gameBattleSection === "selectPos") {
+        battleSelectPosition(callingElement.getAttribute("data-positionId"));
+    }
+
+    event.stopPropagation();
+}
+
+
+function landClick(event, callingElement) {
+    event.preventDefault();
+
+    if (gameBattleSection === "selectPos") {
+        battleSelectPosition(callingElement.getAttribute("data-positionId"));
+    }
+
     event.stopPropagation();
 }
 
@@ -78,6 +94,12 @@ function pieceClick(event, callingElement) {
     };
     phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
     phpAvailableMoves.send();
+
+
+    if (gameBattleSection === "selectPos") {
+        battleSelectPosition(callingElement.parentNode.getAttribute("data-positionId"));
+    }
+
     event.stopPropagation();
 }
 
@@ -336,7 +358,7 @@ function bodyLoader() {
         document.getElementById("battle_button").disabled = true;
     }
 
-    if (gameBattleSection !== "none") {
+    if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
         document.getElementById("battleZonePopup").style.display = "block";
         if (gameBattleSubSection !== "choosing_pieces") {
             document.getElementById("battleActionPopup").style.display = "block";
@@ -382,8 +404,54 @@ function battleAttackCenter(type) {
 
 function battleChangeSection(newSection) {
 
+    // if (newSection === "selectPos") {
+    //     //html update
+    //     //database update
+    // } else if (newSection === "selectPieces") {
+    //
+    // }
+    //
+    //
+    // if (newSection === "attack") {
+    //     gameBattleSection = "attack";
+    //     gameBattleSubSection = "choosing_pieces";
+    //     document.getElementById("attackButton").innerHTML = "Attack section";
+    //     document.getElementById("attackButton").onclick = function() { attackCenter("attack"); };
+    //     document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+    //     document.getElementById("changeSectionButton").onclick = function() { changeSection("counter") };
+    //     document.getElementById("battleZonePopup").style.display = "block";
+    // } else if (newSection === "counter") {
+    //     gameBattleSection = "counter";
+    //     gameBattleSubSection = "choosing_pieces";
+    //     document.getElementById("attackButton").innerHTML = "Counter Attack";
+    //     document.getElementById("attackButton").onclick = function() { attackCenter("defend"); };
+    //     document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+    //     document.getElementById("changeSectionButton").onclick = function() { changeSection("ask_repeat") };
+    // } else if (newSection === "ask_repeat") {
+    //     gameBattleSection = "ask_repeat";
+    //     document.getElementById("attackButton").innerHTML = "Click to Repeat";
+    //     document.getElementById("attackButton").onclick = function() { changeSection("attack") };
+    //     document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
+    //     document.getElementById("changeSectionButton").onclick = function() { changeSection("none") };
+    //     document.getElementById("attackButton").disabled = false;
+    // } else {
+    //     gameBattleSection = "none";
+    //     document.getElementById("battleZonePopup").style.display = "none";
+    // }
+
+    // let phpBattleUpdate = new XMLHttpRequest();
+    // phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected, true);
+    // phpBattleUpdate.send();
 }
 
+
+function battleSelectPosition(positionId) {
+    //display "are you sure?" or something before moving on...
+
+    gameBattlePosSelected = positionId;
+
+    battleChangeSection('selectPieces');
+}
 
 
 
