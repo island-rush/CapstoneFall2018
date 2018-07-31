@@ -5,7 +5,11 @@ $positionSelected = $_REQUEST['positionSelected'];
 $gameId = $_REQUEST['gameId'];
 $defenseTeam = $_REQUEST['defenseTeam'];
 
-$query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (placementUnitId = unitId)';
+
+//if land battle, dont worry about containers
+//if water battle, dont get pieces within containers
+
+$query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementBattleUsed = 0) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (unitTerrain != "ground") AND (placementUnitId = unitId)';
 $query = $db->prepare($query);
 $query->bind_param("iis", $gameId, $positionSelected, $defenseTeam);
 $query->execute();
@@ -20,8 +24,6 @@ if ($num_results > 0) {
         $placementCurrentMoves = $r['placementCurrentMoves'];
         $placementPositionId = $r['placementPositionId'];
         $placementContainerId = $r['placementContainerId'];
-        $placementTeamId = $r['placementTeamId'];
-        $placementBattleUsed = $r['placementBattleUsed'];
         $unitId = $r['unitId'];
         $unitName = $r['unitName'];
         $unitTerrain = $r['unitTerrain'];
@@ -35,15 +37,7 @@ if ($num_results > 0) {
         $query2->execute();
 
         echo "<div class='".$unitName." game_piece' data-wasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
-
     }
 }
-
-
-
-
-
-
-
 
 $db->close();
