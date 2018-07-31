@@ -403,45 +403,31 @@ function battleAttackCenter(type) {
 
 
 function battleChangeSection(newSection) {
+    gameBattleSection = newSection;
 
-    // if (newSection === "selectPos") {
-    //     //html update
-    //     //database update
-    // } else if (newSection === "selectPieces") {
-    //
-    // }
-    //
-    //
-    // if (newSection === "attack") {
-    //     gameBattleSection = "attack";
-    //     gameBattleSubSection = "choosing_pieces";
-    //     document.getElementById("attackButton").innerHTML = "Attack section";
-    //     document.getElementById("attackButton").onclick = function() { attackCenter("attack"); };
-    //     document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
-    //     document.getElementById("changeSectionButton").onclick = function() { changeSection("counter") };
-    //     document.getElementById("battleZonePopup").style.display = "block";
-    // } else if (newSection === "counter") {
-    //     gameBattleSection = "counter";
-    //     gameBattleSubSection = "choosing_pieces";
-    //     document.getElementById("attackButton").innerHTML = "Counter Attack";
-    //     document.getElementById("attackButton").onclick = function() { attackCenter("defend"); };
-    //     document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
-    //     document.getElementById("changeSectionButton").onclick = function() { changeSection("ask_repeat") };
-    // } else if (newSection === "ask_repeat") {
-    //     gameBattleSection = "ask_repeat";
-    //     document.getElementById("attackButton").innerHTML = "Click to Repeat";
-    //     document.getElementById("attackButton").onclick = function() { changeSection("attack") };
-    //     document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
-    //     document.getElementById("changeSectionButton").onclick = function() { changeSection("none") };
-    //     document.getElementById("attackButton").disabled = false;
-    // } else {
-    //     gameBattleSection = "none";
-    //     document.getElementById("battleZonePopup").style.display = "none";
-    // }
+    if (newSection === "selectPos") {
+        //html update for selectPos phase
 
-    // let phpBattleUpdate = new XMLHttpRequest();
-    // phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected, true);
-    // phpBattleUpdate.send();
+    } else if (newSection === "selectPieces") {
+        //html update for selectPieces phase
+
+    } else if (newSection === "attack") {
+        //html update for attack phase
+
+    } else if (newSection === "counter") {
+        //html update for counter phase
+
+    } else if (newSection === "askRepeat") {
+        //html update for askRepeat phase
+
+    } else if (newSection === "none") {
+        //html update for none phase
+
+    }
+
+    let phpBattleUpdate = new XMLHttpRequest();
+    phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected, true);
+    phpBattleUpdate.send();
 }
 
 
@@ -449,6 +435,10 @@ function battleSelectPosition(positionId) {
     //display "are you sure?" or something before moving on...
 
     gameBattlePosSelected = positionId;
+
+    //php file to auto grab the defense pieces and create the battle pieces from them?
+
+    //create the battle pieces and put them into the boxId for the popup (its still hidden at this point)
 
     battleChangeSection('selectPieces');
 }
