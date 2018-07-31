@@ -257,10 +257,14 @@ html, body {
     float: left;
     position: relative;
     z-index: 15;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: 98% 98%;
+    background-position: center;
 }
 .transport{background-color: black;}
 .submarine{background-color: red;}
-.destroyer{background-color: indianred;}
+.destroyer{background-image: url("resources/unitImages/test_piece.png");}
 .aircraftCarrier{background-color: yellow;}
 .soldier{background-color: lightgreen;}
 .artillery{background-color: greenyellow;}
@@ -323,28 +327,28 @@ html, body {
     width: 50%;
 }
 
-#unused_attacker > .game_piece{
+#unused_attacker > .gamPiece{
     width: 33%;
     height: 40px;
 }
-#unused_defender > .game_piece{
+#unused_defender > .gamePiece{
     width: 33%;
     height: 40px;
 }
-#used_attacker > .game_piece{
+#used_attacker > .gamePiece{
     width: 33%;
     height: 40px;
 }
-#used_defender > .game_piece{
+#used_defender > .gamePiece{
     width: 33%;
     height: 40px;
 }
 
-#center_attacker > .game_piece{
+#center_attacker > .gamePiece{
     width: 40px;
     height: 40px;
 }
-#center_defender > .game_piece{
+#center_defender > .gamePiece{
     width: 40px;
     height: 40px;
 }

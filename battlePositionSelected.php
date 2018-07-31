@@ -39,7 +39,7 @@ if ($num_results > 0) {
         $query2->bind_param("iiis", $placementId, $gameId, $unitId, $wasHit);
         $query2->execute();
 
-        echo "<div class='".$unitName." game_piece' data-wasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
+        echo "<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
     }
 }
 
