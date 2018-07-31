@@ -25,7 +25,7 @@ function waterClick(event, callingElement) {
     clearHighlighted();
 
     if (gameBattleSection === "selectPos") {
-        battleSelectPosition(callingElement.getAttribute("data-positionId"));
+        gameBattlePosSelected = callingElement.getAttribute("data-positionId");
     }
 
     event.stopPropagation();
@@ -157,9 +157,6 @@ function piecePurchase(event, purchaseButton) {
             if (this.readyState === 4 && this.status === 200) {
                 let parent = document.getElementById("purchased_container");
                 parent.innerHTML += this.responseText;
-                // if (unitName === "transport"  || unitName === "aircraftCarrier" || unitName === "lav") {
-                //     document.getElementById("purchased_container").lastChild.firstChild.style.display = "none";
-                // }
             }
         };
         phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
@@ -407,12 +404,17 @@ function battleChangeSection(newSection) {
 
     if (newSection === "selectPos") {
         //html update for selectPos phase
+        document.getElementById("battle_button").onclick = function() { battleSelectPosition(gameBattlePosSelected); };
+        document.getElementById("battle_button").innerHTML = "Select Pieces";
+
 
     } else if (newSection === "selectPieces") {
-        //html update for selectPieces phase
+        document.getElementById("battle_button").onclick = function() { battleChangeSection("attack"); };
+        document.getElementById("battle_button").innerHTML = "Start Battle";
 
     } else if (newSection === "attack") {
         //html update for attack phase
+        //pop the battlezone...
 
     } else if (newSection === "counter") {
         //html update for counter phase
@@ -432,18 +434,29 @@ function battleChangeSection(newSection) {
 
 
 function battleSelectPosition(positionId) {
-    //display "are you sure?" or something before moving on...
+    let defenseTeam;
+    if (gameCurrentTeam === "Red") {
+        defenseTeam = "Blue";
+    } else {
+        defenseTeam = "Red";
+    }
 
-    gameBattlePosSelected = positionId;
+    let phpPositionSelect = new XMLHttpRequest();
+    phpPositionSelect.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+            alert(this.responseText);
+            document.getElementById("unused_defender").innerHTML += this.responseText;
+        }
+    };
+    phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + positionId + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam, true);
+    phpPositionSelect.send();
 
-    let positionThing = document.querySelector("[data-positionId='" + positionId + "']");
+    battleChangeSection("selectPieces");
+}
 
 
-    //php file to auto grab the defense pieces and create the battle pieces from them?
+function battlePieceClick(event, callingElement) {
 
-    //create the battle pieces and put them into the boxId for the popup (its still hidden at this point)
-
-    battleChangeSection('selectPieces');
 }
 
 
