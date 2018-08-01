@@ -453,9 +453,7 @@ function changePhase() {
 }
 
 
-function battleAttackCenter(type) {
 
-}
 
 
 function battleChangeSection(newSection) {
@@ -469,12 +467,10 @@ function battleChangeSection(newSection) {
         document.getElementById("battle_button").innerHTML = "Start Battle";
     } else if (newSection === "attack") {
         document.getElementById("battleZonePopup").style.display = "block";
-        gameBattleSubSection = "choosing_pieces";
         document.getElementById("attackButton").innerHTML = "Attack section";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
-
     } else if (newSection === "counter") {
         document.getElementById("attackButton").innerHTML = "Counter Attack";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
@@ -488,7 +484,6 @@ function battleChangeSection(newSection) {
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
     } else if (newSection === "none") {
         document.getElementById("battleZonePopup").style.display = "none";
-
     }
 
     let phpBattleUpdate = new XMLHttpRequest();
@@ -602,6 +597,58 @@ function battlePieceClick(event, callingElement) {
 }
 
 
+
 function battleEndRoll() {
 
 }
+
+
+function battleAttackCenter(type) {
+    let attackUnitId;
+    let defendUnitId;
+    let pieceAttacked;
+    if (type === "attack") {
+        attackUnitId = document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId");
+        defendUnitId = document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId");
+        pieceAttacked = document.getElementById("center_defender").childNodes[0];
+    } else {
+        attackUnitId = document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId");
+        defendUnitId = document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId");
+        pieceAttacked = document.getElementById("center_attacker").childNodes[0];
+    }
+
+    let phpAttackCenter = new XMLHttpRequest();
+    phpAttackCenter.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let decoded = JSON.parse(this.responseText);
+            let new_gameBattleSubSection = decoded.new_gameBattleSubSection;
+
+            let actionButton = document.getElementById("actionPopupButton");
+            if (new_gameBattleSubSection === "defense_bonus") {
+                actionButton.innerHTML = "HIT! Roll for Defense Bonus";
+                actionButton.onclick = function() { battleAttackCenter("defend"); };
+            } else if (new_gameBattleSubSection === "continue_choosing") {
+                actionButton.innerHTML = "click to go back to Choosing";
+                actionButton.onclick = function() { battleEndRoll(); };
+            }
+
+            if (decoded.wasHit === "true") {
+                pieceAttacked.setAttribute("data-wasHit", "true");
+                let phpBattlePieceHit = new XMLHttpRequest();
+                phpBattlePieceHit.open("POST", "battlePieceHit.php?pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
+                phpBattlePieceHit.send();
+            }
+
+            gameBattleLastRoll = decoded.lastRoll;
+            gameBattleSubSection = decoded.new_gameBattleSubSection;
+
+            battleChangeSection(gameBattleSection);  //This call to change roll and subsection
+
+            document.getElementById("actionPopup").style.display = "block";
+        }
+    };
+    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitIt=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection, true);
+    phpAttackCenter.send();
+}
+
+
