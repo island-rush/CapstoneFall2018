@@ -78,7 +78,7 @@ $gameId = $_SESSION['gameId'];
                     <div id="team_indicator">Current Team = Loading...</div>
                     <button id="undo_button" onclick="pieceMoveUndo();">Undo Movement</button>
                     <button id="phase_button" onclick="changePhase();">Next Phase</button>
-                    <button id="battle_button" disabled>Select Battle</button>
+                    <button id="battle_button">Loading...</button>
                 </div>
             </div>
 
@@ -266,11 +266,11 @@ $gameId = $_SESSION['gameId'];
                     <div id="center_defender" data-boxId="6"><?php $boxId = 6; include("battlePieceDisplay.php"); ?></div>
                     <div id="battle_outcome"></div>
                     <div id="battle_buttons">
-                        <button id="attackButton" onclick="battleAttackCenter('attack')" disabled>Attack!</button>
-                        <button id="changeSectionButton" onclick="battleChangeSection('counter')">End My Turn</button>
+                        <button id="attackButton" disabled>Loading...</button>
+                        <button id="changeSectionButton">Loading...</button>
                     </div>
                     <div id="battleActionPopup">
-                        <button id="actionPopupButton">Button?</button>
+                        <button id="actionPopupButton">Loading...</button>
                     </div>
                 </div>
             </div>

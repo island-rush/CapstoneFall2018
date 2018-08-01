@@ -171,7 +171,7 @@ function piecePurchase(event, purchaseButton) {
         phpPurchaseRequest.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let parent = document.getElementById("purchased_container");
-                parent.innerHTML += this.responseText;
+                parent.innerHTML = this.responseText;
             }
         };
         phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
@@ -367,9 +367,6 @@ function bodyLoader() {
 
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
         document.getElementById("battleZonePopup").style.display = "block";
-        if (gameBattleSubSection !== "choosing_pieces") {
-            document.getElementById("battleActionPopup").style.display = "block";
-        }
     }
 
     if (gameBattleSection === "none") {
@@ -389,7 +386,40 @@ function bodyLoader() {
         document.getElementById("battle_button").innerHTML = "Select Battle";
     }
 
+    //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
+    if (gameBattleSubSection !== "choosing_pieces") {
+        document.getElementById("actionPopup").style.display = "block";
+        if (gameBattleSubSection === "defense_bonus") {
+            document.getElementById("actionButton").innerHTML = "click to roll for defense bonus";
+            document.getElementById("actionButton").onclick = function() { battleAttackCenter("defend"); };
+        } else if (gameBattleSubSection === "continue_choosing") {
+            document.getElementById("actionButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
+            document.getElementById("actionButton").onclick = function() { battleEndRoll(); };
+        }
+    }
 
+    if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
+        document.getElementById("attackButton").disabled = false;
+    }
+
+    //could consolidate these with a call to change section (with same section)
+    if (gameBattleSection === "attack") {
+        document.getElementById("attackButton").innerHTML = "Attack section";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
+    } else if (gameBattleSection === "counter") {
+        document.getElementById("attackButton").innerHTML = "Counter Attack";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("ask_repeat") };
+    } else if (gameBattleSection === "askRepeat") {
+        document.getElementById("attackButton").innerHTML = "Click to Repeat";
+        document.getElementById("attackButton").disabled = false;
+        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+    }
 }
 
 
@@ -432,27 +462,32 @@ function battleChangeSection(newSection) {
     gameBattleSection = newSection;
 
     if (newSection === "selectPos") {
-        //html update for selectPos phase
         document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
-
-
     } else if (newSection === "selectPieces") {
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("battle_button").innerHTML = "Start Battle";
-
     } else if (newSection === "attack") {
-        //html update for attack phase
-        //pop the battlezone...
+        document.getElementById("battleZonePopup").style.display = "block";
+        gameBattleSubSection = "choosing_pieces";
+        document.getElementById("attackButton").innerHTML = "Attack section";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
 
     } else if (newSection === "counter") {
-        //html update for counter phase
-
+        document.getElementById("attackButton").innerHTML = "Counter Attack";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("ask_repeat") };
     } else if (newSection === "askRepeat") {
-        //html update for askRepeat phase
-
+        document.getElementById("attackButton").innerHTML = "Click to Repeat";
+        document.getElementById("attackButton").disabled = false;
+        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
     } else if (newSection === "none") {
-        //html update for none phase
+        document.getElementById("battleZonePopup").style.display = "none";
 
     }
 
@@ -477,9 +512,7 @@ function battleSelectPieces() {
     let phpPiecesSelect = new XMLHttpRequest();
     phpPiecesSelect.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            alert(this.responseText);
             document.getElementById("unused_attacker").innerHTML += this.responseText;
-            document.getElementById("battleZonePopup").style.display = "block";
         }
     };
     phpPiecesSelect.open("POST", "battlePiecesSelected.php?sentArray=" + sentArray + "&gameId=" + gameId + "&attackTeam=" + gameCurrentTeam, true);
@@ -507,7 +540,7 @@ function battleSelectPosition() {
     phpPositionSelect.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             let decoded = JSON.parse(this.responseText);
-            document.getElementById("unused_defender").innerHTML += decoded.htmlString;
+            document.getElementById("unused_defender").innerHTML = decoded.htmlString;
             gameBattleAdjacentArray = decoded.adjacentArray;
         }
     };
@@ -523,8 +556,52 @@ function battleSelectPosition() {
 
 
 function battlePieceClick(event, callingElement) {
-
+    event.preventDefault();
+    let boxId = callingElement.parentNode.getAttribute("data-boxId");
+    let battlePieceId = callingElement.getAttribute("data-battlePieceId");
+    let phpMoveBattlePiece = new XMLHttpRequest();
+    if (boxId === "5" || boxId === "6") {
+        if (boxId === "5") {
+            //box 5 -> 1
+            document.getElementById("center_attacker").removeChild(callingElement);
+            document.getElementById("unused_attacker").appendChild(callingElement);
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=1", true);
+            phpMoveBattlePiece.send();
+        } else {
+            //box 6 -> 2
+            document.getElementById("center_defender").removeChild(callingElement);
+            document.getElementById("unused_defender").appendChild(callingElement);
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=2", true);
+            phpMoveBattlePiece.send();
+        }
+    } else {
+        if (boxId === "1") {
+            //box 1 -> 5
+            if (document.getElementById("center_attacker").childNodes.length === 0) {
+                document.getElementById("unused_attacker").removeChild(callingElement);
+                document.getElementById("center_attacker").appendChild(callingElement);
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=5", true);
+                phpMoveBattlePiece.send();
+            }
+        } else {
+            //box 2 -> 6
+            if (document.getElementById("center_defender").childNodes.length === 0) {
+                document.getElementById("unused_defender").removeChild(callingElement);
+                document.getElementById("center_defender").appendChild(callingElement);
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=6", true);
+                phpMoveBattlePiece.send();
+            }
+        }
+    }
+    if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
+        document.getElementById("attackButton").disabled = false;
+    } else {
+        document.getElementById("attackButton").disabled = true;
+    }
+    event.stopPropagation();
 }
 
 
+function battleEndRoll() {
 
+}
