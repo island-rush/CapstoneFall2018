@@ -634,9 +634,6 @@ function battleAttackCenter(type) {
 
             if (decoded.wasHit === "true") {
                 pieceAttacked.setAttribute("data-wasHit", "true");
-                let phpBattlePieceHit = new XMLHttpRequest();
-                phpBattlePieceHit.open("POST", "battlePieceHit.php?pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
-                phpBattlePieceHit.send();
             }
 
             gameBattleLastRoll = decoded.lastRoll;

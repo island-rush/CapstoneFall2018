@@ -34,3 +34,14 @@ if ($wasHit == "true" && $gameBattleSection == "attack" && $gameBattleSubSection
 
 $arr = array('lastRoll' => $lastRoll, 'wasHit' => $wasHit, 'new_gameBattleSubSection' => $nextThing);
 echo json_encode($arr);
+
+if ($wasHit == "true") {
+    include("db.php");
+    $pieceId = $_REQUEST['pieceId'];
+    $hit = 1;
+    $query = 'UPDATE battlePieces SET battlePieceWasHit = ? WHERE (battlePieceId = ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("ii", $hit, $pieceId);
+    $query->execute();
+    $db->close();
+}
