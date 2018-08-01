@@ -9,9 +9,11 @@ function islandClick(event, callingElement) {
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
     clearHighlighted();
-    document.getElementsByClassName(callingElement.id)[0].style.display = "block";
-    callingElement.style.zIndex = 20;  //default for a gridblock is 10
-    callingElement.setAttribute("data-islandPopped", "true");
+    if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
+        document.getElementsByClassName(callingElement.id)[0].style.display = "block";
+        callingElement.style.zIndex = 20;  //default for a gridblock is 10
+        callingElement.setAttribute("data-islandPopped", "true");
+    }
     event.stopPropagation();
 }
 
@@ -388,7 +390,7 @@ function bodyLoader() {
 
     //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
     if (gameBattleSubSection !== "choosing_pieces") {
-        document.getElementById("actionPopup").style.display = "block";
+        document.getElementById("battleActionPopup").style.display = "block";
         if (gameBattleSubSection === "defense_bonus") {
             document.getElementById("actionButton").innerHTML = "click to roll for defense bonus";
             document.getElementById("actionButton").onclick = function() { battleAttackCenter("defend"); };
@@ -638,10 +640,10 @@ function battleAttackCenter(type) {
             gameBattleSubSection = decoded.new_gameBattleSubSection;
 
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
-            document.getElementById("actionPopup").style.display = "block";
+            document.getElementById("battleActionPopup").style.display = "block";
         }
     };
-    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitIt=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
+    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
     phpAttackCenter.send();
 }
 
