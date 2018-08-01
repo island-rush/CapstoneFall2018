@@ -78,7 +78,7 @@ $gameId = $_SESSION['gameId'];
                     <div id="team_indicator">Current Team = Loading...</div>
                     <button id="undo_button" onclick="pieceMoveUndo();">Undo Movement</button>
                     <button id="phase_button" onclick="changePhase();">Next Phase</button>
-                    <button id="battle_button" onclick="battleChangeSection('selectPos');">Select Battle</button>
+                    <button id="battle_button" disabled>Select Battle</button>
                 </div>
             </div>
 

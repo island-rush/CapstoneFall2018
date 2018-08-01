@@ -58,54 +58,69 @@ function gameboardClick(event, callingElement) {
 function pieceClick(event, callingElement) {
     event.preventDefault();
     //open container if applicable
-    let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-        hideContainers("transportContainer");
-        hideContainers("aircraftCarrierContainer");
-        hideContainers("lavContainer");
-        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-            callingElement.childNodes[0].style.display = "block";
-            callingElement.style.zIndex = 30;
-            callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
-        }
-    }
-    clearHighlighted();
-    //show the piece's moves
-    let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-    let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-    let phpAvailableMoves = new XMLHttpRequest();
-    phpAvailableMoves.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let decoded = JSON.parse(this.responseText);
-            let g;
-            for (g = 0; g < decoded.length; g++) {
-                let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-                gridThing.classList.add("highlighted");
-                if (gridThing.classList[0] === "gridblockTiny") {
-                    let parent = gridThing.parentNode;
-                    let parclass = parent.classList;
-                    if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-                        let islandsquare = document.getElementById(parclass[0]);
-                        islandsquare.classList.add("highlighted");
-                    }
+    if (gameBattleSection === "selectPieces") {
+        if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
+            if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
+                if (callingElement.classList.contains("selected")) {
+                    callingElement.classList.remove("selected");
+                } else {
+                    callingElement.classList.add("selected");
                 }
             }
         }
-    };
-    phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-    phpAvailableMoves.send();
+    } else {
+        let unitName = callingElement.getAttribute("data-unitName");
+        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+            hideContainers("transportContainer");
+            hideContainers("aircraftCarrierContainer");
+            hideContainers("lavContainer");
+            if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+                callingElement.childNodes[0].style.display = "block";
+                callingElement.style.zIndex = 30;
+                callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+            }
+        }
+        clearHighlighted();
+        //show the piece's moves
+        let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
+        let thisPos = callingElement.parentNode.getAttribute("data-positionId");
+        let phpAvailableMoves = new XMLHttpRequest();
+        phpAvailableMoves.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let decoded = JSON.parse(this.responseText);
+                let g;
+                for (g = 0; g < decoded.length; g++) {
+                    let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+                    gridThing.classList.add("highlighted");
+                    if (gridThing.classList[0] === "gridblockTiny") {
+                        let parent = gridThing.parentNode;
+                        let parclass = parent.classList;
+                        if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+                            let islandsquare = document.getElementById(parclass[0]);
+                            islandsquare.classList.add("highlighted");
+                        }
+                    }
+                }
+            }
+        };
+        phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
+        phpAvailableMoves.send();
 
 
-    if (gameBattleSection === "selectPos") {
-        battleSelectPosition(callingElement.parentNode.getAttribute("data-positionId"));
+        if (gameBattleSection === "selectPos") {
+            battleSelectPosition(callingElement.parentNode.getAttribute("data-positionId"));
+        }
     }
+
+
+
 
     event.stopPropagation();
 }
 
 function pieceDragstart(event, callingElement) {
     //canMove is dictated by phase and current Team
-    if (canMove === "true" && event.target.getAttribute("data-placementTeamId") === myTeam) {
+    if (canMove === "true" && event.target.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
         //From the container (parent of the piece)
         event.dataTransfer.setData("positionId", event.target.parentNode.getAttribute("data-positionId"));
         //From the Piece
@@ -349,11 +364,6 @@ function clearHighlighted() {
 function bodyLoader() {
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
-    if (canAttack === "true") {
-        document.getElementById("battle_button").disabled = false;
-    } else {
-        document.getElementById("battle_button").disabled = true;
-    }
 
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
         document.getElementById("battleZonePopup").style.display = "block";
@@ -361,6 +371,25 @@ function bodyLoader() {
             document.getElementById("battleActionPopup").style.display = "block";
         }
     }
+
+    if (gameBattleSection === "none") {
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").innerHTML = "Select Battle";
+        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
+    } else if (gameBattleSection === "selectPos") {
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").innerHTML = "Select Pieces";
+        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+    } else if (gameBattleSection === "selectPieces") {
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").innerHTML = "Start Battle";
+        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+    } else {
+        document.getElementById("battle_button").disabled = true;
+        document.getElementById("battle_button").innerHTML = "Select Battle";
+    }
+
+
 }
 
 
@@ -368,7 +397,7 @@ function changePhase() {
     if (canNextPhase === "true") {
         let phpPhaseChange = new XMLHttpRequest();
         phpPhaseChange.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+            if (this.readyState === 4 && this.status === 200) {
                 let decoded = JSON.parse(this.responseText);
                 gamePhase = decoded.gamePhase;
                 gameTurn = decoded.gameTurn;
@@ -404,12 +433,12 @@ function battleChangeSection(newSection) {
 
     if (newSection === "selectPos") {
         //html update for selectPos phase
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(gameBattlePosSelected); };
+        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
 
     } else if (newSection === "selectPieces") {
-        document.getElementById("battle_button").onclick = function() { battleChangeSection("attack"); };
+        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("battle_button").innerHTML = "Start Battle";
 
     } else if (newSection === "attack") {
@@ -433,8 +462,39 @@ function battleChangeSection(newSection) {
 }
 
 
-function battleSelectPosition(positionId) {
-    let battleTerrain = document.querySelector("[data-positionId='" + positionId + "']").getAttribute("data-positionType");
+function battleSelectPieces() {
+
+    let parameterArray = [];
+
+    let allPieces = document.getElementsByClassName("selected");
+    let x;
+    for (x = 0; x < allPieces.length; x++) {
+        parameterArray.push(allPieces[x].getAttribute("data-placementId"));
+    }
+
+    let sentArray = JSON.stringify(parameterArray);
+
+    let phpPiecesSelect = new XMLHttpRequest();
+    phpPiecesSelect.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            alert(this.responseText);
+            document.getElementById("unused_attacker").innerHTML += this.responseText;
+            document.getElementById("battleZonePopup").style.display = "block";
+        }
+    };
+    phpPiecesSelect.open("POST", "battlePiecesSelected.php?sentArray=" + sentArray + "&gameId=" + gameId + "&attackTeam=" + gameCurrentTeam, true);
+    phpPiecesSelect.send();
+
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    battleChangeSection("attack");
+}
+
+
+function battleSelectPosition() {
+    let battleTerrain = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").getAttribute("data-positionType");
     let defenseTeam;
 
     if (gameCurrentTeam === "Red") {
@@ -445,15 +505,19 @@ function battleSelectPosition(positionId) {
 
     let phpPositionSelect = new XMLHttpRequest();
     phpPositionSelect.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+        if (this.readyState === 4 && this.status === 200) {
             let decoded = JSON.parse(this.responseText);
             document.getElementById("unused_defender").innerHTML += decoded.htmlString;
             gameBattleAdjacentArray = decoded.adjacentArray;
         }
     };
-    phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + positionId + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam + "&battleTerrain=" + battleTerrain, true);
+    phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + gameBattlePosSelected + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam + "&battleTerrain=" + battleTerrain, true);
     phpPositionSelect.send();
 
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
     battleChangeSection("selectPieces");
 }
 

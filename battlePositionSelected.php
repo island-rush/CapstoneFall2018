@@ -31,12 +31,12 @@ if ($num_results > 0) {
         $unitId = $r['unitId'];
         $unitName = $r['unitName'];
 
-        $wasHit = "false";
+        $wasHit = 0;
         $pieceState = 2;  // unused_defender boxId
 
         $query2 = 'INSERT INTO battlePieces (battlePieceId, battleGameId, battlePieceState, battlePieceWasHit) VALUES(?, ?, ?, ?)';
         $query2 = $db->prepare($query2);
-        $query2->bind_param("iiis", $placementId, $gameId, $unitId, $wasHit);
+        $query2->bind_param("iiii", $placementId, $gameId, $pieceState, $wasHit);
         $query2->execute();
 
         $htmlString = $htmlString."<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";

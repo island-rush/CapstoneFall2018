@@ -1,5 +1,5 @@
 <?php
-$query = 'SELECT * FROM battlePieces NATURAL JOIN placements NATURAL JOIN units WHERE (battlePieceState = ?) AND (battleGameId = ?) AND (battlePieceId = placementId)';
+$query = 'SELECT * FROM battlePieces NATURAL JOIN placements NATURAL JOIN units WHERE (battlePieceState = ?) AND (battleGameId = ?) AND (placementUnitId = unitId) AND (battlePieceId = placementId)';
 $query = $db->prepare($query);
 $query->bind_param("ii", $boxId, $gameId);
 $query->execute();
@@ -13,7 +13,7 @@ if ($num_results > 0) {
         $unitId = $r['unitId'];
         $wasHit = $r['battlePieceWasHit'];
 
-        echo "<div class='".$unitName." game_piece' data-wasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$battlePieceId."' onclick='battlePieceClick(event, this)'></div>";
+        echo "<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$battlePieceId."' onclick='battlePieceClick(event, this)'></div>";
     }
 }
 unset($boxId);
