@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("db.php");
 
 $positionSelected = $_REQUEST['positionSelected'];
@@ -19,17 +20,16 @@ $query->execute();
 $results = $query->get_result();
 $num_results = $results->num_rows;
 
+$htmlString = "";
+$adjacentArray = [];
+
 if ($num_results > 0) {
     for ($i=0; $i < $num_results; $i++) {
         //for each piece in the position....create a battle piece in the unused_defender state and echo the html for it
         $r= $results->fetch_assoc();
         $placementId = $r['placementId'];
-        $placementCurrentMoves = $r['placementCurrentMoves'];
-        $placementPositionId = $r['placementPositionId'];
-        $placementContainerId = $r['placementContainerId'];
         $unitId = $r['unitId'];
         $unitName = $r['unitName'];
-        $unitTerrain = $r['unitTerrain'];
 
         $wasHit = "false";
         $pieceState = 2;  // unused_defender boxId
@@ -39,8 +39,26 @@ if ($num_results > 0) {
         $query2->bind_param("iiis", $placementId, $gameId, $unitId, $wasHit);
         $query2->execute();
 
-        echo "<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
+        $htmlString = $htmlString."<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
     }
 }
+
+
+$n = sizeof($_SESSION['dist'][0]);
+for ($j = 0; $j < $n; $j++) {
+    if ($n != $positionSelected) {
+        if ($_SESSION['dist'][$positionSelected][$j] == 1) {
+            array_push($adjacentArray, $j);
+        }
+    }
+}
+
+
+$_SESSION['gameBattleAdjacentArray'] = json_encode($adjacentArray);
+
+
+$arr = array('htmlString' => $htmlString, 'adjacentArray' => $adjacentArray);
+echo json_encode($arr);
+
 
 $db->close();

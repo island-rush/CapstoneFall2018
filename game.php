@@ -8,7 +8,6 @@ $gameId = $_SESSION['gameId'];
     <head>
         <title>Island Rush Game</title>
         <link rel="stylesheet" type="text/css" href="game.css">
-        <script src="game.js"></script>
         <script type="text/javascript">
             let phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
             let unitsMoves = <?php $query = 'SELECT * FROM units'; $query = $db->prepare($query); $query->execute(); $results = $query->get_result(); $num_results = $results->num_rows; $arr = array();
@@ -34,6 +33,8 @@ $gameId = $_SESSION['gameId'];
             let gameBattleLastRoll = "<?php echo $_SESSION['gameBattleLastRoll']; ?>";
             let gameBattleLastMessage = "<?php echo $_SESSION['gameBattleLastMessage']; ?>";
 
+            let gameBattleAdjacentArray = <?php echo $_SESSION['gameBattleAdjacentArray'] ?>;
+
             let canMove = "<?php echo $_SESSION['canMove']; ?>";
             let canPurchase = "<?php echo $_SESSION['canPurchase']; ?>";
             let canUndo = "<?php echo $_SESSION['canUndo']; ?>";
@@ -43,6 +44,7 @@ $gameId = $_SESSION['gameId'];
 
             let hoverTimer;
         </script>
+        <script src="game.js"></script>
     </head>
 
     <body onload="bodyLoader();">

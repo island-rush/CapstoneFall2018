@@ -446,9 +446,9 @@ function battleSelectPosition(positionId) {
     let phpPositionSelect = new XMLHttpRequest();
     phpPositionSelect.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
-            // alert(this.responseText);
-            document.getElementById("unused_defender").innerHTML += this.responseText;
-            document.getElementById("battleZonePopup").style.display = "block";
+            let decoded = JSON.parse(this.responseText);
+            document.getElementById("unused_defender").innerHTML += decoded.htmlString;
+            gameBattleAdjacentArray = decoded.adjacentArray;
         }
     };
     phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + positionId + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam + "&battleTerrain=" + battleTerrain, true);

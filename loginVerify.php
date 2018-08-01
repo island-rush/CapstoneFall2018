@@ -26,6 +26,8 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $_SESSION['gameBattleLastMessage'] = $r['gameBattleLastMessage'];
     $_SESSION['gameBattlePosSelected'] = $r['gameBattlePosSelected'];
 
+    $_SESSION['gameBattleAdjacentArray'] = json_encode([]);
+
     //If other team has joined, one of these values will be 1...go directly to playGame
     if ($r['gameRedJoined'] == 1 || $r['gameBlueJoined'] == 1) {
         header("location:game.php");
@@ -139,7 +141,6 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
             $arraySize = count($data);
             for ($i=0; $i < $arraySize; $i++) {
                 $_SESSION['dist'][$counter][$i] = $data[$i];
-                $_SESSION['adjacency'][$counter][$i] = $data[$i];
             }
             $counter++;
         }
