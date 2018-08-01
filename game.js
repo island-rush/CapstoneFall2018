@@ -455,9 +455,6 @@ function changePhase() {
 }
 
 
-
-
-
 function battleChangeSection(newSection) {
     gameBattleSection = newSection;
 
@@ -599,9 +596,82 @@ function battlePieceClick(event, callingElement) {
 }
 
 
-
 function battleEndRoll() {
+    gameBattleSubSection = "choosing_pieces";  //always defaults to this first
 
+    let centerAttack = document.getElementById("center_attacker");
+    let centerDefend = document.getElementById("center_defender");
+    let usedAttack = document.getElementById("used_attacker");
+    let usedDefend = document.getElementById("used_defender");
+    let unusedAttack = document.getElementById("unused_attacker");
+    let unusedDefend = document.getElementById("unused_defender");
+
+    let centerAttackPiece = centerAttack.childNodes[0];
+    let centerDefendPiece = centerDefend.childNodes[0];
+
+    alert(centerAttackPiece.getAttribute("data-wasHit"));
+
+    if (parseInt(centerAttackPiece.getAttribute("data-wasHit")) === 1) {
+        let pieceId = centerAttackPiece.getAttribute("data-battlePieceId");
+        document.querySelector("[data-placementId='" + pieceId + "']").remove();  //mainboard
+        centerAttackPiece.remove();  //battlezone
+        let phpPieceDelete = new XMLHttpRequest();
+        phpPieceDelete.open("POST", "battlePieceUpdate.php?battlePieceId=" + pieceId + "&new_battlePieceState=9", true);  // removes the element from the database
+        phpPieceDelete.send();
+    } else {
+        // if (gameBattleSection === "attack") {
+        //     //move piece into used section
+        //     centerAttack.removeChild(centerAttackPiece);
+        //     usedAttack.appendChild(centerAttackPiece);
+        //     //change onclick so can't go back into the center div
+        //     centerAttackPiece.onclick = function() {  };
+        //     //database call to update this piece for battleState?
+        //     let xmlhttp2 = new XMLHttpRequest();
+        //     xmlhttp2.open("POST", "update_battlePiece.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=3", true);
+        //     xmlhttp2.send();
+        // } else {
+        //     //move piece back to unused section
+        //     centerAttack.removeChild(centerAttackPiece);
+        //     unusedAttack.appendChild(centerAttackPiece);
+        //     //database call to change battlepiece
+        //     let xmlhttp2 = new XMLHttpRequest();
+        //     xmlhttp2.open("POST", "update_battlePiece.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+        //     xmlhttp2.send();
+        // }
+    }
+
+    if (parseInt(centerDefendPiece.getAttribute("data-wasHit")) === 1) {
+        let pieceId = centerDefendPiece.getAttribute("data-battlePieceId");
+        document.querySelector("[data-placementId='" + pieceId + "']").remove();  //mainboard
+        centerDefendPiece.remove();  //battlezone
+        let phpPieceDelete = new XMLHttpRequest();
+        phpPieceDelete.open("POST", "battlePieceUpdate.php?battlePieceId=" + pieceId + "&new_battlePieceState=9", true);  // removes the element from the database
+        phpPieceDelete.send();
+    } else {
+        // if (gameBattleSection === "attack") {
+        //     //move piece into unused section
+        //     centerDefend.removeChild(centerDefendPiece);
+        //     unusedDefend.appendChild(centerDefendPiece);
+        //     //database call for change
+        //     let xmlhttp2 = new XMLHttpRequest();
+        //     xmlhttp2.open("POST", "update_battlePiece.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+        //     xmlhttp2.send();
+        // } else {
+        //     //move piece into the used section
+        //     centerDefend.removeChild(centerDefendPiece);
+        //     usedDefend.appendChild(centerDefendPiece);
+        //     //change onclick so can't go back into the center div
+        //     centerDefendPiece.onclick = function() {  };
+        //     //database call for change
+        //     let xmlhttp2 = new XMLHttpRequest();
+        //     xmlhttp2.open("POST", "update_battlePiece.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=4", true);
+        //     xmlhttp2.send();
+        // }
+    }
+
+    battleChangeSection(gameBattleSection);
+
+    document.getElementById("battleActionPopup").style.display = "none";
 }
 
 
