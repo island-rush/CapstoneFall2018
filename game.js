@@ -632,19 +632,16 @@ function battleAttackCenter(type) {
                 actionButton.onclick = function() { battleEndRoll(); };
             }
 
-            if (decoded.wasHit === "true") {
-                pieceAttacked.setAttribute("data-wasHit", "true");
-            }
+            pieceAttacked.setAttribute("data-wasHit", decoded.wasHit);
 
             gameBattleLastRoll = decoded.lastRoll;
             gameBattleSubSection = decoded.new_gameBattleSubSection;
 
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
-
             document.getElementById("actionPopup").style.display = "block";
         }
     };
-    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitIt=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection, true);
+    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitIt=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
     phpAttackCenter.send();
 }
 
