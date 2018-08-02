@@ -27,10 +27,19 @@ function waterClick(event, callingElement) {
     clearHighlighted();
 
     if (gameBattleSection === "selectPos") {
-        gameBattlePosSelected = callingElement.getAttribute("data-positionId");
+        clearSelectedPos();
+        callingElement.classList.add("selectedPos");
     }
 
     event.stopPropagation();
+}
+
+
+function clearSelectedPos() {
+    let highlighted_things = document.getElementsByClassName("selectedPos");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("selectedPos");
+    }
 }
 
 
@@ -38,7 +47,8 @@ function landClick(event, callingElement) {
     event.preventDefault();
 
     if (gameBattleSection === "selectPos") {
-        battleSelectPosition(callingElement.getAttribute("data-positionId"));
+        clearSelectedPos();
+        callingElement.classList.add("selectedPos");
     }
 
     event.stopPropagation();
@@ -71,52 +81,48 @@ function pieceClick(event, callingElement) {
             }
         }
     } else {
-        let unitName = callingElement.getAttribute("data-unitName");
-        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-            hideContainers("transportContainer");
-            hideContainers("aircraftCarrierContainer");
-            hideContainers("lavContainer");
-            if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-                callingElement.childNodes[0].style.display = "block";
-                callingElement.style.zIndex = 30;
-                callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+        if (gameBattleSection === "selectPos") {
+            clearSelectedPos();
+            callingElement.parentNode.classList.add("selectedPos");
+        } else {
+            let unitName = callingElement.getAttribute("data-unitName");
+            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+                hideContainers("transportContainer");
+                hideContainers("aircraftCarrierContainer");
+                hideContainers("lavContainer");
+                if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+                    callingElement.childNodes[0].style.display = "block";
+                    callingElement.style.zIndex = 30;
+                    callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+                }
             }
-        }
-        clearHighlighted();
-        //show the piece's moves
-        let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-        let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-        let phpAvailableMoves = new XMLHttpRequest();
-        phpAvailableMoves.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let decoded = JSON.parse(this.responseText);
-                let g;
-                for (g = 0; g < decoded.length; g++) {
-                    let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-                    gridThing.classList.add("highlighted");
-                    if (gridThing.classList[0] === "gridblockTiny") {
-                        let parent = gridThing.parentNode;
-                        let parclass = parent.classList;
-                        if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-                            let islandsquare = document.getElementById(parclass[0]);
-                            islandsquare.classList.add("highlighted");
+            clearHighlighted();
+            //show the piece's moves
+            let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
+            let thisPos = callingElement.parentNode.getAttribute("data-positionId");
+            let phpAvailableMoves = new XMLHttpRequest();
+            phpAvailableMoves.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let decoded = JSON.parse(this.responseText);
+                    let g;
+                    for (g = 0; g < decoded.length; g++) {
+                        let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+                        gridThing.classList.add("highlighted");
+                        if (gridThing.classList[0] === "gridblockTiny") {
+                            let parent = gridThing.parentNode;
+                            let parclass = parent.classList;
+                            if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+                                let islandsquare = document.getElementById(parclass[0]);
+                                islandsquare.classList.add("highlighted");
+                            }
                         }
                     }
                 }
-            }
-        };
-        phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-        phpAvailableMoves.send();
-
-
-        if (gameBattleSection === "selectPos") {
-            battleSelectPosition(callingElement.parentNode.getAttribute("data-positionId"));
+            };
+            phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
+            phpAvailableMoves.send();
         }
     }
-
-
-
-
     event.stopPropagation();
 }
 
@@ -579,36 +585,44 @@ function battleSelectPieces() {
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
     clearHighlighted();
+    clearSelectedPos();
+    clearSelected();
     battleChangeSection("attack");
 }
 
 
 function battleSelectPosition() {
-    let battleTerrain = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").getAttribute("data-positionType");
-    let defenseTeam;
-
-    if (gameCurrentTeam === "Red") {
-        defenseTeam = "Blue";
+    if (document.getElementsByClassName("selectedPos").length === 0) {
+        alert("didn't select a position")
     } else {
-        defenseTeam = "Red";
-    }
+        gameBattlePosSelected = document.getElementsByClassName("selectedPos")[0].getAttribute("data-positionId");
 
-    let phpPositionSelect = new XMLHttpRequest();
-    phpPositionSelect.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let decoded = JSON.parse(this.responseText);
-            document.getElementById("unused_defender").innerHTML = decoded.htmlString;
-            gameBattleAdjacentArray = decoded.adjacentArray;
+        let battleTerrain = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").getAttribute("data-positionType");
+        let defenseTeam;
+
+        if (gameCurrentTeam === "Red") {
+            defenseTeam = "Blue";
+        } else {
+            defenseTeam = "Red";
         }
-    };
-    phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + gameBattlePosSelected + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam + "&battleTerrain=" + battleTerrain, true);
-    phpPositionSelect.send();
 
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-    battleChangeSection("selectPieces");
+        let phpPositionSelect = new XMLHttpRequest();
+        phpPositionSelect.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let decoded = JSON.parse(this.responseText);
+                document.getElementById("unused_defender").innerHTML = decoded.htmlString;
+                gameBattleAdjacentArray = decoded.adjacentArray;
+            }
+        };
+        phpPositionSelect.open("POST", "battlePositionSelected.php?positionSelected=" + gameBattlePosSelected + "&gameId=" + gameId + "&defenseTeam=" + defenseTeam + "&battleTerrain=" + battleTerrain, true);
+        phpPositionSelect.send();
+
+        hideContainers("transportContainer");
+        hideContainers("aircraftCarrierContainer");
+        hideContainers("lavContainer");
+        clearHighlighted();
+        battleChangeSection("selectPieces");
+    }
 }
 
 

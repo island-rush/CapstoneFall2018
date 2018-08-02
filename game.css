@@ -356,7 +356,12 @@ html, body {
 .selected {
     background-color: white;
 }
-
+.selectedPos{
+    background-color: black;
+}
+.selectedPos:hover{
+    background-color: black;
+}
 
 /*----------------------------------------------------------------------------------------------*/
 /*ISLAND POSITIONS CSS*/
