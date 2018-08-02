@@ -400,11 +400,11 @@ function bodyLoader() {
     if (gameBattleSubSection !== "choosing_pieces") {
         document.getElementById("battleActionPopup").style.display = "block";
         if (gameBattleSubSection === "defense_bonus") {
-            document.getElementById("actionButton").innerHTML = "click to roll for defense bonus";
-            document.getElementById("actionButton").onclick = function() { battleAttackCenter("defend"); };
+            document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
+            document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "continue_choosing") {
-            document.getElementById("actionButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-            document.getElementById("actionButton").onclick = function() { battleEndRoll(); };
+            document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
+            document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
         }
     }
 
@@ -473,6 +473,7 @@ function battleChangeSection(newSection) {
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("battle_button").innerHTML = "Start Battle";
     } else if (newSection === "attack") {
+        document.getElementById("battle_button").disabled = true;
         clearSelected();
         if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
             document.getElementById("attackButton").disabled = false;
@@ -485,11 +486,11 @@ function battleChangeSection(newSection) {
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
         document.getElementById("changeSectionButton").onclick = function() {
             battleChangeSection("counter");
-            let phpMoveBattlePiece = new XMLHttpRequest();
             let newParent = document.getElementById('unused_attacker');
             let oldParent = document.getElementById('used_attacker');
             while (oldParent.childNodes.length > 0) {
                 oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+                let phpMoveBattlePiece = new XMLHttpRequest();
                 phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
                 phpMoveBattlePiece.send();
                 newParent.appendChild(oldParent.childNodes[0]);
@@ -498,7 +499,8 @@ function battleChangeSection(newSection) {
             oldParent = document.getElementById('used_defender');
             while (oldParent.childNodes.length > 0) {
                 oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+                let phpMoveBattlePiece = new XMLHttpRequest();
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
                 phpMoveBattlePiece.send();
                 newParent.appendChild(oldParent.childNodes[0]);
             }
@@ -509,11 +511,11 @@ function battleChangeSection(newSection) {
         document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
     } else if (newSection === "askRepeat") {
-        let phpMoveBattlePiece = new XMLHttpRequest();
         let newParent = document.getElementById('unused_attacker');
         let oldParent = document.getElementById('used_attacker');
         while (oldParent.childNodes.length > 0) {
             oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
             phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
             phpMoveBattlePiece.send();
             newParent.appendChild(oldParent.childNodes[0]);
@@ -522,7 +524,8 @@ function battleChangeSection(newSection) {
         oldParent = document.getElementById('used_defender');
         while (oldParent.childNodes.length > 0) {
             oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
             phpMoveBattlePiece.send();
             newParent.appendChild(oldParent.childNodes[0]);
         }
@@ -533,6 +536,7 @@ function battleChangeSection(newSection) {
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
     } else if (newSection === "none") {
         document.getElementById("battleZonePopup").style.display = "none";
+        document.getElementById("battle_button").disabled = false;
     }
 
     let phpBattleUpdate = new XMLHttpRequest();
