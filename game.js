@@ -709,12 +709,12 @@ function battleEndRoll() {
             centerDefend.removeChild(centerDefendPiece);
             usedDefend.appendChild(centerDefendPiece);
             centerDefendPiece.onclick = function() {  };
-            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=4", true);
             phpBattlePieceUpdate.send();
         } else {
             centerDefend.removeChild(centerDefendPiece);
             unusedDefend.appendChild(centerDefendPiece);
-            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=4", true);
+            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
             phpBattlePieceUpdate.send();
         }
     }

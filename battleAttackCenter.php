@@ -42,5 +42,8 @@ if ($wasHit == 1) {
     $query = $db->prepare($query);
     $query->bind_param("ii", $hit, $pieceId);
     $query->execute();
+
+
+
     $db->close();
 }
