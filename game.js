@@ -114,8 +114,12 @@ function pieceClick(event, callingElement) {
                             if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
                                 let islandsquare = document.getElementById(parclass[0]);
                                 islandsquare.classList.add("highlighted");
+                                if (islandsquare.id === "special_island5") {
+                                    document.getElementById("special_island5_extra").classList.add("highlighted");
+                                }
                             }
                         }
+
                     }
                 }
             };
@@ -303,11 +307,13 @@ function positionDrop(event, newContainerElement) {
 function positionDragover(event, callingElement) {
     event.preventDefault();
     //Stops from Dropping into another piece (non-container element) (containers should not be draggable, only parent pieces)
-    if (event.target.getAttribute("draggable") === "true") {
+    if (callingElement.getAttribute("draggable") === "true") {
         event.dataTransfer.dropEffect = "none";
     } else {
         event.dataTransfer.dropEffect = "all";
     }
+
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
 }
 
 

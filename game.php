@@ -189,7 +189,7 @@ $gameId = $_SESSION['gameId'];
                     </div>
                 </div>
                 <div class="gridblock" data-positionId="27" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 27; include("pieceDisplay.php"); ?></div>
-                <div class="gridblock">
+                <div class="gridblock" id="special_island5_extra" ondragleave="islandDragleave(event, document.getElementById('special_island5'));" ondragenter="islandDragenter(event, document.getElementById('special_island5'));" onclick="islandClick(event, document.getElementById('special_island5'));">
 <!--                    TODO: Deal with this exception later (special_island5)-->
                 </div>
                 <div class="gridblock" data-positionId="28" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 28; include("pieceDisplay.php"); ?></div>
