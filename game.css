@@ -20,7 +20,7 @@ html, body {
 /*SIDEPANEL CSS*/
 
 #side_panel {
-    height: 96.5%;
+    height: 95%;
     width: 23%;
     margin-left: 1%;
     margin-top: .75%;
@@ -81,13 +81,15 @@ html, body {
 }
 
 #game_board {
-    height: 100%;
-    width: 74.8%;
+    height: 95%;
+    /*padding-bottom: 45%;*/
+    width: 70%;
+    /*margin-left: 1%;*/
+    margin-top: .75%;
+    margin-right: 1%;
     float: right;
     background-image: url("resources/mapImages/big_map4.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: black;
+    background-size: 100% 100%;
 }
 .gridblockLeftBig {
     position: relative;
@@ -117,7 +119,7 @@ html, body {
     height: 10%;
     float: left;
     margin-right: .2%;
-    margin-bottom: .45%;
+    margin-bottom: .49%;
     z-index: 10;
 }
 .gridblock:hover {

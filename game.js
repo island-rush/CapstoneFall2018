@@ -17,6 +17,12 @@ function islandClick(event, callingElement) {
     event.stopPropagation();
 }
 
+function islandDragenter(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
 
 function waterClick(event, callingElement) {
     event.preventDefault();
@@ -132,17 +138,17 @@ function pieceClick(event, callingElement) {
 
 function pieceDragstart(event, callingElement) {
     //canMove is dictated by phase and current Team
-    if (canMove === "true" && event.target.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
+    if (canMove === "true" && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
         //From the container (parent of the piece)
-        event.dataTransfer.setData("positionId", event.target.parentNode.getAttribute("data-positionId"));
+        event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
         //From the Piece
-        event.dataTransfer.setData("placementId", event.target.getAttribute("data-placementId"));
-        event.dataTransfer.setData("placementContainerId", event.target.getAttribute("data-placementContainerId"));
-        event.dataTransfer.setData("placementCurrentMoves", event.target.getAttribute("data-placementCurrentMoves"));
-        event.dataTransfer.setData("placementTeamId", event.target.getAttribute("data-placementTeamId"));
-        event.dataTransfer.setData("unitTerrain", event.target.getAttribute("data-unitTerrain"));
-        event.dataTransfer.setData("unitName", event.target.getAttribute("data-unitName"));
-        event.dataTransfer.setData("unitId", event.target.getAttribute("data-unitId"));
+        event.dataTransfer.setData("placementId", callingElement.getAttribute("data-placementId"));
+        event.dataTransfer.setData("placementContainerId", callingElement.getAttribute("data-placementContainerId"));
+        event.dataTransfer.setData("placementCurrentMoves", callingElement.getAttribute("data-placementCurrentMoves"));
+        event.dataTransfer.setData("placementTeamId", callingElement.getAttribute("data-placementTeamId"));
+        event.dataTransfer.setData("unitTerrain", callingElement.getAttribute("data-unitTerrain"));
+        event.dataTransfer.setData("unitName", callingElement.getAttribute("data-unitName"));
+        event.dataTransfer.setData("unitId", callingElement.getAttribute("data-unitId"));
     } else {
         event.preventDefault();  // This stops the drag
     }
@@ -175,7 +181,7 @@ function piecePurchase(event, purchaseButton) {
     event.preventDefault();
     if (canPurchase === "true") {
         let unitId = purchaseButton.getAttribute("data-unitId");
-        let unitName = event.target.id;
+        let unitName = callingElement.id;
         let unitMoves = unitsMoves[unitName];
         let terrain = purchaseButton.getAttribute("data-unitTerrain");
 
@@ -201,7 +207,7 @@ function pieceMoveUndo() {
                     //Update the piece's attributes
                     let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
                     pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
-                    pieceToUndo.setAttribute("data-placementCurrentMoves", (parseInt(pieceToUndo.getAttribute("data-placementCurrentMoves")) + decoded.movementCost));
+                    pieceToUndo.setAttribute("data-placementCurrentMoves", decoded.new_placementCurrentMoves);
                     //Remove from Old Position
                     if (decoded.old_placementContainerId !== 999999) {
                         document.querySelector("[data-placementId='" + decoded.old_placementContainerId + "']").firstChild.removeChild(pieceToUndo);
@@ -266,12 +272,12 @@ function positionDrop(event, newContainerElement) {
     let unitName = event.dataTransfer.getData("unitName");
     let unitId = event.dataTransfer.getData("unitId");
     let pieceDropped = document.querySelector("[data-placementId='" + placementId + "']");
-    let positionType = event.target.getAttribute("data-positionType");
+    let positionType = newContainerElement.getAttribute("data-positionType");
     let unitTerrain = event.dataTransfer.getData("unitTerrain");
-    let new_positionId = event.target.getAttribute("data-positionId");
+    let new_positionId = newContainerElement.getAttribute("data-positionId");
     let old_positionId = event.dataTransfer.getData("positionId");
     let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
-    let new_placementContainerId = event.target.getAttribute("data-positionContainerId");
+    let new_placementContainerId = newContainerElement.getAttribute("data-positionContainerId");
     let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
     if (movementTerrainCheck(unitTerrain, positionType) === "true") {
         let phpMoveCheck = new XMLHttpRequest();
@@ -334,12 +340,7 @@ function containerHasSpotOpen(new_placementContainerId, unitName) {
 }
 
 
-function islandDragenter(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
-    event.stopPropagation();
-}
+
 
 
 function containerDragleave(event, callingElement) {
