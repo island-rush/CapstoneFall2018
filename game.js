@@ -204,6 +204,7 @@ function pieceMoveUndo() {
             if (this.readyState === 4 && this.status === 200) {
                 let decoded = JSON.parse(this.responseText);
                 if (decoded.placementId !== null) {
+                    clearHighlighted();
                     //Update the piece's attributes
                     let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
                     pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
@@ -267,6 +268,7 @@ function hideContainers(containerType) {
 
 function positionDrop(event, newContainerElement) {
     event.preventDefault();
+    clearHighlighted();
     //Already approved to move by pieceDragstart (same team and good phase)
     let placementId = event.dataTransfer.getData("placementId");
     let unitName = event.dataTransfer.getData("unitName");
