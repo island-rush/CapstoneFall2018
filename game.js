@@ -181,7 +181,7 @@ function piecePurchase(event, purchaseButton) {
     event.preventDefault();
     if (canPurchase === "true") {
         let unitId = purchaseButton.getAttribute("data-unitId");
-        let unitName = callingElement.id;
+        let unitName = purchaseButton.id;
         let unitMoves = unitsMoves[unitName];
         let terrain = purchaseButton.getAttribute("data-unitTerrain");
 
