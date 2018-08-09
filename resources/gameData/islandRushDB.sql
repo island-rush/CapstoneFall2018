@@ -112,21 +112,30 @@ UPDATE games SET gameBlueJoined=1 WHERE gameId = 1;
 -- SELECT * FROM games;
 
 
-INSERT INTO placements VALUES (1, 1, 2, 'Red', 999999, 5, 1, 0);
-INSERT INTO placements VALUES (2, 1, 2, 'Red', 999999, 5, 1, 0);
-INSERT INTO placements VALUES (3, 1, 2, 'Red', 999999, 5, 1, 0);
-INSERT INTO placements VALUES (4, 1, 2, 'Blue', 999999, 5, 2, 0);
-INSERT INTO placements VALUES (5, 1, 2, 'Blue', 999999, 5, 2, 0);
-INSERT INTO placements VALUES (6, 1, 2, 'Blue', 999999, 5, 2, 0);
+INSERT INTO placements VALUES (1, 1, 0, 'Red', 999999, 5, 0, 0);
+INSERT INTO placements VALUES (2, 1, 1, 'Red', 999999, 5, 1, 0);
+INSERT INTO placements VALUES (3, 1, 2, 'Red', 999999, 5, 2, 0);
+INSERT INTO placements VALUES (4, 1, 3, 'Red', 999999, 5, 3, 0);
+INSERT INTO placements VALUES (5, 1, 4, 'Red', 999999, 5, 4, 0);
+INSERT INTO placements VALUES (6, 1, 5, 'Red', 999999, 5, 5, 0);
+INSERT INTO placements VALUES (7, 1, 6, 'Red', 999999, 5, 6, 0);
+INSERT INTO placements VALUES (8, 1, 7, 'Red', 999999, 5, 7, 0);
+INSERT INTO placements VALUES (9, 1, 8, 'Red', 999999, 5, 8, 0);
+INSERT INTO placements VALUES (10, 1, 9, 'Red', 999999, 5, 9, 0);
+INSERT INTO placements VALUES (11, 1, 10, 'Red', 999999, 5, 10, 0);
+INSERT INTO placements VALUES (12, 1, 11, 'Red', 999999, 5, 11, 0);
+INSERT INTO placements VALUES (13, 1, 12, 'Red', 999999, 5, 12, 0);
+INSERT INTO placements VALUES (14, 1, 13, 'Red', 999999, 5, 13, 0);
+INSERT INTO placements VALUES (15, 1, 14, 'Red', 999999, 5, 14, 0);
+
+
+
 
 SELECT * FROM placements;
 
 SELECT * FROM movements;
 
-SELECT * FROM games;
+-- SELECT * FROM games;
 
 SELECT * FROM battlePieces;
-
-SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = 1) AND (placementPositionId = 1) AND (placementTeamId = 'Red') AND (unitTerrain != 'ground') AND (placementUnitId = unitId);
-
 
