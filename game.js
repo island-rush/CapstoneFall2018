@@ -17,12 +17,14 @@ function islandClick(event, callingElement) {
     event.stopPropagation();
 }
 
+
 function islandDragenter(event, callingElement) {
     event.preventDefault();
     clearTimeout(hoverTimer);
     hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
     event.stopPropagation();
 }
+
 
 function waterClick(event, callingElement) {
     event.preventDefault();
@@ -177,19 +179,19 @@ function pieceDragenter(event, callingElement) {
     event.stopPropagation();
 }
 
-function piecePurchase(event, purchaseButton) {
+function piecePurchase(event, purchaseSquare) {
     event.preventDefault();
     if (canPurchase === "true") {
-        let unitId = purchaseButton.getAttribute("data-unitId");
-        let unitName = purchaseButton.id;
+        let unitId = purchaseSquare.getAttribute("data-unitId");
+        let unitName = purchaseSquare.id;
         let unitMoves = unitsMoves[unitName];
-        let terrain = purchaseButton.getAttribute("data-unitTerrain");
+        let terrain = purchaseSquare.getAttribute("data-unitTerrain");
 
         let phpPurchaseRequest = new XMLHttpRequest();
         phpPurchaseRequest.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let parent = document.getElementById("purchased_container");
-                parent.innerHTML = this.responseText;
+                parent.innerHTML += this.responseText;
             }
         };
         phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
@@ -320,8 +322,7 @@ function positionDragover(event, callingElement) {
     } else {
         event.dataTransfer.dropEffect = "all";
     }
-
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000)
 }
 
 
@@ -340,9 +341,6 @@ function containerHasSpotOpen(new_placementContainerId, unitName) {
 
     return "true";
 }
-
-
-
 
 
 function containerDragleave(event, callingElement) {

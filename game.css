@@ -259,12 +259,12 @@ html, body {
     float: left;
     position: relative;
     z-index: 15;
-    background-color: black;
+    /*background-color: white;*/
     background-repeat: no-repeat;
     background-size: 90% 90%;
     background-position: center;
 }
-.transport{background-color: black;}
+.transport{background-image: url("resources/unitImages/transport.png");}
 .submarine{background-color: red;}
 .destroyer{background-image: url("resources/unitImages/test_piece.png");}
 .aircraftCarrier{background-color: yellow;}
