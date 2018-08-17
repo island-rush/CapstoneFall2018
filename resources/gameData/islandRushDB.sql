@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A', 'Darcy', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999);
-INSERT INTO `games` VALUES (2, 'T1A', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999);
+INSERT INTO `games` VALUES (1, 'M1A', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999);
+INSERT INTO `games` VALUES (2, 'T1A', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999);
 
 
 -- Table of Units (static)
@@ -131,11 +131,11 @@ INSERT INTO placements VALUES (15, 1, 14, 'Red', 999999, 5, 14, 0);
 
 
 
-SELECT * FROM placements;
+-- SELECT * FROM placements;
 
-SELECT * FROM movements;
+-- SELECT * FROM movements;
 
 -- SELECT * FROM games;
 
-SELECT * FROM battlePieces;
+-- SELECT * FROM battlePieces;
 
