@@ -40,6 +40,7 @@ html, body {
     float: left;
     width: 20%;
     padding-top: 20%;
+    background-size: contain;
 }
 #purchase_seperator {
     width: 100%;
@@ -265,21 +266,20 @@ html, body {
     background-position: center;
 }
 .transport{background-image: url("resources/unitImages/transport.png");}
-.submarine{background-color: red;}
-.destroyer{background-image: url("resources/unitImages/test_piece.png");}
-.aircraftCarrier{background-color: yellow;}
-.soldier{background-color: lightgreen;}
-.artillery{background-color: greenyellow;}
-.tank{background-color: lawngreen;}
-.marine{background-color: deepskyblue;}
-.lav{background-color: dodgerblue;}
-.attackHeli{background-color: lightblue;}
-.sam{background-color: blue;}
-.fighter{background-color: mediumpurple;}
-.bomber{background-color: purple;}
-.stealthBomber{background-color: violet;}
-.tanker{background-color: maroon;}
-.test_piece{background-color: deeppink;}
+.submarine{background-image: url("resources/unitImages/submarine.png");}
+.destroyer{background-image: url("resources/unitImages/destroyer.png");}
+.aircraftCarrier{background-image: url("resources/unitImages/aircraftCarrier.png");}
+.soldier{background-image: url("resources/unitImages/soldier.png");}
+.artillery{background-image: url("resources/unitImages/artillery.png");}
+.tank{background-image: url("resources/unitImages/tank.png");}
+.marine{background-image: url("resources/unitImages/marine.png");}
+.lav{background-image: url("resources/unitImages/lav.png");}
+.attackHeli{background-image: url("resources/unitImages/attackHeli.png");}
+.sam{background-image: url("resources/unitImages/sam.png");}
+.fighter{background-image: url("resources/unitImages/fighter.png");}
+.bomber{background-image: url("resources/unitImages/bomber.PNG");}
+.stealthBomber{background-image: url("resources/unitImages/stealthBomber.png");}
+.tanker{background-image: url("resources/unitImages/tanker.png");}
 
 #purchased_container > .gamePiece{
     width: 15%;
