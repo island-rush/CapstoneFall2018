@@ -77,9 +77,7 @@ html, body {
 /*----------------------------------------------------------------------------------------------*/
 /*GAMEBOARD CSS*/
 
-.highlighted {
-    background-color: rgba(236, 1, 255, 0.15);
-}
+
 
 #game_board {
     height: 95%;
@@ -179,7 +177,9 @@ html, body {
 .grid_special_island12{background-image: url("resources/mapImages/grid_special_island12.png");}
 
 
-
+.highlighted {
+    background-color: rgb(236, 1, 255);
+}
 
 /*----------------------------------------------------------------------------------------------*/
 /*BattleZone CSS*/
