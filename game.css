@@ -110,7 +110,7 @@ html, body {
     float: right;
     background-color: black;
     background-image: url("resources/mapImages/special_island14.png");
-    background-size: 98% 98%;
+    background-size: 99% 99%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -164,7 +164,6 @@ html, body {
 .special_island10{background-image: url("resources/mapImages/special_island10.png");}
 .special_island11{background-image: url("resources/mapImages/special_island11.png");}
 .special_island12{background-image: url("resources/mapImages/special_island12.png");}
-
 .grid_special_island1{background-image: url("resources/mapImages/grid_special_island1.png");}
 .grid_special_island2{background-image: url("resources/mapImages/grid_special_island2.png");}
 .grid_special_island3{background-image: url("resources/mapImages/grid_special_island3.png");}
