@@ -106,33 +106,33 @@ function pieceClick(event, callingElement) {
             }
             clearHighlighted();
             //show the piece's moves
-            let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-            let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-            let phpAvailableMoves = new XMLHttpRequest();
-            phpAvailableMoves.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    let decoded = JSON.parse(this.responseText);
-                    let g;
-                    for (g = 0; g < decoded.length; g++) {
-                        let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-                        gridThing.classList.add("highlighted");
-                        if (gridThing.classList[0] === "gridblockTiny") {
-                            let parent = gridThing.parentNode;
-                            let parclass = parent.classList;
-                            if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-                                let islandsquare = document.getElementById(parclass[0]);
-                                islandsquare.classList.add("highlighted");
-                                if (islandsquare.id === "special_island5") {
-                                    document.getElementById("special_island5_extra").classList.add("highlighted");
-                                }
-                            }
-                        }
-
-                    }
-                }
-            };
-            phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-            phpAvailableMoves.send();
+            // let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
+            // let thisPos = callingElement.parentNode.getAttribute("data-positionId");
+            // let phpAvailableMoves = new XMLHttpRequest();
+            // phpAvailableMoves.onreadystatechange = function () {
+            //     if (this.readyState === 4 && this.status === 200) {
+            //         let decoded = JSON.parse(this.responseText);
+            //         let g;
+            //         for (g = 0; g < decoded.length; g++) {
+            //             let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+            //             gridThing.classList.add("highlighted");
+            //             if (gridThing.classList[0] === "gridblockTiny") {
+            //                 let parent = gridThing.parentNode;
+            //                 let parclass = parent.classList;
+            //                 if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+            //                     let islandsquare = document.getElementById(parclass[0]);
+            //                     islandsquare.classList.add("highlighted");
+            //                     if (islandsquare.id === "special_island5") {
+            //                         document.getElementById("special_island5_extra").classList.add("highlighted");
+            //                     }
+            //                 }
+            //             }
+            //
+            //         }
+            //     }
+            // };
+            // phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
+            // phpAvailableMoves.send();
         }
     }
     event.stopPropagation();
@@ -292,10 +292,7 @@ function positionDrop(event, newContainerElement) {
                     if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
                         //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
                         let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
-                        //Update the placement in the database and add a movement to the database
-                        let phpRequest = new XMLHttpRequest();
-                        phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
-                        phpRequest.send();
+
                         //Update the html by moving the piece and changing the piece's attributes
                         newContainerElement.appendChild(pieceDropped);
                         pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
@@ -303,6 +300,11 @@ function positionDrop(event, newContainerElement) {
                         if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
                             pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
                         }
+
+                        //Update the placement in the database and add a movement to the database
+                        let phpRequest = new XMLHttpRequest();
+                        phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
+                        phpRequest.send();
                     }
                 }
             }
@@ -788,3 +790,53 @@ function battleAttackCenter(type) {
 }
 
 
+
+
+
+
+function updateBoard(message) {
+    alert(message);
+}
+
+
+function waitForUpdate() {
+    let phpUpdateBoard = new XMLHttpRequest();
+    phpUpdateBoard.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            // alert(this.responseText);
+            let decoded = JSON.parse(this.responseText);
+
+            if (decoded.updateType === "pieceMove") {
+                updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
+            } else if (decoded.updateType === "battlepieceMove") {
+                alert("battlepiecemove");
+            }
+
+            waitForUpdate();
+        }
+    };
+    phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
+    phpUpdateBoard.send();
+}
+
+
+function updatePieceMove(placementId, newPositionId, newContainerId){
+    let pieceToMove = document.querySelector("[data-placementId='" + placementId.toString() + "']");
+    //not already moved there (this client was the one to move it)
+    if (pieceToMove.getAttribute("data-placementTeamId") !== myTeam) {
+
+        let theContainer;
+
+        if (newContainerId.toString() !== "999999") {
+            theContainer = document.querySelector("[data-positionContainerId='" + newContainerId.toString() + "']");
+        } else {
+            theContainer = document.querySelector("[data-positionId='" + newPositionId.toString() + "']");
+        }
+
+        theContainer.appendChild(pieceToMove);
+    }
+}
+
+
+
+waitForUpdate();

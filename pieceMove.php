@@ -1,6 +1,7 @@
 <?php
 include("db.php");
 
+$myTeam = $_REQUEST['myTeam'];
 $gameId = $_REQUEST['gameId'];
 $gameTurn = $_REQUEST['gameTurn'];
 $gamePhase = $_REQUEST['gamePhase'];
@@ -35,6 +36,14 @@ $query->execute();
 $query = 'INSERT INTO movements (movementGameId, movementTurn, movementPhase, movementFromPosition, movementFromContainer, movementNowPlacement, movementCost) VALUES (?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iiiiiii", $gameId, $gameTurn, $gamePhase, $old_positionId, $old_placementContainerId, $placementId, $movementCost);
+$query->execute();
+
+
+$newValue = 0;
+$updateType = "pieceMove";
+$query = 'UPDATE updates SET updateValue = ?, updateTeam = ?, updateType = ?, updatePlacementId = ?, updateNewPositionId = ?, updateNewContainerId = ? WHERE (updateGameId = ?)';
+$query = $db->prepare($query);
+$query->bind_param("issiiii", $newValue, $myTeam, $updateType, $placementId, $new_positionId, $new_placementContainerId,  $gameId);
 $query->execute();
 
 

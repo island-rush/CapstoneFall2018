@@ -385,10 +385,10 @@ html, body {
     background-color: white;
 }
 .selectedPos{
-    background-color: black;
+    background-color: #fffb00;
 }
 .selectedPos:hover{
-    background-color: black;
+    background-color: #fffb00;
 }
 
 /*----------------------------------------------------------------------------------------------*/
