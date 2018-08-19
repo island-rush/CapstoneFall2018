@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+//TODO: more checks to make sure user isn't already logged in?
 if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POST['team'])) ){
     include("db.php");
 
@@ -28,12 +29,8 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
 
     $_SESSION['gameBattleAdjacentArray'] = json_encode([]);
 
-    //If other team has joined, one of these values will be 1...go directly to playGame
-    if ($r['gameRedJoined'] == 1 || $r['gameBlueJoined'] == 1) {
-        header("location:game.php");
-    } else {
-        header("location:loginWaiting.php");
-    }
+    //Go straight to game, don't wait for other player
+    header("location:game.php");
 
     //Update the Database to say this team has joined
     if ($team == "Red") {
