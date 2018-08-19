@@ -44,6 +44,14 @@ $query = $db->prepare($query);
 $query->bind_param("i", $movementId);
 $query->execute();
 
+//Update the other client's gameboard
+$newValue = 0;
+$updateType = "pieceMove";
+$query = 'UPDATE updates SET updateValue = ?, updateTeam = ?, updateType = ?, updatePlacementId = ?, updateNewPositionId = ?, updateNewContainerId = ? WHERE (updateGameId = ?)';
+$query = $db->prepare($query);
+$query->bind_param("issiiii", $newValue, $myTeam, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer,  $gameId);
+$query->execute();
+
 //Return information about how to undo the movement
 $arr = array('placementId' => $movementNowPlacement, 'old_placementContainerId' => $old_placementContainerId, 'old_placementPositionId' => $old_placementPositionId, 'new_placementPositionId' => $movementFromPosition, 'new_placementCurrentMoves' => $new_placementCurrentMoves, 'new_placementContainerId' => $movementFromContainer);
 echo json_encode($arr);

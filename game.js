@@ -792,13 +792,6 @@ function battleAttackCenter(type) {
 
 
 
-
-
-function updateBoard(message) {
-    alert(message);
-}
-
-
 function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
     phpUpdateBoard.onreadystatechange = function () {
@@ -808,8 +801,10 @@ function waitForUpdate() {
 
             if (decoded.updateType === "pieceMove") {
                 updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
-            } else if (decoded.updateType === "battlepieceMove") {
-                alert("battlepiecemove");
+            } else if (decoded.updateType === "pieceDelete") {
+                alert("pieceDelete");
+            } else if (decoded.updateType === "piecePurchase") {
+                alert("piecePurchase");
             }
 
             waitForUpdate();

@@ -1,5 +1,5 @@
 <?php
-set_time_limit(0);
+set_time_limit(0);  //to wait forever (default timeout is 30 seconds)
 
 include("db.php");
 
