@@ -41,9 +41,9 @@ $query->execute();
 
 $newValue = 0;
 $updateType = "pieceMove";
-$query = 'UPDATE updates SET updateValue = ?, updateTeam = ?, updateType = ?, updatePlacementId = ?, updateNewPositionId = ?, updateNewContainerId = ? WHERE (updateGameId = ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId) VALUES (?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("issiiii", $newValue, $myTeam, $updateType, $placementId, $new_positionId, $new_placementContainerId,  $gameId);
+$query->bind_param("iissiii", $gameId, $newValue, $myTeam, $updateType, $placementId, $new_positionId, $new_placementContainerId);
 $query->execute();
 
 
