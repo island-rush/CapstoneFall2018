@@ -194,7 +194,7 @@ function piecePurchase(event, purchaseSquare) {
                 parent.innerHTML += this.responseText;
             }
         };
-        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
+        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
         phpPurchaseRequest.send();
     }
 }
@@ -211,12 +211,6 @@ function pieceMoveUndo() {
                     let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
                     pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
                     pieceToUndo.setAttribute("data-placementCurrentMoves", decoded.new_placementCurrentMoves);
-                    //Remove from Old Position
-                    if (decoded.old_placementContainerId !== 999999) {
-                        document.querySelector("[data-placementId='" + decoded.old_placementContainerId + "']").firstChild.removeChild(pieceToUndo);
-                    } else {
-                        document.querySelector("[data-positionId='" + decoded.old_placementPositionId + "']").removeChild(pieceToUndo);
-                    }
                     //Append to New Position
                     if (decoded.new_placementContainerId !== 999999) {
                         document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
@@ -226,7 +220,7 @@ function pieceMoveUndo() {
                 }
             }
         };
-        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase, true);
+        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&myTeam=" + myTeam, true);
         phpUndoRequest.send();
     }
 }
@@ -238,7 +232,7 @@ function pieceTrash(event, trashElement) {
             let placementId = event.dataTransfer.getData("placementId");
             document.querySelector("[data-placementId='" + placementId + "']").remove();
             let phpTrashRequest = new XMLHttpRequest();
-            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId, true);
+            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId, true);
             phpTrashRequest.send();
         }
     }
@@ -701,7 +695,7 @@ function battleEndRoll() {
         document.querySelector("[data-placementId='" + pieceId + "']").remove();  //mainboard
         centerAttackPiece.remove();  //battlezone
         let phpPieceDelete = new XMLHttpRequest();
-        phpPieceDelete.open("POST", "battlePieceUpdate.php?battlePieceId=" + pieceId + "&new_battlePieceState=9", true);  // removes the element from the database
+        phpPieceDelete.open("POST", "battlePieceUpdate.php?battlePieceId=" + pieceId + "&new_battlePieceState=9" + "&myTeam=" + myTeam + "&gameId=" + gameId, true);  // removes the element from the database
         phpPieceDelete.send();
     } else {
         let phpBattlePieceUpdate = new XMLHttpRequest();
@@ -709,12 +703,12 @@ function battleEndRoll() {
             centerAttack.removeChild(centerAttackPiece);
             usedAttack.appendChild(centerAttackPiece);
             centerAttackPiece.onclick = function() {  };
-            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=3", true);
+            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=3" + "&gameId=" + gameId, true);
             phpBattlePieceUpdate.send();
         } else {
             centerAttack.removeChild(centerAttackPiece);
             unusedAttack.appendChild(centerAttackPiece);
-            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=1" + "&gameId=" + gameId, true);
             phpBattlePieceUpdate.send();
         }
     }
@@ -724,7 +718,7 @@ function battleEndRoll() {
         document.querySelector("[data-placementId='" + pieceId + "']").remove();  //mainboard
         centerDefendPiece.remove();  //battlezone
         let phpPieceDelete = new XMLHttpRequest();
-        phpPieceDelete.open("POST", "battlePieceUpdate.php?battlePieceId=" + pieceId + "&new_battlePieceState=9", true);  // removes the element from the database
+        phpPieceDelete.open("POST", "battlePieceUpdate.php?battlePieceId=" + pieceId + "&new_battlePieceState=9" + "&myTeam=" + myTeam + "&gameId=" + gameId, true);  // removes the element from the database
         phpPieceDelete.send();
     } else {
         let phpBattlePieceUpdate = new XMLHttpRequest();
@@ -732,12 +726,12 @@ function battleEndRoll() {
             centerDefend.removeChild(centerDefendPiece);
             usedDefend.appendChild(centerDefendPiece);
             centerDefendPiece.onclick = function() {  };
-            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=4", true);
+            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=4" + "&gameId=" + gameId, true);
             phpBattlePieceUpdate.send();
         } else {
             centerDefend.removeChild(centerDefendPiece);
             unusedDefend.appendChild(centerDefendPiece);
-            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+            phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=2" + "&gameId=" + gameId, true);
             phpBattlePieceUpdate.send();
         }
     }
@@ -802,9 +796,11 @@ function waitForUpdate() {
             if (decoded.updateType === "pieceMove") {
                 updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
             } else if (decoded.updateType === "pieceDelete") {
-                alert("pieceDelete");
+                updatePieceDelete(decoded.updatePlacementId);
+            } else if (decoded.updateType === "pieceTrash") {
+                updatePieceTrash(decoded.updatePlacementId);
             } else if (decoded.updateType === "piecePurchase") {
-                alert("piecePurchase");
+                updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId));
             }
 
             waitForUpdate();
@@ -814,24 +810,53 @@ function waitForUpdate() {
     phpUpdateBoard.send();
 }
 
-
-function updatePieceMove(placementId, newPositionId, newContainerId){
-    let pieceToMove = document.querySelector("[data-placementId='" + placementId.toString() + "']");
-    //not already moved there (this client was the one to move it)
-    if (pieceToMove.getAttribute("data-placementTeamId") !== myTeam) {
-
-        let theContainer;
-
-        if (newContainerId.toString() !== "999999") {
-            theContainer = document.querySelector("[data-positionContainerId='" + newContainerId.toString() + "']");
-        } else {
-            theContainer = document.querySelector("[data-positionId='" + newPositionId.toString() + "']");
-        }
-
-        theContainer.appendChild(pieceToMove);
+function updatePiecePurchase(placementId, unitId) {
+    // alert("purchasing");
+    let purchaseContainer = document.getElementById("purchased_container");
+    let notMyTeam;
+    if (myTeam === "Red") {
+        notMyTeam = "Blue";
+    } else {
+        notMyTeam = "Red";
     }
+    let echoString = '';
+    echoString += "<div class='" + unitNames[unitId] + " gamePiece' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitId] + "' data-placementContainerId='999999' data-placementTeamId='" + notMyTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+    if (unitNames[unitId] === "transport" || unitNames[unitId] === "aircraftCarrier") {
+        let classthing;
+        if (unitNames[unitId] === "transport") {
+            classthing = "transportContainer";
+        } else {
+            classthing = "aircraftCarrierContainer";
+        }
+        echoString += "<div class='" + classthing + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' data-positionId='118' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
+    }
+    echoString += "</div>";  // end the overall piece
+    purchaseContainer.innerHTML += echoString;
 }
 
 
+function updatePieceMove(placementId, newPositionId, newContainerId){
+    // alert("moving");
+    let pieceToMove = document.querySelector("[data-placementId='" + placementId.toString() + "']");
+    let theContainer;
+    if (newContainerId.toString() !== "999999") {
+        theContainer = document.querySelector("[data-positionContainerId='" + newContainerId.toString() + "']").firstChild;
+    } else {
+        theContainer = document.querySelector("[data-positionId='" + newPositionId.toString() + "']");
+    }
+    theContainer.appendChild(pieceToMove);
+}
 
+
+function updatePieceDelete(placementId) {
+    document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
+    document.querySelector("[data-battlePieceId='" + placementId + "']").remove();  //battlezone
+}
+
+function updatePieceTrash(placementId) {
+    document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
+}
+
+
+// alert(unitNames[11]);
 waitForUpdate();
