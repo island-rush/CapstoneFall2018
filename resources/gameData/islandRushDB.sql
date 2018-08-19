@@ -45,19 +45,19 @@ CREATE TABLE IF NOT EXISTS `units`(
     `unitMoves` int(3) NOT NULL,
     PRIMARY KEY(`unitId`)
 );
-INSERT INTO `units` VALUES (0, 'transport', 'water', 5);
-INSERT INTO `units` VALUES (1, 'submarine', 'water', 5);
-INSERT INTO `units` VALUES (2, 'destroyer', 'water', 5);
-INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 5);
-INSERT INTO `units` VALUES (4, 'soldier', 'ground', 5);
-INSERT INTO `units` VALUES (5, 'artillery', 'ground', 5);
-INSERT INTO `units` VALUES (6, 'tank', 'ground', 5);
-INSERT INTO `units` VALUES (7, 'marine', 'ground', 5);
-INSERT INTO `units` VALUES (8, 'lav', 'ground', 5);
-INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 5);
-INSERT INTO `units` VALUES (10, 'sam', 'ground', 5);
-INSERT INTO `units` VALUES (11, 'fighter', 'air', 5);
-INSERT INTO `units` VALUES (12, 'bomber', 'air', 5);
+INSERT INTO `units` VALUES (0, 'transport', 'water', 2);
+INSERT INTO `units` VALUES (1, 'submarine', 'water', 2);
+INSERT INTO `units` VALUES (2, 'destroyer', 'water', 2);
+INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 2);
+INSERT INTO `units` VALUES (4, 'soldier', 'ground', 1);
+INSERT INTO `units` VALUES (5, 'artillery', 'ground', 1);
+INSERT INTO `units` VALUES (6, 'tank', 'ground', 2);
+INSERT INTO `units` VALUES (7, 'marine', 'ground', 1);
+INSERT INTO `units` VALUES (8, 'lav', 'ground', 2);
+INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 3);
+INSERT INTO `units` VALUES (10, 'sam', 'ground', 1);
+INSERT INTO `units` VALUES (11, 'fighter', 'air', 4);
+INSERT INTO `units` VALUES (12, 'bomber', 'air', 6);
 INSERT INTO `units` VALUES (13, 'stealthBomber', 'air', 5);
 INSERT INTO `units` VALUES (14, 'tanker', 'air', 5);
 
