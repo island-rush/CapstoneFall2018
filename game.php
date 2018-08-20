@@ -11,6 +11,7 @@ $gameId = $_SESSION['gameId'];
         <link rel="stylesheet" type="text/css" href="game.css">
         <script type="text/javascript">
             let phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
+            let unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker'];
             let unitsMoves = <?php $query = 'SELECT * FROM units'; $query = $db->prepare($query); $query->execute(); $results = $query->get_result(); $num_results = $results->num_rows; $arr = array();
                 if ($num_results > 0) {
                     for ($i=0; $i < $num_results; $i++) {
