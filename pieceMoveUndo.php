@@ -4,6 +4,7 @@ include("db.php");
 $movementGameId = $_REQUEST['gameId'];
 $movementTurn = $_REQUEST['gameTurn'];
 $movementPhase = $_REQUEST['gamePhase'];
+$myTeam = $_REQUEST['myTeam'];
 
 //Get the last movement made
 $query = 'SELECT * FROM movements WHERE movementGameId = ? AND movementTurn = ? AND movementPhase = ? ORDER BY movementId DESC LIMIT 0, 1';
@@ -42,6 +43,14 @@ $query->execute();
 $query = 'DELETE FROM movements WHERE movementId = ?';
 $query = $db->prepare($query);
 $query->bind_param("i", $movementId);
+$query->execute();
+
+//Update the other client's gameboard
+$newValue = 0;
+$updateType = "pieceMove";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId) VALUES (?, ?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissiii", $movementGameId, $newValue, $myTeam, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer);
 $query->execute();
 
 //Return information about how to undo the movement

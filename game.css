@@ -40,6 +40,7 @@ html, body {
     float: left;
     width: 20%;
     padding-top: 20%;
+    background-size: contain;
 }
 #purchase_seperator {
     width: 100%;
@@ -76,9 +77,7 @@ html, body {
 /*----------------------------------------------------------------------------------------------*/
 /*GAMEBOARD CSS*/
 
-.highlighted {
-    background-color: rgba(236, 1, 255, 0.15);
-}
+
 
 #game_board {
     height: 95%;
@@ -88,42 +87,55 @@ html, body {
     margin-top: .75%;
     margin-right: 1%;
     float: right;
-    background-image: url("resources/mapImages/big_map4.png");
     background-size: 100% 100%;
+    background-color: #232655;
 }
 .gridblockLeftBig {
     position: relative;
     width: 20%;
-    height: 31%;
+    height: 31.5%;
     float: left;
-    margin-bottom: .2%;
+    background-color: black;
+    background-image: url("resources/mapImages/special_island13.png");
+    background-size: 98% 98%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .gridblockRightBig {
     position: relative;
     width: 22.5%;
-    height: 73%;
-    margin-right: .1%;
+    height: 73.51%;
     float: right;
+    background-color: black;
+    background-image: url("resources/mapImages/special_island14.png");
+    background-size: 99% 99%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .gridblockEmptyLeft{
     position: relative;
-    width: 3.5%;
-    height: 52%;
-    margin-top: .3%;
-    margin-right: .3%;
+    width: 3.6%;
+    height: 52.61%;
     float: left;
+    background-color: black;
+    background-image: url("resources/mapImages/water.png");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .gridblock {
     position: relative;
-    width: 7.95%;
-    height: 10%;
+    width: 8.21%;
+    height: 10.501%;
     float: left;
-    margin-right: .2%;
-    margin-bottom: .49%;
     z-index: 10;
+    background-color: black;
+    background-size: 98% 98%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .gridblock:hover {
-    background-color: rgba(236, 1, 255, 0.15);
+    background-color: rgb(236, 1, 255);
 }
 .special_island3x3 {
     width: 300%;
@@ -137,6 +149,7 @@ html, body {
     background-position: center;
     display: none;
 }
+.water{background-image: url("resources/mapImages/water.png");}
 .special_island1{background-image: url("resources/mapImages/special_island1.png");}
 .special_island2{background-image: url("resources/mapImages/special_island2.png");}
 .special_island3{background-image: url("resources/mapImages/special_island3.png");}
@@ -149,10 +162,24 @@ html, body {
 .special_island10{background-image: url("resources/mapImages/special_island10.png");}
 .special_island11{background-image: url("resources/mapImages/special_island11.png");}
 .special_island12{background-image: url("resources/mapImages/special_island12.png");}
+.grid_special_island1{background-image: url("resources/mapImages/grid_special_island1.png");}
+.grid_special_island2{background-image: url("resources/mapImages/grid_special_island2.png");}
+.grid_special_island3{background-image: url("resources/mapImages/grid_special_island3.png");}
+.grid_special_island4{background-image: url("resources/mapImages/grid_special_island4.png");}
+.grid_special_island5_1{background-image: url("resources/mapImages/grid_special_island5_1.png");}
+.grid_special_island5_2{background-image: url("resources/mapImages/grid_special_island5_2.png");}
+.grid_special_island6{background-image: url("resources/mapImages/grid_special_island6.png");}
+.grid_special_island7{background-image: url("resources/mapImages/grid_special_island7.png");}
+.grid_special_island8{background-image: url("resources/mapImages/grid_special_island8.png");}
+.grid_special_island9{background-image: url("resources/mapImages/grid_special_island9.png");}
+.grid_special_island10{background-image: url("resources/mapImages/grid_special_island10.png");}
+.grid_special_island11{background-image: url("resources/mapImages/grid_special_island11.png");}
+.grid_special_island12{background-image: url("resources/mapImages/grid_special_island12.png");}
 
 
-
-
+.highlighted {
+    background-color: rgb(236, 1, 255);
+}
 
 /*----------------------------------------------------------------------------------------------*/
 /*BattleZone CSS*/
@@ -265,21 +292,20 @@ html, body {
     background-position: center;
 }
 .transport{background-image: url("resources/unitImages/transport.png");}
-.submarine{background-color: red;}
-.destroyer{background-image: url("resources/unitImages/test_piece.png");}
-.aircraftCarrier{background-color: yellow;}
-.soldier{background-color: lightgreen;}
-.artillery{background-color: greenyellow;}
-.tank{background-color: lawngreen;}
-.marine{background-color: deepskyblue;}
-.lav{background-color: dodgerblue;}
-.attackHeli{background-color: lightblue;}
-.sam{background-color: blue;}
-.fighter{background-color: mediumpurple;}
-.bomber{background-color: purple;}
-.stealthBomber{background-color: violet;}
-.tanker{background-color: maroon;}
-.test_piece{background-color: deeppink;}
+.submarine{background-image: url("resources/unitImages/submarine.png");}
+.destroyer{background-image: url("resources/unitImages/destroyer.png");}
+.aircraftCarrier{background-image: url("resources/unitImages/aircraftCarrier.png");}
+.soldier{background-image: url("resources/unitImages/soldier.png");}
+.artillery{background-image: url("resources/unitImages/artillery.png");}
+.tank{background-image: url("resources/unitImages/tank.png");}
+.marine{background-image: url("resources/unitImages/marine.png");}
+.lav{background-image: url("resources/unitImages/lav.png");}
+.attackHeli{background-image: url("resources/unitImages/attackHeli.png");}
+.sam{background-image: url("resources/unitImages/sam.png");}
+.fighter{background-image: url("resources/unitImages/fighter.png");}
+.bomber{background-image: url("resources/unitImages/bomber.PNG");}
+.stealthBomber{background-image: url("resources/unitImages/stealthBomber.png");}
+.tanker{background-image: url("resources/unitImages/tanker.png");}
 
 #purchased_container > .gamePiece{
     width: 15%;
@@ -359,10 +385,10 @@ html, body {
     background-color: white;
 }
 .selectedPos{
-    background-color: black;
+    background-color: #fffb00;
 }
 .selectedPos:hover{
-    background-color: black;
+    background-color: #fffb00;
 }
 
 /*----------------------------------------------------------------------------------------------*/

@@ -45,19 +45,19 @@ CREATE TABLE IF NOT EXISTS `units`(
     `unitMoves` int(3) NOT NULL,
     PRIMARY KEY(`unitId`)
 );
-INSERT INTO `units` VALUES (0, 'transport', 'water', 5);
-INSERT INTO `units` VALUES (1, 'submarine', 'water', 5);
-INSERT INTO `units` VALUES (2, 'destroyer', 'water', 5);
-INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 5);
-INSERT INTO `units` VALUES (4, 'soldier', 'ground', 5);
-INSERT INTO `units` VALUES (5, 'artillery', 'ground', 5);
-INSERT INTO `units` VALUES (6, 'tank', 'ground', 5);
-INSERT INTO `units` VALUES (7, 'marine', 'ground', 5);
-INSERT INTO `units` VALUES (8, 'lav', 'ground', 5);
-INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 5);
-INSERT INTO `units` VALUES (10, 'sam', 'ground', 5);
-INSERT INTO `units` VALUES (11, 'fighter', 'air', 5);
-INSERT INTO `units` VALUES (12, 'bomber', 'air', 5);
+INSERT INTO `units` VALUES (0, 'transport', 'water', 2);
+INSERT INTO `units` VALUES (1, 'submarine', 'water', 2);
+INSERT INTO `units` VALUES (2, 'destroyer', 'water', 2);
+INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 2);
+INSERT INTO `units` VALUES (4, 'soldier', 'ground', 1);
+INSERT INTO `units` VALUES (5, 'artillery', 'ground', 1);
+INSERT INTO `units` VALUES (6, 'tank', 'ground', 2);
+INSERT INTO `units` VALUES (7, 'marine', 'ground', 1);
+INSERT INTO `units` VALUES (8, 'lav', 'ground', 2);
+INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 3);
+INSERT INTO `units` VALUES (10, 'sam', 'ground', 1);
+INSERT INTO `units` VALUES (11, 'fighter', 'air', 4);
+INSERT INTO `units` VALUES (12, 'bomber', 'air', 6);
 INSERT INTO `units` VALUES (13, 'stealthBomber', 'air', 5);
 INSERT INTO `units` VALUES (14, 'tanker', 'air', 5);
 
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `battlePieces`(
 
 
 
-UPDATE games SET gameBlueJoined=1 WHERE gameId = 1;
+-- UPDATE games SET gameBlueJoined=1 WHERE gameId = 1;
 
 -- SELECT * FROM games;
 
@@ -127,8 +127,24 @@ INSERT INTO placements VALUES (12, 1, 11, 'Red', 999999, 5, 11, 0);
 INSERT INTO placements VALUES (13, 1, 12, 'Red', 999999, 5, 12, 0);
 INSERT INTO placements VALUES (14, 1, 13, 'Red', 999999, 5, 13, 0);
 INSERT INTO placements VALUES (15, 1, 14, 'Red', 999999, 5, 14, 0);
+INSERT INTO placements VALUES (16, 1, 14, 'Blue', 999999, 5, 15, 0);
 
 
+
+CREATE TABLE IF NOT EXISTS `updates`(
+    `updateGameId` int(5) NOT NULL,
+    `updateValue` int(5) NOT NULL,  -- has the update been processed / changed / null? (0 = not been processed) (1 = processed)
+	`updateTeam` varchar(10),
+    `updateType` varchar(30),
+    `updatePlacementId` int(4),
+    `updateNewPositionId` int(4),
+    `updateNewContainerId` int(4),
+    PRIMARY KEY(`updateGameId`)
+);
+
+INSERT INTO updates VALUES (1, 1, 'Red', 'pieceMove', 0, 0, 0);
+
+SELECT * FROM updates;
 
 
 -- SELECT * FROM placements;
