@@ -103,13 +103,19 @@ CREATE TABLE IF NOT EXISTS `battlePieces`(
     PRIMARY KEY(`battlePieceId`)
 );
 
-
-
-
-
--- UPDATE games SET gameBlueJoined=1 WHERE gameId = 1;
-
--- SELECT * FROM games;
+-- Table of board updates to send to other client (piece stuff mostly)
+CREATE TABLE IF NOT EXISTS `updates`(  
+	`updateId` int(16) NOT NULL AUTO_INCREMENT,    
+	`updateGameId` int(5) NOT NULL,     
+	`updateValue` int(5) NOT NULL,  -- has the update been processed / changed / null? (0 = not been processed) (1 = processed)  
+	`updateTeam` varchar(10),     
+	`updateType` varchar(30),     
+	`updatePlacementId` int(4) DEFAULT 0,     
+	`updateNewPositionId` int(4) DEFAULT 0,     
+	`updateNewContainerId` int(4) DEFAULT 0,     
+	`updateNewUnitId` int(4) DEFAULT 16,     
+	PRIMARY KEY(`updateId`) 
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
 INSERT INTO placements VALUES (1, 1, 0, 'Red', 999999, 5, 0, 0);
@@ -131,20 +137,11 @@ INSERT INTO placements VALUES (16, 1, 14, 'Blue', 999999, 5, 15, 0);
 
 
 
-CREATE TABLE IF NOT EXISTS `updates`(
-    `updateGameId` int(5) NOT NULL,
-    `updateValue` int(5) NOT NULL,  -- has the update been processed / changed / null? (0 = not been processed) (1 = processed)
-	`updateTeam` varchar(10),
-    `updateType` varchar(30),
-    `updatePlacementId` int(4),
-    `updateNewPositionId` int(4),
-    `updateNewContainerId` int(4),
-    PRIMARY KEY(`updateGameId`)
-);
 
-INSERT INTO updates VALUES (1, 1, 'Red', 'pieceMove', 0, 0, 0);
 
 SELECT * FROM updates;
+
+
 
 
 -- SELECT * FROM placements;
