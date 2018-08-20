@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: C19Jack.Kulp
- * Date: 8/18/2018
- * Time: 8:57 PM
- */
+
 include("db.php");
 
 $gameId = $_REQUEST['gameId'];
