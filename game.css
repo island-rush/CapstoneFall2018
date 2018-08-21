@@ -902,10 +902,66 @@ html, body {
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
-#pos11a{}
-#pos11b{}
-#pos11c{}
-#pos12a{}
-#pos12b{}
-#pos12c{}
-#pos12d{}
+#pos11a{
+    width: 17%;
+    height: 17%;
+    margin-left: 25%;
+    margin-top:42%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
+#pos11b{
+    width: 16%;
+    height: 16%;
+    margin-left: 38%;
+    margin-top:26%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
+#pos11c{
+    width: 16%;
+    height: 16%;
+    margin-left: 52%;
+    margin-top:13%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
+#pos12a{
+    width: 16%;
+    height: 16%;
+    margin-left: 56%;
+    margin-top:39%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
+#pos12b{
+    width: 16%;
+    height: 16%;
+    margin-left: 43%;
+    margin-top:50%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
+#pos12c{
+    width: 16%;
+    height: 16%;
+    margin-left: 17%;
+    margin-top:27%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
+#pos12d{
+    width: 16%;
+    height: 16%;
+    margin-left: 35%;
+    margin-top:34%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
+}
