@@ -2,8 +2,17 @@
 
 include("db.php");
 
-$gameId = $_REQUEST['gameId'];
-$gameId = 2;
+$instructor = $_REQUEST['instructor'];
+$section = $_REQUEST['section'];
+
+$query = "SELECT * FROM GAMES WHERE gameInstructor = ? AND gameSection = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("ss", $instructor,$section);
+$preparedQuery->execute();
+$results = $preparedQuery->get_result();
+$r= $results->fetch_assoc();
+
+$gameId = $r['gameId'];
 
 //teams
 $red = "Red";

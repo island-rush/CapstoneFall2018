@@ -5,12 +5,12 @@
         <link rel="stylesheet" type="text/css" href="index.css">
         <script type="text/javascript">
                 function checkLoginForm(){
-                    const sectionRegex = /^[MmTt][1-7][ABCDEFabcdef]$/;
+                    const sectionRegex = /^[MmTt][1-7][ABCDEFabcdef][1-9]$/;
 
-                    var section = document.forms['login']['section'].value;
-                    var instructor = document.forms['login']['instructor'].value;
-                    var team = document.forms['login']['team'].value;
-                    var valid = true;
+                    let section = document.forms['login']['section'].value;
+                    let instructor = document.forms['login']['instructor'].value;
+                    let team = document.forms['login']['team'].value;
+                    let valid = true;
 
                     if(section === ""){
                         document.getElementById('sectionFeedback').innerHTML = "\tERROR: Section must be specified";
@@ -18,7 +18,7 @@
                     }
                     else if(sectionRegex.test(section) === false){
                         document.getElementById('sectionFeedback').innerHTML = "\tERROR: Section improperly formatted, " +
-                            "must look like 'M3A'";
+                            "must look like 'M3A1'";
                         valid = false;
                     }
                     if(instructor === ""){
@@ -31,6 +31,15 @@
                         valid = false;
                     }
                     return valid;
+                }
+
+                function populateGame() {
+                    let section = document.forms['login']['section'].value;
+                    let instructor = document.forms['login']['instructor'].value;
+
+                    let phpGamePopulate = new XMLHttpRequest();
+                    phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
+                    phpGamePopulate.send();
                 }
         </script>
     </head>
@@ -88,6 +97,7 @@
                                     </tr>
                                 </table>
                             </form>
+                            <button onclick="populateGame()">Populate Game</button>
                         </td>
                     </tr>
                 </tbody>

@@ -289,6 +289,11 @@ html, body {
     /*background-color: white;*/
     background-repeat: no-repeat;
     background-size: 90% 90%;
+    /*border-color: white;*/
+    box-shadow: 0px 0px 0px 1px blue inset;
+    /*border-style: solid;*/
+    /*border-width: thin;*/
+    box-sizing: border-box;
     background-position: center;
 }
 .transport{background-image: url("resources/unitImages/transport.png");}
@@ -385,10 +390,10 @@ html, body {
     background-color: white;
 }
 .selectedPos{
-    background-color: black;
+    background-color: #fffb00;
 }
 .selectedPos:hover{
-    background-color: black;
+    background-color: #fff400;
 }
 
 /*----------------------------------------------------------------------------------------------*/
@@ -454,13 +459,13 @@ html, body {
     transform: rotate(0deg);
 }
 #pos13g{/*This position missing letter on image (small bottom triangle)*/
-    width: 15%;
-    height: 15%;
-    margin-left: 65%;
-    margin-top:65%;
-    -ms-transform: rotate(0deg); /* IE 9 */
-    -webkit-transform: rotate(0deg); /* Safari */
-    transform: rotate(0deg);
+    /*width: 15%;*/
+    /*height: 15%;*/
+    /*margin-left: 65%;*/
+    /*margin-top:65%;*/
+    /*-ms-transform: rotate(0deg); !* IE 9 *!*/
+    /*-webkit-transform: rotate(0deg); !* Safari *!*/
+    /*transform: rotate(0deg);*/
 }
 #pos13h{
     width: 20%;
