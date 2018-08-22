@@ -26,7 +26,7 @@ if (isset($positionId)) {
             if ($placementContainerId == 999999) {
 
                 //opening for overall piece
-                echo "<div class='".$unitName." gamePiece' data-placementId='".$placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this);' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+                echo "<div class='".$unitName." gamePiece ".$placementTeamId."' data-placementId='".$placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this);' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
                 //build containers for container pieces + pieces inside of them
                 if ($unitName == "transport" || $unitName == "aircraftCarrier" || $unitName == "lav") {
