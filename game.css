@@ -145,7 +145,7 @@ html, body {
     margin-top: -75%;
     background-repeat: no-repeat;
     background-size: 98% 98%;
-    background-color: #a30004;
+    /*background-color: #a30004;*/
     background-position: center;
     display: none;
 }
