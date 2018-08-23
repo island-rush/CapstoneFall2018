@@ -299,6 +299,10 @@ function positionDrop(event, newContainerElement) {
                         let phpRequest = new XMLHttpRequest();
                         phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                         phpRequest.send();
+
+                        //TODO: also need to call this in battle
+                        //if the new position Id is a flag position
+                        //check for new flag ownership (call other js function) 'islandOwnershipCheck'
                     }
                 }
             }
@@ -309,6 +313,14 @@ function positionDrop(event, newContainerElement) {
     event.stopPropagation();
 }
 
+// function islandOwnershipCheck(positionId) {
+//     if (empty) {
+//         //do nothing
+//     } else if (only 1 team has pieces there (can't have both')) {
+//         //change the html to the new team (css class)
+//         //change the database (first translate from position number to island number)
+//     }
+// }
 
 function positionDragover(event, callingElement) {
     event.preventDefault();
