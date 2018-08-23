@@ -2,6 +2,12 @@
 session_start();
 include("db.php");
 $gameId = $_SESSION['gameId'];
+$query = "SELECT * FROM GAMES WHERE gameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+$results = $preparedQuery->get_result();
+$r= $results->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,37 +18,107 @@ $gameId = $_SESSION['gameId'];
     <script type="text/javascript">
         let phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
         let unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker'];
-        let unitsMoves = <?php $query = 'SELECT * FROM units'; $query = $db->prepare($query); $query->execute(); $results = $query->get_result(); $num_results = $results->num_rows; $arr = array();
-            if ($num_results > 0) {
-                for ($i=0; $i < $num_results; $i++) {
-                    $r= $results->fetch_assoc();
-                    $unitName = $r['unitName'];
-                    $unitMoves = $r['unitMoves'];
+        let unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
+            if ($num_results2 > 0) {
+                for ($i=0; $i < $num_results2; $i++) {
+                    $z= $results2->fetch_assoc();
+                    $unitName = $z['unitName'];
+                    $unitMoves = $z['unitMoves'];
                     $arr[$unitName] = $unitMoves;
                 }
             }
             echo json_encode($arr); ?>;
 
         let gameId = "<?php echo $_SESSION['gameId']; ?>";
-        let gamePhase = "<?php echo $_SESSION['gamePhase']; ?>";
-        let gameTurn = "<?php echo $_SESSION['gameTurn']; ?>";
-        let gameCurrentTeam = "<?php echo $_SESSION['gameCurrentTeam']; ?>";
+        let gamePhase = "<?php echo $r['gamePhase']; ?>";
+        let gameTurn = "<?php echo $r['gameTurn']; ?>";
+        let gameCurrentTeam = "<?php echo $r['gameCurrentTeam']; ?>";
         let myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
-        let gameBattlePosSelected = "<?php echo $_SESSION['gameBattlePosSelected']; ?>";
-        let gameBattleSection = "<?php echo $_SESSION['gameBattleSection']; ?>";
-        let gameBattleSubSection = "<?php echo $_SESSION['gameBattleSubSection']; ?>";
-        let gameBattleLastRoll = "<?php echo $_SESSION['gameBattleLastRoll']; ?>";
-        let gameBattleLastMessage = "<?php echo $_SESSION['gameBattleLastMessage']; ?>";
+        let gameBattlePosSelected = "<?php echo $r['gameBattlePosSelected']; ?>";
+        let gameBattleSection = "<?php echo $r['gameBattleSection']; ?>";
+        let gameBattleSubSection = "<?php echo $r['gameBattleSubSection']; ?>";
+        let gameBattleLastRoll = "<?php echo $r['gameBattleLastRoll']; ?>";
+        let gameBattleLastMessage = "<?php echo $r['gameBattleLastMessage']; ?>";
 
         let gameBattleAdjacentArray = <?php echo $_SESSION['gameBattleAdjacentArray'] ?>;
 
-        let canMove = "<?php echo $_SESSION['canMove']; ?>";
-        let canPurchase = "<?php echo $_SESSION['canPurchase']; ?>";
-        let canUndo = "<?php echo $_SESSION['canUndo']; ?>";
-        let canNextPhase = "<?php echo $_SESSION['canNextPhase']; ?>";
-        let canTrash = "<?php echo $_SESSION['canTrash']; ?>";
-        let canAttack = "<?php echo $_SESSION['canAttack']; ?>";
+        <?php
+        if ($r['gameCurrentTeam'] != $_SESSION['myTeam']) {
+            //not this team's turn, don't allow anything
+            $canMove = "false";
+            $canPurchase = "false";
+            $canUndo = "false";
+            $canNextPhase = "false";
+            $canTrash = "false";
+            $canAttack = "false";
+        } else {
+            if ($r['gamePhase'] == 1) {
+                //news alert
+                $canMove = "false";
+                $canPurchase = "false";
+                $canUndo = "false";
+                $canNextPhase = "true";
+                $canTrash = "false";
+                $canAttack = "false";
+            } elseif ($r['gamePhase'] == 2) {
+                //reinforcement purchase
+                $canMove = "false";
+                $canPurchase = "true";
+                $canUndo = "false";
+                $canNextPhase = "true";
+                $canTrash = "true";
+                $canAttack = "false";
+            } elseif ($r['gamePhase'] == 3) {
+                //combat
+                $canMove = "true";
+                $canPurchase = "false";
+                $canUndo = "true";
+                $canNextPhase = "true";
+                $canTrash = "false";
+                $canAttack = "true";
+            } elseif ($r['gamePhase'] == 4) {
+                //fortification movement
+                $canMove = "true";
+                $canPurchase = "false";
+                $canUndo = "true";
+                $canNextPhase = "true";
+                $canTrash = "false";
+                $canAttack = "false";
+            } elseif ($r['gamePhase'] == 5) {
+                //reinforcement place
+                $canMove = "true";
+                $canPurchase = "false";
+                $canUndo = "true";
+                $canNextPhase = "true";
+                $canTrash = "false";
+                $canAttack = "false";
+            } elseif ($r['gamePhase'] == 6) {
+                //hybrid warfare
+                $canMove = "false";
+                $canPurchase = "false";
+                $canUndo = "false";
+                $canNextPhase = "true";
+                $canTrash = "false";
+                $canAttack = "false";
+            } else {
+                //tally points (7)
+                $canMove = "false";
+                $canPurchase = "false";
+                $canUndo = "false";
+                $canNextPhase = "true";
+                $canTrash = "false";
+                $canAttack = "false";
+            }
+        }
+        ?>
+
+        let canMove = "<?php echo $canMove; ?>";
+        let canPurchase = "<?php echo $canPurchase; ?>";
+        let canUndo = "<?php echo $canUndo; ?>";
+        let canNextPhase = "<?php echo $canNextPhase; ?>";
+        let canTrash = "<?php echo $canTrash; ?>";
+        let canAttack = "<?php echo $canAttack; ?>";
 
         let hoverTimer;
     </script>
@@ -230,8 +306,8 @@ $gameId = $_SESSION['gameId'];
         <div class="gridblock water" data-positionId="38" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 38; include("pieceDisplay.php"); ?></div>
         <div class="gridblock water" data-positionId="39" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 39; include("pieceDisplay.php"); ?></div>
         <div class="gridblock water" data-positionId="40" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 40; include("pieceDisplay.php"); ?></div>
-        <div class="gridblock grid_special_island11 Blue" id="special_island11" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="islandClick(event, this);">
-            <div id="special_island11" class="special_island11 special_island3x3 Blue" ondragleave="popupDragleave(event, this);">
+        <div class="gridblock grid_special_island11" id="special_island11" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="islandClick(event, this);">
+            <div id="special_island11" class="special_island11 special_island3x3" ondragleave="popupDragleave(event, this);">
                 <div class="gridblockTiny" data-positionType="land" id="pos11a" data-positionId="111" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 111; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos11b" data-positionId="112" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 112; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos11c" data-positionId="113" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 113; include("pieceDisplay.php"); ?></div>
@@ -239,8 +315,8 @@ $gameId = $_SESSION['gameId'];
         </div>
         <div class="gridblock water" data-positionId="41" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 41; include("pieceDisplay.php"); ?></div>
         <div class="gridblock water" data-positionId="42" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 42; include("pieceDisplay.php"); ?></div>
-        <div class="gridblock grid_special_island12 Red" id="special_island12" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="islandClick(event, this);">
-            <div id="special_island12" class="special_island12 special_island3x3 Red" ondragleave="popupDragleave(event, this);">
+        <div class="gridblock grid_special_island12" id="special_island12" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="islandClick(event, this);">
+            <div id="special_island12" class="special_island12 special_island3x3" ondragleave="popupDragleave(event, this);">
                 <div class="gridblockTiny" data-positionType="land" id="pos12a" data-positionId="114" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 114; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos12b" data-positionId="115" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 115; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos12c" data-positionId="116" data-positionContainerId="999999" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 116; include("pieceDisplay.php"); ?></div>

@@ -1,11 +1,18 @@
 <?php
 session_start();  //needed to update session variables
 include("db.php");
-
 $gameId = $_SESSION['gameId'];
-$gamePhase = $_SESSION['gamePhase'];
-$gameCurrentTeam = $_SESSION['gameCurrentTeam'];
-$gameTurn = $_SESSION['gameTurn'];
+$query = "SELECT * FROM GAMES WHERE gameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+$results = $preparedQuery->get_result();
+$r= $results->fetch_assoc();
+
+
+$gamePhase = $r['gamePhase'];
+$gameCurrentTeam = $r['gameCurrentTeam'];
+$gameTurn = $r['gameTurn'];
 $myTeam = $_SESSION['myTeam'];
 
 $new_gamePhase = ($gamePhase % 7) + 1;
@@ -95,16 +102,19 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "false";
+
+        //TODO: reset the stuff like battle used = 0
+
     }
 }
 
 //for testing purposes
-$canMove = "true";
-$canPurchase = "true";
-$canUndo = "true";
-$canNextPhase = "true";
-$canTrash = "true";
-$canAttack = "true";
+//$canMove = "true";
+//$canPurchase = "true";
+//$canUndo = "true";
+//$canNextPhase = "true";
+//$canTrash = "true";
+//$canAttack = "true";
 
 
 $arr = array('gamePhase' => $new_gamePhase, 'gameTurn' => $new_gameTurn, 'gameCurrentTeam' => $new_gameCurrentTeam, 'canMove' => $canMove, 'canPurchase' => $canPurchase, 'canUndo' => $canUndo, 'canNextPhase' => $canNextPhase, 'canTrash' => $canTrash, 'canAttack' => $canAttack);

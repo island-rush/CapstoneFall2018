@@ -116,12 +116,12 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     }
 
     //for testing purposes (always allow everything)
-    $canMove = "true";
-    $canPurchase = "true";
-    $canUndo = "true";
-    $canNextPhase = "true";
-    $canTrash = "true";
-    $canAttack = "true";
+//    $canMove = "true";
+//    $canPurchase = "true";
+//    $canUndo = "true";
+//    $canNextPhase = "true";
+//    $canTrash = "true";
+//    $canAttack = "true";
 
     $_SESSION['canMove'] = $canMove;
     $_SESSION['canPurchase'] = $canPurchase;
