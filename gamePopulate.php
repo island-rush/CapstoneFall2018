@@ -14,6 +14,11 @@ $r= $results->fetch_assoc();
 
 $gameId = $r['gameId'];
 
+$query = "DELETE FROM PLACEMENTS where placementGameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
 //teams
 $red = "Red";
 $blue = "Blue";

@@ -10,9 +10,9 @@ $battleTerrain = $_REQUEST['battleTerrain'];
 
 
 if ($battleTerrain == "water") {
-    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementBattleUsed = 0) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (unitTerrain != "ground") AND (placementUnitId = unitId)';
+    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (unitTerrain != "ground") AND (placementUnitId = unitId)';
 } else {
-    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementBattleUsed = 0) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (placementUnitId = unitId)';
+    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (placementUnitId = unitId)';
 }
 $query = $db->prepare($query);
 $query->bind_param("iis", $gameId, $positionSelected, $defenseTeam);
