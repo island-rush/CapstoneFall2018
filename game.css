@@ -945,8 +945,8 @@ html, body {
 #pos12a{
     width: 16%;
     height: 16%;
-    margin-left: 56%;
-    margin-top:39%;
+    margin-left: 57%;
+    margin-top:37%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
@@ -954,8 +954,8 @@ html, body {
 #pos12b{
     width: 16%;
     height: 16%;
-    margin-left: 43%;
-    margin-top:50%;
+    margin-left: 41%;
+    margin-top:52%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
@@ -976,5 +976,5 @@ html, body {
     margin-top:34%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
-    transform: rotate(0deg);
+    transrm: rotate(0deg);
 }
