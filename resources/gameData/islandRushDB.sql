@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
 INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
 
 
@@ -118,17 +118,17 @@ CREATE TABLE IF NOT EXISTS `battlePieces`(
 );
 
 -- Table of board updates to send to other client (piece stuff mostly)
-CREATE TABLE IF NOT EXISTS `updates`(  
-	`updateId` int(16) NOT NULL AUTO_INCREMENT,    
-	`updateGameId` int(5) NOT NULL,     
+CREATE TABLE IF NOT EXISTS `updates`(
+	`updateId` int(16) NOT NULL AUTO_INCREMENT,
+	`updateGameId` int(5) NOT NULL,
 	`updateValue` int(5) NOT NULL,  -- has the update been processed / changed / null? (0 = not been processed) (1 = processed)  
-	`updateTeam` varchar(10),     
-	`updateType` varchar(30),     
-	`updatePlacementId` int(4) DEFAULT 0,     
-	`updateNewPositionId` int(4) DEFAULT 0,     
-	`updateNewContainerId` int(4) DEFAULT 0,     
-	`updateNewUnitId` int(4) DEFAULT 16,     
-	PRIMARY KEY(`updateId`) 
+	`updateTeam` varchar(10),
+	`updateType` varchar(30),
+	`updatePlacementId` int(4) DEFAULT 0,
+	`updateNewPositionId` int(4) DEFAULT 0,
+	`updateNewContainerId` int(4) DEFAULT 0,
+	`updateNewUnitId` int(4) DEFAULT 16, 
+	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 

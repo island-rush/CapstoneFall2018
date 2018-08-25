@@ -846,7 +846,6 @@ function updatePiecePurchase(placementId, unitId) {
     purchaseContainer.innerHTML += echoString;
 }
 
-
 function updatePieceMove(placementId, newPositionId, newContainerId){
     // alert("moving");
     let pieceToMove = document.querySelector("[data-placementId='" + placementId.toString() + "']");
@@ -859,7 +858,6 @@ function updatePieceMove(placementId, newPositionId, newContainerId){
     theContainer.appendChild(pieceToMove);
 }
 
-
 function updatePieceDelete(placementId) {
     document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
     document.querySelector("[data-battlePieceId='" + placementId + "']").remove();  //battlezone
@@ -869,6 +867,16 @@ function updatePieceTrash(placementId) {
     document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
 }
 
+function updatePhaseChange() {
 
-// alert(unitNames[11]);
+}
+
+function updateButtonClick() {
+    //maybe do this for all buttons, and know which javascript function to call
+    //except don't make the php call to the database, cause its already updated?
+}
+
+
+
+
 waitForUpdate();
