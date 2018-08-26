@@ -507,24 +507,24 @@ function battleChangeSection(newSection) {
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
         document.getElementById("changeSectionButton").onclick = function() {
             battleChangeSection("counter");
-            // let newParent = document.getElementById('unused_attacker');
-            // let oldParent = document.getElementById('used_attacker');
-            // while (oldParent.childNodes.length > 0) {
-            //     oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            //     let phpMoveBattlePiece = new XMLHttpRequest();
-            //     phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
-            //     phpMoveBattlePiece.send();
-            //     newParent.appendChild(oldParent.childNodes[0]);
-            // }
-            // newParent = document.getElementById('unused_defender');
-            // oldParent = document.getElementById('used_defender');
-            // while (oldParent.childNodes.length > 0) {
-            //     oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            //     let phpMoveBattlePiece = new XMLHttpRequest();
-            //     phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
-            //     phpMoveBattlePiece.send();
-            //     newParent.appendChild(oldParent.childNodes[0]);
-            // }
+            let newParent = document.getElementById('unused_attacker');
+            let oldParent = document.getElementById('used_attacker');
+            while (oldParent.childNodes.length > 0) {
+                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+                let phpMoveBattlePiece = new XMLHttpRequest();
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+                phpMoveBattlePiece.send();
+                newParent.appendChild(oldParent.childNodes[0]);
+            }
+            newParent = document.getElementById('unused_defender');
+            oldParent = document.getElementById('used_defender');
+            while (oldParent.childNodes.length > 0) {
+                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+                let phpMoveBattlePiece = new XMLHttpRequest();
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+                phpMoveBattlePiece.send();
+                newParent.appendChild(oldParent.childNodes[0]);
+            }
         };
     } else if (newSection === "counter") {
         document.getElementById("attackButton").innerHTML = "Counter Attack";
@@ -532,26 +532,27 @@ function battleChangeSection(newSection) {
         document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
     } else if (newSection === "askRepeat") {
-        // let newParent = document.getElementById('unused_attacker');
-        // let oldParent = document.getElementById('used_attacker');
-        // while (oldParent.childNodes.length > 0) {
-        //     oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-        //     let phpMoveBattlePiece = new XMLHttpRequest();
-        //     phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
-        //     phpMoveBattlePiece.send();
-        //     newParent.appendChild(oldParent.childNodes[0]);
-        // }
-        // newParent = document.getElementById('unused_defender');
-        // oldParent = document.getElementById('used_defender');
-        // while (oldParent.childNodes.length > 0) {
-        //     oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-        //     let phpMoveBattlePiece = new XMLHttpRequest();
-        //     phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
-        //     phpMoveBattlePiece.send();
-        //     newParent.appendChild(oldParent.childNodes[0]);
-        // }
+        let newParent = document.getElementById('unused_attacker');
+        let oldParent = document.getElementById('used_attacker');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+        newParent = document.getElementById('unused_defender');
+        oldParent = document.getElementById('used_defender');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
         document.getElementById("attackButton").disabled = false;
+        //TODO: move elements back to where they belong / used -> unused
         document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
@@ -895,6 +896,7 @@ function updateNextPhase() {
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
+            //TODO: also put this in the main changePhase function?
             if (gamePhase === "1") {
                 //make the popup visible?
                 //TODO: function for popping the news / grabbing the next thing in the queue / effecting the game
