@@ -831,7 +831,7 @@ function updatePiecePurchase(placementId, unitId) {
     } else {
         notMyTeam = "Red";
     }
-    let echoString = '';
+    let echoString = "";
     echoString += "<div class='" + unitNames[unitId] + " gamePiece " + notMyTeam + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitId] + "' data-placementContainerId='999999' data-placementTeamId='" + notMyTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
     if (unitNames[unitId] === "transport" || unitNames[unitId] === "aircraftCarrier") {
         let classthing;
@@ -847,7 +847,6 @@ function updatePiecePurchase(placementId, unitId) {
 }
 
 function updatePieceMove(placementId, newPositionId, newContainerId){
-    // alert("moving");
     let pieceToMove = document.querySelector("[data-placementId='" + placementId.toString() + "']");
     let theContainer;
     if (newContainerId.toString() !== "999999") {
@@ -867,13 +866,42 @@ function updatePieceTrash(placementId) {
     document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
 }
 
-function updatePhaseChange() {
+function updateNextPhase() {
+    let phpPhaseChange = new XMLHttpRequest();
+    phpPhaseChange.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let decoded = JSON.parse(this.responseText);
+            gamePhase = decoded.gamePhase;
+            gameTurn = decoded.gameTurn;
+            gameCurrentTeam = decoded.gameCurrentTeam;
+            canMove = decoded.canMove;
+            canPurchase = decoded.canPurchase;
+            canUndo = decoded.canUndo;
+            canNextPhase = decoded.canNextPhase;
+            canTrash = decoded.canTrash;
+            canAttack = decoded.canAttack;
+            if (canAttack === "true") {
+                document.getElementById("battle_button").disabled = false;
+            } else {
+                document.getElementById("battle_button").disabled = true;
+            }
+            document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
+            document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
+            if (gamePhase === "1") {
+                //make the popup visible?
+                //TODO: function for popping the news / grabbing the next thing in the queue / effecting the game
+                //if its phase 2 now, get rid of the popup...
+            }
+
+        }
+    };
+    phpPhaseChange.open("GET", "updateGetPhase.php", true);  // removes the element from the database
+    phpPhaseChange.send();
 }
 
 function updateButtonClick() {
-    //maybe do this for all buttons, and know which javascript function to call
-    //except don't make the php call to the database, cause its already updated?
+    //this likely wont get used
 }
 
 

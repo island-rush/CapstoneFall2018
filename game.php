@@ -350,6 +350,7 @@ $r= $results->fetch_assoc();
             <div id="battleActionPopup">
                 <button id="actionPopupButton">Loading...</button>
             </div>
+            <div id="newsPopup">This is the news popup...</div>
         </div>
     </div>
 </div>
