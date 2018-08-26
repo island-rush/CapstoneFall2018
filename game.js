@@ -813,6 +813,8 @@ function waitForUpdate() {
                 updatePieceTrash(decoded.updatePlacementId);
             } else if (decoded.updateType === "piecePurchase") {
                 updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId));
+            } else if (decoded.updateType === "battlePieceMove") {
+                updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
             }
 
             waitForUpdate();
@@ -820,6 +822,11 @@ function waitForUpdate() {
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
+}
+
+function updateBattlePieceMove(battlePieceId, battlePieceState) {
+    let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
+    document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
 }
 
 function updatePiecePurchase(placementId, unitId) {

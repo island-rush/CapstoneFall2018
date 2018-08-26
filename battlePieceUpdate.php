@@ -10,6 +10,14 @@ if ($new_battlePieceState != 9) {
     $query = $db->prepare($query);
     $query->bind_param("ii", $new_battlePieceState, $battlePieceId);
     $query->execute();
+
+    //tell other client about the battle piece moving
+    $newValue = 0;
+    $updateType = "battlePieceMove";
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateBattlePieceState) VALUES (?, ?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissii", $gameId, $newValue, $myTeam, $updateType, $battlePieceId, $new_battlePieceState);
+    $query->execute();
 } else {
     //delete the piece from database
     $query = 'DELETE FROM battlePieces WHERE battlePieceId = ?';

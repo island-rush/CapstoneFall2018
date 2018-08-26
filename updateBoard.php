@@ -25,7 +25,7 @@ while(true) {
         $r= $results->fetch_assoc();
         if ($r['updateTeam'] != $myTeam) {
             $updateId = $r['updateId'];
-            $arr = array('updateType' => $r['updateType'], 'updatePlacementId' => $r['updatePlacementId'], 'updateNewPositionId' => $r['updateNewPositionId'], 'updateNewContainerId' => $r['updateNewContainerId'], 'updateNewUnitId' => $r['updateNewUnitId']);
+            $arr = array('updateType' => $r['updateType'], 'updatePlacementId' => $r['updatePlacementId'], 'updateNewPositionId' => $r['updateNewPositionId'], 'updateNewContainerId' => $r['updateNewContainerId'], 'updateNewUnitId' => $r['updateNewUnitId'], 'updateBattlePieceState' => $r['updateBattlePieceState']);
             echo json_encode($arr);
             break;
         }
