@@ -301,8 +301,7 @@ function positionDrop(event, newContainerElement) {
                         phpRequest.send();
 
                         //TODO: also need to call this in battle
-                        //if the new position Id is a flag position
-                        //check for new flag ownership (call other js function) 'islandOwnershipCheck'
+                        //islandOwnershipCheck();
                     }
                 }
             }
@@ -825,11 +824,6 @@ function waitForUpdate() {
     phpUpdateBoard.send();
 }
 
-function updateBattlePieceMove(battlePieceId, battlePieceState) {
-    let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
-    document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
-}
-
 function updatePiecePurchase(placementId, unitId) {
     // alert("purchasing");
     let purchaseContainer = document.getElementById("purchased_container");
@@ -916,4 +910,38 @@ function updateButtonClick() {
 
 
 
+function setIslandOwnership(islandIdName) {
+    //set the allColor  values
+    hasBlue = false;
+    hasRed = false;
+
+    numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
+    //Check if all pieces in a box are one color
+    for(index = 0; index < numChildNodes; index++){
+        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Red"){
+            hasRed = true;
+        }
+        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Blue" ){
+            hasBlue = true;
+        }
+    }
+    //change the box shadow if it only has the opposite color as the box shadow.
+    if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") == "Blue" && hasRed && !hasBlue) {
+        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Red";
+    } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ==  "Red" && hasBlue && !hasRed){
+        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Blue";
+    }
+}
+
+function islandOwnershipCheck(){
+    //stores data-positionId value of all flags
+    var flag_loctions = [ "special_island1", "special_island2", "special_island3", "special_island4", "special_island5",
+        "special_island6", "special_island7", "special_island8", "special_island9", "special_island10",
+        "special_island11", "special_island12", "special_island13", "special_island14"];
+    for (index = 0; index < flag_loctions.length; index++) {
+        setIslandOwnership(flag_loctions[index]);
+    }
+}
+
+// alert(unitNames[11]);
 waitForUpdate();
