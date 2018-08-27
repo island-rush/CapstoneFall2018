@@ -30,11 +30,25 @@ CREATE TABLE IF NOT EXISTS `games`(
     `gameBattleLastRoll` int(1) NOT NULL, -- 0 for default (or no roll to display anymore/reset), 1-6 for roll
     `gameBattleLastMessage` varchar(50), -- used for explaining what happened "red killed blue's fighter with fighter" ex...
     `gameBattlePosSelected` int(4) NOT NULL, -- positionId chosen by attacker (999999 default)
+    `gameIsland1` varchar(10) NOT NULL,
+    `gameIsland2` varchar(10) NOT NULL,
+    `gameIsland3` varchar(10) NOT NULL,
+    `gameIsland4` varchar(10) NOT NULL,
+    `gameIsland5` varchar(10) NOT NULL,
+    `gameIsland6` varchar(10) NOT NULL,
+    `gameIsland7` varchar(10) NOT NULL,
+    `gameIsland8` varchar(10) NOT NULL,
+    `gameIsland9` varchar(10) NOT NULL,
+    `gameIsland10` varchar(10) NOT NULL,
+    `gameIsland11` varchar(10) NOT NULL,
+    `gameIsland12` varchar(10) NOT NULL,
+    `gameIsland13` varchar(10) NOT NULL,
+    `gameIsland14` varchar(10) NOT NULL,
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999);
-INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999);
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
+INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
 
 
 -- Table of Units (static)
@@ -104,39 +118,18 @@ CREATE TABLE IF NOT EXISTS `battlePieces`(
 );
 
 -- Table of board updates to send to other client (piece stuff mostly)
-CREATE TABLE IF NOT EXISTS `updates`(  
-	`updateId` int(16) NOT NULL AUTO_INCREMENT,    
-	`updateGameId` int(5) NOT NULL,     
+CREATE TABLE IF NOT EXISTS `updates`(
+	`updateId` int(16) NOT NULL AUTO_INCREMENT,
+	`updateGameId` int(5) NOT NULL,
 	`updateValue` int(5) NOT NULL,  -- has the update been processed / changed / null? (0 = not been processed) (1 = processed)  
-	`updateTeam` varchar(10),     
-	`updateType` varchar(30),     
-	`updatePlacementId` int(4) DEFAULT 0,     
-	`updateNewPositionId` int(4) DEFAULT 0,     
-	`updateNewContainerId` int(4) DEFAULT 0,     
-	`updateNewUnitId` int(4) DEFAULT 16,     
-	PRIMARY KEY(`updateId`) 
+	`updateTeam` varchar(10),
+	`updateType` varchar(30),
+	`updatePlacementId` int(4) DEFAULT 0,
+	`updateNewPositionId` int(4) DEFAULT 0,
+	`updateNewContainerId` int(4) DEFAULT 0,
+	`updateNewUnitId` int(4) DEFAULT 16, 
+	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
-
-
-INSERT INTO placements VALUES (1, 1, 0, 'Red', 999999, 5, 0, 0);
-INSERT INTO placements VALUES (2, 1, 1, 'Red', 999999, 5, 1, 0);
-INSERT INTO placements VALUES (3, 1, 2, 'Red', 999999, 5, 2, 0);
-INSERT INTO placements VALUES (4, 1, 3, 'Red', 999999, 5, 3, 0);
-INSERT INTO placements VALUES (5, 1, 4, 'Red', 999999, 5, 4, 0);
-INSERT INTO placements VALUES (6, 1, 5, 'Red', 999999, 5, 5, 0);
-INSERT INTO placements VALUES (7, 1, 6, 'Red', 999999, 5, 6, 0);
-INSERT INTO placements VALUES (8, 1, 7, 'Red', 999999, 5, 7, 0);
-INSERT INTO placements VALUES (9, 1, 8, 'Red', 999999, 5, 8, 0);
-INSERT INTO placements VALUES (10, 1, 9, 'Red', 999999, 5, 9, 0);
-INSERT INTO placements VALUES (11, 1, 10, 'Red', 999999, 5, 10, 0);
-INSERT INTO placements VALUES (12, 1, 11, 'Red', 999999, 5, 11, 0);
-INSERT INTO placements VALUES (13, 1, 12, 'Red', 999999, 5, 12, 0);
-INSERT INTO placements VALUES (14, 1, 13, 'Red', 999999, 5, 13, 0);
-INSERT INTO placements VALUES (15, 1, 14, 'Red', 999999, 5, 14, 0);
-INSERT INTO placements VALUES (16, 1, 14, 'Blue', 999999, 5, 15, 0);
-
-
-
 
 
 -- SELECT * FROM updates;
