@@ -140,7 +140,7 @@ function pieceClick(event, callingElement) {
 
 function pieceDragstart(event, callingElement) {
     //canMove is dictated by phase and current Team
-    if (canMove === "true" && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
+    if ((canMove === "true" || canPurchase === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
         //From the container (parent of the piece)
         event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
         //From the Piece
@@ -277,28 +277,30 @@ function positionDrop(event, newContainerElement) {
     let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
     let new_placementContainerId = newContainerElement.getAttribute("data-positionContainerId");
     let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
-    if (movementTerrainCheck(unitTerrain, positionType) === "true") {
-        let phpMoveCheck = new XMLHttpRequest();
-        phpMoveCheck.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let movementCost = this.responseText;
-                if (movementCost !== "-1") {
-                    if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
-                        //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
-                        let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
 
-                        //Update the html by moving the piece and changing the piece's attributes
-                        newContainerElement.appendChild(pieceDropped);
-                        pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
-                        pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
-                        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-                            pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
-                        }
+    if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
+        if (movementTerrainCheck(unitTerrain, positionType) === "true") {
+            let phpMoveCheck = new XMLHttpRequest();
+            phpMoveCheck.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let movementCost = this.responseText;
+                    if (movementCost !== "-1") {
+                        if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
+                            //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
+                            let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
 
-                        //Update the placement in the database and add a movement to the database
-                        let phpRequest = new XMLHttpRequest();
-                        phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
-                        phpRequest.send();
+                            //Update the html by moving the piece and changing the piece's attributes
+                            newContainerElement.appendChild(pieceDropped);
+                            pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
+                            pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
+                            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+                                pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
+                            }
+
+                            //Update the placement in the database and add a movement to the database
+                            let phpRequest = new XMLHttpRequest();
+                            phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
+                            phpRequest.send();
 
                         //TODO: also need to call this in battle
                         //islandOwnershipCheck();
@@ -802,7 +804,7 @@ function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
     phpUpdateBoard.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            // alert(this.responseText);
+            alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
             if (decoded.updateType === "pieceMove") {
@@ -815,6 +817,8 @@ function waitForUpdate() {
                 updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId));
             } else if (decoded.updateType === "battlePieceMove") {
                 updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
+            } else if (decoded.updateType === "phaseChange") {
+                updateNextPhase();
             }
 
             waitForUpdate();
@@ -822,6 +826,11 @@ function waitForUpdate() {
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
+}
+
+function updateBattlePieceMove(battlePieceId, battlePieceState) {
+    let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
+    document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
 }
 
 function updatePiecePurchase(placementId, unitId) {

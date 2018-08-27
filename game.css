@@ -311,10 +311,10 @@ html, body {
 }
 
 .Red{
-    box-shadow: 0px 0px 0px 1px red inset;
+    box-shadow: 0px 0px 0px 1px rgba(255, 0, 0, 0.55) inset;
 }
 .Blue{
-    box-shadow: 0px 0px 0px 1px blue inset;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 255, 0.56) inset;
 }
 
 .transport{background-image: url("resources/unitImages/transport.png");}

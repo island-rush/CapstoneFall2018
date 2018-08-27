@@ -117,6 +117,13 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
 //$canAttack = "true";
 
 
+$newValue = 0;
+$updateType = "pieceMove";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
+
 $arr = array('gamePhase' => $new_gamePhase, 'gameTurn' => $new_gameTurn, 'gameCurrentTeam' => $new_gameCurrentTeam, 'canMove' => $canMove, 'canPurchase' => $canPurchase, 'canUndo' => $canUndo, 'canNextPhase' => $canNextPhase, 'canTrash' => $canTrash, 'canAttack' => $canAttack);
 echo json_encode($arr);
 
