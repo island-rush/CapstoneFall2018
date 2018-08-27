@@ -321,7 +321,8 @@ function positionDrop(event, newContainerElement) {
 //         //change the html to the new team (css class)
 //         //change the database (first translate from position number to island number)
 //     }
-// }
+}
+
 
 function positionDragover(event, callingElement) {
     event.preventDefault();
