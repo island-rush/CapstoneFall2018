@@ -352,7 +352,10 @@ $u = $results->fetch_assoc();
             </div>
 
         </div>
-        <div id="newsPopup">This is the news popup...</div>
+        <div id="newsPopup">
+            <div id="newsTitle">Title</div>
+            <div id="newsText">Text</div>
+        </div>
     </div>
 </div>
 </body>

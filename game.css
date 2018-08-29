@@ -72,8 +72,8 @@ html, body {
 
 
 #newsPopup{
-    width: 400px;
-    height: 500px;
+    width: 25%;
+    height: 25%;
     position: absolute;
     display: none;
     /*background-image: url("resources/mapImages/battle_zone.png");*/
@@ -82,8 +82,11 @@ html, body {
     background-color: #14a51b;
     /*background-position: center;*/
     z-index: 500;
-    margin-left: 300px;
-    margin-top: 75px;
+    margin-left: 20%;
+    margin-top: 15%;
+}
+#newsTitle{
+    text-align: center;
 }
 
 
