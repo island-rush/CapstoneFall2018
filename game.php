@@ -16,9 +16,9 @@ $u = $results->fetch_assoc();
     <link rel="shortcut icon" type="image/x-icon" href="http://localhost/favicon.ico?v=2">
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
-        let phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
-        let unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker'];
-        let unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
+        var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
+        var unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker'];
+        var unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
             if ($num_results2 > 0) {
                 for ($i=0; $i < $num_results2; $i++) {
                     $z= $results2->fetch_assoc();
@@ -29,19 +29,19 @@ $u = $results->fetch_assoc();
             }
             echo json_encode($arr); ?>;
 
-        let gameId = "<?php echo $_SESSION['gameId']; ?>";
-        let gamePhase = "<?php echo $u['gamePhase']; ?>";
-        let gameTurn = "<?php echo $u['gameTurn']; ?>";
-        let gameCurrentTeam = "<?php echo $u['gameCurrentTeam']; ?>";
-        let myTeam = "<?php echo $_SESSION['myTeam']; ?>";
+        var gameId = "<?php echo $_SESSION['gameId']; ?>";
+        var gamePhase = "<?php echo $u['gamePhase']; ?>";
+        var gameTurn = "<?php echo $u['gameTurn']; ?>";
+        var gameCurrentTeam = "<?php echo $u['gameCurrentTeam']; ?>";
+        var myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
-        let gameBattlePosSelected = "<?php echo $u['gameBattlePosSelected']; ?>";
-        let gameBattleSection = "<?php echo $u['gameBattleSection']; ?>";
-        let gameBattleSubSection = "<?php echo $u['gameBattleSubSection']; ?>";
-        let gameBattleLastRoll = "<?php echo $u['gameBattleLastRoll']; ?>";
-        let gameBattleLastMessage = "<?php echo $u['gameBattleLastMessage']; ?>";
+        var gameBattlePosSelected = "<?php echo $u['gameBattlePosSelected']; ?>";
+        var gameBattleSection = "<?php echo $u['gameBattleSection']; ?>";
+        var gameBattleSubSection = "<?php echo $u['gameBattleSubSection']; ?>";
+        var gameBattleLastRoll = "<?php echo $u['gameBattleLastRoll']; ?>";
+        var gameBattleLastMessage = "<?php echo $u['gameBattleLastMessage']; ?>";
 
-        let gameBattleAdjacentArray = <?php echo $_SESSION['gameBattleAdjacentArray'] ?>;
+        var gameBattleAdjacentArray = <?php echo $_SESSION['gameBattleAdjacentArray'] ?>;
 
         <?php
         if ($u['gameCurrentTeam'] != $_SESSION['myTeam']) {
@@ -113,14 +113,14 @@ $u = $results->fetch_assoc();
         }
         ?>
 
-        let canMove = "<?php echo $canMove; ?>";
-        let canPurchase = "<?php echo $canPurchase; ?>";
-        let canUndo = "<?php echo $canUndo; ?>";
-        let canNextPhase = "<?php echo $canNextPhase; ?>";
-        let canTrash = "<?php echo $canTrash; ?>";
-        let canAttack = "<?php echo $canAttack; ?>";
+        var canMove = "<?php echo $canMove; ?>";
+        var canPurchase = "<?php echo $canPurchase; ?>";
+        var canUndo = "<?php echo $canUndo; ?>";
+        var canNextPhase = "<?php echo $canNextPhase; ?>";
+        var canTrash = "<?php echo $canTrash; ?>";
+        var canAttack = "<?php echo $canAttack; ?>";
 
-        let hoverTimer;
+        var hoverTimer;
     </script>
     <script src="game.js"></script>
 </head>
@@ -350,8 +350,9 @@ $u = $results->fetch_assoc();
             <div id="battleActionPopup">
                 <button id="actionPopupButton">Loading...</button>
             </div>
-            <div id="newsPopup">This is the news popup...</div>
+
         </div>
+        <div id="newsPopup">This is the news popup...</div>
     </div>
 </div>
 </body>

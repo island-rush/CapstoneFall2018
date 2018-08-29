@@ -77,10 +77,10 @@ html, body {
     position: absolute;
     display: none;
     /*background-image: url("resources/mapImages/battle_zone.png");*/
-    background-repeat: no-repeat;
-    background-size: 390px 490px;
-    background-color: #001aa5;
-    background-position: center;
+    /*background-repeat: no-repeat;*/
+    /*background-size: 390px 490px;*/
+    background-color: #14a51b;
+    /*background-position: center;*/
     z-index: 500;
     margin-left: 300px;
     margin-top: 75px;

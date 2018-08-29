@@ -89,7 +89,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     }
 }
 
-$arr = array('gamePhase' => $new_gamePhase, 'gameTurn' => $new_gameTurn, 'gameCurrentTeam' => $new_gameCurrentTeam, 'canMove' => $canMove, 'canPurchase' => $canPurchase, 'canUndo' => $canUndo, 'canNextPhase' => $canNextPhase, 'canTrash' => $canTrash, 'canAttack' => $canAttack);
+$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack);
 echo json_encode($arr);
 
 $db->close();

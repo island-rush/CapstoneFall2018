@@ -395,6 +395,7 @@ function clearSelected() {
 
 
 function bodyLoader() {
+    // alert(myTeam);
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
@@ -459,17 +460,23 @@ function bodyLoader() {
     } else {
         document.getElementById("battle_button").disabled = true;
     }
-
     if (canUndo === "true") {
         document.getElementById("undo_button").disabled = false;
     } else {
         document.getElementById("undo_button").disabled = true;
     }
-
     if (canNextPhase === "true") {
         document.getElementById("phase_button").disabled = false;
     } else {
         document.getElementById("phase_button").disabled = true;
+    }
+    if (gamePhase === "1") {
+        // alert("phase1");
+        //TODO: phase effects here and grab phase stuff???
+        document.getElementById("newsPopup").style.display = "block";
+    } else {
+        // alert("not phase 1");
+        document.getElementById("newsPopup").style.display = "none";
     }
 }
 
@@ -479,6 +486,7 @@ function changePhase() {
         let phpPhaseChange = new XMLHttpRequest();
         phpPhaseChange.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
+                // alert(this.responseText);
                 let decoded = JSON.parse(this.responseText);
                 gamePhase = decoded.gamePhase;
                 gameTurn = decoded.gameTurn;
@@ -503,6 +511,15 @@ function changePhase() {
                     document.getElementById("phase_button").disabled = false;
                 } else {
                     document.getElementById("phase_button").disabled = true;
+                }
+                // alert(gamePhase);
+                if (gamePhase === "1") {
+                    // alert("phase1");
+                    //TODO: phase effects here and grab phase stuff???
+                    document.getElementById("newsPopup").style.display = "block";
+                } else {
+                    // alert("not phase 1");
+                    document.getElementById("newsPopup").style.display = "none";
                 }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
@@ -892,12 +909,12 @@ function updatePiecePurchase(placementId, unitId) {
 }
 
 function updatePieceMove(placementId, newPositionId, newContainerId){
-    let pieceToMove = document.querySelector("[data-placementId='" + placementId.toString() + "']");
+    let pieceToMove = document.querySelector("[data-placementId='" + placementId + "']");
     let theContainer;
-    if (newContainerId.toString() !== "999999") {
-        theContainer = document.querySelector("[data-positionContainerId='" + newContainerId.toString() + "']").firstChild;
+    if (newContainerId !== "999999") {
+        theContainer = document.querySelector("[data-positionContainerId='" + newContainerId + "']").firstChild;
     } else {
-        theContainer = document.querySelector("[data-positionId='" + newPositionId.toString() + "']");
+        theContainer = document.querySelector("[data-positionId='" + newPositionId + "']");
     }
     theContainer.appendChild(pieceToMove);
 }
@@ -940,16 +957,16 @@ function updateNextPhase() {
             } else {
                 document.getElementById("phase_button").disabled = true;
             }
+            if (gamePhase === "1") {
+                // alert("phase1");
+                //TODO: phase effects here and grab phase stuff???
+                document.getElementById("newsPopup").style.display = "block";
+            } else {
+                // alert("not phase 1");
+                document.getElementById("newsPopup").style.display = "none";
+            }
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
-
-            //TODO: also put this in the main changePhase function?
-            if (gamePhase === "1") {
-                //make the popup visible?
-                //TODO: function for popping the news / grabbing the next thing in the queue / effecting the game
-                //if its phase 2 now, get rid of the popup...
-            }
-
         }
     };
     phpPhaseChange.open("GET", "updateGetPhase.php", true);  // removes the element from the database

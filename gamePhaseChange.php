@@ -33,10 +33,6 @@ $query = $db->prepare($query);
 $query->bind_param("iisi", $new_gamePhase, $new_gameTurn, $new_gameCurrentTeam, $gameId);
 $query->execute();
 
-$_SESSION['gamePhase'] = $new_gamePhase;
-$_SESSION['gameTurn'] = $new_gameTurn;
-$_SESSION['gameCurrentTeam'] = $new_gameCurrentTeam;
-
 if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     //not this team's turn, don't allow anything
     $canMove = "false";
@@ -114,7 +110,7 @@ $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
 $query->execute();
 
-$arr = array('gamePhase' => $new_gamePhase, 'gameTurn' => $new_gameTurn, 'gameCurrentTeam' => $new_gameCurrentTeam, 'canMove' => $canMove, 'canPurchase' => $canPurchase, 'canUndo' => $canUndo, 'canNextPhase' => $canNextPhase, 'canTrash' => $canTrash, 'canAttack' => $canAttack);
+$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack);
 echo json_encode($arr);
 
 $db->close();
