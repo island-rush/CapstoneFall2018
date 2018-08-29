@@ -453,6 +453,24 @@ function bodyLoader() {
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
     }
+
+    if (canAttack === "true") {
+        document.getElementById("battle_button").disabled = false;
+    } else {
+        document.getElementById("battle_button").disabled = true;
+    }
+
+    if (canUndo === "true") {
+        document.getElementById("undo_button").disabled = false;
+    } else {
+        document.getElementById("undo_button").disabled = true;
+    }
+
+    if (canNextPhase === "true") {
+        document.getElementById("phase_button").disabled = false;
+    } else {
+        document.getElementById("phase_button").disabled = true;
+    }
 }
 
 
@@ -475,6 +493,16 @@ function changePhase() {
                     document.getElementById("battle_button").disabled = false;
                 } else {
                     document.getElementById("battle_button").disabled = true;
+                }
+                if (canUndo === "true") {
+                    document.getElementById("undo_button").disabled = false;
+                } else {
+                    document.getElementById("undo_button").disabled = true;
+                }
+                if (canNextPhase === "true") {
+                    document.getElementById("phase_button").disabled = false;
+                } else {
+                    document.getElementById("phase_button").disabled = true;
                 }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
@@ -805,7 +833,7 @@ function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
     phpUpdateBoard.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            alert(this.responseText);
+            // alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
             if (decoded.updateType === "pieceMove") {
@@ -828,6 +856,11 @@ function waitForUpdate() {
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
 }
+
+
+
+
+
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
@@ -897,6 +930,16 @@ function updateNextPhase() {
             } else {
                 document.getElementById("battle_button").disabled = true;
             }
+            if (canUndo === "true") {
+                document.getElementById("undo_button").disabled = false;
+            } else {
+                document.getElementById("undo_button").disabled = true;
+            }
+            if (canNextPhase === "true") {
+                document.getElementById("phase_button").disabled = false;
+            } else {
+                document.getElementById("phase_button").disabled = true;
+            }
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
@@ -920,38 +963,38 @@ function updateButtonClick() {
 
 
 
-function setIslandOwnership(islandIdName) {
-    //set the allColor  values
-    hasBlue = false;
-    hasRed = false;
+// function setIslandOwnership(islandIdName) {
+//     //set the allColor  values
+//     hasBlue = false;
+//     hasRed = false;
+//
+//     numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
+//     //Check if all pieces in a box are one color
+//     for(index = 0; index < numChildNodes; index++){
+//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Red"){
+//             hasRed = true;
+//         }
+//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Blue" ){
+//             hasBlue = true;
+//         }
+//     }
+//     //change the box shadow if it only has the opposite color as the box shadow.
+//     if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") == "Blue" && hasRed && !hasBlue) {
+//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Red";
+//     } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ==  "Red" && hasBlue && !hasRed){
+//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Blue";
+//     }
+// }
 
-    numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
-    //Check if all pieces in a box are one color
-    for(index = 0; index < numChildNodes; index++){
-        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Red"){
-            hasRed = true;
-        }
-        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Blue" ){
-            hasBlue = true;
-        }
-    }
-    //change the box shadow if it only has the opposite color as the box shadow.
-    if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") == "Blue" && hasRed && !hasBlue) {
-        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Red";
-    } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ==  "Red" && hasBlue && !hasRed){
-        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Blue";
-    }
-}
-
-function islandOwnershipCheck(){
-    //stores data-positionId value of all flags
-    var flag_loctions = [ "special_island1", "special_island2", "special_island3", "special_island4", "special_island5",
-        "special_island6", "special_island7", "special_island8", "special_island9", "special_island10",
-        "special_island11", "special_island12", "special_island13", "special_island14"];
-    for (index = 0; index < flag_loctions.length; index++) {
-        setIslandOwnership(flag_loctions[index]);
-    }
-}
+// function islandOwnershipCheck(){
+//     //stores data-positionId value of all flags
+//     var flag_loctions = [ "special_island1", "special_island2", "special_island3", "special_island4", "special_island5",
+//         "special_island6", "special_island7", "special_island8", "special_island9", "special_island10",
+//         "special_island11", "special_island12", "special_island13", "special_island14"];
+//     for (index = 0; index < flag_loctions.length; index++) {
+//         setIslandOwnership(flag_loctions[index]);
+//     }
+// }
 
 // alert(unitNames[11]);
 waitForUpdate();

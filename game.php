@@ -154,9 +154,9 @@ $u = $results->fetch_assoc();
         <div id="rest_things">
             <div id="phase_indicator">Current Phase = Loading...</div>
             <div id="team_indicator">Current Team = Loading...</div>
-            <button id="undo_button" onclick="pieceMoveUndo();">Undo Movement</button>
-            <button id="phase_button" onclick="changePhase();">Next Phase</button>
-            <button id="battle_button">Loading...</button>
+            <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
+            <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
+            <button id="battle_button" disabled>Loading...</button>
         </div>
     </div>
 

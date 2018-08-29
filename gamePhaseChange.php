@@ -37,7 +37,7 @@ $_SESSION['gamePhase'] = $new_gamePhase;
 $_SESSION['gameTurn'] = $new_gameTurn;
 $_SESSION['gameCurrentTeam'] = $new_gameCurrentTeam;
 
-if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
+if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     //not this team's turn, don't allow anything
     $canMove = "false";
     $canPurchase = "false";
@@ -46,7 +46,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
     $canTrash = "false";
     $canAttack = "false";
 } else {
-    if ($_SESSION['gamePhase'] == 1) {
+    if ($new_gamePhase == 1) {
         //news alert
         $canMove = "false";
         $canPurchase = "false";
@@ -54,7 +54,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "false";
-    } elseif ($_SESSION['gamePhase'] == 2) {
+    } elseif ($new_gamePhase == 2) {
         //reinforcement purchase
         $canMove = "false";
         $canPurchase = "true";
@@ -62,7 +62,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "true";
         $canAttack = "false";
-    } elseif ($_SESSION['gamePhase'] == 3) {
+    } elseif ($new_gamePhase == 3) {
         //combat
         $canMove = "true";
         $canPurchase = "false";
@@ -70,7 +70,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "true";
-    } elseif ($_SESSION['gamePhase'] == 4) {
+    } elseif ($new_gamePhase == 4) {
         //fortification movement
         $canMove = "true";
         $canPurchase = "false";
@@ -78,7 +78,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "false";
-    } elseif ($_SESSION['gamePhase'] == 5) {
+    } elseif ($new_gamePhase == 5) {
         //reinforcement place
         $canMove = "true";
         $canPurchase = "false";
@@ -86,7 +86,7 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "false";
-    } elseif ($_SESSION['gamePhase'] == 6) {
+    } elseif ($new_gamePhase == 6) {
         //hybrid warfare
         $canMove = "false";
         $canPurchase = "false";
@@ -104,21 +104,11 @@ if ($_SESSION['gameCurrentTeam'] != $_SESSION['myTeam']) {
         $canAttack = "false";
 
         //TODO: reset the stuff like battle used = 0
-
     }
 }
 
-//for testing purposes
-//$canMove = "true";
-//$canPurchase = "true";
-//$canUndo = "true";
-//$canNextPhase = "true";
-//$canTrash = "true";
-//$canAttack = "true";
-
-
 $newValue = 0;
-$updateType = "pieceMove";
+$updateType = "phaseChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);

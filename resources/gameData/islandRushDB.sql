@@ -127,12 +127,13 @@ CREATE TABLE IF NOT EXISTS `updates`(
 	`updatePlacementId` int(4) DEFAULT 0,
 	`updateNewPositionId` int(4) DEFAULT 0,
 	`updateNewContainerId` int(4) DEFAULT 0,
-	`updateNewUnitId` int(4) DEFAULT 16, 
+	`updateNewUnitId` int(4) DEFAULT 16,
+    `updateBattlePieceState` int(2) DEFAULT 8,
 	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
--- SELECT * FROM updates;
+SELECT * FROM updates;
 
 -- SELECT * FROM placements;
 
