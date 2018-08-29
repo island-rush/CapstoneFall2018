@@ -850,7 +850,7 @@ function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
     phpUpdateBoard.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            // alert(this.responseText);
+            alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
             if (decoded.updateType === "pieceMove") {
@@ -867,7 +867,12 @@ function waitForUpdate() {
                 updateNextPhase();
             }
 
+            //not sure if these are necessary because recursion makes maybe the limit of things...
+            // phpUpdateBoard.close();
+            // phpUpdateBoard.delete();
+            // phpUpdateBoard.oncomplete = function () {waitForUpdate();};
             waitForUpdate();
+            // phpUpdateBoard.close();
         }
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
@@ -909,14 +914,19 @@ function updatePiecePurchase(placementId, unitId) {
 }
 
 function updatePieceMove(placementId, newPositionId, newContainerId){
+    alert(placementId);
+    alert(newPositionId);
+    alert(newContainerId);
     let pieceToMove = document.querySelector("[data-placementId='" + placementId + "']");
     let theContainer;
     if (newContainerId !== "999999") {
-        theContainer = document.querySelector("[data-positionContainerId='" + newContainerId + "']").firstChild;
+        theContainer = document.querySelector("[data-placementId='" + newContainerId + "']").firstChild;
     } else {
         theContainer = document.querySelector("[data-positionId='" + newPositionId + "']");
     }
+    alert(theContainer);
     theContainer.appendChild(pieceToMove);
+    // theContainer.append
 }
 
 function updatePieceDelete(placementId) {
