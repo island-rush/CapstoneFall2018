@@ -33,6 +33,10 @@ $query = $db->prepare($query);
 $query->bind_param("iisi", $new_gamePhase, $new_gameTurn, $new_gameCurrentTeam, $gameId);
 $query->execute();
 
+$newsalertthing1 = "DEFAULT1";
+$newsalertthing2 = "DEFAULT2";
+//.....etc for as many needed for news table / updating process
+
 if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     //not this team's turn, don't allow anything
     $canMove = "false";
@@ -50,6 +54,19 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "false";
+
+        //grab all news things from the database (table not yet defined)
+        $query4 = "SELECT * FROM GAMES WHERE gameId = ?";
+        $preparedQuery4 = $db->prepare($query4);
+        $preparedQuery4->bind_param("i", $gameId);
+        $preparedQuery4->execute();
+        $results4 = $preparedQuery4->get_result();
+        $r4= $results4->fetch_assoc();
+
+        $newsalertthing1 = $r4['newsalertthing1'];
+        $newsalertthing2 = $r4['newsalertthing2'];
+
+
     } elseif ($new_gamePhase == 2) {
         //reinforcement purchase
         $canMove = "false";
@@ -110,7 +127,7 @@ $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
 $query->execute();
 
-$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack);
+$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack, 'newsalertthing1' => $newsalertthing1, 'newsalertthing2' => $newsalertthing2);
 echo json_encode($arr);
 
 $db->close();

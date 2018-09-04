@@ -499,6 +499,10 @@ function changePhase() {
                 canNextPhase = decoded.canNextPhase;
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
+
+                //TODO: deal with news alerts from table (not yet defined / implemented)
+                alert(decoded.newsalertthing1);
+
                 if (canAttack === "true") {
                     document.getElementById("battle_button").disabled = false;
                 } else {
@@ -847,7 +851,7 @@ function battleAttackCenter(type) {
 
 
 let updateWait;
-let waitTime = 100;
+let waitTime = 50;
 
 function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
