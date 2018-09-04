@@ -304,7 +304,6 @@ function positionDrop(event, newContainerElement) {
                             phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                             phpRequest.send();
 
-                            alert("check");
 
                             let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
                             let parentTeam = newContainerElement.parentNode.classList[2];
@@ -318,19 +317,15 @@ function positionDrop(event, newContainerElement) {
                             alert(new_positionId);
 
                             if (flagPositions.includes(parseInt(new_positionId))) {
-                                alert("check2");
                                 let changeOwnership = "true";
                                 let numChildren = newContainerElement.childElementCount;
                                 for (let x = 0; x < numChildren; x++) {
-                                    alert("check3");
 
                                     if (newContainerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
-                                        alert("check4");
                                         changeOwnership = "false";
                                     }
                                 }
                                 if (changeOwnership === "true")
-                                    alert("check5");
                                 //change css of parent
                                 let parent = newContainerElement.parentNode;
                                 parent.classList.remove(parentTeam);
