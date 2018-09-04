@@ -154,6 +154,8 @@ function pieceDragstart(event, callingElement) {
     } else {
         event.preventDefault();  // This stops the drag
     }
+
+    event.stopPropagation();
 }
 
 function pieceDragleave(event, callingElement) {
@@ -871,7 +873,10 @@ function waitForUpdate() {
             // phpUpdateBoard.close();
             // phpUpdateBoard.delete();
             // phpUpdateBoard.oncomplete = function () {waitForUpdate();};
-            waitForUpdate();
+
+
+            // waitForUpdate();
+            phpUpdateBoard.send();
             // phpUpdateBoard.close();
         }
     };
@@ -990,38 +995,29 @@ function updateButtonClick() {
 
 
 
-// function setIslandOwnership(islandIdName) {
-//     //set the allColor  values
-//     hasBlue = false;
-//     hasRed = false;
-//
-//     numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
-//     //Check if all pieces in a box are one color
-//     for(index = 0; index < numChildNodes; index++){
-//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Red"){
-//             hasRed = true;
-//         }
-//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ==  "Blue" ){
-//             hasBlue = true;
-//         }
-//     }
-//     //change the box shadow if it only has the opposite color as the box shadow.
-//     if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") == "Blue" && hasRed && !hasBlue) {
-//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Red";
-//     } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ==  "Red" && hasBlue && !hasRed){
-//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ==  "Blue";
-//     }
-// }
+function setIslandOwnership(islandIdName) {
+    //set the allColor  values
+    let hasBlue = false;
+    let hasRed = false;
 
-// function islandOwnershipCheck(){
-//     //stores data-positionId value of all flags
-//     var flag_loctions = [ "special_island1", "special_island2", "special_island3", "special_island4", "special_island5",
-//         "special_island6", "special_island7", "special_island8", "special_island9", "special_island10",
-//         "special_island11", "special_island12", "special_island13", "special_island14"];
-//     for (index = 0; index < flag_loctions.length; index++) {
-//         setIslandOwnership(flag_loctions[index]);
-//     }
-// }
+    let numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
+    alert(numChildNodes);
+    //Check if all pieces in a box are one color
+    for(let index = 0; index < numChildNodes - 1; index++){
+        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Red"){
+            hasRed = true;
+        }
+        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Blue" ){
+            hasBlue = true;
+        }
+    }
+    //change the box shadow if it only has the opposite color as the box shadow.
+    if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") === "Blue" && hasRed && !hasBlue) {
+        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Red";
+    } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ===  "Red" && hasBlue && !hasRed){
+        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Blue";
+    }
+}
 
 // alert(unitNames[11]);
 waitForUpdate();
