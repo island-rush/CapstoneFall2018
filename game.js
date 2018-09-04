@@ -846,7 +846,8 @@ function battleAttackCenter(type) {
 }
 
 
-
+let updateWait;
+let waitTime = 100;
 
 function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
@@ -869,23 +870,29 @@ function waitForUpdate() {
                 updateNextPhase();
             }
 
-            //not sure if these are necessary because recursion makes maybe the limit of things...
-            // phpUpdateBoard.close();
-            // phpUpdateBoard.delete();
-            // phpUpdateBoard.oncomplete = function () {waitForUpdate();};
-
-
-            // waitForUpdate();
-            phpUpdateBoard.send();
-            // phpUpdateBoard.close();
+            updateWait = window.setTimeout("waitForUpdate()", waitTime);
         }
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
 }
 
-
-
+//copy code of example working xml http request object use (lots of catching and trying here (for other browser stuff))
+// function ajax_request2(url){
+//     http_request2=false;
+//     if(window.XMLHttpRequest){
+//         http_request2=new XMLHttpRequest();
+//         if(http_request2.overrideMimeType){http_request2.overrideMimeType('text/xml');}
+//     }else if(window.ActiveXObject){
+//         try{http_request2=new ActiveXObject("Msxml2.XMLHTTP");}catch(e){try{http_request2=new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}}
+//     }
+//     if(!http_request2){
+//         alert('Giving up :( Cannot create an XMLHTTP instance');return false;
+//     }
+//     http_request2.onreadystatechange=alertContents2;
+//     http_request2.open('GET',"chat.txt",true);
+//     http_request2.send(null);
+// }
 
 
 
@@ -988,36 +995,32 @@ function updateNextPhase() {
     phpPhaseChange.send();
 }
 
-function updateButtonClick() {
-    //this likely wont get used
-}
 
 
 
-
-function setIslandOwnership(islandIdName) {
-    //set the allColor  values
-    let hasBlue = false;
-    let hasRed = false;
-
-    let numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
-    alert(numChildNodes);
-    //Check if all pieces in a box are one color
-    for(let index = 0; index < numChildNodes - 1; index++){
-        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Red"){
-            hasRed = true;
-        }
-        if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Blue" ){
-            hasBlue = true;
-        }
-    }
-    //change the box shadow if it only has the opposite color as the box shadow.
-    if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") === "Blue" && hasRed && !hasBlue) {
-        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Red";
-    } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ===  "Red" && hasBlue && !hasRed){
-        document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Blue";
-    }
-}
+// function setIslandOwnership(islandIdName) {
+//     //set the allColor  values
+//     let hasBlue = false;
+//     let hasRed = false;
+//
+//     let numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
+//     alert(numChildNodes);
+//     //Check if all pieces in a box are one color
+//     for(let index = 0; index < numChildNodes - 1; index++){
+//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Red"){
+//             hasRed = true;
+//         }
+//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Blue" ){
+//             hasBlue = true;
+//         }
+//     }
+//     //change the box shadow if it only has the opposite color as the box shadow.
+//     if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") === "Blue" && hasRed && !hasBlue) {
+//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Red";
+//     } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ===  "Red" && hasBlue && !hasRed){
+//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Blue";
+//     }
+// }
 
 // alert(unitNames[11]);
 waitForUpdate();
