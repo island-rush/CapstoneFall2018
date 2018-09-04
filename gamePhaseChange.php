@@ -45,6 +45,19 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     $canNextPhase = "false";
     $canTrash = "false";
     $canAttack = "false";
+
+    //copy this code from below (or fix the if statements to make better (not as important to be efficient here))
+    if ($new_gamePhase == 1) {
+        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ?";
+        $preparedQuery4 = $db->prepare($query4);
+        $preparedQuery4->bind_param("i", $gameId);
+        $preparedQuery4->execute();
+        $results4 = $preparedQuery4->get_result();
+        $r4= $results4->fetch_assoc();
+
+        $newsalertthing1 = $r4['newsThing1'];
+        $newsalertthing2 = $r4['newsThing2'];
+    }
 } else {
     if ($new_gamePhase == 1) {
         //news alert
@@ -56,15 +69,16 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canAttack = "false";
 
         //grab all news things from the database (table not yet defined)
-        $query4 = "SELECT * FROM GAMES WHERE gameId = ?";
+        //make sure to get the next alert in order! (or have something to identify that its been used already like updates used to be)
+        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ?";
         $preparedQuery4 = $db->prepare($query4);
         $preparedQuery4->bind_param("i", $gameId);
         $preparedQuery4->execute();
         $results4 = $preparedQuery4->get_result();
         $r4= $results4->fetch_assoc();
 
-        $newsalertthing1 = $r4['newsalertthing1'];
-        $newsalertthing2 = $r4['newsalertthing2'];
+        $newsalertthing1 = $r4['newsThing1'];
+        $newsalertthing2 = $r4['newsThing2'];
 
 
     } elseif ($new_gamePhase == 2) {
@@ -127,7 +141,17 @@ $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
 $query->execute();
 
-$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack, 'newsalertthing1' => $newsalertthing1, 'newsalertthing2' => $newsalertthing2);
+$arr = array('gamePhase' => (string) $new_gamePhase,
+    'gameTurn' => (string) $new_gameTurn,
+    'gameCurrentTeam' => (string) $new_gameCurrentTeam,
+    'canMove' => (string) $canMove,
+    'canPurchase' => (string) $canPurchase,
+    'canUndo' => (string) $canUndo,
+    'canNextPhase' => (string) $canNextPhase,
+    'canTrash' => (string) $canTrash,
+    'canAttack' => (string) $canAttack,
+    'newsalertthing1' => $newsalertthing1,
+    'newsalertthing2' => $newsalertthing2);
 echo json_encode($arr);
 
 $db->close();
