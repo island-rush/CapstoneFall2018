@@ -41,7 +41,7 @@ if ($islandToChange == "special_island1") {
 }
 
 $query = $db->prepare($query);
-$query->bind_param("ii", $newTeam, $gameId);
+$query->bind_param("si", $newTeam, $gameId);
 $query->execute();
 
 
