@@ -303,6 +303,45 @@ function positionDrop(event, newContainerElement) {
                             let phpRequest = new XMLHttpRequest();
                             phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                             phpRequest.send();
+                            let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
+                            let parentTeam = newContainerElement.parentNode.classList[2];
+                            let newTeam;
+                            if (parentTeam === "Red") {
+                                newTeam = "Blue";
+                            } else {
+                                newTeam = "Red";
+                            }
+                            if (flagPositions.includes(new_positionId)) {
+                                let changeOwnership = "true";
+                                let numChildren = newContainerElement.childElementCount;
+                                for (let x = 0; x < numChildren; x++) {
+                                    if (newContainerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
+                                        changeOwnership = "false";
+                                    }
+                                }
+                                if (changeOwnership === "true") {
+                                    //change css of parent
+                                    let parent = newContainerElement.parentNode;
+                                    parent.classList.remove(parentTeam);
+                                    parent.classList.add(newTeam);
+                                    //change css of parent parent
+                                    let parentParent = parent.parentNode;
+                                    parentParent.classList.remove(parentTeam);
+                                    parentParent.classList.add(newTeam);
+                                    //database change in games table
+                                    let islandNumber = parent.id;
+                                    let phpRequestTeamChange = new XMLHttpRequest();
+                                    phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
+                                    phpRequestTeamChange.send();
+                                }
+                            }
+
+                            //go through the child nodes and check team
+                            //if all children team != parent team
+
+
+
+
 
                         //TODO: also need to call this in battle
                         //islandOwnershipCheck();
