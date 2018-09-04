@@ -142,14 +142,18 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
     PRIMARY KEY(`newsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+INSERT INTO newsAlerts (newsId, newsGameId, newsOrder, newsThing1, newsThing2) VALUES (1, 1, 1, 'this is news', 'this is also news');
 
-SELECT * FROM updates;
+
+-- SELECT * FROM newsAlerts;
+
+-- SELECT * FROM updates;
 
 -- SELECT * FROM placements;
 
 -- SELECT * FROM movements;
 
-SELECT * FROM games;
+-- SELECT * FROM games;
 
 -- SELECT * FROM battlePieces;
 
