@@ -16,4 +16,7 @@ $query->bind_param("ssisii", $gameBattleSection, $gameBattleSubSection, $gameBat
 $query->execute();
 
 
+//TODO: insert into updates the change in the gamebattle? (know how to deal with it/popup or not)
+
+
 $db->close();

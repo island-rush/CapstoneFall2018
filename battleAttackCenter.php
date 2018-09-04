@@ -34,6 +34,8 @@ if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "
 $arr = array('lastRoll' => $lastRoll, 'wasHit' => $wasHit, 'new_gameBattleSubSection' => $nextThing);
 echo json_encode($arr);
 
+//TODO: insert into the updates table
+
 if ($wasHit == 1) {
     include("db.php");
     $pieceId = $_REQUEST['pieceId'];

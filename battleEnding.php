@@ -9,4 +9,6 @@ $query = $db->prepare($query);
 $query->bind_param("i", $gameId);
 $query->execute();
 
+//TODO: insert into the updates table
+
 $db->close();

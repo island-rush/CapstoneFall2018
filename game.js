@@ -401,6 +401,7 @@ function bodyLoader() {
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
+    //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
         document.getElementById("battleZonePopup").style.display = "block";
     }
@@ -616,8 +617,6 @@ function battleChangeSection(newSection) {
         phpBattleEnding.send();
 
         document.getElementById("battleZonePopup").style.display = "none";
-        document.getElementById("battle_button").disabled = false;
-
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
         document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
@@ -999,6 +998,89 @@ function updateNextPhase() {
     phpPhaseChange.send();
 }
 
+function updateBattleAttack() {
+    //deal with echo info from update
+}
+
+function updateBattleEnding() {
+    //deal with echo info from update
+}
+
+//TODO: figure out how to fully disable buttons based upon battle state and team and attacker / currentTeam?
+function updateBattleSection(newSection) {
+    gameBattleSection = newSection;
+
+    if (newSection === "attack") {
+        document.getElementById("battle_button").disabled = true;
+        // clearSelected();  //(is this not needed for second client?)(selected wasn't shown in the first place)
+        if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
+            document.getElementById("attackButton").disabled = false;
+        } else {
+            document.getElementById("attackButton").disabled = true;
+        }
+        document.getElementById("battleZonePopup").style.display = "block";
+        document.getElementById("attackButton").innerHTML = "Attack section";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+        document.getElementById("changeSectionButton").onclick = function() {
+            battleChangeSection("counter");
+            let newParent = document.getElementById('unused_attacker');
+            let oldParent = document.getElementById('used_attacker');
+            while (oldParent.childNodes.length > 0) {
+                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+                let phpMoveBattlePiece = new XMLHttpRequest();
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+                phpMoveBattlePiece.send();
+                newParent.appendChild(oldParent.childNodes[0]);
+            }
+            newParent = document.getElementById('unused_defender');
+            oldParent = document.getElementById('used_defender');
+            while (oldParent.childNodes.length > 0) {
+                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+                let phpMoveBattlePiece = new XMLHttpRequest();
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+                phpMoveBattlePiece.send();
+                newParent.appendChild(oldParent.childNodes[0]);
+            }
+        };
+    } else if (newSection === "counter") {
+        document.getElementById("attackButton").innerHTML = "Counter Attack";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
+    } else if (newSection === "askRepeat") {
+        let newParent = document.getElementById('unused_attacker');
+        let oldParent = document.getElementById('used_attacker');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+        newParent = document.getElementById('unused_defender');
+        oldParent = document.getElementById('used_defender');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+        document.getElementById("attackButton").innerHTML = "Click to Repeat";
+        document.getElementById("attackButton").disabled = false;
+        //TODO: move elements back to where they belong / used -> unused
+        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+    } else if (newSection === "none") {
+        document.getElementById("battleZonePopup").style.display = "none";
+        document.getElementById("battle_button").disabled = false;
+
+        document.getElementById("battle_button").innerHTML = "Select Battle";
+        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
+    }
+}
 
 
 
