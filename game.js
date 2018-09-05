@@ -184,6 +184,9 @@ function pieceDragenter(event, callingElement) {
 function piecePurchase(event, purchaseSquare) {
     event.preventDefault();
     if (canPurchase === "true") {
+
+
+
         let unitId = purchaseSquare.getAttribute("data-unitId");
         let unitName = purchaseSquare.id;
         let unitMoves = unitsMoves[unitName];
@@ -301,10 +304,8 @@ function positionDrop(event, newContainerElement) {
 
                             //Update the placement in the database and add a movement to the database
                             let phpRequest = new XMLHttpRequest();
-                            phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
+                            phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                             phpRequest.send();
-
-
                             let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
                             let parentTeam = newContainerElement.parentNode.classList[2];
                             let newTeam;
@@ -313,50 +314,39 @@ function positionDrop(event, newContainerElement) {
                             } else {
                                 newTeam = "Red";
                             }
-
-                            alert(new_positionId);
-
-                            if (flagPositions.includes(parseInt(new_positionId))) {
+                            if (flagPositions.includes(new_positionId)) {
                                 let changeOwnership = "true";
                                 let numChildren = newContainerElement.childElementCount;
                                 for (let x = 0; x < numChildren; x++) {
-
                                     if (newContainerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
                                         changeOwnership = "false";
                                     }
                                 }
-                                if (changeOwnership === "true")
-                                //change css of parent
-                                let parent = newContainerElement.parentNode;
-                                parent.classList.remove(parentTeam);
-                                parent.classList.add(newTeam);
-                                //change css of parent parent
-                                let parentParent = parent.parentNode;
-                                parentParent.classList.remove(parentTeam);
-                                parentParent.classList.add(newTeam);
-                                //database change in games table
-                                let islandNumber = parent.id;
-                                let phpRequestTeamChange = new XMLHttpRequest();
-                                phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
-                                phpRequestTeamChange.send();
+                                if (changeOwnership === "true") {
+                                    //change css of parent
+                                    let parent = newContainerElement.parentNode;
+                                    parent.classList.remove(parentTeam);
+                                    parent.classList.add(newTeam);
+                                    //change css of parent parent
+                                    let parentParent = parent.parentNode;
+                                    parentParent.classList.remove(parentTeam);
+                                    parentParent.classList.add(newTeam);
+                                    //database change in games table
+                                    let islandNumber = parent.id;
+                                    let phpRequestTeamChange = new XMLHttpRequest();
+                                    phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
+                                    phpRequestTeamChange.send();
+                                }
                             }
                         }
-
-                        //go through the child nodes and check team
-                        //if all children team != parent team
-
-
-                        //TODO: also need to call this in battle
-                        //islandOwnershipCheck(new_positionId);
                     }
                 }
             };
-
             phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves, true);
             phpMoveCheck.send();
         }
-        event.stopPropagation();
     }
+    event.stopPropagation();
 }
 
 
@@ -1116,4 +1106,31 @@ function updateBattleSection(newSection) {
     }
 }
 
+
+
+// function setIslandOwnership(islandIdName) {
+//     //set the allColor  values
+//     let hasBlue = false;
+//     let hasRed = false;
+//
+//     let numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
+//     alert(numChildNodes);
+//     //Check if all pieces in a box are one color
+//     for(let index = 0; index < numChildNodes - 1; index++){
+//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Red"){
+//             hasRed = true;
+//         }
+//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Blue" ){
+//             hasBlue = true;
+//         }
+//     }
+//     //change the box shadow if it only has the opposite color as the box shadow.
+//     if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") === "Blue" && hasRed && !hasBlue) {
+//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Red";
+//     } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ===  "Red" && hasBlue && !hasRed){
+//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Blue";
+//     }
+// }
+
+// alert(unitNames[11]);
 waitForUpdate();
