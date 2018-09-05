@@ -151,6 +151,7 @@ function pieceDragstart(event, callingElement) {
         event.dataTransfer.setData("unitTerrain", callingElement.getAttribute("data-unitTerrain"));
         event.dataTransfer.setData("unitName", callingElement.getAttribute("data-unitName"));
         event.dataTransfer.setData("unitId", callingElement.getAttribute("data-unitId"));
+        event.dataTransfer.setData("unitCost", callingElement.getAttribute("data-unitCost"));
     } else {
         event.preventDefault();  // This stops the drag
     }
@@ -184,23 +185,24 @@ function pieceDragenter(event, callingElement) {
 function piecePurchase(event, purchaseSquare) {
     event.preventDefault();
     if (canPurchase === "true") {
-
-
-
-        let unitId = purchaseSquare.getAttribute("data-unitId");
-        let unitName = purchaseSquare.id;
-        let unitMoves = unitsMoves[unitName];
-        let terrain = purchaseSquare.getAttribute("data-unitTerrain");
-
-        let phpPurchaseRequest = new XMLHttpRequest();
-        phpPurchaseRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let parent = document.getElementById("purchased_container");
-                parent.innerHTML += this.responseText;
-            }
-        };
-        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
-        phpPurchaseRequest.send();
+        let costOfPiece = parseInt(purchaseSquare.getAttribute("data-unitCost"));
+        if (myPoints >= costOfPiece) {
+            // alert("doing thing correctly");
+            let unitId = purchaseSquare.getAttribute("data-unitId");
+            let unitName = purchaseSquare.id;
+            let unitMoves = unitsMoves[unitName];
+            let terrain = purchaseSquare.getAttribute("data-unitTerrain");
+            myPoints = myPoints - costOfPiece;
+            let phpPurchaseRequest = new XMLHttpRequest();
+            phpPurchaseRequest.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let parent = document.getElementById("purchased_container");
+                    parent.innerHTML += this.responseText;
+                }
+            };
+            phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&costOfPiece=" + costOfPiece + "&newPoints=" + myPoints + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
+            phpPurchaseRequest.send();
+        }
     }
 }
 
@@ -236,8 +238,10 @@ function pieceTrash(event, trashElement) {
         if (event.dataTransfer.getData("positionId") === "118") {
             let placementId = event.dataTransfer.getData("placementId");
             document.querySelector("[data-placementId='" + placementId + "']").remove();
+            let costOfPiece = parseInt(event.dataTransfer.getData("unitCost"));
+            myPoints = myPoints + costOfPiece;
             let phpTrashRequest = new XMLHttpRequest();
-            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId, true);
+            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId + "&newPoints=" + myPoints, true);
             phpTrashRequest.send();
         }
     }
