@@ -713,6 +713,9 @@ function battleSelectPosition() {
 
 function battlePieceClick(event, callingElement) {
     event.preventDefault();
+
+    if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter"))
+
     let boxId = callingElement.parentNode.getAttribute("data-boxId");
     let battlePieceId = callingElement.getAttribute("data-battlePieceId");
     let phpMoveBattlePiece = new XMLHttpRequest();
@@ -886,6 +889,10 @@ function waitForUpdate() {
                 updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
             } else if (decoded.updateType === "phaseChange") {
                 updateNextPhase();
+            } else if (decoded.updateType === "positionSelected") {
+                updateBattlePositionSelected(parseInt(decoded.updateBattlePositionSelected));
+            } else if (decoded.updateType === "piecesSelected") {
+                updateBattlePiecesSelected(decoded.updateBattlePiecesSelected);
             }
 
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
@@ -1000,6 +1007,59 @@ function updateBattleAttack() {
 
 function updateBattleEnding() {
     //deal with echo info from update
+}
+
+function updateBattlePositionSelected(position) {
+
+}
+
+function updateBattlePiecesSelected(piecesSelectedHTML) {
+    document.getElementById("unused_attacker").innerHTML = piecesSelectedHTML;
+
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    clearSelectedPos();
+    clearSelected();
+    // battleChangeSection("attack");
+
+    // document.getElementById("battle_button").disabled = true; //already disabled
+    // clearSelected();  //wasn't selecting
+    // if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
+    //     document.getElementById("attackButton").disabled = false;
+    // } else {
+    //     document.getElementById("attackButton").disabled = true;
+    // }
+    document.getElementById("battleZonePopup").style.display = "block";
+    document.getElementById("attackButton").innerHTML = "Attack section";  //already disabled by default?
+    document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+    document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+
+    document.getElementById("changeSectionButton").disabled = true;  //other client can't change section, only currentTeam
+
+    document.getElementById("changeSectionButton").onclick = function() {
+        battleChangeSection("counter");
+        let newParent = document.getElementById('unused_attacker');
+        let oldParent = document.getElementById('used_attacker');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+        newParent = document.getElementById('unused_defender');
+        oldParent = document.getElementById('used_defender');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+    };
+
 }
 
 //TODO: figure out how to fully disable buttons based upon battle state and team and attacker / currentTeam?
