@@ -1,9 +1,10 @@
 <?php
 include("db.php");
+session_start();
 $battlePieceId = $_REQUEST['battlePieceId'];
 $new_battlePieceState = $_REQUEST['new_battlePieceState'];
-$myTeam = $_REQUEST['myTeam'];
-$gameId = $_REQUEST['gameId'];
+$myTeam = $_SESSION['myTeam'];
+$gameId = $_SESSION['gameId'];
 
 if ($new_battlePieceState != 9) {
     $query = 'UPDATE battlePieces SET battlePieceState = ? WHERE (battlePieceId = ?)';

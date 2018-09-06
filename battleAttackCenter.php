@@ -2,6 +2,9 @@
 session_start();
 include("db.php");
 
+$myTeam = $_SESSION['myTeam'];
+$gameId = $_SESSION['gameId'];
+
 $attackUnitId = $_REQUEST['attackUnitId'];
 $defendUnitIt = $_REQUEST['defendUnitId'];
 
@@ -53,6 +56,7 @@ $query->execute();
 if ($wasHit == 1) {
     $pieceId = $_REQUEST['pieceId'];
     $hit = 1;
+    //TODO: not for this gameId? (but every id is different so probably works)
     $query = 'UPDATE battlePieces SET battlePieceWasHit = ? WHERE (battlePieceId = ?)';
     $query = $db->prepare($query);
     $query->bind_param("ii", $hit, $pieceId);
