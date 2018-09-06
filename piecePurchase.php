@@ -6,12 +6,29 @@ $unitName = $_REQUEST['unitName'];
 $unitMoves = $_REQUEST['unitMoves'];
 $unitTerrain = $_REQUEST['unitTerrain'];
 
+$newPoints = $_REQUEST['newPoints'];
+$costOfPiece = $_REQUEST['costOfPiece'];
+
+
 $gameId = $_REQUEST['gameId'];
 $myTeam = $_REQUEST['myTeam'];
 $placementTeamId = $_REQUEST['placementTeamId'];
 $placementContainerId = 999999;
 $placementPositionId = 118;
 $placementBattleUsed = 0;
+
+
+$query = "";
+if ($myTeam == "Red") {
+    $query = 'UPDATE games SET gameRedRpoints = ? WHERE (gameId = ?)';
+} else {
+    $query = 'UPDATE games SET gameBlueRpoints = ? WHERE (gameId = ?)';
+}
+$query = $db->prepare($query);
+$query->bind_param("ii", $newPoints, $gameId);
+$query->execute();
+
+
 
 $query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
@@ -33,7 +50,7 @@ $query = $db->prepare($query);
 $query->bind_param("iissii", $gameId, $newValue, $myTeam, $updateType, $new_placementId, $unitId);
 $query->execute();
 
-echo "<div class='".$unitName." gamePiece ".$placementTeamId."' data-placementId='".$new_placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+echo "<div class='".$unitName." gamePiece ".$placementTeamId."' data-unitCost='".$costOfPiece."' data-placementId='".$new_placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
 if ($unitName == "transport" || $unitName == "aircraftCarrier") {
     if ($unitName == "transport") {

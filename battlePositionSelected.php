@@ -6,7 +6,7 @@ $positionSelected = $_REQUEST['positionSelected'];
 $gameId = $_REQUEST['gameId'];
 $defenseTeam = $_REQUEST['defenseTeam'];
 $battleTerrain = $_REQUEST['battleTerrain'];
-
+$myTeam = $_SESSION['myTeam'];
 
 
 if ($battleTerrain == "water") {
@@ -54,11 +54,16 @@ for ($j = 0; $j < $n; $j++) {
 }
 
 
-$_SESSION['gameBattleAdjacentArray'] = json_encode($adjacentArray);
-
-
 $arr = array('htmlString' => $htmlString, 'adjacentArray' => $adjacentArray);
 echo json_encode($arr);
+
+
+$newValue = 0;
+$updateType = "positionSelected";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelected) VALUES (?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $positionSelected);
+$query->execute();
 
 
 $db->close();

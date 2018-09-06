@@ -7,6 +7,8 @@ $attackTeam = $_REQUEST['attackTeam'];
 
 //find all pieces within the sentArray and echo the html for the battle pieces? and update them to used in the database as well
 
+$piecesSelectedHTMLstring = "";
+
 for ($i = 0; $i < sizeof($sentArray); $i++) {
     //get info about placement from database
     $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementId = ?) AND (placementUnitId = unitId)';
@@ -35,9 +37,16 @@ for ($i = 0; $i < sizeof($sentArray); $i++) {
     $query->execute();
 
     //echo the html for the battlepiece
-    echo "<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
+    $piecesSelectedHTMLstring = $piecesSelectedHTMLstring."<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
 }
 
+echo $piecesSelectedHTMLstring;
 
+$newValue = 0;
+$updateType = "piecesSelected";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePiecesSelected) VALUES (?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $piecesSelectedHTMLstring);
+$query->execute();
 
 $db->close();

@@ -1,435 +1,7 @@
 //Javascript Functions used by the Island Rush Game
 //Created by C1C Spencer Adolph (7/28/2018)
 
-
-function islandClick(event, callingElement) {
-    event.preventDefault();
-    hideIslands();  //only 1 island visible at a time
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-    if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
-        document.getElementsByClassName(callingElement.id)[0].style.display = "block";
-        callingElement.style.zIndex = 20;  //default for a gridblock is 10
-        callingElement.setAttribute("data-islandPopped", "true");
-    }
-    event.stopPropagation();
-}
-
-
-function islandDragenter(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
-    event.stopPropagation();
-}
-
-
-function waterClick(event, callingElement) {
-    event.preventDefault();
-    hideIslands();
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-
-    if (gameBattleSection === "selectPos") {
-        clearSelectedPos();
-        callingElement.classList.add("selectedPos");
-    }
-
-    event.stopPropagation();
-}
-
-
-function clearSelectedPos() {
-    let highlighted_things = document.getElementsByClassName("selectedPos");
-    while (highlighted_things.length) {
-        highlighted_things[0].classList.remove("selectedPos");
-    }
-}
-
-
-function landClick(event, callingElement) {
-    event.preventDefault();
-
-    if (gameBattleSection === "selectPos") {
-        clearSelectedPos();
-        callingElement.classList.add("selectedPos");
-    }
-
-    event.stopPropagation();
-}
-
-
-function gameboardClick(event, callingElement) {
-    event.preventDefault();
-    hideIslands();
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-    event.stopPropagation();
-}
-
-
-//---------------------------------------------------
-function pieceClick(event, callingElement) {
-    event.preventDefault();
-    //open container if applicable
-    if (gameBattleSection === "selectPieces") {
-        if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
-            if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
-                if (callingElement.classList.contains("selected")) {
-                    callingElement.classList.remove("selected");
-                } else {
-                    callingElement.classList.add("selected");
-                }
-            }
-        }
-    } else {
-        if (gameBattleSection === "selectPos") {
-            clearSelectedPos();
-            callingElement.parentNode.classList.add("selectedPos");
-        } else {
-            let unitName = callingElement.getAttribute("data-unitName");
-            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-                hideContainers("transportContainer");
-                hideContainers("aircraftCarrierContainer");
-                hideContainers("lavContainer");
-                if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-                    callingElement.childNodes[0].style.display = "block";
-                    callingElement.style.zIndex = 30;
-                    callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
-                }
-            }
-            clearHighlighted();
-            //show the piece's moves
-            // let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-            // let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-            // let phpAvailableMoves = new XMLHttpRequest();
-            // phpAvailableMoves.onreadystatechange = function () {
-            //     if (this.readyState === 4 && this.status === 200) {
-            //         let decoded = JSON.parse(this.responseText);
-            //         let g;
-            //         for (g = 0; g < decoded.length; g++) {
-            //             let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-            //             gridThing.classList.add("highlighted");
-            //             if (gridThing.classList[0] === "gridblockTiny") {
-            //                 let parent = gridThing.parentNode;
-            //                 let parclass = parent.classList;
-            //                 if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-            //                     let islandsquare = document.getElementById(parclass[0]);
-            //                     islandsquare.classList.add("highlighted");
-            //                     if (islandsquare.id === "special_island5") {
-            //                         document.getElementById("special_island5_extra").classList.add("highlighted");
-            //                     }
-            //                 }
-            //             }
-            //
-            //         }
-            //     }
-            // };
-            // phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-            // phpAvailableMoves.send();
-        }
-    }
-    event.stopPropagation();
-}
-
-function pieceDragstart(event, callingElement) {
-    //canMove is dictated by phase and current Team
-    if ((canMove === "true" || canPurchase === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
-        //From the container (parent of the piece)
-        event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
-        //From the Piece
-        event.dataTransfer.setData("placementId", callingElement.getAttribute("data-placementId"));
-        event.dataTransfer.setData("placementContainerId", callingElement.getAttribute("data-placementContainerId"));
-        event.dataTransfer.setData("placementCurrentMoves", callingElement.getAttribute("data-placementCurrentMoves"));
-        event.dataTransfer.setData("placementTeamId", callingElement.getAttribute("data-placementTeamId"));
-        event.dataTransfer.setData("unitTerrain", callingElement.getAttribute("data-unitTerrain"));
-        event.dataTransfer.setData("unitName", callingElement.getAttribute("data-unitName"));
-        event.dataTransfer.setData("unitId", callingElement.getAttribute("data-unitId"));
-    } else {
-        event.preventDefault();  // This stops the drag
-    }
-
-    event.stopPropagation();
-}
-
-function pieceDragleave(event, callingElement) {
-    event.preventDefault();
-    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier" || callingElement.getAttribute("data-unitName") === "lav") {
-        if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
-            clearTimeout(hoverTimer);
-        }
-    }
-    event.stopPropagation();
-}
-
-function pieceDragenter(event, callingElement) {
-    event.preventDefault();
-    let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-        //only dragenter to open up container pieces
-        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-            clearTimeout(hoverTimer);
-            hoverTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
-        }
-    }
-    event.stopPropagation();
-}
-
-function piecePurchase(event, purchaseSquare) {
-    event.preventDefault();
-    if (canPurchase === "true") {
-        let unitId = purchaseSquare.getAttribute("data-unitId");
-        let unitName = purchaseSquare.id;
-        let unitMoves = unitsMoves[unitName];
-        let terrain = purchaseSquare.getAttribute("data-unitTerrain");
-
-        let phpPurchaseRequest = new XMLHttpRequest();
-        phpPurchaseRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let parent = document.getElementById("purchased_container");
-                parent.innerHTML += this.responseText;
-            }
-        };
-        phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
-        phpPurchaseRequest.send();
-    }
-}
-
-function pieceMoveUndo() {
-    if (canUndo === "true") {
-        let phpUndoRequest = new XMLHttpRequest();
-        phpUndoRequest.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let decoded = JSON.parse(this.responseText);
-                if (decoded.placementId !== null) {
-                    clearHighlighted();
-                    //Update the piece's attributes
-                    let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
-                    pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
-                    pieceToUndo.setAttribute("data-placementCurrentMoves", decoded.new_placementCurrentMoves);
-                    //Append to New Position
-                    if (decoded.new_placementContainerId !== 999999) {
-                        document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
-                    } else {
-                        document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
-                    }
-                }
-            }
-        };
-        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&myTeam=" + myTeam, true);
-        phpUndoRequest.send();
-    }
-}
-
-function pieceTrash(event, trashElement) {
-    event.preventDefault();
-    if (canTrash === "true") {
-        if (event.dataTransfer.getData("positionId") === "118") {
-            let placementId = event.dataTransfer.getData("placementId");
-            document.querySelector("[data-placementId='" + placementId + "']").remove();
-            let phpTrashRequest = new XMLHttpRequest();
-            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId, true);
-            phpTrashRequest.send();
-        }
-    }
-}
-//---------------------------------------------------
-
-
-function hideIslands() {
-    let x = document.getElementsByClassName("special_island3x3");
-    let i;
-    for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-        x[i].parentNode.style.zIndex = 10;  //10 is the default
-        x[i].parentNode.setAttribute("data-islandPopped", "false");
-    }
-}
-
-
-function hideContainers(containerType) {
-    let s = document.getElementsByClassName(containerType);
-    let r;
-    for (r = 0; r < s.length; r++) {
-        s[r].style.display = "none";
-        s[r].parentNode.style.zIndex = 15;
-        s[r].setAttribute("data-containerPopped", "false");
-    }
-}
-
-
-function positionDrop(event, newContainerElement) {
-    event.preventDefault();
-    clearHighlighted();
-    //Already approved to move by pieceDragstart (same team and good phase)
-    let placementId = event.dataTransfer.getData("placementId");
-    let unitName = event.dataTransfer.getData("unitName");
-    let unitId = event.dataTransfer.getData("unitId");
-    let pieceDropped = document.querySelector("[data-placementId='" + placementId + "']");
-    let positionType = newContainerElement.getAttribute("data-positionType");
-    let unitTerrain = event.dataTransfer.getData("unitTerrain");
-    let new_positionId = newContainerElement.getAttribute("data-positionId");
-    let old_positionId = event.dataTransfer.getData("positionId");
-    let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
-    let new_placementContainerId = newContainerElement.getAttribute("data-positionContainerId");
-    let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
-
-    if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
-        if (movementTerrainCheck(unitTerrain, positionType) === "true") {
-            let phpMoveCheck = new XMLHttpRequest();
-            phpMoveCheck.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    let movementCost = this.responseText;
-                    if (movementCost !== "-1") {
-                        if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
-                            //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
-                            let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
-
-                            //Update the html by moving the piece and changing the piece's attributes
-                            newContainerElement.appendChild(pieceDropped);
-                            pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
-                            pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
-                            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-                                pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
-                            }
-
-                            //Update the placement in the database and add a movement to the database
-                            let phpRequest = new XMLHttpRequest();
-                            phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
-                            phpRequest.send();
-
-
-                            let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
-                            let parentTeam = newContainerElement.parentNode.classList[2];
-                            let newTeam;
-                            if (parentTeam === "Red") {
-                                newTeam = "Blue";
-                            } else {
-                                newTeam = "Red";
-                            }
-
-                            alert(new_positionId);
-
-                            if (flagPositions.includes(parseInt(new_positionId))) {
-                                let changeOwnership = "true";
-                                let numChildren = newContainerElement.childElementCount;
-                                for (let x = 0; x < numChildren; x++) {
-
-                                    if (newContainerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
-                                        changeOwnership = "false";
-                                    }
-                                }
-                                if (changeOwnership === "true")
-                                //change css of parent
-                                let parent = newContainerElement.parentNode;
-                                parent.classList.remove(parentTeam);
-                                parent.classList.add(newTeam);
-                                //change css of parent parent
-                                let parentParent = parent.parentNode;
-                                parentParent.classList.remove(parentTeam);
-                                parentParent.classList.add(newTeam);
-                                //database change in games table
-                                let islandNumber = parent.id;
-                                let phpRequestTeamChange = new XMLHttpRequest();
-                                phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
-                                phpRequestTeamChange.send();
-                            }
-                        }
-
-                        //go through the child nodes and check team
-                        //if all children team != parent team
-
-
-                        //TODO: also need to call this in battle
-                        //islandOwnershipCheck(new_positionId);
-                    }
-                }
-            };
-
-            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves, true);
-            phpMoveCheck.send();
-        }
-        event.stopPropagation();
-    }
-}
-
-
-function positionDragover(event, callingElement) {
-    event.preventDefault();
-    //Stops from Dropping into another piece (non-container element) (containers should not be draggable, only parent pieces)
-    if (callingElement.getAttribute("draggable") === "true") {
-        event.dataTransfer.dropEffect = "none";
-    } else {
-        event.dataTransfer.dropEffect = "all";
-    }
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000)
-}
-
-
-function movementTerrainCheck(unitTerrain, positionType) {
-    return "true";
-}
-
-
-function containerHasSpotOpen(new_placementContainerId, unitName) {
-    //Can't put transport inside another transport
-    if (new_placementContainerId !== "999999") {
-        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-            return "false";
-        }
-    }
-
-    return "true";
-}
-
-
-function containerDragleave(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
-    event.stopPropagation();
-}
-
-
-function islandDragleave(event, callingElement) {
-    event.preventDefault();
-    if (callingElement.getAttribute("data-islandPopped") === "false") {
-        clearTimeout(hoverTimer);
-    }
-    event.stopPropagation();
-}
-
-
-function popupDragleave(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
-    event.stopPropagation();
-}
-
-
-function clearHighlighted() {
-    let highlighted_things = document.getElementsByClassName("highlighted");
-    while (highlighted_things.length) {
-        highlighted_things[0].classList.remove("highlighted");
-    }
-}
-
-
-function clearSelected() {
-    let highlighted_things = document.getElementsByClassName("selected");
-    while (highlighted_things.length) {
-        highlighted_things[0].classList.remove("selected");
-    }
-}
-
-
+//First function called to load the game
 function bodyLoader() {
     // alert(myTeam);
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
@@ -518,6 +90,396 @@ function bodyLoader() {
 }
 
 
+//---------------------------------------------------
+function pieceClick(event, callingElement) {
+    event.preventDefault();
+    //open container if applicable
+    if (gameBattleSection === "selectPieces") {
+        if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
+            if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
+                if (callingElement.classList.contains("selected")) {
+                    callingElement.classList.remove("selected");
+                } else {
+                    callingElement.classList.add("selected");
+                }
+            }
+        }
+    } else {
+        if (gameBattleSection === "selectPos") {
+            clearSelectedPos();
+            callingElement.parentNode.classList.add("selectedPos");
+        } else {
+            let unitName = callingElement.getAttribute("data-unitName");
+            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+                hideContainers("transportContainer");
+                hideContainers("aircraftCarrierContainer");
+                hideContainers("lavContainer");
+                if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+                    callingElement.childNodes[0].style.display = "block";
+                    callingElement.style.zIndex = 30;
+                    callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+                }
+            }
+            clearHighlighted();
+            //show the piece's moves
+            // let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
+            // let thisPos = callingElement.parentNode.getAttribute("data-positionId");
+            // let phpAvailableMoves = new XMLHttpRequest();
+            // phpAvailableMoves.onreadystatechange = function () {
+            //     if (this.readyState === 4 && this.status === 200) {
+            //         let decoded = JSON.parse(this.responseText);
+            //         let g;
+            //         for (g = 0; g < decoded.length; g++) {
+            //             let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+            //             gridThing.classList.add("highlighted");
+            //             if (gridThing.classList[0] === "gridblockTiny") {
+            //                 let parent = gridThing.parentNode;
+            //                 let parclass = parent.classList;
+            //                 if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+            //                     let islandsquare = document.getElementById(parclass[0]);
+            //                     islandsquare.classList.add("highlighted");
+            //                     if (islandsquare.id === "special_island5") {
+            //                         document.getElementById("special_island5_extra").classList.add("highlighted");
+            //                     }
+            //                 }
+            //             }
+            //
+            //         }
+            //     }
+            // };
+            // phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
+            // phpAvailableMoves.send();
+        }
+    }
+    event.stopPropagation();
+}
+
+function pieceDragstart(event, callingElement) {
+    //canMove is dictated by phase and current Team
+    if ((canMove === "true" || canPurchase === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
+        //From the container (parent of the piece)
+        event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
+        //From the Piece
+        event.dataTransfer.setData("placementId", callingElement.getAttribute("data-placementId"));
+        event.dataTransfer.setData("placementContainerId", callingElement.getAttribute("data-placementContainerId"));
+        event.dataTransfer.setData("placementCurrentMoves", callingElement.getAttribute("data-placementCurrentMoves"));
+        event.dataTransfer.setData("placementTeamId", callingElement.getAttribute("data-placementTeamId"));
+        event.dataTransfer.setData("unitTerrain", callingElement.getAttribute("data-unitTerrain"));
+        event.dataTransfer.setData("unitName", callingElement.getAttribute("data-unitName"));
+        event.dataTransfer.setData("unitId", callingElement.getAttribute("data-unitId"));
+        event.dataTransfer.setData("unitCost", callingElement.getAttribute("data-unitCost"));
+    } else {
+        event.preventDefault();  // This stops the drag
+    }
+
+    event.stopPropagation();
+}
+
+function pieceDragleave(event, callingElement) {
+    event.preventDefault();
+    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier" || callingElement.getAttribute("data-unitName") === "lav") {
+        if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
+            clearTimeout(hoverTimer);
+        }
+    }
+    event.stopPropagation();
+}
+
+function pieceDragenter(event, callingElement) {
+    event.preventDefault();
+    let unitName = callingElement.getAttribute("data-unitName");
+    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        //only dragenter to open up container pieces
+        if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+            clearTimeout(hoverTimer);
+            hoverTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
+        }
+    }
+    event.stopPropagation();
+}
+
+function piecePurchase(event, purchaseSquare) {
+    event.preventDefault();
+    if (canPurchase === "true") {
+        let costOfPiece = parseInt(purchaseSquare.getAttribute("data-unitCost"));
+        if (myPoints >= costOfPiece) {
+            // alert("doing thing correctly");
+            let unitId = purchaseSquare.getAttribute("data-unitId");
+            let unitName = purchaseSquare.id;
+            let unitMoves = unitsMoves[unitName];
+            let terrain = purchaseSquare.getAttribute("data-unitTerrain");
+            myPoints = myPoints - costOfPiece;
+            let phpPurchaseRequest = new XMLHttpRequest();
+            phpPurchaseRequest.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let parent = document.getElementById("purchased_container");
+                    parent.innerHTML += this.responseText;
+                }
+            };
+            phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&costOfPiece=" + costOfPiece + "&newPoints=" + myPoints + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
+            phpPurchaseRequest.send();
+        }
+    }
+}
+
+function pieceMoveUndo() {
+    if (canUndo === "true") {
+        let phpUndoRequest = new XMLHttpRequest();
+        phpUndoRequest.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let decoded = JSON.parse(this.responseText);
+                if (decoded.placementId !== null) {
+                    clearHighlighted();
+                    //Update the piece's attributes
+                    let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
+                    pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
+                    pieceToUndo.setAttribute("data-placementCurrentMoves", decoded.new_placementCurrentMoves);
+                    //Append to New Position
+                    if (decoded.new_placementContainerId !== 999999) {
+                        document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
+                    } else {
+                        document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
+                    }
+                }
+            }
+        };
+        phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&myTeam=" + myTeam, true);
+        phpUndoRequest.send();
+    }
+}
+
+function pieceTrash(event, trashElement) {
+    event.preventDefault();
+    if (canTrash === "true") {
+        if (event.dataTransfer.getData("positionId") === "118") {
+            let placementId = event.dataTransfer.getData("placementId");
+            document.querySelector("[data-placementId='" + placementId + "']").remove();
+            let costOfPiece = parseInt(event.dataTransfer.getData("unitCost"));
+            myPoints = myPoints + costOfPiece;
+            let phpTrashRequest = new XMLHttpRequest();
+            phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId + "&newPoints=" + myPoints, true);
+            phpTrashRequest.send();
+        }
+    }
+}
+
+function containerDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+function containerHasSpotOpen(new_placementContainerId, unitName) {
+    //Can't put transport inside another transport
+    if (new_placementContainerId !== "999999") {
+        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+            return "false";
+        }
+    }
+
+    return "true";
+}
+
+function hideContainers(containerType) {
+    let s = document.getElementsByClassName(containerType);
+    let r;
+    for (r = 0; r < s.length; r++) {
+        s[r].style.display = "none";
+        s[r].parentNode.style.zIndex = 15;
+        s[r].setAttribute("data-containerPopped", "false");
+    }
+}
+//---------------------------------------------------
+
+
+function islandClick(event, callingElement) {
+    event.preventDefault();
+    hideIslands();  //only 1 island visible at a time
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
+        document.getElementsByClassName(callingElement.id)[0].style.display = "block";
+        callingElement.style.zIndex = 20;  //default for a gridblock is 10
+        callingElement.setAttribute("data-islandPopped", "true");
+    }
+    event.stopPropagation();
+}
+
+function islandDragenter(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+function islandDragleave(event, callingElement) {
+    event.preventDefault();
+    if (callingElement.getAttribute("data-islandPopped") === "false") {
+        clearTimeout(hoverTimer);
+    }
+    event.stopPropagation();
+}
+
+function popupDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
+    event.stopPropagation();
+}
+
+function hideIslands() {
+    let x = document.getElementsByClassName("special_island3x3");
+    let i;
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+        x[i].parentNode.style.zIndex = 10;  //10 is the default
+        x[i].parentNode.setAttribute("data-islandPopped", "false");
+    }
+}
+
+
+
+function landClick(event, callingElement) {
+    event.preventDefault();
+
+    if (gameBattleSection === "selectPos") {
+        clearSelectedPos();
+        callingElement.classList.add("selectedPos");
+    }
+
+    event.stopPropagation();
+}
+
+function gameboardClick(event, callingElement) {
+    event.preventDefault();
+    hideIslands();
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    event.stopPropagation();
+}
+
+function waterClick(event, callingElement) {
+    event.preventDefault();
+    hideIslands();
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+
+    if (gameBattleSection === "selectPos") {
+        clearSelectedPos();
+        callingElement.classList.add("selectedPos");
+    }
+
+    event.stopPropagation();
+}
+
+
+
+function positionDrop(event, newContainerElement) {
+    event.preventDefault();
+    clearHighlighted();
+    //Already approved to move by pieceDragstart (same team and good phase)
+    let placementId = event.dataTransfer.getData("placementId");
+    let unitName = event.dataTransfer.getData("unitName");
+    let unitId = event.dataTransfer.getData("unitId");
+    let pieceDropped = document.querySelector("[data-placementId='" + placementId + "']");
+    let positionType = newContainerElement.getAttribute("data-positionType");
+    let unitTerrain = event.dataTransfer.getData("unitTerrain");
+    let new_positionId = newContainerElement.getAttribute("data-positionId");
+    let old_positionId = event.dataTransfer.getData("positionId");
+    let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
+    let new_placementContainerId = newContainerElement.getAttribute("data-positionContainerId");
+    let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
+
+    if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
+        if (movementTerrainCheck(unitTerrain, positionType) === "true") {
+            let phpMoveCheck = new XMLHttpRequest();
+            phpMoveCheck.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let movementCost = this.responseText;
+                    if (movementCost !== "-1") {
+                        if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
+                            //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
+                            let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
+
+                            //Update the html by moving the piece and changing the piece's attributes
+                            newContainerElement.appendChild(pieceDropped);
+                            pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
+                            pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
+                            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+                                pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
+                            }
+
+                            //Update the placement in the database and add a movement to the database
+                            let phpRequest = new XMLHttpRequest();
+                            phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
+                            phpRequest.send();
+                            let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
+                            let parentTeam = newContainerElement.parentNode.classList[2];
+                            let newTeam;
+                            if (parentTeam === "Red") {
+                                newTeam = "Blue";
+                            } else {
+                                newTeam = "Red";
+                            }
+                            if (flagPositions.includes(parseInt(new_positionId))) {
+                                let changeOwnership = "true";
+                                let numChildren = newContainerElement.childElementCount;
+                                for (let x = 0; x < numChildren; x++) {
+                                    if (newContainerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
+                                        changeOwnership = "false";
+                                    }
+                                }
+                                if (changeOwnership === "true") {
+                                    //change css of parent
+                                    let parent = newContainerElement.parentNode;
+                                    parent.classList.remove(parentTeam);
+                                    parent.classList.add(newTeam);
+                                    //change css of parent parent
+                                    let parentParent = parent.parentNode;
+                                    parentParent.classList.remove(parentTeam);
+                                    parentParent.classList.add(newTeam);
+                                    //database change in games table
+                                    let islandNumber = parent.id;
+                                    let phpRequestTeamChange = new XMLHttpRequest();
+                                    phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
+                                    phpRequestTeamChange.send();
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves, true);
+            phpMoveCheck.send();
+        }
+    }
+    event.stopPropagation();
+}
+
+function positionDragover(event, callingElement) {
+    event.preventDefault();
+    //Stops from Dropping into another piece (non-container element) (containers should not be draggable, only parent pieces)
+    if (callingElement.getAttribute("draggable") === "true") {
+        event.dataTransfer.dropEffect = "none";
+    } else {
+        event.dataTransfer.dropEffect = "all";
+    }
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000)
+}
+
+function movementTerrainCheck(unitTerrain, positionType) {
+    return "true";
+}
+
+
+
 function changePhase() {
     if (canNextPhase === "true") {
         let phpPhaseChange = new XMLHttpRequest();
@@ -570,6 +532,30 @@ function changePhase() {
         phpPhaseChange.send();
     }
 }
+
+
+
+function clearHighlighted() {
+    let highlighted_things = document.getElementsByClassName("highlighted");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("highlighted");
+    }
+}
+
+function clearSelected() {
+    let highlighted_things = document.getElementsByClassName("selected");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("selected");
+    }
+}
+
+function clearSelectedPos() {
+    let highlighted_things = document.getElementsByClassName("selectedPos");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("selectedPos");
+    }
+}
+
 
 
 function battleChangeSection(newSection) {
@@ -661,7 +647,6 @@ function battleChangeSection(newSection) {
     phpBattleUpdate.send();
 }
 
-
 function battleSelectPieces() {
 
     let parameterArray = [];
@@ -691,7 +676,6 @@ function battleSelectPieces() {
     clearSelected();
     battleChangeSection("attack");
 }
-
 
 function battleSelectPosition() {
     if (document.getElementsByClassName("selectedPos").length === 0) {
@@ -727,9 +711,11 @@ function battleSelectPosition() {
     }
 }
 
-
 function battlePieceClick(event, callingElement) {
     event.preventDefault();
+
+    if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter"))
+
     let boxId = callingElement.parentNode.getAttribute("data-boxId");
     let battlePieceId = callingElement.getAttribute("data-battlePieceId");
     let phpMoveBattlePiece = new XMLHttpRequest();
@@ -773,7 +759,6 @@ function battlePieceClick(event, callingElement) {
     }
     event.stopPropagation();
 }
-
 
 function battleEndRoll() {
     gameBattleSubSection = "choosing_pieces";  //always defaults to this first
@@ -838,7 +823,6 @@ function battleEndRoll() {
     battleChangeSection(gameBattleSection);
     document.getElementById("battleActionPopup").style.display = "none";
 }
-
 
 function battleAttackCenter(type) {
     let attackUnitId;
@@ -905,6 +889,10 @@ function waitForUpdate() {
                 updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
             } else if (decoded.updateType === "phaseChange") {
                 updateNextPhase();
+            } else if (decoded.updateType === "positionSelected") {
+                updateBattlePositionSelected(parseInt(decoded.updateBattlePositionSelected));
+            } else if (decoded.updateType === "piecesSelected") {
+                updateBattlePiecesSelected(decoded.updateBattlePiecesSelected);
             }
 
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
@@ -913,25 +901,6 @@ function waitForUpdate() {
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
 }
-
-//copy code of example working xml http request object use (lots of catching and trying here (for other browser stuff))
-// function ajax_request2(url){
-//     http_request2=false;
-//     if(window.XMLHttpRequest){
-//         http_request2=new XMLHttpRequest();
-//         if(http_request2.overrideMimeType){http_request2.overrideMimeType('text/xml');}
-//     }else if(window.ActiveXObject){
-//         try{http_request2=new ActiveXObject("Msxml2.XMLHTTP");}catch(e){try{http_request2=new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}}
-//     }
-//     if(!http_request2){
-//         alert('Giving up :( Cannot create an XMLHTTP instance');return false;
-//     }
-//     http_request2.onreadystatechange=alertContents2;
-//     http_request2.open('GET',"chat.txt",true);
-//     http_request2.send(null);
-// }
-
-
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
@@ -1040,6 +1009,59 @@ function updateBattleEnding() {
     //deal with echo info from update
 }
 
+function updateBattlePositionSelected(position) {
+
+}
+
+function updateBattlePiecesSelected(piecesSelectedHTML) {
+    document.getElementById("unused_attacker").innerHTML = piecesSelectedHTML;
+
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    clearSelectedPos();
+    clearSelected();
+    // battleChangeSection("attack");
+
+    // document.getElementById("battle_button").disabled = true; //already disabled
+    // clearSelected();  //wasn't selecting
+    // if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
+    //     document.getElementById("attackButton").disabled = false;
+    // } else {
+    //     document.getElementById("attackButton").disabled = true;
+    // }
+    document.getElementById("battleZonePopup").style.display = "block";
+    document.getElementById("attackButton").innerHTML = "Attack section";  //already disabled by default?
+    document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+    document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+
+    document.getElementById("changeSectionButton").disabled = true;  //other client can't change section, only currentTeam
+
+    document.getElementById("changeSectionButton").onclick = function() {
+        battleChangeSection("counter");
+        let newParent = document.getElementById('unused_attacker');
+        let oldParent = document.getElementById('used_attacker');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+        newParent = document.getElementById('unused_defender');
+        oldParent = document.getElementById('used_defender');
+        while (oldParent.childNodes.length > 0) {
+            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            let phpMoveBattlePiece = new XMLHttpRequest();
+            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+            phpMoveBattlePiece.send();
+            newParent.appendChild(oldParent.childNodes[0]);
+        }
+    };
+
+}
+
 //TODO: figure out how to fully disable buttons based upon battle state and team and attacker / currentTeam?
 function updateBattleSection(newSection) {
     gameBattleSection = newSection;
@@ -1115,5 +1137,9 @@ function updateBattleSection(newSection) {
         document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
     }
 }
+
+
+
+
 
 waitForUpdate();
