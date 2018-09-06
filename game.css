@@ -218,18 +218,18 @@ html, body {
 /*BattleZone CSS*/
 
 #battleZonePopup{
-    width: 400px;
-    height: 500px;
+    width: 30%;
+    height: 59%;
     position: absolute;
     display: none;
     background-image: url("resources/mapImages/battle_zone.png");
     background-repeat: no-repeat;
-    background-size: 390px 490px;
+    background-size: 98% 98%;
     background-color: #000000;
     background-position: center;
     z-index: 500;
-    margin-left: 300px;
-    margin-top: 75px;
+    margin-left: 5%;
+    margin-top: 5%;
 }
 
 #unused_defender{
