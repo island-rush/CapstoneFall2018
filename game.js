@@ -131,7 +131,7 @@ function bodyLoader() {
     }
 }
 
-
+//TODO: disable sidepanel buttons during a battle!
 //---------------------------------------------------
 function pieceClick(event, callingElement) {
     event.preventDefault();
@@ -633,7 +633,8 @@ function battleChangeSection(newSection) {
         if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
             document.getElementById("changeSectionButton").disabled = false;
         }
-
+        alert("enabling button in section change my click");
+        document.getElementById("changeSectionButton").disabled = false;
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
         document.getElementById("changeSectionButton").onclick = function() {
             battleChangeSection("counter");
@@ -659,14 +660,18 @@ function battleChangeSection(newSection) {
     } else if (newSection === "counter") {
 
         if (gameCurrentTeam === myTeam) {
+            alert("counter click my team = current team disable true")
             document.getElementById("changeSectionButton").disabled = true;
         } else {
             document.getElementById("changeSectionButton").disabled = false;
         }
 
+        document.getElementById("attackButton").disabled = true;
         document.getElementById("attackButton").innerHTML = "Counter Attack";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
 
+        alert("counter disabling true i clicked i know");
+        // document.getElementById("changeSectionButton").disabled = true;
         document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
     } else if (newSection === "askRepeat") {
@@ -702,6 +707,9 @@ function battleChangeSection(newSection) {
         } else {
             document.getElementById("attackButton").disabled = true;
         }
+        document.getElementById("changeSectionButton").disabled = true;
+        document.getElementById("attackButton").disabled = true;
+
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
 
@@ -1171,6 +1179,7 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
     document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
     document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
 
+    alert("disable true because got update that pieces were selected");
     document.getElementById("changeSectionButton").disabled = true;  //other client can't change section, only currentTeam
 
     document.getElementById("changeSectionButton").onclick = function() {
@@ -1285,10 +1294,13 @@ function updateBattleSection() {
                 document.getElementById("changeSectionButton").disabled = false;
             }
 
+            alert("changing section to something");
             if (gameBattleSection === "askRepeat" && myTeam === gameCurrentTeam) {
+                alert("myteam = current team enable");
                 document.getElementById("attackButton").disabled = false;
                 document.getElementById("changeSectionButton").disabled = false;
             } else if (gameBattleSection === "askRepeat" && myTeam !== gameCurrentTeam) {
+                alert("myteam != current team disable");
                 document.getElementById("attackButton").disabled = true;
                 document.getElementById("changeSectionButton").disabled = true;
             }
