@@ -1,76 +1,92 @@
 //Javascript Functions used by the Island Rush Game
 //Created by C1C Spencer Adolph (7/28/2018)
 
+//First function called to load the game
+function bodyLoader() {
+    // alert(myTeam);
+    document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
+    document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
-function islandClick(event, callingElement) {
-    event.preventDefault();
-    hideIslands();  //only 1 island visible at a time
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-    if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
-        document.getElementsByClassName(callingElement.id)[0].style.display = "block";
-        callingElement.style.zIndex = 20;  //default for a gridblock is 10
-        callingElement.setAttribute("data-islandPopped", "true");
-    }
-    event.stopPropagation();
-}
-
-
-function islandDragenter(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
-    event.stopPropagation();
-}
-
-
-function waterClick(event, callingElement) {
-    event.preventDefault();
-    hideIslands();
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-
-    if (gameBattleSection === "selectPos") {
-        clearSelectedPos();
-        callingElement.classList.add("selectedPos");
+    //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
+    if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
+        document.getElementById("battleZonePopup").style.display = "block";
     }
 
-    event.stopPropagation();
-}
-
-
-function clearSelectedPos() {
-    let highlighted_things = document.getElementsByClassName("selectedPos");
-    while (highlighted_things.length) {
-        highlighted_things[0].classList.remove("selectedPos");
-    }
-}
-
-
-function landClick(event, callingElement) {
-    event.preventDefault();
-
-    if (gameBattleSection === "selectPos") {
-        clearSelectedPos();
-        callingElement.classList.add("selectedPos");
+    if (gameBattleSection === "none") {
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").innerHTML = "Select Battle";
+        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
+    } else if (gameBattleSection === "selectPos") {
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").innerHTML = "Select Pieces";
+        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+    } else if (gameBattleSection === "selectPieces") {
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").innerHTML = "Start Battle";
+        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+    } else {
+        document.getElementById("battle_button").disabled = true;
+        document.getElementById("battle_button").innerHTML = "Select Battle";
     }
 
-    event.stopPropagation();
-}
+    //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
+    if (gameBattleSubSection !== "choosing_pieces") {
+        document.getElementById("battleActionPopup").style.display = "block";
+        if (gameBattleSubSection === "defense_bonus") {
+            document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
+            document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+        } else if (gameBattleSubSection === "continue_choosing") {
+            document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
+            document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+        }
+    }
 
+    if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
+        document.getElementById("attackButton").disabled = false;
+    }
 
-function gameboardClick(event, callingElement) {
-    event.preventDefault();
-    hideIslands();
-    hideContainers("transportContainer");
-    hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
-    clearHighlighted();
-    event.stopPropagation();
+    //could consolidate these with a call to change section (with same section)
+    if (gameBattleSection === "attack") {
+        document.getElementById("attackButton").innerHTML = "Attack section";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
+    } else if (gameBattleSection === "counter") {
+        document.getElementById("attackButton").innerHTML = "Counter Attack";
+        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
+    } else if (gameBattleSection === "askRepeat") {
+        document.getElementById("attackButton").innerHTML = "Click to Repeat";
+        document.getElementById("attackButton").disabled = false;
+        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
+        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+    }
+
+    if (canAttack === "true") {
+        document.getElementById("battle_button").disabled = false;
+    } else {
+        document.getElementById("battle_button").disabled = true;
+    }
+    if (canUndo === "true") {
+        document.getElementById("undo_button").disabled = false;
+    } else {
+        document.getElementById("undo_button").disabled = true;
+    }
+    if (canNextPhase === "true") {
+        document.getElementById("phase_button").disabled = false;
+    } else {
+        document.getElementById("phase_button").disabled = true;
+    }
+    if (gamePhase === "1") {
+        // alert("phase1");
+        //TODO: phase effects here and grab phase stuff???
+        document.getElementById("newsPopup").style.display = "block";
+    } else {
+        // alert("not phase 1");
+        document.getElementById("newsPopup").style.display = "none";
+    }
 }
 
 
@@ -249,6 +265,36 @@ function pieceTrash(event, trashElement) {
 //---------------------------------------------------
 
 
+function islandClick(event, callingElement) {
+    event.preventDefault();
+    hideIslands();  //only 1 island visible at a time
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
+        document.getElementsByClassName(callingElement.id)[0].style.display = "block";
+        callingElement.style.zIndex = 20;  //default for a gridblock is 10
+        callingElement.setAttribute("data-islandPopped", "true");
+    }
+    event.stopPropagation();
+}
+
+function islandDragenter(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+function islandDragleave(event, callingElement) {
+    event.preventDefault();
+    if (callingElement.getAttribute("data-islandPopped") === "false") {
+        clearTimeout(hoverTimer);
+    }
+    event.stopPropagation();
+}
+
 function hideIslands() {
     let x = document.getElementsByClassName("special_island3x3");
     let i;
@@ -260,15 +306,51 @@ function hideIslands() {
 }
 
 
-function hideContainers(containerType) {
-    let s = document.getElementsByClassName(containerType);
-    let r;
-    for (r = 0; r < s.length; r++) {
-        s[r].style.display = "none";
-        s[r].parentNode.style.zIndex = 15;
-        s[r].setAttribute("data-containerPopped", "false");
+
+function landClick(event, callingElement) {
+    event.preventDefault();
+
+    if (gameBattleSection === "selectPos") {
+        clearSelectedPos();
+        callingElement.classList.add("selectedPos");
     }
+
+    event.stopPropagation();
 }
+
+function gameboardClick(event, callingElement) {
+    event.preventDefault();
+    hideIslands();
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+    event.stopPropagation();
+}
+
+function waterClick(event, callingElement) {
+    event.preventDefault();
+    hideIslands();
+    hideContainers("transportContainer");
+    hideContainers("aircraftCarrierContainer");
+    hideContainers("lavContainer");
+    clearHighlighted();
+
+    if (gameBattleSection === "selectPos") {
+        clearSelectedPos();
+        callingElement.classList.add("selectedPos");
+    }
+
+    event.stopPropagation();
+}
+
+function popupDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
+    event.stopPropagation();
+}
+
 
 
 function positionDrop(event, newContainerElement) {
@@ -353,7 +435,6 @@ function positionDrop(event, newContainerElement) {
     event.stopPropagation();
 }
 
-
 function positionDragover(event, callingElement) {
     event.preventDefault();
     //Stops from Dropping into another piece (non-container element) (containers should not be draggable, only parent pieces)
@@ -365,11 +446,9 @@ function positionDragover(event, callingElement) {
     hoverTimer = setTimeout(function() { hideIslands();}, 1000)
 }
 
-
 function movementTerrainCheck(unitTerrain, positionType) {
     return "true";
 }
-
 
 function containerHasSpotOpen(new_placementContainerId, unitName) {
     //Can't put transport inside another transport
@@ -382,7 +461,6 @@ function containerHasSpotOpen(new_placementContainerId, unitName) {
     return "true";
 }
 
-
 function containerDragleave(event, callingElement) {
     event.preventDefault();
     clearTimeout(hoverTimer);
@@ -390,126 +468,6 @@ function containerDragleave(event, callingElement) {
     event.stopPropagation();
 }
 
-
-function islandDragleave(event, callingElement) {
-    event.preventDefault();
-    if (callingElement.getAttribute("data-islandPopped") === "false") {
-        clearTimeout(hoverTimer);
-    }
-    event.stopPropagation();
-}
-
-
-function popupDragleave(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
-    event.stopPropagation();
-}
-
-
-function clearHighlighted() {
-    let highlighted_things = document.getElementsByClassName("highlighted");
-    while (highlighted_things.length) {
-        highlighted_things[0].classList.remove("highlighted");
-    }
-}
-
-
-function clearSelected() {
-    let highlighted_things = document.getElementsByClassName("selected");
-    while (highlighted_things.length) {
-        highlighted_things[0].classList.remove("selected");
-    }
-}
-
-
-function bodyLoader() {
-    // alert(myTeam);
-    document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
-    document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
-
-    //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
-    if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
-        document.getElementById("battleZonePopup").style.display = "block";
-    }
-
-    if (gameBattleSection === "none") {
-        document.getElementById("battle_button").disabled = false;
-        document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
-    } else if (gameBattleSection === "selectPos") {
-        document.getElementById("battle_button").disabled = false;
-        document.getElementById("battle_button").innerHTML = "Select Pieces";
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
-    } else if (gameBattleSection === "selectPieces") {
-        document.getElementById("battle_button").disabled = false;
-        document.getElementById("battle_button").innerHTML = "Start Battle";
-        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
-    } else {
-        document.getElementById("battle_button").disabled = true;
-        document.getElementById("battle_button").innerHTML = "Select Battle";
-    }
-
-    //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
-    if (gameBattleSubSection !== "choosing_pieces") {
-        document.getElementById("battleActionPopup").style.display = "block";
-        if (gameBattleSubSection === "defense_bonus") {
-            document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
-            document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
-        } else if (gameBattleSubSection === "continue_choosing") {
-            document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-            document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
-        }
-    }
-
-    if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
-        document.getElementById("attackButton").disabled = false;
-    }
-
-    //could consolidate these with a call to change section (with same section)
-    if (gameBattleSection === "attack") {
-        document.getElementById("attackButton").innerHTML = "Attack section";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
-        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
-    } else if (gameBattleSection === "counter") {
-        document.getElementById("attackButton").innerHTML = "Counter Attack";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
-        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
-    } else if (gameBattleSection === "askRepeat") {
-        document.getElementById("attackButton").innerHTML = "Click to Repeat";
-        document.getElementById("attackButton").disabled = false;
-        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
-        document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
-    }
-
-    if (canAttack === "true") {
-        document.getElementById("battle_button").disabled = false;
-    } else {
-        document.getElementById("battle_button").disabled = true;
-    }
-    if (canUndo === "true") {
-        document.getElementById("undo_button").disabled = false;
-    } else {
-        document.getElementById("undo_button").disabled = true;
-    }
-    if (canNextPhase === "true") {
-        document.getElementById("phase_button").disabled = false;
-    } else {
-        document.getElementById("phase_button").disabled = true;
-    }
-    if (gamePhase === "1") {
-        // alert("phase1");
-        //TODO: phase effects here and grab phase stuff???
-        document.getElementById("newsPopup").style.display = "block";
-    } else {
-        // alert("not phase 1");
-        document.getElementById("newsPopup").style.display = "none";
-    }
-}
 
 
 function changePhase() {
@@ -564,6 +522,40 @@ function changePhase() {
         phpPhaseChange.send();
     }
 }
+
+
+
+function hideContainers(containerType) {
+    let s = document.getElementsByClassName(containerType);
+    let r;
+    for (r = 0; r < s.length; r++) {
+        s[r].style.display = "none";
+        s[r].parentNode.style.zIndex = 15;
+        s[r].setAttribute("data-containerPopped", "false");
+    }
+}
+
+function clearHighlighted() {
+    let highlighted_things = document.getElementsByClassName("highlighted");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("highlighted");
+    }
+}
+
+function clearSelected() {
+    let highlighted_things = document.getElementsByClassName("selected");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("selected");
+    }
+}
+
+function clearSelectedPos() {
+    let highlighted_things = document.getElementsByClassName("selectedPos");
+    while (highlighted_things.length) {
+        highlighted_things[0].classList.remove("selectedPos");
+    }
+}
+
 
 
 function battleChangeSection(newSection) {
@@ -655,7 +647,6 @@ function battleChangeSection(newSection) {
     phpBattleUpdate.send();
 }
 
-
 function battleSelectPieces() {
 
     let parameterArray = [];
@@ -685,7 +676,6 @@ function battleSelectPieces() {
     clearSelected();
     battleChangeSection("attack");
 }
-
 
 function battleSelectPosition() {
     if (document.getElementsByClassName("selectedPos").length === 0) {
@@ -720,7 +710,6 @@ function battleSelectPosition() {
         battleChangeSection("selectPieces");
     }
 }
-
 
 function battlePieceClick(event, callingElement) {
     event.preventDefault();
@@ -767,7 +756,6 @@ function battlePieceClick(event, callingElement) {
     }
     event.stopPropagation();
 }
-
 
 function battleEndRoll() {
     gameBattleSubSection = "choosing_pieces";  //always defaults to this first
@@ -832,7 +820,6 @@ function battleEndRoll() {
     battleChangeSection(gameBattleSection);
     document.getElementById("battleActionPopup").style.display = "none";
 }
-
 
 function battleAttackCenter(type) {
     let attackUnitId;
@@ -907,25 +894,6 @@ function waitForUpdate() {
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
 }
-
-//copy code of example working xml http request object use (lots of catching and trying here (for other browser stuff))
-// function ajax_request2(url){
-//     http_request2=false;
-//     if(window.XMLHttpRequest){
-//         http_request2=new XMLHttpRequest();
-//         if(http_request2.overrideMimeType){http_request2.overrideMimeType('text/xml');}
-//     }else if(window.ActiveXObject){
-//         try{http_request2=new ActiveXObject("Msxml2.XMLHTTP");}catch(e){try{http_request2=new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}}
-//     }
-//     if(!http_request2){
-//         alert('Giving up :( Cannot create an XMLHTTP instance');return false;
-//     }
-//     http_request2.onreadystatechange=alertContents2;
-//     http_request2.open('GET',"chat.txt",true);
-//     http_request2.send(null);
-// }
-
-
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
@@ -1112,29 +1080,8 @@ function updateBattleSection(newSection) {
 
 
 
-// function setIslandOwnership(islandIdName) {
-//     //set the allColor  values
-//     let hasBlue = false;
-//     let hasRed = false;
-//
-//     let numChildNodes = document.getElementById(islandIdName).firstChild.childNodes.length;
-//     alert(numChildNodes);
-//     //Check if all pieces in a box are one color
-//     for(let index = 0; index < numChildNodes - 1; index++){
-//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Red"){
-//             hasRed = true;
-//         }
-//         if (document.getElementById(islandIdName).firstChild.childNodes[index].getAttribute("data-placementTeamId") ===  "Blue" ){
-//             hasBlue = true;
-//         }
-//     }
-//     //change the box shadow if it only has the opposite color as the box shadow.
-//     if        (document.getElementById(islandIdName).getAttribute("data-placementTeamId") === "Blue" && hasRed && !hasBlue) {
-//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Red";
-//     } else if (document.getElementById(islandIdName).getAttribute("data-placementTeamId") ===  "Red" && hasBlue && !hasRed){
-//         document.getElementById(islandIdName).setAttribute("data-placementTeamId") ===  "Blue";
-//     }
-// }
 
-// alert(unitNames[11]);
+
+
+
 waitForUpdate();
