@@ -62,7 +62,7 @@ $u = $results->fetch_assoc();
             $canAttack = "false";
         } else {
             if ($u['gamePhase'] == 1) {
-                //news alert
+                //news alerts
                 $canMove = "false";
                 $canPurchase = "false";
                 $canUndo = "false";
