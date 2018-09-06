@@ -61,7 +61,12 @@ html, body {
     height: 100%;
     float: left;
     text-align: center;
-    background-color: green;
+    font-family: "Goudy ExtraBold";
+    background-color: #4E2700;
+    background-image: url("resources/unitImages/trash_can.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 #rest_things{
     width: 100%;
@@ -76,10 +81,10 @@ html, body {
     height: 25%;
     position: absolute;
     display: none;
-    /*background-image: url("resources/mapImages/battle_zone.png");*/
+    background-image: url("resources/unitImages/Newspaper.jpg");
     /*background-repeat: no-repeat;*/
     /*background-size: 390px 490px;*/
-    background-color: #14a51b;
+    /*background-color: #D4D4D4;*/
     /*background-position: center;*/
     z-index: 500;
     margin-left: 20%;
@@ -87,6 +92,18 @@ html, body {
 }
 #newsTitle{
     text-align: center;
+    font-size: xx-large;
+    font-family: "Old English Text MT";
+    /*background-image: url("resources/mapImages/battle_zone.png");*/
+}
+#newsText{
+    font-family: Helvetica-Black;
+    text-indent: 2.5%;
+    font-size: large;
+}
+
+.news{
+    background-image: url("resources/unitImages/Newspaper.jpg");
 }
 
 
@@ -317,7 +334,7 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgba(255, 0, 0, 0.55) inset;
 }
 .Blue{
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 255, 0.56) inset;
+    box-shadow: 0px 0px 0px 1px rgba(30, 208, 255, 0.67) inset;
 }
 
 .transport{background-image: url("resources/unitImages/transport.png");}
@@ -340,6 +357,7 @@ html, body {
     width: 15%;
     height: 15%;
 }
+
 
 .transportContainer{
     height: 200%;
