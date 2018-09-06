@@ -33,9 +33,15 @@ function bodyLoader() {
     if (gameBattleSubSection !== "choosing_pieces") {
         document.getElementById("battleActionPopup").style.display = "block";
         if (gameBattleSubSection === "defense_bonus") {
+            if (myTeam !== gameCurrentTeam) {
+                document.getElementById("actionPopupButton").disabled = false;
+            }
             document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
             document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "continue_choosing") {
+            if (myTeam !== gameCurrentTeam) {
+                document.getElementById("actionPopupButton").disabled = true;
+            }
             document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
             document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
         }
@@ -60,14 +66,14 @@ function bodyLoader() {
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
     } else if (gameBattleSection === "askRepeat") {
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
-
-        if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
-            document.getElementById("attackButton").disabled = false;
-        }
-
         document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+    }
+
+    if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
+        document.getElementById("attackButton").disabled = false;
+        document.getElementById("changeSectionButton").disabled = false;
     }
 
     if (canAttack === "true") {
@@ -584,6 +590,11 @@ function battleChangeSection(newSection) {
         document.getElementById("battleZonePopup").style.display = "block";
         document.getElementById("attackButton").innerHTML = "Attack section";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+
+        if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
+            document.getElementById("changeSectionButton").disabled = false;
+        }
+
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
         document.getElementById("changeSectionButton").onclick = function() {
             battleChangeSection("counter");
@@ -607,8 +618,14 @@ function battleChangeSection(newSection) {
             }
         };
     } else if (newSection === "counter") {
+
+        if (gameCurrentTeam === myTeam) {
+            document.getElementById("changeSectionButton").disabled = true;
+        }
+
         document.getElementById("attackButton").innerHTML = "Counter Attack";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+
         document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
     } else if (newSection === "askRepeat") {
@@ -631,9 +648,19 @@ function battleChangeSection(newSection) {
             newParent.appendChild(oldParent.childNodes[0]);
         }
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
+        if ((gameCurrentTeam === myTeam && gameBattleSection === "askRepeat")) {
+            document.getElementById("attackButton").disabled = false;
+        } else {
+            document.getElementById("attackButton").disabled = true;
+        }
         document.getElementById("attackButton").disabled = false;
-        //TODO: move elements back to where they belong / used -> unused
+        //TODO: move elements back to where they belong / used -> unused?
         document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        if ((gameCurrentTeam === myTeam && gameBattleSection === "askRepeat")) {
+            document.getElementById("attackButton").disabled = false;
+        } else {
+            document.getElementById("attackButton").disabled = true;
+        }
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
 
@@ -1112,16 +1139,27 @@ function updateBattleSection() {
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
 
-            document.getElementById("battleActionPopup").style.display = "block";
-            if (gameBattleSubSection === "defense_bonus") {
-                document.getElementById("actionPopupButton").disabled = false;
-                document.getElementById("actionPopupButton").innerHTML = "HIT! Roll for Defense Bonus";
-                document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
-            } else if (gameBattleSubSection === "continue_choosing") {
-                document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-                document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+            if (gameBattleSection === "attack") {
+                document.getElementById("attackButton").innerHTML = "Attack section";
+                document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+                document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+                document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
+            } else if (gameBattleSection === "counter") {
+                document.getElementById("attackButton").innerHTML = "Counter Attack";
+                document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+                document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+                document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
+            } else if (gameBattleSection === "askRepeat") {
+                document.getElementById("attackButton").innerHTML = "Click to Repeat";
+                document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+                document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
+                document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
             }
 
+            if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
+                document.getElementById("attackButton").disabled = false;
+                document.getElementById("changeSectionButton").disabled = false;
+            }
         }
     };
     phpBattleUpdate.open("GET", "updateGetBattle.php", true);  // removes the element from the database
