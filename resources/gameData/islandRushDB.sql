@@ -140,19 +140,21 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
 	`newsId` int(5) NOT NULL AUTO_INCREMENT,
   `newsGameId` int(5) NOT NULL,
   `newsOrder` int(5) NOT NULL,  -- what index is this in the list of news alerts
-  `newsTeam` varchar(10) NOT NULL, -- 'Red', 'Blue', 'All'
-  `newsPieces` varchar(350) NOT NULL, -- "{transport: 0, submarine: 1, destroyer: 0, ...}"  a JSON string. -access with  newsPieces->>'$.tank'
+  `newsTeam` varchar(10) NOT NULL DEFAULT 'nothing', -- 'Red', 'Blue', 'All'. Defaults to 'nothing' for effect=nothing
+  `newsPieces` varchar(350) NOT NULL DEFAULT 'nothing', -- "{transport: 0, submarine: 1, destroyer: 0, ...}"  a JSON string. -access with  newsPieces->>'$.tank'. Defaults to 'nothing' for effect=nothing
   `newsEffect` varchar(20) NOT NULL, -- 'disable', 'rollDie', 'moveDie', 'nothing',  ...
-  `newsRollValue` varchar(2) NOT NULL DEFAULT 1, -- {1,2,3,4,5,6} default 1 but it isnt looked at unless effect=rollDie
-  `newsZone` int(10) NOT NULL, -- {0-54, 101-114, 200} for sea zones 0-54, whole island 1-14, or all zones
-  `newsSurround` int(2) NOT NULL, -- 0 or 1, boolean if the sea zones surrounding an island are affected
-  `newsLength` int(2) NOT NULL, -- 1,2,3 (amount of turns the effect lasts)
-  `newsText` varchar(200) NOT NULL, -- the message that displays with the alert
-  `newsEffectText` varchar(200) NOT NULL, -- the message about the action of the effect
+  `newsRollValue` varchar(2) NOT NULL DEFAULT 0, -- {1,2,3,4,5,6} default 0 but it isnt looked at unless effect=rollDie
+  `newsZone` int(10) NOT NULL DEFAULT 666, -- {0-54, 101-114, 200} for sea zones 0-54, whole island 1-14, or all zones. if effect=nothing, default to 666.
+  `newsSurround` int(2) NOT NULL DEFAULT 0, -- 0 or 1, boolean if the sea zones surrounding an island are affected
+  `newsLength` int(2) NOT NULL DEFAULT 1, -- 1,2,3 (amount of turns the effect lasts)
+  `newsHumanitarian` int(2) NOT NULL DEFAULT 0,
+  `newsText` varchar(200) NOT NULL DEFAULT 'default string', -- the message that displays with the alert
+  `newsEffectText` varchar(200) NOT NULL DEFAULT 'default string', -- the message about the action of the effect
+  `newsActivated` int(2) NOT NULL DEFAULT 0, -- if the news alert has been 'pulled' (activated) yet. defaults to unused=0.
   PRIMARY KEY(`newsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-INSERT INTO newsAlerts VALUES (1, 1, 0, 'All', "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':1, 'artillery':1, 'tank':1, 'marine':1, 'lav':1, 'attackHeli':1, 'sam':1, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}", 'rollDie', 5, 104, 0, 1, 'CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island', 'All units must roll a 5 or higher or will be destroyed.');
+INSERT INTO newsAlerts VALUES (1, 1, 0, 'All', "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':1, 'artillery':1, 'tank':1, 'marine':1, 'lav':1, 'attackHeli':1, 'sam':1, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}", 'rollDie', 5, 104, 0, 1, 0, 'CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island', 'All units must roll a 5 or higher or will be destroyed.', 0);
 
 
 -- SELECT * FROM newsAlerts;
