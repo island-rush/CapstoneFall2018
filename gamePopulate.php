@@ -717,15 +717,30 @@ $query->execute();
 // INSERTING THE DEFAULT NEWS ALERTS INTO THE SAME GAME
 
 //variables for newsAlert inserts
-//$allPieces = "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':1, 'artillery':1, 'tank':1, 'marine':1, 'lav':1, 'attackHeli':1, 'sam':1, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}";
-//$manualPieces = "{'transport':0, 'submarine':0, 'destroyer':0, 'aircraftCarrier':0, 'soldier':0, 'artillery':0, 'tank':0, 'marine':0, 'lav':0, 'attackHeli':0, 'sam':0, 'fighter':0, 'bomber':0, 'stealthBomber':0, 'tanker':0}";
-//$newsId = 1;
-//$query = 'INSERT INTO newsAlerts (newsId, newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsRollValue, newsZone, newsSurround, newsLength, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
-//$query = $db->prepare($query);
-//$query->bind_param("iiis", )
+$allPieces = "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':1, 'artillery':1, 'tank':1, 'marine':1, 'lav':1, 'attackHeli':1, 'sam':1, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}";
+$manualPieces = "{'transport':0, 'submarine':0, 'destroyer':0, 'aircraftCarrier':0, 'soldier':0, 'artillery':0, 'tank':0, 'marine':0, 'lav':0, 'attackHeli':0, 'sam':0, 'fighter':0, 'bomber':0, 'stealthBomber':0, 'tanker':0}";
+$order = 1;
+$all = "all";
+$zone = 999999; //set before every insert. 0-54 = sea; 101-114 = islands; 200 = all
+$true = 1;
+$false = 0;
+$rollValue = 1; // Default is 1. Not looked at unless effect=rollDie
+$disable = "disable";
+$rollDie = "rollDie";
+$moveDie = "moveDie";
+$nothing = "nothing";
+$length = 1; //set before every insert
+$text = ""; //set before every insert
+$effectText = ""; //set before every insert
 
+// Start doing all the inserts for ALL news alerts.
+$rollValue = 5;
+$zone =  104;
+$text = "CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island";
+$effectText = "All units must roll a 5 or higher or will be destroyed.";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsRollValue, newsZone, newsSurround, newsLength, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iissssiiiss",$gameId, $order, $all, $allPieces, $rollDie, $rollValue, $zone, $false, $length, $text, $effectText );
 
-
-
-
+//next one, and so on
 

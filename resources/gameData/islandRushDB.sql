@@ -142,8 +142,8 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
   `newsOrder` int(5) NOT NULL,  -- what index is this in the list of news alerts
   `newsTeam` varchar(10) NOT NULL, -- 'Red', 'Blue', 'All'
   `newsPieces` varchar(350) NOT NULL, -- "{transport: 0, submarine: 1, destroyer: 0, ...}"  a JSON string. -access with  newsPieces->>'$.tank'
-  `newsEffect` varchar(20) NOT NULL, -- 'disable', 'rollDie', 'moveDie', ...
-  `newsRollValue` varchar(2) NOT NULL DEFAULT 1, -- {1,2,3,4,5,6} [or null]??
+  `newsEffect` varchar(20) NOT NULL, -- 'disable', 'rollDie', 'moveDie', 'nothing',  ...
+  `newsRollValue` varchar(2) NOT NULL DEFAULT 1, -- {1,2,3,4,5,6} default 1 but it isnt looked at unless effect=rollDie
   `newsZone` int(10) NOT NULL, -- {0-54, 101-114, 200} for sea zones 0-54, whole island 1-14, or all zones
   `newsSurround` int(2) NOT NULL, -- 0 or 1, boolean if the sea zones surrounding an island are affected
   `newsLength` int(2) NOT NULL, -- 1,2,3 (amount of turns the effect lasts)
@@ -153,7 +153,6 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 INSERT INTO newsAlerts VALUES (1, 1, 0, 'All', "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':1, 'artillery':1, 'tank':1, 'marine':1, 'lav':1, 'attackHeli':1, 'sam':1, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}", 'rollDie', 5, 104, 0, 1, 'CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island', 'All units must roll a 5 or higher or will be destroyed.');
-INSERT INTO newsAlerts VALUES (2, 1, 1, 'Blue', "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':1, 'artillery':1, 'tank':1, 'marine':1, 'lav':1, 'attackHeli':1, 'sam':1, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}",'disable', 1, 103, 0, 1, 'CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island', 'All units must roll a 5 or higher or will be destroyed.');
 
 
 -- SELECT * FROM newsAlerts;
