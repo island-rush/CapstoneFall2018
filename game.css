@@ -61,7 +61,12 @@ html, body {
     height: 100%;
     float: left;
     text-align: center;
-    background-color: green;
+    font-family: "Goudy ExtraBold";
+    background-color: #4E2700;
+    background-image: url("resources/unitImages/trash_can.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 #rest_things{
     width: 100%;
@@ -76,10 +81,10 @@ html, body {
     height: 25%;
     position: absolute;
     display: none;
-    /*background-image: url("resources/mapImages/battle_zone.png");*/
+    background-image: url("resources/unitImages/Newspaper.jpg");
     /*background-repeat: no-repeat;*/
     /*background-size: 390px 490px;*/
-    background-color: #14a51b;
+    /*background-color: #D4D4D4;*/
     /*background-position: center;*/
     z-index: 500;
     margin-left: 20%;
@@ -87,6 +92,18 @@ html, body {
 }
 #newsTitle{
     text-align: center;
+    font-size: xx-large;
+    font-family: "Old English Text MT";
+    /*background-image: url("resources/mapImages/battle_zone.png");*/
+}
+#newsText{
+    font-family: Helvetica-Black;
+    text-indent: 2.5%;
+    font-size: large;
+}
+
+.news{
+    background-image: url("resources/unitImages/Newspaper.jpg");
 }
 
 
@@ -201,18 +218,19 @@ html, body {
 /*BattleZone CSS*/
 
 #battleZonePopup{
-    width: 400px;
-    height: 500px;
+    width: 30%;
+    height: 59%;
     position: absolute;
     display: none;
     background-image: url("resources/mapImages/battle_zone.png");
     background-repeat: no-repeat;
-    background-size: 390px 490px;
+    background-size: 98% 98%;
     background-color: #000000;
     background-position: center;
     z-index: 500;
-    margin-left: 300px;
-    margin-top: 75px;
+    margin-left: 5%;
+    margin-top: 5%;
+    /*//thing to change!*/
 }
 
 #unused_defender{
@@ -317,7 +335,7 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgba(255, 0, 0, 0.55) inset;
 }
 .Blue{
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 255, 0.56) inset;
+    box-shadow: 0px 0px 0px 1px rgba(30, 208, 255, 0.67) inset;
 }
 
 .transport{background-image: url("resources/unitImages/transport.png");}
@@ -340,6 +358,7 @@ html, body {
     width: 15%;
     height: 15%;
 }
+
 
 .transportContainer{
     height: 200%;
@@ -458,24 +477,24 @@ html, body {
 #pos13d{
     width: 22%;
     height: 22%;
-    margin-left: 20%;
-    margin-top: 10%;
-    -ms-transform: rotate(-20deg); /* IE 9 */
-    -webkit-transform: rotate(-20deg); /* Safari */
-    transform: rotate(-20deg);
+    margin-left: 10%;
+    margin-top: 12%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
 }
 #pos13e{
-    width: 15%;
-    height: 15%;
-    margin-left: 37%;
-    margin-top:31%;
+    width: 21%;
+    height: 21%;
+    margin-left: 35%;
+    margin-top:25%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos13f{
-    width: 15%;
-    height: 15%;
+    width: 23%;
+    height: 23%;
     margin-left: 34%;
     margin-top:48%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -486,7 +505,7 @@ html, body {
     width: 24%;
     height: 24%;
     margin-left: 52%;
-    margin-top:65%;
+    margin-top:75%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
@@ -510,19 +529,19 @@ html, body {
     transform: rotate(0deg);
 }
 #pos13j{
-    width: 15%;
-    height: 15%;
-    margin-left: 57%;
+    width: 20%;
+    height: 20%;
+    margin-left: 61%;
     margin-top: 48%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos14a{
-    width: 25%;
-    height: 18%;
-    margin-left: 57%;
-    margin-top:51%;
+    width: 37%;
+    height: 16%;
+    margin-left: 55%;
+    margin-top:54%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
@@ -573,7 +592,7 @@ html, body {
     transform: rotate(-38deg);
 }
 #pos14g{
-    width: 20%;
+    width: 25%;
     height: 12%;
     margin-left: 50%;
     margin-top:97%;
@@ -591,19 +610,19 @@ html, body {
     transform: rotate(0deg);
 }
 #pos14i{
-    width: 20%;
-    height: 10%;
-    margin-left: 20%;
-    margin-top:59%;
+    width: 30%;
+    height: 15%;
+    margin-left: 17%;
+    margin-top:52%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos14j{
-    width: 20%;
-    height: 10%;
-    margin-left: 46%;
-    margin-top:25%;
+    width: 30%;
+    height: 15%;
+    margin-left: 50%;
+    margin-top:16%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
