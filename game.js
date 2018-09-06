@@ -318,7 +318,7 @@ function positionDrop(event, newContainerElement) {
                             } else {
                                 newTeam = "Red";
                             }
-                            if (flagPositions.includes(new_positionId)) {
+                            if (flagPositions.includes(parseInt(new_positionId))) {
                                 let changeOwnership = "true";
                                 let numChildren = newContainerElement.childElementCount;
                                 for (let x = 0; x < numChildren; x++) {
