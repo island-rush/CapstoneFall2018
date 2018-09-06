@@ -447,13 +447,13 @@ html, body {
     transform: rotate(0deg);
 }
 #pos13c{
-    width: 22%;
-    height: 22%;
-    margin-left: 28%;
-    margin-top: 68%;
-    -ms-transform: rotate(-20deg); /* IE 9 */
-    -webkit-transform: rotate(-20deg); /* Safari */
-    transform: rotate(-20deg);
+    width: 24%;
+    height: 24%;
+    margin-left: 18%;
+    margin-top: 72%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
 }
 #pos13d{
     width: 22%;
@@ -483,13 +483,13 @@ html, body {
     transform: rotate(0deg);
 }
 #pos13g{/*This position missing letter on image (small bottom triangle)*/
-    /*width: 15%;*/
-    /*height: 15%;*/
-    /*margin-left: 65%;*/
-    /*margin-top:65%;*/
-    /*-ms-transform: rotate(0deg); !* IE 9 *!*/
-    /*-webkit-transform: rotate(0deg); !* Safari *!*/
-    /*transform: rotate(0deg);*/
+    width: 24%;
+    height: 24%;
+    margin-left: 52%;
+    margin-top:65%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
 }
 #pos13h{
     width: 20%;
