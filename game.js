@@ -1127,9 +1127,7 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
 
 }
 
-//TODO: figure out how to fully disable buttons based upon battle state and team and attacker / currentTeam?
 function updateBattleSection() {
-
     let phpBattleUpdate = new XMLHttpRequest();
     phpBattleUpdate.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -1138,7 +1136,6 @@ function updateBattleSection() {
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
-
             if (gameBattleSection === "attack") {
                 document.getElementById("attackButton").innerHTML = "Attack section";
                 document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
@@ -1164,10 +1161,6 @@ function updateBattleSection() {
     };
     phpBattleUpdate.open("GET", "updateGetBattle.php", true);  // removes the element from the database
     phpBattleUpdate.send();
-
-
-
-
 }
 
 
