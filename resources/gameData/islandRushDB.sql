@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
-INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 20, 0, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
+INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 0, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
 
 
 -- Table of Units (static)
@@ -57,23 +57,24 @@ CREATE TABLE IF NOT EXISTS `units`(
     `unitName` varchar(20) NOT NULL,
     `unitTerrain` varchar(20) NOT NULL,
     `unitMoves` int(3) NOT NULL,
+    `unitCost` int(3) NOT NULL,
     PRIMARY KEY(`unitId`)
 );
-INSERT INTO `units` VALUES (0, 'transport', 'water', 2);
-INSERT INTO `units` VALUES (1, 'submarine', 'water', 2);
-INSERT INTO `units` VALUES (2, 'destroyer', 'water', 2);
-INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 2);
-INSERT INTO `units` VALUES (4, 'soldier', 'ground', 1);
-INSERT INTO `units` VALUES (5, 'artillery', 'ground', 1);
-INSERT INTO `units` VALUES (6, 'tank', 'ground', 2);
-INSERT INTO `units` VALUES (7, 'marine', 'ground', 1);
-INSERT INTO `units` VALUES (8, 'lav', 'ground', 2);
-INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 3);
-INSERT INTO `units` VALUES (10, 'sam', 'ground', 1);
-INSERT INTO `units` VALUES (11, 'fighter', 'air', 4);
-INSERT INTO `units` VALUES (12, 'bomber', 'air', 6);
-INSERT INTO `units` VALUES (13, 'stealthBomber', 'air', 5);
-INSERT INTO `units` VALUES (14, 'tanker', 'air', 5);
+INSERT INTO `units` VALUES (0, 'transport', 'water', 2, 5);
+INSERT INTO `units` VALUES (1, 'submarine', 'water', 2, 5);
+INSERT INTO `units` VALUES (2, 'destroyer', 'water', 2, 5);
+INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 2, 5);
+INSERT INTO `units` VALUES (4, 'soldier', 'ground', 1, 5);
+INSERT INTO `units` VALUES (5, 'artillery', 'ground', 1, 5);
+INSERT INTO `units` VALUES (6, 'tank', 'ground', 2, 5);
+INSERT INTO `units` VALUES (7, 'marine', 'ground', 1, 5);
+INSERT INTO `units` VALUES (8, 'lav', 'ground', 2, 5);
+INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 3, 5);
+INSERT INTO `units` VALUES (10, 'sam', 'ground', 1, 5);
+INSERT INTO `units` VALUES (11, 'fighter', 'air', 4, 5);
+INSERT INTO `units` VALUES (12, 'bomber', 'air', 6, 5);
+INSERT INTO `units` VALUES (13, 'stealthBomber', 'air', 5, 5);
+INSERT INTO `units` VALUES (14, 'tanker', 'air', 5, 5);
 
 
 -- Table of game pieces and where they are in each game

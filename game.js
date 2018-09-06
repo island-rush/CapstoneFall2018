@@ -262,6 +262,34 @@ function pieceTrash(event, trashElement) {
         }
     }
 }
+
+function containerDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+function containerHasSpotOpen(new_placementContainerId, unitName) {
+    //Can't put transport inside another transport
+    if (new_placementContainerId !== "999999") {
+        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+            return "false";
+        }
+    }
+
+    return "true";
+}
+
+function hideContainers(containerType) {
+    let s = document.getElementsByClassName(containerType);
+    let r;
+    for (r = 0; r < s.length; r++) {
+        s[r].style.display = "none";
+        s[r].parentNode.style.zIndex = 15;
+        s[r].setAttribute("data-containerPopped", "false");
+    }
+}
 //---------------------------------------------------
 
 
@@ -292,6 +320,13 @@ function islandDragleave(event, callingElement) {
     if (callingElement.getAttribute("data-islandPopped") === "false") {
         clearTimeout(hoverTimer);
     }
+    event.stopPropagation();
+}
+
+function popupDragleave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
     event.stopPropagation();
 }
 
@@ -341,13 +376,6 @@ function waterClick(event, callingElement) {
         callingElement.classList.add("selectedPos");
     }
 
-    event.stopPropagation();
-}
-
-function popupDragleave(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
     event.stopPropagation();
 }
 
@@ -450,24 +478,6 @@ function movementTerrainCheck(unitTerrain, positionType) {
     return "true";
 }
 
-function containerHasSpotOpen(new_placementContainerId, unitName) {
-    //Can't put transport inside another transport
-    if (new_placementContainerId !== "999999") {
-        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
-            return "false";
-        }
-    }
-
-    return "true";
-}
-
-function containerDragleave(event, callingElement) {
-    event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
-    event.stopPropagation();
-}
-
 
 
 function changePhase() {
@@ -524,16 +534,6 @@ function changePhase() {
 }
 
 
-
-function hideContainers(containerType) {
-    let s = document.getElementsByClassName(containerType);
-    let r;
-    for (r = 0; r < s.length; r++) {
-        s[r].style.display = "none";
-        s[r].parentNode.style.zIndex = 15;
-        s[r].setAttribute("data-containerPopped", "false");
-    }
-}
 
 function clearHighlighted() {
     let highlighted_things = document.getElementsByClassName("highlighted");
@@ -1077,8 +1077,6 @@ function updateBattleSection(newSection) {
         document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
     }
 }
-
-
 
 
 
