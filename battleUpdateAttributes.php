@@ -3,6 +3,7 @@ session_start();
 include("db.php");
 
 $gameId = $_SESSION['gameId'];
+$myTeam = $_SESSION['myTeam'];
 
 $gameBattleSection = $_REQUEST['gameBattleSection'];
 $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
@@ -16,7 +17,12 @@ $query->bind_param("ssisii", $gameBattleSection, $gameBattleSubSection, $gameBat
 $query->execute();
 
 
-//TODO: insert into updates the change in the gamebattle? (know how to deal with it/popup or not)
+$newValue = 0;
+$updateType = "battleSectionChange";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
 
 
 $db->close();

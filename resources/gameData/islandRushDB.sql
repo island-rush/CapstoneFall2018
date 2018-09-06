@@ -130,6 +130,8 @@ CREATE TABLE IF NOT EXISTS `updates`(
 	`updateNewContainerId` int(4) DEFAULT 0,
 	`updateNewUnitId` int(4) DEFAULT 16,
     `updateBattlePieceState` int(2) DEFAULT 8,
+    `updateBattlePositionSelectedPieces` varchar(16000) DEFAULT 'defaultString',
+    `updateBattlePiecesSelected` varchar(16000) DEFAULT 'defaultString',
 	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
  

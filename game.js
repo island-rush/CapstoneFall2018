@@ -42,7 +42,9 @@ function bodyLoader() {
     }
 
     if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
-        document.getElementById("attackButton").disabled = false;
+        if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
+            document.getElementById("attackButton").disabled = false;
+        }
     }
 
     //could consolidate these with a call to change section (with same section)
@@ -58,7 +60,11 @@ function bodyLoader() {
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
     } else if (gameBattleSection === "askRepeat") {
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
-        document.getElementById("attackButton").disabled = false;
+
+        if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
+            document.getElementById("attackButton").disabled = false;
+        }
+
         document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
@@ -630,6 +636,10 @@ function battleChangeSection(newSection) {
         document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+
+        document.getElementById("actionPopupButton").disabled = true;
+        document.getElementById("actionPopupButton").disabled = true;
+
     } else if (newSection === "none") {
 
         let phpBattleEnding = new XMLHttpRequest();
@@ -714,49 +724,50 @@ function battleSelectPosition() {
 function battlePieceClick(event, callingElement) {
     event.preventDefault();
 
-    if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter"))
+    if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
+        let boxId = callingElement.parentNode.getAttribute("data-boxId");
+        let battlePieceId = callingElement.getAttribute("data-battlePieceId");
+        let phpMoveBattlePiece = new XMLHttpRequest();
+        if (boxId === "5" || boxId === "6") {
+            if (boxId === "5") {
+                //box 5 -> 1
+                document.getElementById("center_attacker").removeChild(callingElement);
+                document.getElementById("unused_attacker").appendChild(callingElement);
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=1", true);
+                phpMoveBattlePiece.send();
+            } else {
+                //box 6 -> 2
+                document.getElementById("center_defender").removeChild(callingElement);
+                document.getElementById("unused_defender").appendChild(callingElement);
+                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=2", true);
+                phpMoveBattlePiece.send();
+            }
+        } else {
+            if (boxId === "1") {
+                //box 1 -> 5
+                if (document.getElementById("center_attacker").childNodes.length === 0) {
+                    document.getElementById("unused_attacker").removeChild(callingElement);
+                    document.getElementById("center_attacker").appendChild(callingElement);
+                    phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=5", true);
+                    phpMoveBattlePiece.send();
+                }
+            } else {
+                //box 2 -> 6
+                if (document.getElementById("center_defender").childNodes.length === 0) {
+                    document.getElementById("unused_defender").removeChild(callingElement);
+                    document.getElementById("center_defender").appendChild(callingElement);
+                    phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=6", true);
+                    phpMoveBattlePiece.send();
+                }
+            }
+        }
+        if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
+            document.getElementById("attackButton").disabled = false;
+        } else {
+            document.getElementById("attackButton").disabled = true;
+        }
+    }
 
-    let boxId = callingElement.parentNode.getAttribute("data-boxId");
-    let battlePieceId = callingElement.getAttribute("data-battlePieceId");
-    let phpMoveBattlePiece = new XMLHttpRequest();
-    if (boxId === "5" || boxId === "6") {
-        if (boxId === "5") {
-            //box 5 -> 1
-            document.getElementById("center_attacker").removeChild(callingElement);
-            document.getElementById("unused_attacker").appendChild(callingElement);
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=1", true);
-            phpMoveBattlePiece.send();
-        } else {
-            //box 6 -> 2
-            document.getElementById("center_defender").removeChild(callingElement);
-            document.getElementById("unused_defender").appendChild(callingElement);
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=2", true);
-            phpMoveBattlePiece.send();
-        }
-    } else {
-        if (boxId === "1") {
-            //box 1 -> 5
-            if (document.getElementById("center_attacker").childNodes.length === 0) {
-                document.getElementById("unused_attacker").removeChild(callingElement);
-                document.getElementById("center_attacker").appendChild(callingElement);
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=5", true);
-                phpMoveBattlePiece.send();
-            }
-        } else {
-            //box 2 -> 6
-            if (document.getElementById("center_defender").childNodes.length === 0) {
-                document.getElementById("unused_defender").removeChild(callingElement);
-                document.getElementById("center_defender").appendChild(callingElement);
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + battlePieceId + "&new_battlePieceState=6", true);
-                phpMoveBattlePiece.send();
-            }
-        }
-    }
-    if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
-        document.getElementById("attackButton").disabled = false;
-    } else {
-        document.getElementById("attackButton").disabled = true;
-    }
     event.stopPropagation();
 }
 
@@ -849,6 +860,7 @@ function battleAttackCenter(type) {
                 actionButton.innerHTML = "HIT! Roll for Defense Bonus";
                 actionButton.onclick = function() { battleAttackCenter("defend"); };
             } else if (new_gameBattleSubSection === "continue_choosing") {
+                actionButton.disabled = false;
                 actionButton.innerHTML = "click to go back to Choosing";
                 actionButton.onclick = function() { battleEndRoll(); };
             }
@@ -890,9 +902,15 @@ function waitForUpdate() {
             } else if (decoded.updateType === "phaseChange") {
                 updateNextPhase();
             } else if (decoded.updateType === "positionSelected") {
-                updateBattlePositionSelected(parseInt(decoded.updateBattlePositionSelected));
+                updateBattlePositionSelected(decoded.updateBattlePositionSelectedPieces);
             } else if (decoded.updateType === "piecesSelected") {
                 updateBattlePiecesSelected(decoded.updateBattlePiecesSelected);
+            } else if (decoded.updateType === "battleAttacked") {
+                updateBattleAttack();
+            } else if (decoded.updateType === "battleEnding") {
+                updateBattleEnding();
+            } else if (decoded.updateType === "battleSectionChange") {
+                updateBattleSection();
             }
 
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
@@ -1002,15 +1020,43 @@ function updateNextPhase() {
 }
 
 function updateBattleAttack() {
-    //deal with echo info from update
+
+    //get everything from database again (subsection / lastroll / lastmessage)
+    //display and make buttons disabled or not based upon the team or current team
+
+    let phpBattleUpdate = new XMLHttpRequest();
+    phpBattleUpdate.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let decoded = JSON.parse(this.responseText);
+            gameBattleSection = decoded.gameBattleSection;
+            gameBattleSubSection = decoded.gameBattleSubSection;
+            gameBattleLastRoll = decoded.gameBattleLastRoll;
+            gameBattleLastMessage = decoded.gameBattleLastMessage;
+
+            document.getElementById("battleActionPopup").style.display = "block";
+            if (gameBattleSubSection === "defense_bonus") {
+                document.getElementById("actionPopupButton").disabled = false;
+                document.getElementById("actionPopupButton").innerHTML = "HIT! Roll for Defense Bonus";
+                document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+            } else if (gameBattleSubSection === "continue_choosing") {
+                document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
+                document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+            }
+
+        }
+    };
+    phpBattleUpdate.open("GET", "updateGetBattle.php", true);  // removes the element from the database
+    phpBattleUpdate.send();
+
 }
 
 function updateBattleEnding() {
-    //deal with echo info from update
+    //mostly graphical stuff for end, next battle is completely re-do the innerhtml for stuff anyways
+    document.getElementById("battleZonePopup").style.display = "none";
 }
 
-function updateBattlePositionSelected(position) {
-
+function updateBattlePositionSelected(positionPiecesHTML) {
+    document.getElementById("unused_defender").innerHTML = positionPiecesHTML;
 }
 
 function updateBattlePiecesSelected(piecesSelectedHTML) {
@@ -1022,15 +1068,7 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
     clearHighlighted();
     clearSelectedPos();
     clearSelected();
-    // battleChangeSection("attack");
 
-    // document.getElementById("battle_button").disabled = true; //already disabled
-    // clearSelected();  //wasn't selecting
-    // if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
-    //     document.getElementById("attackButton").disabled = false;
-    // } else {
-    //     document.getElementById("attackButton").disabled = true;
-    // }
     document.getElementById("battleZonePopup").style.display = "block";
     document.getElementById("attackButton").innerHTML = "Attack section";  //already disabled by default?
     document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
@@ -1063,79 +1101,35 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
 }
 
 //TODO: figure out how to fully disable buttons based upon battle state and team and attacker / currentTeam?
-function updateBattleSection(newSection) {
-    gameBattleSection = newSection;
+function updateBattleSection() {
 
-    if (newSection === "attack") {
-        document.getElementById("battle_button").disabled = true;
-        // clearSelected();  //(is this not needed for second client?)(selected wasn't shown in the first place)
-        if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
-            document.getElementById("attackButton").disabled = false;
-        } else {
-            document.getElementById("attackButton").disabled = true;
-        }
-        document.getElementById("battleZonePopup").style.display = "block";
-        document.getElementById("attackButton").innerHTML = "Attack section";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
-        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
-        document.getElementById("changeSectionButton").onclick = function() {
-            battleChangeSection("counter");
-            let newParent = document.getElementById('unused_attacker');
-            let oldParent = document.getElementById('used_attacker');
-            while (oldParent.childNodes.length > 0) {
-                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-                let phpMoveBattlePiece = new XMLHttpRequest();
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
-                phpMoveBattlePiece.send();
-                newParent.appendChild(oldParent.childNodes[0]);
-            }
-            newParent = document.getElementById('unused_defender');
-            oldParent = document.getElementById('used_defender');
-            while (oldParent.childNodes.length > 0) {
-                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-                let phpMoveBattlePiece = new XMLHttpRequest();
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
-                phpMoveBattlePiece.send();
-                newParent.appendChild(oldParent.childNodes[0]);
-            }
-        };
-    } else if (newSection === "counter") {
-        document.getElementById("attackButton").innerHTML = "Counter Attack";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
-        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
-    } else if (newSection === "askRepeat") {
-        let newParent = document.getElementById('unused_attacker');
-        let oldParent = document.getElementById('used_attacker');
-        while (oldParent.childNodes.length > 0) {
-            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            let phpMoveBattlePiece = new XMLHttpRequest();
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
-            phpMoveBattlePiece.send();
-            newParent.appendChild(oldParent.childNodes[0]);
-        }
-        newParent = document.getElementById('unused_defender');
-        oldParent = document.getElementById('used_defender');
-        while (oldParent.childNodes.length > 0) {
-            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            let phpMoveBattlePiece = new XMLHttpRequest();
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
-            phpMoveBattlePiece.send();
-            newParent.appendChild(oldParent.childNodes[0]);
-        }
-        document.getElementById("attackButton").innerHTML = "Click to Repeat";
-        document.getElementById("attackButton").disabled = false;
-        //TODO: move elements back to where they belong / used -> unused
-        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
-        document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
-    } else if (newSection === "none") {
-        document.getElementById("battleZonePopup").style.display = "none";
-        document.getElementById("battle_button").disabled = false;
+    let phpBattleUpdate = new XMLHttpRequest();
+    phpBattleUpdate.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let decoded = JSON.parse(this.responseText);
+            gameBattleSection = decoded.gameBattleSection;
+            gameBattleSubSection = decoded.gameBattleSubSection;
+            gameBattleLastRoll = decoded.gameBattleLastRoll;
+            gameBattleLastMessage = decoded.gameBattleLastMessage;
 
-        document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
-    }
+            document.getElementById("battleActionPopup").style.display = "block";
+            if (gameBattleSubSection === "defense_bonus") {
+                document.getElementById("actionPopupButton").disabled = false;
+                document.getElementById("actionPopupButton").innerHTML = "HIT! Roll for Defense Bonus";
+                document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+            } else if (gameBattleSubSection === "continue_choosing") {
+                document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
+                document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+            }
+
+        }
+    };
+    phpBattleUpdate.open("GET", "updateGetBattle.php", true);  // removes the element from the database
+    phpBattleUpdate.send();
+
+
+
+
 }
 
 

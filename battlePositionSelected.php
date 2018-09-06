@@ -60,9 +60,9 @@ echo json_encode($arr);
 
 $newValue = 0;
 $updateType = "positionSelected";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelected) VALUES (?, ?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelectedPieces) VALUES (?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $positionSelected);
+$query->bind_param("iisss", $gameId, $newValue, $myTeam, $updateType, $htmlString);
 $query->execute();
 
 

@@ -46,7 +46,7 @@ $newValue = 0;
 $updateType = "piecesSelected";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePiecesSelected) VALUES (?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $piecesSelectedHTMLstring);
+$query->bind_param("iisss", $gameId, $newValue, $myTeam, $updateType, $piecesSelectedHTMLstring);
 $query->execute();
 
 $db->close();

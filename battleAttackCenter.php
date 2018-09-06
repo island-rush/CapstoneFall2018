@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("db.php");
 
 $attackUnitId = $_REQUEST['attackUnitId'];
 $defendUnitIt = $_REQUEST['defendUnitId'];
@@ -34,18 +35,29 @@ if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "
 $arr = array('lastRoll' => $lastRoll, 'wasHit' => $wasHit, 'new_gameBattleSubSection' => $nextThing);
 echo json_encode($arr);
 
-//TODO: insert into the updates table
+
+$query = 'UPDATE games SET gameBattleSubSection = ?, gameBattleLastRoll = ? WHERE (gameId = ?)';
+$query = $db->prepare($query);
+$query->bind_param("sii",  $nextThing, $lastRoll, $gameId);
+$query->execute();
+
+
+$newValue = 0;
+$updateType = "battleAttacked";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
+
 
 if ($wasHit == 1) {
-    include("db.php");
     $pieceId = $_REQUEST['pieceId'];
     $hit = 1;
     $query = 'UPDATE battlePieces SET battlePieceWasHit = ? WHERE (battlePieceId = ?)';
     $query = $db->prepare($query);
     $query->bind_param("ii", $hit, $pieceId);
     $query->execute();
-
-
-
-    $db->close();
 }
+
+
+$db->close();

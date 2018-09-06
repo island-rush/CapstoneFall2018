@@ -353,10 +353,10 @@ $u = $results->fetch_assoc();
             <div id="battle_outcome"></div>
             <div id="battle_buttons">
                 <button id="attackButton" disabled>Loading...</button>
-                <button id="changeSectionButton">Loading...</button>
+                <button id="changeSectionButton" disabled>Loading...</button>
             </div>
             <div id="battleActionPopup">
-                <button id="actionPopupButton">Loading...</button>
+                <button id="actionPopupButton" disabled>Loading...</button>
             </div>
 
         </div>
