@@ -128,6 +128,18 @@ $u = $results->fetch_assoc();
         var canTrash = "<?php echo $canTrash; ?>";
         var canAttack = "<?php echo $canAttack; ?>";
 
+        //TODO: deal with newsAlerts on-load + live update (prelim code here)
+        <?php
+        $activated = 0;
+        $query3 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ?";
+        $preparedQuery3 = $db->prepare($query3);
+        $preparedQuery3->bind_param("ii", $gameId, $activated);
+        $preparedQuery3->execute();
+        $results3 = $preparedQuery3->get_result();
+        $r3 = $results3->fetch_assoc();
+        ?>
+        var newsEffectText = "<?php echo $r3['newsEffectText'] ?>";
+
         var hoverTimer;
     </script>
     <script src="game.js"></script>
@@ -361,8 +373,8 @@ $u = $results->fetch_assoc();
 
         </div>
         <div id="newsPopup">
-            <div id="newsTitle">Title</div>
-            <div id="newsText">Text</div>
+            <div id="newsTitle">Loading Title...</div>
+            <div id="newsText">Loading Text...</div>
         </div>
     </div>
 </div>

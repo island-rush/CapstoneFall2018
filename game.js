@@ -7,6 +7,11 @@ function bodyLoader() {
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
+    //TODO: this isn't always defaulted to news, the popup may be other titles onload
+    document.getElementById("newsTitle").innerHTML = "News Alert";
+
+    document.getElementById("newsText").innerHTML = newsEffectText;
+
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
         document.getElementById("battleZonePopup").style.display = "block";
