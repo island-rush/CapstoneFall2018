@@ -462,7 +462,7 @@ html, body {
     margin-left: 50%;
     margin-top: 6%;
     -ms-transform: rotate(0deg); /* IE 9 */
-    -webkit-transform: rotate(0deg); /* Safari */
+    -webkit-transform: rotate(0deg); /* Safari h */
     transform: rotate(0deg);
 }
 #pos13c{
