@@ -726,6 +726,8 @@ function battleChangeSection(newSection) {
         let phpBattleEnding = new XMLHttpRequest();
         phpBattleEnding.open("POST", "battleEnding.php?gameId=" + gameId, true);
         phpBattleEnding.send();
+        
+        //clear out the divs for battle piece deletion
 
         document.getElementById("battleZonePopup").style.display = "none";
         document.getElementById("battle_button").disabled = false;
@@ -763,7 +765,7 @@ function battleSelectPieces() {
     let phpPiecesSelect = new XMLHttpRequest();
     phpPiecesSelect.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            document.getElementById("unused_attacker").innerHTML += this.responseText;
+            document.getElementById("unused_attacker").innerHTML = this.responseText;
         }
     };
     phpPiecesSelect.open("POST", "battlePiecesSelected.php?sentArray=" + sentArray + "&gameId=" + gameId + "&attackTeam=" + gameCurrentTeam, true);
