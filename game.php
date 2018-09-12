@@ -62,7 +62,7 @@ $u = $results->fetch_assoc();
             $canAttack = "false";
         } else {
             if ($u['gamePhase'] == 1) {
-                //news alert
+                //news alerts
                 $canMove = "false";
                 $canPurchase = "false";
                 $canUndo = "false";
@@ -157,7 +157,7 @@ $u = $results->fetch_assoc();
         <div id="purchase_seperator">Inventory</div>
         <div id="shopping_things">
             <div id="purchased_container" data-positionType="purchased_container" data-positionId="118" data-positionContainerId="999999"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
-            <div id="trashbox" ondragover="positionDragover(event, this);" ondrop="pieceTrash(event, this);">*Trash*</div>
+            <div id="trashbox" ondragover="positionDragover(event, this);" ondrop="pieceTrash(event, this);"></div>
         </div>
         <div id="rest_things">
             <div id="phase_indicator">Current Phase = Loading...</div>

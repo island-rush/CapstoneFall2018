@@ -217,18 +217,19 @@ html, body {
 /*BattleZone CSS*/
 
 #battleZonePopup{
-    width: 400px;
-    height: 500px;
+    width: 30%;
+    height: 59%;
     position: absolute;
     display: none;
     background-image: url("resources/mapImages/battle_zone.png");
     background-repeat: no-repeat;
-    background-size: 390px 490px;
+    background-size: 98% 98%;
     background-color: #000000;
     background-position: center;
     z-index: 500;
-    margin-left: 300px;
-    margin-top: 75px;
+    margin-left: 5%;
+    margin-top: 5%;
+    /*//thing to change!*/
 }
 
 #unused_defender{
@@ -460,7 +461,7 @@ html, body {
     margin-left: 50%;
     margin-top: 6%;
     -ms-transform: rotate(0deg); /* IE 9 */
-    -webkit-transform: rotate(0deg); /* Safari */
+    -webkit-transform: rotate(0deg); /* Safari h */
     transform: rotate(0deg);
 }
 #pos13c{
@@ -475,24 +476,24 @@ html, body {
 #pos13d{
     width: 22%;
     height: 22%;
-    margin-left: 20%;
-    margin-top: 10%;
-    -ms-transform: rotate(-20deg); /* IE 9 */
-    -webkit-transform: rotate(-20deg); /* Safari */
-    transform: rotate(-20deg);
+    margin-left: 10%;
+    margin-top: 12%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
 }
 #pos13e{
-    width: 15%;
-    height: 15%;
-    margin-left: 37%;
-    margin-top:31%;
+    width: 21%;
+    height: 21%;
+    margin-left: 35%;
+    margin-top:25%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos13f{
-    width: 15%;
-    height: 15%;
+    width: 23%;
+    height: 23%;
     margin-left: 34%;
     margin-top:48%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -503,7 +504,7 @@ html, body {
     width: 24%;
     height: 24%;
     margin-left: 52%;
-    margin-top:65%;
+    margin-top:75%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
@@ -527,35 +528,35 @@ html, body {
     transform: rotate(0deg);
 }
 #pos13j{
-    width: 15%;
-    height: 15%;
-    margin-left: 57%;
+    width: 20%;
+    height: 20%;
+    margin-left: 61%;
     margin-top: 48%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos14a{
-    width: 25%;
-    height: 18%;
-    margin-left: 57%;
-    margin-top:51%;
+    width: 37%;
+    height: 16%;
+    margin-left: 55%;
+    margin-top:54%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos14b{
-    width: 25%;
-    height: 18%;
+    width: 30%;
+    height: 15%;
     margin-left: 10%;
-    margin-top:10%;
+    margin-top:14%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos14c{
-    width: 20%;
-    height: 13%;
+    width: 23%;
+    height: 11%;
     margin-left: 5%;
     margin-top:115%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -563,34 +564,34 @@ html, body {
     transform: rotate(0deg);
 }
 #pos14d{
-    width: 20%;
-    height: 13%;
+    width: 23%;
+    height: 11%;
     margin-left: 23%;
-    margin-top:145%;
-    -ms-transform: rotate(-38deg); /* IE 9 */
-    -webkit-transform: rotate(-38deg); /* Safari */
-    transform: rotate(-38deg);
+    margin-top:147%;
+    -ms-transform: rotate(-0); /* IE 9 */
+    -webkit-transform: rotate(-0deg); /* Safari */
+    transform: rotate(-0deg);
 }
 #pos14e{
-    width: 20%;
+    width: 25%;
     height: 13%;
     margin-left: 65%;
     margin-top:165%;
-    -ms-transform: rotate(-38deg); /* IE 9 */
-    -webkit-transform: rotate(-38deg); /* Safari */
-    transform: rotate(-38deg);
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transform: rotate(0deg);
 }
 #pos14f{
-    width: 20%;
-    height: 18%;
-    margin-left: 45%;
-    margin-top:123%;
-    -ms-transform: rotate(-38deg); /* IE 9 */
-    -webkit-transform: rotate(-38deg); /* Safari */
-    transform: rotate(-38deg);
+    width: 23%;
+    height: 11%;
+    margin-left: 48%;
+    margin-top:128%;
+    -ms-transform: rotate(-0deg); /* IE 9 */
+    -webkit-transform: rotate(-0deg); /* Safari */
+    transform: rotate(-0deg);
 }
 #pos14g{
-    width: 20%;
+    width: 25%;
     height: 12%;
     margin-left: 50%;
     margin-top:97%;
@@ -608,26 +609,26 @@ html, body {
     transform: rotate(0deg);
 }
 #pos14i{
-    width: 20%;
-    height: 10%;
-    margin-left: 20%;
-    margin-top:59%;
+    width: 30%;
+    height: 15%;
+    margin-left: 17%;
+    margin-top:52%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos14j{
-    width: 20%;
-    height: 10%;
-    margin-left: 46%;
-    margin-top:25%;
+    width: 30%;
+    height: 15%;
+    margin-left: 50%;
+    margin-top:16%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos1a{
-    width: 20%;
-    height: 20%;
+    width: 22%;
+    height: 22%;
     margin-left: 30%;
     margin-top:20%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -635,8 +636,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos1b{
-    width: 17%;
-    height: 17%;
+    width: 21%;
+    height: 21%;
     margin-left: 43%;
     margin-top:40%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -644,18 +645,18 @@ html, body {
     transform: rotate(0deg);
 }
 #pos1c{
-    width: 17%;
-    height: 17%;
-    margin-left: 35%;
+    width: 21%;
+    height: 21%;
+    margin-left: 31%;
     margin-top:58%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos1d{
-    width: 17%;
-    height: 17%;
-    margin-left: 55%;
+    width: 21%;
+    height: 21%;
+    margin-left: 58%;
     margin-top:58%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
@@ -680,8 +681,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos2c{
-    width: 15%;
-    height: 15%;
+    width: 20%;
+    height: 20%;
     margin-left: 42%;
     margin-top: 45%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -691,15 +692,15 @@ html, body {
 #pos2d{
     width: 20%;
     height: 20%;
-    margin-left: 60%;
+    margin-left: 65%;
     margin-top:45%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos3a{
-    width: 18%;
-    height: 18%;
+    width: 21%;
+    height: 21%;
     margin-left: 65%;
     margin-top: 32%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -707,8 +708,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos3b{
-    width: 18%;
-    height: 18%;
+    width: 21%;
+    height: 21%;
     margin-left: 40%;
     margin-top: 32%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -716,17 +717,17 @@ html, body {
     transform: rotate(0deg);
 }
 #pos3c{
-    width: 18%;
-    height: 18%;
-    margin-left: 12%;
+    width: 21%;
+    height: 21%;
+    margin-left: 10%;
     margin-top: 35%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos4a{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 10%;
     margin-top: 22%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -734,26 +735,26 @@ html, body {
     transform: rotate(0deg);
 }
 #pos4b{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 46%;
-    margin-top: 15%;
+    margin-top: 11%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos4c{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 60%;
-    margin-top: 28%;
+    margin-top: 31%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos4d{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 35%;
     margin-top: 35%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -761,8 +762,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos5a{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 27%;
     margin-top: 22%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -770,35 +771,35 @@ html, body {
     transform: rotate(0deg);
 }
 #pos5b{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 36%;
-    margin-top: 8%;
+    margin-top: 2%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos5c{
-    width: 15%;
-    height: 15%;
-    margin-left: 65%;
-    margin-top: 15%;
+    width: 21%;
+    height: 21%;
+    margin-left: 68%;
+    margin-top: 17%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos5d{
-    width: 15%;
-    height: 15%;
+    width: 21%;
+    height: 21%;
     margin-left: 36%;
-    margin-top: 38%;
+    margin-top: 44%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos6a{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 49%;
     margin-top: 27%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -806,24 +807,24 @@ html, body {
     transform: rotate(0deg);
 }
 #pos6b{
-    width: 19%;
-    height: 19%;
-    margin-left: 22%;
+    width: 21%;
+    height: 21%;
+    margin-left: 19%;
     margin-top: 27%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);}
 #pos6c{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 30%;
-    margin-top: 43%;
+    margin-top: 46%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);}
 #pos7a{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 10%;
     margin-top: 32%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -831,8 +832,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos7b{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 45%;
     margin-top: 19%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -840,17 +841,17 @@ html, body {
     transform: rotate(0deg);
 }
 #pos7c{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 40%;
-    margin-top: 37%;
+    margin-top: 39%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos8a{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 50%;
     margin-top: 22%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -858,8 +859,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos8b{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 27%;
     margin-top: 15%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -867,8 +868,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos8c{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 24%;
     margin-top: 36%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -876,17 +877,17 @@ html, body {
     transform: rotate(0deg);
 }
 #pos9a{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 69%;
-    margin-top: 32%;
+    margin-top: 34%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos9b{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 47%;
     margin-top: 37%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -894,26 +895,26 @@ html, body {
     transform: rotate(0deg);
 }
 #pos9c{
-    width: 16%;
-    height: 16%;
-    margin-left: 49%;
-    margin-top: 16%;
+    width: 21%;
+    height: 21%;
+    margin-left: 51%;
+    margin-top: 15%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos9d{
-    width: 16%;
-    height: 16%;
-    margin-left: 30%;
-    margin-top: 14%;
+    width: 21%;
+    height: 21%;
+    margin-left: 26%;
+    margin-top: 12%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos10a{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 49%;
     margin-top: 21%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -921,8 +922,8 @@ html, body {
     transform: rotate(0deg);
 }
 #pos10b{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 26%;
     margin-top: 8%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -930,17 +931,17 @@ html, body {
     transform: rotate(0deg);
 }
 #pos10c{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 16%;
-    margin-top:25%;
+    margin-top:28%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos10d{
-    width: 19%;
-    height: 19%;
+    width: 21%;
+    height: 21%;
     margin-left: 39%;
     margin-top:42%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -948,44 +949,44 @@ html, body {
     transform: rotate(0deg);
 }
 #pos11a{
-    width: 17%;
-    height: 17%;
-    margin-left: 25%;
-    margin-top:42%;
+    width: 21%;
+    height: 21%;
+    margin-left: 21%;
+    margin-top: 45%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos11b{
-    width: 16%;
-    height: 16%;
-    margin-left: 38%;
+    width: 21%;
+    height: 21%;
+    margin-left: 35%;
     margin-top:26%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos11c{
-    width: 16%;
-    height: 16%;
-    margin-left: 52%;
-    margin-top:13%;
+    width: 21%;
+    height: 21%;
+    margin-left: 58%;
+    margin-top: 11%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos12a{
-    width: 16%;
-    height: 16%;
+    width: 21%;
+    height: 21%;
     margin-left: 57%;
-    margin-top:37%;
+    margin-top:32%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos12b{
-    width: 16%;
-    height: 16%;
+    width: 21%;
+    height: 21%;
     margin-left: 41%;
     margin-top:52%;
     -ms-transform: rotate(0deg); /* IE 9 */
@@ -993,17 +994,17 @@ html, body {
     transform: rotate(0deg);
 }
 #pos12c{
-    width: 16%;
-    height: 16%;
-    margin-left: 17%;
+    width: 21%;
+    height: 21%;
+    margin-left: 12%;
     margin-top:27%;
     -ms-transform: rotate(0deg); /* IE 9 */
     -webkit-transform: rotate(0deg); /* Safari */
     transform: rotate(0deg);
 }
 #pos12d{
-    width: 16%;
-    height: 16%;
+    width: 21%;
+    height: 21%;
     margin-left: 35%;
     margin-top:34%;
     -ms-transform: rotate(0deg); /* IE 9 */

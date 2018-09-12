@@ -1,9 +1,11 @@
 <?php
 include("db.php");
-
+session_start();
 $gameId = $_REQUEST['gameId'];
 $sentArray = json_decode($_REQUEST['sentArray']);
 $attackTeam = $_REQUEST['attackTeam'];
+
+$myTeam = $_SESSION['myTeam'];
 
 //find all pieces within the sentArray and echo the html for the battle pieces? and update them to used in the database as well
 
