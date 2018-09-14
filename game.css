@@ -29,27 +29,34 @@ html, body {
 }
 #titlebar{
     width: 100%;
-    height: 5%;
+    height: 3%;
     text-align: center;
 }
 #purchase_buttons_container{
     width: 100%;
-    padding-bottom: 60%;
+    padding-bottom: 80%;
+    /*background-color: red;*/
 }
 .purchase_square{
     float: left;
-    width: 20%;
-    padding-top: 20%;
+    width: 20.1%;
+    padding-top: 20.1%;
+    margin-left: 4%;
     background-size: contain;
+}
+.purchase_square:hover{
+    background-color: rgba(165,138,17,0.58)
 }
 #purchase_seperator {
     width: 100%;
     height: 5%;
     text-align: center;
+    baground-color: green;
+    border-top: 2px solid black;
 }
 #shopping_things{
     width: 100%;
-    height: 35%;
+    height: 20%;
 }
 #purchased_container{
     width: 80%;
@@ -70,8 +77,98 @@ html, body {
 }
 #rest_things{
     width: 100%;
-    height: 10%;
+    height: 31%;
+    /*background-color: red;*/
+    text-align: center;
+    border-top: 2px solid black;
 }
+
+#phase_indicator{
+    width: 100%;
+    height: 20%;
+    /*background-color: red;*/
+}
+
+#team_indicators{
+    width: 100%;
+    height: 20%;
+}
+
+#red_team_indicator{
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+
+#blue_team_indicator{
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+
+#rPoints_indicators{
+    width: 100%;
+    height: 20%;
+}
+
+#red_rPoints_indicator{
+    height: 100%;
+    width: 40%;
+    float: left;
+}
+
+#rPoints_label{
+    height: 100%;
+    width: 20%;
+    float: left;
+}
+
+#blue_rPoints_indicator{
+    height: 100%;
+    width: 40%;
+    float: left;
+}
+
+#hPoints_indicators{
+    width: 100%;
+    height: 20%;
+}
+
+#red_hPoints_indicator{
+    height: 100%;
+    width: 40%;
+    float: left;
+}
+
+#hPoints_label{
+    height: 100%;
+    width: 20%;
+    float: left;
+}
+
+#blue_hPoints_indicator{
+    height: 100%;
+    width: 40%;
+    float: left;
+}
+
+#misc_info_undo{
+    width: 100%;
+    height: 20%;
+}
+
+#game_version{
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+
+#undo_button_div{
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+
 /*sdsssflj*/
 
 /*--------------------------------------------------------------------------------------------------------------*/
@@ -379,7 +476,7 @@ html, body {
 
 #purchased_container > .gamePiece{
     width: 15%;
-    height: 15%;
+    height: 33%;
 }
 
 

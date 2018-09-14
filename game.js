@@ -977,6 +977,9 @@ function battleAttackCenter(type) {
             pieceAttacked.setAttribute("data-wasHit", decoded.wasHit);
 
             gameBattleLastRoll = decoded.lastRoll;
+            let wasHitVariable = decoded.wasHit;
+            //number of the last roll
+            //if it was hit, hit animation or thingy
             gameBattleSubSection = decoded.new_gameBattleSubSection;
 
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection

@@ -150,7 +150,7 @@ $u = $results->fetch_assoc();
     <div id="side_panel">
         <div id="titlebar">Reinforcements</div>
         <div id="purchase_buttons_container">
-            <div class="purchase_square transport" id="transport" data-unitCost="5" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square transport" title="unit data here!" id="transport" data-unitCost="5" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square submarine" id="submarine" data-unitCost="5" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square destroyer" id="destroyer" data-unitCost="5" data-unitId="2" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square aircraftCarrier" id="aircraftCarrier" data-unitCost="5" data-unitId="3" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
@@ -165,25 +165,53 @@ $u = $results->fetch_assoc();
             <div class="purchase_square bomber" id="bomber" data-unitCost="5" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square stealthBomber" id="stealthBomber" data-unitCost="5" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square tanker" id="tanker" data-unitCost="5" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square tanker" id="tanker" data-unitCost="5" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
         </div>
-        <div id="purchase_seperator">Inventory</div>
+        <div id="purchase_seperator">Shop-Inventory</div>
         <div id="shopping_things">
             <div id="purchased_container" data-positionType="purchased_container" data-positionId="118" data-positionContainerId="999999"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
             <div id="trashbox" ondragover="positionDragover(event, this);" ondrop="pieceTrash(event, this);"></div>
         </div>
         <div id="rest_things">
+<!--            <div id="team_indicator">Current Team = Loading...</div>-->
+
             <div id="phase_indicator">Current Phase = Loading...</div>
-            <div id="team_indicator">Current Team = Loading...</div>
-            <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
-            <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
-            <button id="battle_button" disabled>Loading...</button>
+
+            <div id="team_indicators">
+                <div id="red_team_indicator">Red</div>
+                <div id="blue_team_indicator">Blue</div>
+            </div>
+
+            <div id="rPoints_indicators">
+                <div id="red_rPoints_indicator">Loading</div>
+                <div id="rPoints_label">RP</div>
+                <div id="blue_rPoints_indicator">Loading</div>
+            </div>
+
+            <div id="hPoints_indicators">
+                <div id="red_hPoints_indicator">Loading</div>
+                <div id="hPoints_label">HWP</div>
+                <div id="blue_hPoints_indicator">Loading</div>
+            </div>
+
+            <div id="misc_info_undo">
+                <div id="game_version">V 0.22Alpha</div>
+                <div id="undo_button_div">
+                    <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
+                </div>
+            </div>
+
+
         </div>
+
         <div id="bottom_panel">
             <button id="battle_button" disabled>Loading...</button>
             <div id="user_feedback">User Feedback...</div>
             <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
         </div>
     </div>
+
+
 
 
     <div id="game_board" onclick="gameboardClick(event, this);">
