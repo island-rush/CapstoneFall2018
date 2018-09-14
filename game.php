@@ -178,7 +178,13 @@ $u = $results->fetch_assoc();
             <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
             <button id="battle_button" disabled>Loading...</button>
         </div>
+        <div id="bottom_panel">
+            <button id="battle_button" disabled>Loading...</button>
+            <div id="user_feedback">User Feedback...</div>
+            <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
+        </div>
     </div>
+
 
     <div id="game_board" onclick="gameboardClick(event, this);">
         <div class="gridblockLeftBig <?php echo $u['gameIsland13']; ?>" id="special_island13">

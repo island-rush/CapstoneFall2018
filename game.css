@@ -70,11 +70,35 @@ html, body {
 }
 #rest_things{
     width: 100%;
-    height: 22%;
+    height: 10%;
 }
 /*sdsssflj*/
 
+/*--------------------------------------------------------------------------------------------------------------*/
+/*BOTTOM PANEL CSS */
+#bottom_panel{
+    background-color: wheat;
+    width: 70%;
+    height: 14.6%;
+    top: 82%;
+    margin-left: 28%;
+    position: absolute;
 
+}
+#battle_button{
+
+    float: left;
+}
+#user_feedback{
+    float: left;
+}
+#phase_button{
+    float: left;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------------*/
+/* NEWS ALERT POPUP CSS */
 #newsPopup{
     width: 25%;
     height: 25%;

@@ -60,21 +60,22 @@ CREATE TABLE IF NOT EXISTS `units`(
     `unitCost` int(3) NOT NULL,
     PRIMARY KEY(`unitId`)
 );
-INSERT INTO `units` VALUES (0, 'transport', 'water', 2, 5);
-INSERT INTO `units` VALUES (1, 'submarine', 'water', 2, 5);
-INSERT INTO `units` VALUES (2, 'destroyer', 'water', 2, 5);
-INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 2, 5);
-INSERT INTO `units` VALUES (4, 'soldier', 'ground', 1, 5);
+INSERT INTO `units` VALUES (0, 'transport', 'water', 2, 8);
+INSERT INTO `units` VALUES (1, 'submarine', 'water', 2, 8);
+INSERT INTO `units` VALUES (2, 'destroyer', 'water', 2, 10);
+INSERT INTO `units` VALUES (3, 'aircraftCarrier', 'water', 2, 15);
+INSERT INTO `units` VALUES (4, 'soldier', 'ground', 1, 4);
 INSERT INTO `units` VALUES (5, 'artillery', 'ground', 1, 5);
-INSERT INTO `units` VALUES (6, 'tank', 'ground', 2, 5);
+INSERT INTO `units` VALUES (6, 'tank', 'ground', 2, 6);
 INSERT INTO `units` VALUES (7, 'marine', 'ground', 1, 5);
-INSERT INTO `units` VALUES (8, 'lav', 'ground', 2, 5);
-INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 3, 5);
-INSERT INTO `units` VALUES (10, 'sam', 'ground', 1, 5);
-INSERT INTO `units` VALUES (11, 'fighter', 'air', 4, 5);
-INSERT INTO `units` VALUES (12, 'bomber', 'air', 6, 5);
-INSERT INTO `units` VALUES (13, 'stealthBomber', 'air', 5, 5);
-INSERT INTO `units` VALUES (14, 'tanker', 'air', 5, 5);
+INSERT INTO `units` VALUES (8, 'lav', 'ground', 2, 8);
+INSERT INTO `units` VALUES (9, 'attackHeli', 'air', 3, 7);
+INSERT INTO `units` VALUES (10, 'sam', 'ground', 1, 8);
+INSERT INTO `units` VALUES (11, 'fighter', 'air', 4, 12);
+INSERT INTO `units` VALUES (12, 'bomber', 'air', 6, 12);
+INSERT INTO `units` VALUES (13, 'stealthBomber', 'air', 5, 15);
+INSERT INTO `units` VALUES (14, 'tanker', 'air', 5, 11);
+INSERT INTO `units` VALUES (15, 'missile', 'missile', 0, 10);
 
 
 -- Table of game pieces and where they are in each game
