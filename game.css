@@ -20,21 +20,29 @@ html, body {
 /*SIDEPANEL CSS*/
 
 #side_panel {
+    position: relative;
     height: 95%;
     width: 23%;
     margin-left: 1%;
     margin-top: .75%;
     float: left;
     background-color: antiquewhite;
+    z-index: 75;
 }
 #titlebar{
+    position: absolute;
+    z-index: 50;
     width: 100%;
     height: 3%;
     text-align: center;
 }
 #purchase_buttons_container{
+    margin-top: 5%;
+    /*margin: 0;*/
+    position: absolute;
+    z-index: 50;
     width: 100%;
-    padding-bottom: 80%;
+    /*padding-bottom: 80%;*/
     /*background-color: red;*/
 }
 .purchase_square{
@@ -48,13 +56,19 @@ html, body {
     background-color: rgba(165,138,17,0.58)
 }
 #purchase_seperator {
+    position: absolute;
+    z-index: 50;
     width: 100%;
     height: 5%;
+    margin-top: 85%;
     text-align: center;
-    baground-color: green;
+    /*background-color: green;*/
     border-top: 2px solid black;
 }
 #shopping_things{
+    position: absolute;
+    margin-top: 92%;
+    z-index: 50;
     width: 100%;
     height: 20%;
 }
@@ -76,6 +90,9 @@ html, body {
     background-repeat: no-repeat;
 }
 #rest_things{
+    position: absolute;
+    margin-top: 133%;
+    z-index: 50;
     width: 100%;
     height: 31%;
     /*background-color: red;*/
@@ -174,23 +191,25 @@ html, body {
 /*--------------------------------------------------------------------------------------------------------------*/
 /*BOTTOM PANEL CSS */
 #bottom_panel{
-    background-color: wheat;
-    width: 70%;
-    height: 14.6%;
-    top: 82%;
-    margin-left: 28%;
     position: absolute;
+    background-color: wheat;
+    width: 304%;
+    height: 15%;
+    /*top: 82%;*/
+    margin-left: 122%;
+    margin-top: 166%;
 
+    z-index: 100;
 }
 #battle_button{
 
-    float: left;
+    /*float: left;*/
 }
 #user_feedback{
-    float: left;
+    /*float: left;*/
 }
 #phase_button{
-    float: left;
+    /*float: left;*/
 }
 
 

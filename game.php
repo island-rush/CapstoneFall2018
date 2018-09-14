@@ -173,37 +173,29 @@ $u = $results->fetch_assoc();
             <div id="trashbox" ondragover="positionDragover(event, this);" ondrop="pieceTrash(event, this);"></div>
         </div>
         <div id="rest_things">
-<!--            <div id="team_indicator">Current Team = Loading...</div>-->
-
+            <div id="team_indicator">Current Team = Loading...</div>
             <div id="phase_indicator">Current Phase = Loading...</div>
-
             <div id="team_indicators">
                 <div id="red_team_indicator">Red</div>
                 <div id="blue_team_indicator">Blue</div>
             </div>
-
             <div id="rPoints_indicators">
                 <div id="red_rPoints_indicator">Loading</div>
                 <div id="rPoints_label">RP</div>
                 <div id="blue_rPoints_indicator">Loading</div>
             </div>
-
             <div id="hPoints_indicators">
                 <div id="red_hPoints_indicator">Loading</div>
                 <div id="hPoints_label">HWP</div>
                 <div id="blue_hPoints_indicator">Loading</div>
             </div>
-
             <div id="misc_info_undo">
                 <div id="game_version">V 0.22Alpha</div>
                 <div id="undo_button_div">
                     <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
                 </div>
             </div>
-
-
         </div>
-
         <div id="bottom_panel">
             <button id="battle_button" disabled>Loading...</button>
             <div id="user_feedback">User Feedback...</div>
