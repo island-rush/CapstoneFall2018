@@ -35,6 +35,11 @@ $u = $results->fetch_assoc();
         var gameCurrentTeam = "<?php echo $u['gameCurrentTeam']; ?>";
         var myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
+        var gameRedRpoints = "<?php echo $u['gameRedRpoints']; ?>";
+        var gameBlueRpoints = "<?php echo $u['gameBlueRpoints']; ?>";
+        var gameRedHybridPoints = "<?php echo $u['gameRedHybridPoints']; ?>";
+        var gameBlueHybridPoints = "<?php echo $u['gameBlueHybridPoints']; ?>";
+
 
         var myPoints;
         if (myTeam === "Red") {

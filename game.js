@@ -7,6 +7,13 @@ function bodyLoader() {
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
+    document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+    document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+
+    document.getElementById("red_hPoints_indicator").innerHTML = gameRedHybridPoints;
+    document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHybridPoints;
+
+
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
     document.getElementById("newsTitle").innerHTML = "News Alert";
 

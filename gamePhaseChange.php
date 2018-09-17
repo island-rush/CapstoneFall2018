@@ -33,8 +33,8 @@ $query = $db->prepare($query);
 $query->bind_param("iisi", $new_gamePhase, $new_gameTurn, $new_gameCurrentTeam, $gameId);
 $query->execute();
 
-$newsalertthing1 = "DEFAULT1";
-$newsalertthing2 = "DEFAULT2";
+$newsalertthing1 = "newsalertthing1Default";
+$newsalertthing2 = "newsalertthing2Default";
 //.....etc for as many needed for news table / updating process
 
 if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
