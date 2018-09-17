@@ -35,9 +35,7 @@ function bodyLoader() {
     } else if (gameBattleSection === "selectPos") {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Pieces";
-        document.getElementById("battle_button").onclick = function() { if (confirm("Are you sure you want to battle?")) {
-            battleChangeSection("selectPos");
-        } };
+        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
     } else if (gameBattleSection === "selectPieces") {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Start Battle";
@@ -628,9 +626,7 @@ function battleChangeSection(newSection) {
     gameBattleSection = newSection;
 
     if (newSection === "selectPos") {
-        document.getElementById("battle_button").onclick = function() { if (confirm("Are you sure you want to battle?")) {
-            battleChangeSection("selectPos");
-        } };
+        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
         alert("Select a Position on the Board");
@@ -753,7 +749,11 @@ function battleChangeSection(newSection) {
         document.getElementById("battleZonePopup").style.display = "none";
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
+        document.getElementById("battle_button").onclick = function() {
+            if(confirm("Are you sure you want to battle?")) {
+                battleChangeSection("selectPos");
+            }
+        };
     }
 
     // alert("changing section");
