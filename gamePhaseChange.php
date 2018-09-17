@@ -166,6 +166,30 @@ $arr = array('gamePhase' => (string) $new_gamePhase,
     'newsalertthing2' => $newsalertthing2);
 echo json_encode($arr);
 
+
+$query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementTeamId = ?) AND (unitId = placementUnitId)';
+$query = $db->prepare($query);
+$query->bind_param("is", $gameId, $myTeam);
+$query->execute();
+$results = $query->get_result();
+$num_results = $results->num_rows;
+
+
+for ($x = 0; $x < $num_results; $x++) {
+    $r= $results->fetch_assoc();
+
+    $placementId = $r['placementId'];
+    $placementMovesReset = $r['unitMoves'];
+
+    $query2 = 'UPDATE placements SET placementCurrentMoves = ? WHERE (placementId = ?)';
+    $query2 = $db->prepare($query2);
+    $query2->bind_param("ii", $placementMovesReset, $placementId);
+    $query2->execute();
+}
+
+
+
+
 $db->close();
 
 
