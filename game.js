@@ -27,11 +27,17 @@ function bodyLoader() {
     if (gameBattleSection === "none") {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.getElementById("battle_button").onclick = function() { battleChangeSection("selectPos"); };
+        document.getElementById("battle_button").onclick = function() {
+            if (confirm("Are you sure you want to battle?")) {
+                battleChangeSection("selectPos");
+            }
+        };
     } else if (gameBattleSection === "selectPos") {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Pieces";
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        document.getElementById("battle_button").onclick = function() { if (confirm("Are you sure you want to battle?")) {
+            battleChangeSection("selectPos");
+        } };
     } else if (gameBattleSection === "selectPieces") {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Start Battle";
@@ -551,6 +557,12 @@ function changePhase() {
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
 
+                //Dont get these because these aren't update on phase (yet)
+                // gameRedRpoints = decoded.gameRedRpoints;
+                // gameBlueRpoints = decoded.gameBlueRpoints;
+                // gameRedHybridPoints = decoded.gameRedHybridPoints;
+                // gameBlueHybridPoints = decoded.gameBlueHybridPoints;
+
                 //TODO: deal with news alerts from table (not yet defined / implemented)
                 // alert(decoded.newsalertthing1);
 
@@ -616,7 +628,9 @@ function battleChangeSection(newSection) {
     gameBattleSection = newSection;
 
     if (newSection === "selectPos") {
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        document.getElementById("battle_button").onclick = function() { if (confirm("Are you sure you want to battle?")) {
+            battleChangeSection("selectPos");
+        } };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
         alert("Select a Position on the Board");
