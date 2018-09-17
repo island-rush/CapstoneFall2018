@@ -555,11 +555,17 @@ function changePhase() {
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
 
+
+
                 //Dont get these because these aren't update on phase (yet)
-                // gameRedRpoints = decoded.gameRedRpoints;
-                // gameBlueRpoints = decoded.gameBlueRpoints;
-                // gameRedHybridPoints = decoded.gameRedHybridPoints;
-                // gameBlueHybridPoints = decoded.gameBlueHybridPoints;
+                gameRedRpoints = decoded.gameRedRpoints;
+                gameBlueRpoints = decoded.gameBlueRpoints;
+                gameRedHybridPoints = decoded.gameRedHybridPoints;
+                gameBlueHybridPoints = decoded.gameBlueHybridPoints;
+                document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+                document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+                document.getElementById("red_hPoints_indicator").innerHTML = gameRedHybridPoints;
+                document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHybridPoints;
 
                 //TODO: deal with news alerts from table (not yet defined / implemented)
                 // alert(decoded.newsalertthing1);
@@ -1123,6 +1129,16 @@ function updateNextPhase() {
             canNextPhase = decoded.canNextPhase;
             canTrash = decoded.canTrash;
             canAttack = decoded.canAttack;
+
+            gameRedRpoints = decoded.gameRedRpoints;
+            gameBlueRpoints = decoded.gameBlueRpoints;
+            gameRedHybridPoints = decoded.gameRedHybridPoints;
+            gameBlueHybridPoints = decoded.gameBlueHybridPoints;
+            document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+            document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+            document.getElementById("red_hPoints_indicator").innerHTML = gameRedHybridPoints;
+            document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHybridPoints;
+
             if (canAttack === "true") {
                 document.getElementById("battle_button").disabled = false;
             } else {

@@ -13,6 +13,12 @@ $r= $results->fetch_assoc();
 $gamePhase = $r['gamePhase'];
 $gameCurrentTeam = $r['gameCurrentTeam'];
 $gameTurn = $r['gameTurn'];
+
+$gameRedRpoints = $r['gameRedRpoints'];
+$gameBlueRpoints = $r['gameBlueRpoints'];
+$gameRedHybridPoints = $r['gameRedHybridPoints'];
+$gameBlueHybridPoints = $r['gameBlueHybridPoints'];
+
 $myTeam = $_SESSION['myTeam'];
 
 $new_gamePhase = ($gamePhase % 7) + 1;
@@ -141,6 +147,8 @@ $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
 $query->execute();
 
+
+
 $arr = array('gamePhase' => (string) $new_gamePhase,
     'gameTurn' => (string) $new_gameTurn,
     'gameCurrentTeam' => (string) $new_gameCurrentTeam,
@@ -150,6 +158,10 @@ $arr = array('gamePhase' => (string) $new_gamePhase,
     'canNextPhase' => (string) $canNextPhase,
     'canTrash' => (string) $canTrash,
     'canAttack' => (string) $canAttack,
+    'gameRedRpoints' => (string) $gameRedRpoints,
+    'gameBlueRpoints' => (string) $gameBlueRpoints,
+    'gameRedHybridPoints' => (string) $gameRedHybridPoints,
+    'gameBlueHybridPoints' => (string) $gameBlueHybridPoints,
     'newsalertthing1' => $newsalertthing1,
     'newsalertthing2' => $newsalertthing2);
 echo json_encode($arr);
