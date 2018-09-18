@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `games`(
 	`gameId` int(5) NOT NULL AUTO_INCREMENT,
     `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
     `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
-	`gameAdminPassword` varchar(50) NOT NULL,  -- "password"
+	  `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
     `gameRedLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameCurrentTeam`  varchar(5) NOT NULL, -- 'Red' or 'Blue'
