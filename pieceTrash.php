@@ -18,6 +18,13 @@ $query = $db->prepare($query);
 $query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
 $query->execute();
 
+$newValue = 0;
+$updateType = "phaseChange";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
+
 
 $query = "";
 if ($myTeam == "Red") {

@@ -50,6 +50,13 @@ $query = $db->prepare($query);
 $query->bind_param("iissii", $gameId, $newValue, $myTeam, $updateType, $new_placementId, $unitId);
 $query->execute();
 
+$newValue = 0;
+$updateType = "phaseChange";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
+
 echo "<div class='".$unitName." gamePiece ".$placementTeamId."' data-unitCost='".$costOfPiece."' data-placementId='".$new_placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
 if ($unitName == "transport" || $unitName == "aircraftCarrier") {
