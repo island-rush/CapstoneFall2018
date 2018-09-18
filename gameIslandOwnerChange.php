@@ -1,5 +1,8 @@
 <?php
+session_start();
 include("db.php");
+
+$myTeam = $_SESSION['myTeam'];
 
 $gameId = $_REQUEST['gameId'];
 $islandToChange = $_REQUEST['islandToChange'];
@@ -44,6 +47,11 @@ $query = $db->prepare($query);
 $query->bind_param("si", $newTeam, $gameId);
 $query->execute();
 
-
+$newValue = 0;
+$updateType = "islandChange";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateIsland, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissis", $gameId, $newValue, $myTeam, $updateType, $islandToChange, $newTeam);
+$query->execute();
 
 $db->close();
