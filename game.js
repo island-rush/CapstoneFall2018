@@ -141,6 +141,7 @@ function bodyLoader() {
         // alert("phase1");
         //TODO: phase effects here and grab phase stuff???
         document.getElementById("newsPopup").style.display = "block";
+        userFeedback("Click Next Phase to advance to next phase.");
     } else {
         // alert("not phase 1");
         document.getElementById("newsPopup").style.display = "none";
@@ -213,6 +214,7 @@ function pieceClick(event, callingElement) {
 }
 
 function pieceDragstart(event, callingElement) {
+    userFeedback("drag the piece around and hover over an island to place onto it.")
     //canMove is dictated by phase and current Team
     if ((canMove === "true" || canPurchase === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
         //From the container (parent of the piece)
@@ -312,6 +314,7 @@ function pieceMoveUndo() {
         };
         phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&myTeam=" + myTeam, true);
         phpUndoRequest.send();
+        userFeedback("Move undone.")
     }
 }
 
@@ -337,6 +340,7 @@ function pieceTrash(event, trashElement) {
             phpTrashRequest.send();
         }
     }
+    userFeedback("Piece trashed. Reinforcement Points refunded")
 }
 
 function containerDragleave(event, callingElement) {
@@ -436,6 +440,7 @@ function gameboardClick(event, callingElement) {
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
     clearHighlighted();
+    userFeedback("User Feedback...")
     event.stopPropagation();
 }
 
@@ -446,7 +451,6 @@ function waterClick(event, callingElement) {
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
     clearHighlighted();
-
     if (gameBattleSection === "selectPos") {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
@@ -1392,8 +1396,10 @@ function updateBattleSection() {
     phpBattleUpdate.open("GET", "updateGetBattle.php", true);  // removes the element from the database
     phpBattleUpdate.send();
 }
-
-
+// Function to set the User Feedback text on the bottom bar of the game screen
+function userFeedback(text){
+    document.getElementById("user_feedback").innerHTML = text;
+}
 
 
 

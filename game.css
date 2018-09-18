@@ -202,14 +202,40 @@ html, body {
     z-index: 100;
 }
 #battle_button{
-
-    /*float: left;*/
+    margin-left: 5%;
+    margin-right: 10%;
+    margin-top: 2%;
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-bottom: 2%;
+    padding-right: 2%;
+    float: left;
+    font-family: Impact;
+    font-size: 18px;
+    background-color: burlywood;
+    border-color: #c19c71;
 }
 #user_feedback{
-    /*float: left;*/
+    float: left;
+    width: 40%;
+    margin-top: 2%;
+    background-color: sandybrown;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 #phase_button{
-    /*float: left;*/
+    margin-left: 5%;
+    margin-right: 10%;
+    margin-top: 2%;
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-bottom: 2%;
+    padding-right: 2%;
+    float: left;
+    font-family: Impact;
+    font-size: 18px;
+    background-color: burlywood;
+    border-color: #c19c71;
 }
 
 
