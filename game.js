@@ -267,6 +267,15 @@ function piecePurchase(event, purchaseSquare) {
             let unitMoves = unitsMoves[unitName];
             let terrain = purchaseSquare.getAttribute("data-unitTerrain");
             myPoints = myPoints - costOfPiece;
+
+            if (myTeam === "Red") {
+                gameRedRpoints = gameRedRpoints - costOfPiece;
+                document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+            } else {
+                gameBlueRpoints = gameBlueRpoints - costOfPiece;
+                document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+            }
+
             let phpPurchaseRequest = new XMLHttpRequest();
             phpPurchaseRequest.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -314,6 +323,15 @@ function pieceTrash(event, trashElement) {
             document.querySelector("[data-placementId='" + placementId + "']").remove();
             let costOfPiece = parseInt(event.dataTransfer.getData("unitCost"));
             myPoints = myPoints + costOfPiece;
+
+            if (myTeam === "Red") {
+                gameRedRpoints = gameRedRpoints + costOfPiece;
+                document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+            } else {
+                gameBlueRpoints = gameBlueRpoints + costOfPiece;
+                document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+            }
+
             let phpTrashRequest = new XMLHttpRequest();
             phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId + "&newPoints=" + myPoints, true);
             phpTrashRequest.send();
@@ -1110,8 +1128,8 @@ function updatePieceMove(placementId, newPositionId, newContainerId){
     // alert(newContainerId);
     let pieceToMove = document.querySelector("[data-placementId='" + placementId + "']");
     let theContainer;
-    if (newContainerId !== "999999") {
-        theContainer = document.querySelector("[data-placementId='" + newContainerId + "']").firstChild;
+    if (newContainerId != "999999") {
+        theContainer = document.querySelector("[data-placementId='" + newContainerId + "']").childNodes[0];
     } else {
         theContainer = document.querySelector("[data-positionId='" + newPositionId + "']");
     }
