@@ -596,6 +596,20 @@ function changePhase() {
                 }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+
+
+                if (gamePhase === "7") {
+                    alert("reseting moves and battleUsed");
+                    let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
+                    for (let x = 0; x < allPieces.length; x++) {
+                        let currentPiece = allPieces[x];
+                        let unitName = currentPiece.getAttribute("data-unitName");
+                        let newMoves = unitsMoves[unitName];
+                        currentPiece.setAttribute("data-placementCurrentMoves", newMoves);
+                        currentPiece.setAttribute("data-placementBattleUsed", "0")
+                    }
+                }
+
             }
         };
         phpPhaseChange.open("GET", "gamePhaseChange.php", true);  // removes the element from the database
