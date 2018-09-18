@@ -148,6 +148,8 @@ $u = $results->fetch_assoc();
         var hoverTimer;
     </script>
     <script src="game.js"></script>
+    <script src="d6.js"></script>
+
 </head>
 
 <body onload="bodyLoader();">
