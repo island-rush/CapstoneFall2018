@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Island Rush Login</title>
+        <title>Island Rush Admin</title>
         <link rel="stylesheet" type="text/css" href="index.css">
         <script type="text/javascript">
                 function checkLoginForm(){
                     const sectionRegex = /^[MmTt][1-7][ABCDEFabcdef][1-9]$/;
 
-                    let section = document.forms['login']['section'].value;
-                    let instructor = document.forms['login']['instructor'].value;
-                    let team = document.forms['login']['team'].value;
+                    let section = document.forms['teacherAdmin']['section'].value;
+                    let instructor = document.forms['teacherAdmin']['instructor'].value;
+                    let password = document.forms['teacherAdmin']['password'].value;
                     let valid = true;
 
                     if(section === ""){
@@ -25,22 +25,14 @@
                         document.getElementById('instructorFeedback').innerHTML = "\tERROR: Instructor must be specified";
                         valid = false;
                     }
-                    if(team !== 'Red' && team !== 'Blue'){
-                        document.getElementById('formFeedback').innerHTML = "ERROR: Team not set correctly," +
-                            " how'd you even do this?";
+                    if(password === ""){
+                        document.getElementById('passwordFeedback').innerHTML = "\tERROR: please put in a password";
                         valid = false;
                     }
+                    // no longer uses teams for login as it is the instructor so we have to add tyhis to the login query
                     return valid;
                 }
 
-                function populateGame() {
-                    let section = document.forms['login']['section'].value;
-                    let instructor = document.forms['login']['instructor'].value;
-
-                    let phpGamePopulate = new XMLHttpRequest();
-                    phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
-                    phpGamePopulate.send();
-                }
         </script>
     </head>
 
@@ -50,8 +42,8 @@
 
         <nav>
             <a href="./index.php">Home</a>
-            <a class="active" href="login.php">Play the Game</a>
-            <a href="adminLogin.php">Teacher Admin</a>
+            <a href="./login.php">Play the Game</a>
+            <a class="active" href="adminLogin.php">Teacher Admin</a>
         </nav>
 
         <div class="spacer">
@@ -60,8 +52,9 @@
                     <tr>
                         <td colspan="4">
                             <br />
-                            <div id="login_header">Login to Your Island Rush Game:</div>
-                            <form name="login" method="post" id="login" action="loginVerify.php" onsubmit="return checkLoginForm()">
+                            <div id="admin_header">Log in as an administrator:</div>
+<!--                            Create code for the teacherLoginVerify-->
+                            <form name="teacherAdmin" method="post" id="teacherAdmin" action="adminLoginVerify.php" onsubmit="return checkLoginForm()">
                                 <table border="0" cellpadding="3" cellspacing="1">
                                     <tr>
                                         <td colspan="2">
@@ -87,18 +80,17 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Red or Blue Team</td>
+                                        <td>Password</td>
                                         <td>
-                                            <input type="radio" name="team" value="Red" checked> Red<br>
-                                            <input type="radio" name="team" value="Blue"> Blue<br>
+                                            <input name="password" type="text" id="password">
+                                            <div style="display: inline" id="passwordFeedback" class="formError"></div>
                                         </td>
-                                    </tr>
                                     <tr>
-                                        <td colspan="2"><br/><input type="submit" name="Submit" value="Login"></td>
+<!--                                    wrong thing in value-->
+                                        <td colspan="2"><br/><input type="submit" name="Submit" value="Log In"></td>
                                     </tr>
                                 </table>
                             </form>
-                            <button onclick="populateGame()">Populate Game</button>
                         </td>
                     </tr>
                 </tbody>
