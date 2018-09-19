@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Island Rush Admin</title>
+        <title>Island Rush Admin Login</title>
         <link rel="stylesheet" type="text/css" href="index.css">
         <script type="text/javascript">
                 function checkLoginForm(){
@@ -37,8 +37,7 @@
     </head>
 
     <body>
-<!--    TODO: Change section to drop down menus for less user error, add passwords to the game/team? (more secure)...and simplify the form table-->
-        <h1>Island Rush Login</h1>
+        <h1>Island Rush Admin Login</h1>
 
         <nav>
             <a href="./index.php">Home</a>
@@ -53,7 +52,6 @@
                         <td colspan="4">
                             <br />
                             <div id="admin_header">Log in as an administrator:</div>
-<!--                            Create code for the teacherLoginVerify-->
                             <form name="teacherAdmin" method="post" id="teacherAdmin" action="adminLoginVerify.php" onsubmit="return checkLoginForm()">
                                 <table border="0" cellpadding="3" cellspacing="1">
                                     <tr>
@@ -82,7 +80,7 @@
                                     <tr>
                                         <td>Password</td>
                                         <td>
-                                            <input name="password" type="text" id="password">
+                                            <input name="password" type="password" id="password">
                                             <div style="display: inline" id="passwordFeedback" class="formError"></div>
                                         </td>
                                     <tr>
