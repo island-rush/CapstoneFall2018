@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `games`(
 	`gameId` int(5) NOT NULL AUTO_INCREMENT,
     `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
     `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
-	  `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
+	`gameAdminPassword` varchar(50) NOT NULL,  -- "password"
     `gameRedLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameCurrentTeam`  varchar(5) NOT NULL, -- 'Red' or 'Blue'
@@ -134,6 +134,8 @@ CREATE TABLE IF NOT EXISTS `updates`(
     `updateBattlePieceState` int(2) DEFAULT 8,
     `updateBattlePositionSelectedPieces` varchar(16000) DEFAULT 'defaultString',
     `updateBattlePiecesSelected` varchar(16000) DEFAULT 'defaultString',
+    `updateIsland` varchar(20) DEFAULT 'special_default15',
+    `updateIslandTeam` varchar(10) DEFAULT 'purple',
 	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
  
