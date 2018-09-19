@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `games`(
 	`gameId` int(5) NOT NULL AUTO_INCREMENT,
     `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
     `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
+	  `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
     `gameRedLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
     `gameCurrentTeam`  varchar(5) NOT NULL, -- 'Red' or 'Blue'
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 200, 200, 10, 10, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', 'Jacobs', 'Brown', 'Red', 0, 1, 200, 100, 10, 5, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
 INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', 'Jacobs', 'Brown', 'Red', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
 
 
@@ -133,8 +134,6 @@ CREATE TABLE IF NOT EXISTS `updates`(
     `updateBattlePieceState` int(2) DEFAULT 8,
     `updateBattlePositionSelectedPieces` varchar(16000) DEFAULT 'defaultString',
     `updateBattlePiecesSelected` varchar(16000) DEFAULT 'defaultString',
-    `updateIsland` int(3) DEFAULT 19,
-    `updateIslandTeam` varchar(10) DEFAULT 'purple',
 	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
  
