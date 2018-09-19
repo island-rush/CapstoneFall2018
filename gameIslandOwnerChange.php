@@ -9,9 +9,6 @@ $islandToChange = $_REQUEST['islandToChange'];
 $newTeam = $_REQUEST['newTeam'];
 
 $query = "";
-$query2 = "";
-
-//TODO: ajax update insert for islandownerchange
 
 if ($islandToChange == "special_island1") {
     $query = 'UPDATE games SET gameIsland1 = ? WHERE (gameId = ?)';
@@ -51,7 +48,7 @@ $newValue = 0;
 $updateType = "islandChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateIsland, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissis", $gameId, $newValue, $myTeam, $updateType, $islandToChange, $newTeam);
+$query->bind_param("iissss", $gameId, $newValue, $myTeam, $updateType, $islandToChange, $newTeam);
 $query->execute();
 
 $db->close();

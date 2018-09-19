@@ -526,6 +526,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                                 if (changeOwnership === "true") {
+                                    //TODO: could refactor and use ajax function combined for less duplication
                                     //change css of parent
                                     let parent = containerElement.parentNode;
                                     parent.classList.remove(parentTeam);
@@ -1141,9 +1142,21 @@ function waitForUpdate() {
     phpUpdateBoard.send();
 }
 
-function updateIslandChange(islandNumber, newTeam) {
-    //TODO: make this function
-    alert("should be updating team thing here, temp alert in place until ajax done");
+function updateIslandChange(islandIdentifier, newTeam) {
+    // alert("should be updating team thing here, temp alert in place until ajax done");
+    //TODO: this functionality does not work when island 13 or 14 (those are game enders however, so potentially this won't get called)
+    let islandMain = document.getElementById(islandIdentifier);
+    let islandPop = document.getElementById(islandIdentifier + "_pop");
+    let oldTeam;
+    if (newTeam === "Red") {
+        oldTeam = "Blue";
+    } else {
+        oldTeam = "Red";
+    }
+    islandMain.classList.remove(oldTeam);
+    islandMain.classList.add(newTeam);
+    islandPop.classList.remove(oldTeam);
+    islandPop.classList.add(newTeam);
 }
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
