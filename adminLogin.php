@@ -29,7 +29,7 @@
                         document.getElementById('passwordFeedback').innerHTML = "\tERROR: please put in a password";
                         valid = false;
                     }
-                    // no longer uses teams for login as it is the instructor so we have to add tyhis to the login query
+                    // no longer uses teams for login as it is the instructor so we have to add this to the login query
                     return valid;
                 }
 

@@ -29,7 +29,6 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
             header("location:login.php?err=1");
             exit;
         }
-
         $query = 'UPDATE games SET gameRedJoined = ? WHERE (gameId = ?)';
     } else {
         if ($r['gameBlueJoined'] == 1) {
