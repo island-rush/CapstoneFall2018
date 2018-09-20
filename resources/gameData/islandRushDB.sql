@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `games`(
   `gameRedRpoints` int(5) NOT NULL DEFAULT 10,
   `gameBlueRpoints` int(5) NOT NULL DEFAULT 60,
   `gameRedHpoints` int(5) NOT NULL DEFAULT 0,
-  `gameBlueHybridPoints` int(5) NOT NULL DEFAULT 0,
+  `gameBlueHpoints` int(5) NOT NULL DEFAULT 0,
   `gameRedJoined` int(1) NOT NULL DEFAULT 0, -- 0 or 1 (1 = joined)
   `gameBlueJoined` int(1) NOT NULL DEFAULT 0,
   `gameBattleSection` varchar(20) NOT NULL DEFAULT 'none',  -- "none" (no popup), "attack", "counter", "askRepeat"......"selectPos", "selectPieces"?
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 'Jacobs', 'Brown', 'Red', 0, 1, 200, 100, 10, 5, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
-INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 'Jacobs', 'Brown', 'Red', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 'Jacobs', 'Brown', 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 'Jacobs', 'Brown', 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
 
 
 -- Table of Units (static)

@@ -89,63 +89,65 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
 
     } elseif ($new_gamePhase == 2) {
 
-        $addPoints = 0;
+        if ($gameTurn > 3) {
+            $addPoints = 0;
 
-        //for each island ownership, know how many points each is worth and add to the current team's reinforcement points
-        if ($r['gameIsland1'] == $gameCurrentTeam) {
-            $addPoints += 4;
-        }
-        if ($r['gameIsland2'] == $gameCurrentTeam) {
-            $addPoints += 6;
-        }
-        if ($r['gameIsland3'] == $gameCurrentTeam) {
-            $addPoints += 4;
-        }
-        if ($r['gameIsland4'] == $gameCurrentTeam) {
-            $addPoints += 3;
-        }
-        if ($r['gameIsland5'] == $gameCurrentTeam) {
-            $addPoints += 8;
-        }
-        if ($r['gameIsland6'] == $gameCurrentTeam) {
-            $addPoints += 7;
-        }
-        if ($r['gameIsland7'] == $gameCurrentTeam) {
-            $addPoints += 7;
-        }
-        if ($r['gameIsland8'] == $gameCurrentTeam) {
-            $addPoints += 8;
-        }
-        if ($r['gameIsland9'] == $gameCurrentTeam) {
-            $addPoints += 8;
-        }
-        if ($r['gameIsland10'] == $gameCurrentTeam) {
-            $addPoints += 5;
-        }
-        if ($r['gameIsland11'] == $gameCurrentTeam) {
-            $addPoints += 5;
-        }
-        if ($r['gameIsland12'] == $gameCurrentTeam) {
-            $addPoints += 5;
-        }
-        if ($r['gameIsland13'] == $gameCurrentTeam) {
-            $addPoints += 15;
-        }
-        if ($r['gameIsland14'] == $gameCurrentTeam) {
-            $addPoints += 25;
-        }
+            //for each island ownership, know how many points each is worth and add to the current team's reinforcement points
+            if ($r['gameIsland1'] == $gameCurrentTeam) {
+                $addPoints += 4;
+            }
+            if ($r['gameIsland2'] == $gameCurrentTeam) {
+                $addPoints += 6;
+            }
+            if ($r['gameIsland3'] == $gameCurrentTeam) {
+                $addPoints += 4;
+            }
+            if ($r['gameIsland4'] == $gameCurrentTeam) {
+                $addPoints += 3;
+            }
+            if ($r['gameIsland5'] == $gameCurrentTeam) {
+                $addPoints += 8;
+            }
+            if ($r['gameIsland6'] == $gameCurrentTeam) {
+                $addPoints += 7;
+            }
+            if ($r['gameIsland7'] == $gameCurrentTeam) {
+                $addPoints += 7;
+            }
+            if ($r['gameIsland8'] == $gameCurrentTeam) {
+                $addPoints += 8;
+            }
+            if ($r['gameIsland9'] == $gameCurrentTeam) {
+                $addPoints += 8;
+            }
+            if ($r['gameIsland10'] == $gameCurrentTeam) {
+                $addPoints += 5;
+            }
+            if ($r['gameIsland11'] == $gameCurrentTeam) {
+                $addPoints += 5;
+            }
+            if ($r['gameIsland12'] == $gameCurrentTeam) {
+                $addPoints += 5;
+            }
+            if ($r['gameIsland13'] == $gameCurrentTeam) {
+                $addPoints += 15;
+            }
+            if ($r['gameIsland14'] == $gameCurrentTeam) {
+                $addPoints += 25;
+            }
 
-        if ($gameCurrentTeam == "Red") {
-            $gameRedRpoints += $addPoints;
-        } else {
-            $gameBlueRpoints += $addPoints;
-        }
+            if ($gameCurrentTeam == "Red") {
+                $gameRedRpoints += $addPoints;
+            } else {
+                $gameBlueRpoints += $addPoints;
+            }
 
-        //update games table with new rpoints
-        $query = 'UPDATE games SET gameRedRpoints = ?, gameBlueRpoints = ? WHERE (gameId = ?)';
-        $query = $db->prepare($query);
-        $query->bind_param("iii", $gameRedRpoints, $gameBlueRpoints, $gameId);
-        $query->execute();
+            //update games table with new rpoints
+            $query = 'UPDATE games SET gameRedRpoints = ?, gameBlueRpoints = ? WHERE (gameId = ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iii", $gameRedRpoints, $gameBlueRpoints, $gameId);
+            $query->execute();
+        }
 
 
         //reinforcement purchase
