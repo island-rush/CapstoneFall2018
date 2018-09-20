@@ -37,8 +37,8 @@ $u = $results->fetch_assoc();
 
         var gameRedRpoints = "<?php echo $u['gameRedRpoints']; ?>";
         var gameBlueRpoints = "<?php echo $u['gameBlueRpoints']; ?>";
-        var gameRedHybridPoints = "<?php echo $u['gameRedHybridPoints']; ?>";
-        var gameBlueHybridPoints = "<?php echo $u['gameBlueHybridPoints']; ?>";
+        var gameRedHpoints = "<?php echo $u['gameRedHpoints']; ?>";
+        var gameBlueHpoints = "<?php echo $u['gameBlueHpoints']; ?>";
 
 
         var myPoints;

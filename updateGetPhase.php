@@ -16,8 +16,8 @@ $myTeam = $_SESSION['myTeam'];
 
 $gameRedRpoints = $r['gameRedRpoints'];
 $gameBlueRpoints = $r['gameBlueRpoints'];
-$gameRedHybridPoints = $r['gameRedHybridPoints'];
-$gameBlueHybridPoints = $r['gameBlueHybridPoints'];
+$gameRedHpoints = $r['gameRedHpoints'];
+$gameBlueHpoints = $r['gameBlueHpoints'];
 
 
 $new_gamePhase = $gamePhase;
@@ -95,7 +95,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     }
 }
 
-$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack, 'gameRedRpoints' => (string) $gameRedRpoints, 'gameBlueRpoints' => (string) $gameBlueRpoints, 'gameRedHybridPoints' => (string) $gameRedHybridPoints, 'gameBlueHybridPoints' => (string) $gameBlueHybridPoints);
+$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack, 'gameRedRpoints' => (string) $gameRedRpoints, 'gameBlueRpoints' => (string) $gameBlueRpoints, 'gameRedHpoints' => (string) $gameRedHpoints, 'gameBlueHpoints' => (string) $gameBlueHpoints);
 echo json_encode($arr);
 
 $db->close();

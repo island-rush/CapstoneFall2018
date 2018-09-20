@@ -16,8 +16,8 @@ $gameTurn = $r['gameTurn'];
 
 $gameRedRpoints = $r['gameRedRpoints'];
 $gameBlueRpoints = $r['gameBlueRpoints'];
-$gameRedHybridPoints = $r['gameRedHybridPoints'];
-$gameBlueHybridPoints = $r['gameBlueHybridPoints'];
+$gameRedHpoints = $r['gameRedHpoints'];
+$gameBlueHpoints = $r['gameBlueHpoints'];
 
 $myTeam = $_SESSION['myTeam'];
 
@@ -240,8 +240,8 @@ $arr = array('gamePhase' => (string) $new_gamePhase,
     'canAttack' => (string) $canAttack,
     'gameRedRpoints' => (string) $gameRedRpoints,
     'gameBlueRpoints' => (string) $gameBlueRpoints,
-    'gameRedHybridPoints' => (string) $gameRedHybridPoints,
-    'gameBlueHybridPoints' => (string) $gameBlueHybridPoints,
+    'gameRedHpoints' => (string) $gameRedHpoints,
+    'gameBlueHpoints' => (string) $gameBlueHpoints,
     'newsalertthing1' => $newsalertthing1,
     'newsalertthing2' => $newsalertthing2);
 echo json_encode($arr);

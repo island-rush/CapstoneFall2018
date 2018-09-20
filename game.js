@@ -10,8 +10,8 @@ function bodyLoader() {
     document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
     document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
 
-    document.getElementById("red_hPoints_indicator").innerHTML = gameRedHybridPoints;
-    document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHybridPoints;
+    document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
+    document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
 
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
@@ -592,12 +592,12 @@ function changePhase() {
                 //Dont get these because these aren't update on phase (yet)
                 gameRedRpoints = decoded.gameRedRpoints;
                 gameBlueRpoints = decoded.gameBlueRpoints;
-                gameRedHybridPoints = decoded.gameRedHybridPoints;
-                gameBlueHybridPoints = decoded.gameBlueHybridPoints;
+                gameRedHpoints = decoded.gameRedHpoints;
+                gameBlueHpoints = decoded.gameBlueHpoints;
                 document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
                 document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
-                document.getElementById("red_hPoints_indicator").innerHTML = gameRedHybridPoints;
-                document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHybridPoints;
+                document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
+                document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
                 //TODO: deal with news alerts from table (not yet defined / implemented)
                 // alert(decoded.newsalertthing1);
@@ -1232,12 +1232,12 @@ function updateNextPhase() {
 
             gameRedRpoints = decoded.gameRedRpoints;
             gameBlueRpoints = decoded.gameBlueRpoints;
-            gameRedHybridPoints = decoded.gameRedHybridPoints;
-            gameBlueHybridPoints = decoded.gameBlueHybridPoints;
+            gameRedHpoints = decoded.gameRedHpoints;
+            gameBlueHpoints = decoded.gameBlueHpoints;
             document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
             document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
-            document.getElementById("red_hPoints_indicator").innerHTML = gameRedHybridPoints;
-            document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHybridPoints;
+            document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
+            document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
             if (canAttack === "true") {
                 document.getElementById("battle_button").disabled = false;

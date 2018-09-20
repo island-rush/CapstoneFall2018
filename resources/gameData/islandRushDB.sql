@@ -12,39 +12,39 @@ SET SQL_SAFE_UPDATES = 0;
 -- Table of Games
 CREATE TABLE IF NOT EXISTS `games`(
 	`gameId` int(5) NOT NULL AUTO_INCREMENT,
-    `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
-    `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
-	`gameAdminPassword` varchar(50) NOT NULL,  -- "password"
-    `gameRedLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
-    `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
-    `gameCurrentTeam`  varchar(5) NOT NULL, -- 'Red' or 'Blue'
-    `gameTurn` int(4) NOT NULL, -- 0, 1, 2, 3...
-    `gamePhase`  int(1) NOT NULL, --  1 = news, 2 = reinforcements...
-    `gameRedRpoints` int(5) NOT NULL,
-    `gameBlueRpoints` int(5) NOT NULL,
-    `gameRedHybridPoints` int(5) NOT NULL,
-    `gameBlueHybridPoints` int(5) NOT NULL,
-    `gameRedJoined` int(1) NOT NULL, -- 0 or 1 (1 = joined)
-    `gameBlueJoined` int(1) NOT NULL,
-    `gameBattleSection` varchar(20) NOT NULL,  -- "none" (no popup), "attack", "counter", "askRepeat"......"selectPos", "selectPieces"?
-    `gameBattleSubSection` varchar(20) NOT NULL, -- "choosing_pieces", "attacked_popup", "defense_popup"
-    `gameBattleLastRoll` int(1) NOT NULL, -- 0 for default (or no roll to display anymore/reset), 1-6 for roll
-    `gameBattleLastMessage` varchar(50), -- used for explaining what happened "red killed blue's fighter with fighter" ex...
-    `gameBattlePosSelected` int(4) NOT NULL, -- positionId chosen by attacker (999999 default)
-    `gameIsland1` varchar(10) NOT NULL,
-    `gameIsland2` varchar(10) NOT NULL,
-    `gameIsland3` varchar(10) NOT NULL,
-    `gameIsland4` varchar(10) NOT NULL,
-    `gameIsland5` varchar(10) NOT NULL,
-    `gameIsland6` varchar(10) NOT NULL,
-    `gameIsland7` varchar(10) NOT NULL,
-    `gameIsland8` varchar(10) NOT NULL,
-    `gameIsland9` varchar(10) NOT NULL,
-    `gameIsland10` varchar(10) NOT NULL,
-    `gameIsland11` varchar(10) NOT NULL,
-    `gameIsland12` varchar(10) NOT NULL,
-    `gameIsland13` varchar(10) NOT NULL,
-    `gameIsland14` varchar(10) NOT NULL,
+  `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
+  `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
+  `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
+  `gameRedLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
+  `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
+  `gameCurrentTeam`  varchar(5) NOT NULL DEFAULT 'Blue', -- 'Red' or 'Blue'
+  `gameTurn` int(4) NOT NULL DEFAULT 0, -- 0, 1, 2, 3...
+  `gamePhase`  int(1) NOT NULL DEFAULT 1, --  1 = news, 2 = reinforcements...
+  `gameRedRpoints` int(5) NOT NULL DEFAULT 10,
+  `gameBlueRpoints` int(5) NOT NULL DEFAULT 60,
+  `gameRedHpoints` int(5) NOT NULL DEFAULT 0,
+  `gameBlueHybridPoints` int(5) NOT NULL DEFAULT 0,
+  `gameRedJoined` int(1) NOT NULL DEFAULT 0, -- 0 or 1 (1 = joined)
+  `gameBlueJoined` int(1) NOT NULL DEFAULT 0,
+  `gameBattleSection` varchar(20) NOT NULL DEFAULT 'none',  -- "none" (no popup), "attack", "counter", "askRepeat"......"selectPos", "selectPieces"?
+  `gameBattleSubSection` varchar(20) NOT NULL DEFAULT 'choosing_pieces', -- "choosing_pieces", "attacked_popup", "defense_popup"
+  `gameBattleLastRoll` int(1) NOT NULL DEFAULT 0, -- 0 for default (or no roll to display anymore/reset), 1-6 for roll
+  `gameBattleLastMessage` varchar(50) DEFAULT '', -- used for explaining what happened "red killed blue's fighter with fighter" ex...
+  `gameBattlePosSelected` int(4) NOT NULL DEFAULT 999999, -- positionId chosen by attacker (999999 default)
+  `gameIsland1` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland2` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland3` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland4` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland5` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland6` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland7` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland8` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland9` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland10` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland11` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland12` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland13` varchar(10) NOT NULL DEFAULT 'Red',
+  `gameIsland14` varchar(10) NOT NULL DEFAULT 'Blue',
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
