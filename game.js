@@ -520,6 +520,9 @@ function positionDrop(event, newContainerElement) {
                                 }
                                 let changeOwnership = "true";
                                 let numChildren = containerElement.childElementCount;
+                                if (numChildren === 0) {
+                                    changeOwnership = "false";
+                                }
                                 for (let x = 0; x < numChildren; x++) {
                                     if (containerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
                                         changeOwnership = "false";
@@ -820,6 +823,9 @@ function battleChangeSection(newSection) {
             }
             let changeOwnership = "true";
             let numChildren = containerElement.childElementCount;
+            if (numChildren === 0) {
+                changeOwnership = "false";
+            }
             for (let x = 0; x < numChildren; x++) {
                 if (containerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
                     changeOwnership = "false";
@@ -835,7 +841,7 @@ function battleChangeSection(newSection) {
                 parentParent.classList.remove(parentTeam);
                 parentParent.classList.add(newTeam);
                 //database change in games table
-                let islandNumber = parent.id;
+                let islandNumber = parentParent.id;
                 let phpRequestTeamChange = new XMLHttpRequest();
                 phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
                 phpRequestTeamChange.send();

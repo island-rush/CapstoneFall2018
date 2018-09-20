@@ -63,7 +63,7 @@ if (isset($positionId)) {
                             $unitCost2 = $x['unitCost'];
 
                             //assume only non-containers within a container (opening for piece within container)
-                            echo "<div class='".$unitName2." gamePiece' data-placementId='".$placementId2."' data-unitCost='".$unitCost2."' data-placementBattleUsed='".$placementBattleUsed2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementContainerId='".$placementContainerId2."' data-placementTeamId='".$placementTeamId2."' data-unitTerrain='".$unitTerrain2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'></div>";
+                            echo "<div class='".$unitName2." gamePiece ".$placementTeamId2."' data-placementId='".$placementId2."' data-unitCost='".$unitCost2."' data-placementBattleUsed='".$placementBattleUsed2."' data-placementCurrentMoves='".$placementCurrentMoves2."' data-placementContainerId='".$placementContainerId2."' data-placementTeamId='".$placementTeamId2."' data-unitTerrain='".$unitTerrain2."' data-unitName='".$unitName2."' data-unitId='".$unitId2."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'></div>";
                         }
                     }
                     echo "</div>";  // end the container

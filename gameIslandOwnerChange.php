@@ -3,8 +3,9 @@ session_start();
 include("db.php");
 
 $myTeam = $_SESSION['myTeam'];
+$gameId = $_SESSION['gameId'];
 
-$gameId = $_REQUEST['gameId'];
+
 $islandToChange = $_REQUEST['islandToChange'];
 $newTeam = $_REQUEST['newTeam'];
 
