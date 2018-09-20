@@ -631,7 +631,7 @@ function changePhase() {
 
 
                 if (gamePhase === "7") {
-                    alert("reseting moves and battleUsed");
+                    // alert("reseting moves and battleUsed");
                     let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
                     for (let x = 0; x < allPieces.length; x++) {
                         let currentPiece = allPieces[x];
