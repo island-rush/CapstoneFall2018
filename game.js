@@ -440,7 +440,6 @@ function gameboardClick(event, callingElement) {
     hideContainers("aircraftCarrierContainer");
     hideContainers("lavContainer");
     clearHighlighted();
-    userFeedback("User Feedback...");
     event.stopPropagation();
 }
 
@@ -547,11 +546,19 @@ function positionDrop(event, newContainerElement) {
                             }
                         }
                     }
+                    else{
+                        // Piece was out of moves
+                        userFeedback("This piece is out of moves!");
+                    }
                 }
             };
             phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves, true);
             phpMoveCheck.send();
         }
+    }
+    else{
+        // Cannot move this piece? (not sure if this is necessary since we disable pieces that shouldn't move..)
+        userFeedback("Cannot move this piece.");
     }
     event.stopPropagation();
 }
@@ -625,6 +632,7 @@ function changePhase() {
                     // alert("phase1");
                     //TODO: phase effects here and grab phase stuff???
                     document.getElementById("newsPopup").style.display = "block";
+                    userFeedback("Click Next Phase to advance to next phase.");
                 } else {
                     // alert("not phase 1");
                     document.getElementById("newsPopup").style.display = "none";
@@ -634,7 +642,7 @@ function changePhase() {
 
 
                 if (gamePhase === "7") {
-                    // alert("reseting moves and battleUsed");
+                    userFeedback("Click next phase to advance to the other player's turn.");
                     let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
                     for (let x = 0; x < allPieces.length; x++) {
                         let currentPiece = allPieces[x];
@@ -684,24 +692,27 @@ function battleChangeSection(newSection) {
         document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
-        alert("Select a Position on the Board");
+        userFeedback("Now click on the zone that you want to attack. Then click the Select Pieces button, where the Battle button used to be.");
         //more visual indication of selecting position
         document.getElementById("whole_game").style.backgroundColor = "yellow";
     } else if (newSection === "selectPieces") {
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("battle_button").innerHTML = "Start Battle";
 
-        alert("Select pieces to attack with Adjacent to the Position");
+        userFeedback("Select the pieces you want to attack with. They must be adjacent to the zone being attacked. Then Start the Battle!");
         //more visual indication of selecting pieces
     } else if (newSection === "attack") {
+        userFeedback("Attack the enemy by clicking on their unit you want to attack & the unit you want to attack with. Rememeber: attacker is on the right, defender is on the left.");
         document.getElementById("whole_game").style.backgroundColor = "black";
 
         document.getElementById("battle_button").disabled = true;
         clearSelected();
         if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
             document.getElementById("attackButton").disabled = false;
+            userFeedback("Now press the Attack button to roll the dice!");
         } else {
             document.getElementById("attackButton").disabled = true;
+            // userFeedback("There must be a unit in both attacker and defender zones. Otherwise, end this round of attack by pressing Counter.")
         }
         document.getElementById("battleZonePopup").style.display = "block";
         document.getElementById("attackButton").innerHTML = "Attack section";
