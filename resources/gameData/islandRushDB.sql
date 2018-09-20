@@ -15,8 +15,6 @@ CREATE TABLE IF NOT EXISTS `games`(
   `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
   `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
   `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
-  `gameRedLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
-  `gameBlueLeader`  varchar(50) NOT NULL, -- "Lastname" (cadet commander)
   `gameCurrentTeam`  varchar(5) NOT NULL DEFAULT 'Blue', -- 'Red' or 'Blue'
   `gameTurn` int(4) NOT NULL DEFAULT 0, -- 0, 1, 2, 3...
   `gamePhase`  int(1) NOT NULL DEFAULT 1, --  1 = news, 2 = reinforcements...
