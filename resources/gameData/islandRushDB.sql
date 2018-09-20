@@ -11,7 +11,7 @@ SET SQL_SAFE_UPDATES = 0;
 
 -- Table of Games
 CREATE TABLE IF NOT EXISTS `games`(
-	`gameId` int(5) NOT NULL AUTO_INCREMENT,
+  `gameId` int(5) NOT NULL AUTO_INCREMENT,
   `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
   `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
   `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 'Jacobs', 'Brown', 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
-INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 'Jacobs', 'Brown', 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
 
 
 -- Table of Units (static)
