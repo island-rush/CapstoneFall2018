@@ -57,6 +57,7 @@ $u = $results->fetch_assoc();
         var gameBattleAdjacentArray = <?php echo $_SESSION['gameBattleAdjacentArray'] ?>;
 
         <?php
+        //TODO: could replace this with a get phase update ajax function
         if ($u['gameCurrentTeam'] != $_SESSION['myTeam']) {
             //not this team's turn, don't allow anything
             $canMove = "false";
