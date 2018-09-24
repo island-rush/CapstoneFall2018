@@ -25,6 +25,7 @@ function bodyLoader() {
     }
 
     if (gameBattleSection === "none") {
+        document.getElementById("phase_button").disabled = false;
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
         document.getElementById("battle_button").onclick = function() {
@@ -33,14 +34,17 @@ function bodyLoader() {
             }
         };
     } else if (gameBattleSection === "selectPos") {
+        document.getElementById("phase_button").disabled = true;
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Pieces";
         document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
     } else if (gameBattleSection === "selectPieces") {
+        document.getElementById("phase_button").disabled = true;
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Start Battle";
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
     } else {
+        userFeedback("Disable phase button?")
         document.getElementById("battle_button").disabled = true;
         document.getElementById("battle_button").innerHTML = "Select Battle";
     }
@@ -1481,7 +1485,6 @@ function updateBattleSection() {
 function userFeedback(text){
     document.getElementById("user_feedback").innerHTML = text;
 }
-
 
 
 waitForUpdate();

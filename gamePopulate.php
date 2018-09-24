@@ -743,21 +743,21 @@ $query->execute();
 
 //next one, and so on
 $order = 2;
-$rollValue = 5;
-$zone =  104;
-$text = "CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island";
-$effectText = "All units must roll a 5 or higher or will be destroyed.";
-$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsRollValue, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?,?)';
-$query = $db->prepare($query);
-$query->bind_param("iisssiiss",$gameId, $order, $all, $allPieces, $rollDie, $rollValue, $zone, $text, $effectText );
-$query->execute();
-
-$order = 3;
 $text = "International Surf Contest performance plummets as Zmar Island runs out of tequila";
 $effectText = "No effect on game play";
 $query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
 $query = $db->prepare($query);
 $query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 3;
+$rollValue = 5;
+$zone =  104; // island 4
+$text = "CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island";
+$effectText = "All units on the island must roll a 5 or higher or will be destroyed";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsRollValue, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssiiss",$gameId, $order, $all, $allPieces, $rollDie, $rollValue, $zone, $text, $effectText );
 $query->execute();
 
 $order = 4;
@@ -779,12 +779,12 @@ $query->bind_param("iisssiss",$gameId, $order, $red, $manualPieces, $disable, $z
 $query->execute();
 
 $order = 6;
+$zone = 112; //island 12
 $text = "BOOM! Local Volcano on Sito Island Erupts";
 $effectText = "Humanitarian Option";
-$zone = 112; //island 12
-$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsZone, newsText, newsEffectText, newsHumanitarian) VALUES(?,?,?,?,?,?,?)';
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText, newsHumanitarian) VALUES(?,?,?,?,?,?)';
 $query = $db->prepare($query);
-$query->bind_param("iisissi",$gameId, $order, $nothing, $zone, $text, $effectText, $true );
+$query->bind_param("iisssi",$gameId, $order, $nothing, $text, $effectText, $true );
 $query->execute();
 
 $order = 7;
@@ -809,8 +809,147 @@ $order = 9;
 $zone = 200; //all
 $text = "Oil tanker sinks! Oil Crisis arises as countries are conserving all resources";
 $effectText = "All Naval and Aircraft units are unable to move for the next turn";
+$manualPieces = "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':0, 'artillery':0, 'tank':0, 'marine':0, 'lav':0, 'attackHeli':0, 'sam':0, 'fighter':1, 'bomber':1, 'stealthBomber':1, 'tanker':1}";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssiss",$gameId, $order, $all, $manualPieces, $disable, $zone, $text, $effectText );
+$query->execute();
+
+$order = 10;
+$text = "Breaking News: The sun came up and the sky is a lovely shade of blue!";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 11;
+$text = "Shrek Island runner wins world Marathon";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 12;
+$zone = 111;
+$text = "Keoni facing destruction and terror after local extremist group strikes. Island closes borders";
+$effectText = "Island locked down for one turn. Units cannot move on island. Humanitarian option";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsZone, newsText, newsEffectText, newsHumanitarian) VALUES(?,?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssissi",$gameId, $order, $all, $allPieces, $disable, $zone, $text, $effectText, $true );
+$query->execute();
+
+$order = 13;
+$text = "Temba Pop Star finds long lost father after running into him in grocery store";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 14;
+$text = "Kenoi Island opens first Cat Cafe in its capital city";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 15;
+$zone = 119;
+$text = "BREAKING: Fuller Island has deadly outbreak of the plague. Military assets already on island have been vaccinated and are not in danger";
+$effectText = "No units can land on, attack, or sail through Fuller Island waters for one turn. ";
 $query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?)';
 $query = $db->prepare($query);
 $query->bind_param("iisssiss",$gameId, $order, $all, $allPieces, $disable, $zone, $text, $effectText );
 $query->execute();
-//thign
+
+$order = 15;
+$text = "Bountiful, Beautiful, Bouncing Babies! Keoni island has a surge of births";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 16;
+$text = "BREAKING: MASSIVE HURRICANE HITS ISLAND. Isle of Zehain underwater, hundreds stranded";
+$effectText = "Humanitarian Option";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText, newsHumanitarian) VALUES(?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssi",$gameId, $order, $nothing, $text, $effectText, $true );
+$query->execute();
+
+$order = 17;
+$zone = 105;
+$text = "IZA END OF THE WORLD: Freak blizzard sweeps through Iza Island. All ports are closed and all land assets are covered in snow";
+$effectText = "All forces on Iza Island cannot move or attack for one turn";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssiss",$gameId, $order, $all, $allPieces, $disable, $zone, $text, $effectText );
+$query->execute();
+
+$order = 18;
+$text = "IZA Ink: Youth on Iza Island show increasing interest in tattoos";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 19;
+$text = "Dragon Island officially bans all commercial diesel vehicles";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 20;
+$rollValue = 2;
+$zone =  102;
+$text = "Mystery flu sweeps Tenba Island, wreaking havoc";
+$effectText = "All units on the island must roll a 2 or higher or will be destroyed";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsRollValue, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssiiss",$gameId, $order, $all, $allPieces, $rollDie, $rollValue, $zone, $text, $effectText );
+$query->execute();
+
+$order = 21;
+$zone = 28; // sea zone F5
+$length = 2;
+$text = "Zuun Marine biologists discover a new species of coral and convince government to close oceanway until species can be cataloged";
+$effectText = "Zone F5 is closed to Zuun naval traffic for two turns";
+$manualPieces = "{'transport':1, 'submarine':1, 'destroyer':1, 'aircraftCarrier':1, 'soldier':0, 'artillery':0, 'tank':0, 'marine':0, 'lav':0, 'attackHeli':0, 'sam':0, 'fighter':0, 'bomber':0, 'stealthBomber':0, 'tanker':0}";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsZone, newsText, newsEffectText, newsLength) VALUES(?,?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssissi",$gameId, $order, $red, $manualPieces, $disable, $zone, $text, $effectText, $length);
+$query->execute();
+
+$order = 22;
+$text = "BONE ZONE: The inhabitants of Yehuda find a massive fossil reserve and work to preserve area";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 23;
+$text = "Tempukah Island pug proclaimed 'Worlds Happiest Dog' ";
+$effectText = "No effect on game play";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 24;
+$rollValue = 3;
+$zone =  106;
+$text = "Typhoon headed strait for Shor. Ground forces in for a rough ride";
+$effectText = "All units on the island must roll a 3 or higher or will be destroyed";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsRollValue, newsZone, newsText, newsEffectText) VALUES(?,?,?,?,?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisssiiss",$gameId, $order, $all, $allPieces, $rollDie, $rollValue, $zone, $text, $effectText );
+$query->execute();
+
