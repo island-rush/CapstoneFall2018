@@ -1106,9 +1106,10 @@ function battleAttackCenter(type) {
             //number of the last roll
             //if it was hit, hit animation or thingy
             gameBattleSubSection = decoded.new_gameBattleSubSection;
-
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
             document.getElementById("battleActionPopup").style.display = "block";
+            rollDice();
+
         }
     };
     phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
@@ -1482,6 +1483,21 @@ function userFeedback(text){
     document.getElementById("user_feedback").innerHTML = text;
 }
 
+function rollDice(){
+    let randomRoll = Math.floor(Math.random() * 6) + 1 ;
+    let numRolls = Math.floor(Math.random() * 11) + 10  ;
+    for (let i = 1; i < numRolls; i++) {
+        (function (i) {
+            setTimeout(function () {showDice(randomRoll)}, 100 * i);
+        })(i);
+    }
+    showDice(gameBattleLastRoll);
+}
+
+function showDice(diceNum){
+    // document.getElementById("dice_image").classList[1] = "dice" + diceNum;
+    document.getElementById("dice_image").classList[0].style.backgroundImage = "url(resources/diceImages/die-" + diceNum + ".gif)";
+}
 
 
 waitForUpdate();

@@ -11,6 +11,8 @@
 //    with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+
+
 // The D6Animator class
 function D6Animator(id, baseUrl, key) {
 	if ((typeof id != "string") || !id) return; // allows a dummy object to be created without causing errors below.

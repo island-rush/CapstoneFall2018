@@ -1177,3 +1177,37 @@ html, body {
     -webkit-transform: rotate(0deg); /* Safari */
     transrm: rotate(0deg);
 }
+
+
+#dice_image{
+    /*div sizing in here*/
+    width: 80%;
+    height: 80%;
+    margin-left: 5%;
+    margin-top: 10%;
+    position: absolute;
+}
+
+.dice{
+    background-image: url("resources/diceImages/blank.gif");
+    /*!*sizeing*! for each image in the div*/
+}
+
+/*.dice1{*/
+    /*background-image: url(resources/diceImages/die-1.gif);*/
+/*}*/
+/*.dice2{*/
+    /*background-image: url(resources/diceImages/die-2.gif);*/
+/*}*/
+/*.dice3{*/
+    /*background-image: url(resources/diceImages/die-3.gif);*/
+/*}*/
+/*.dice4{*/
+    /*background-image: url(resources/diceImages/die-4.gif);*/
+/*}*/
+/*.dice5{*/
+    /*background-image: url(resources/diceImages/die-5.gif);*/
+/*}*/
+/*.dice6{*/
+    /*background-image: url(resources/diceImages/die-6.gif);*/
+/*}*/
