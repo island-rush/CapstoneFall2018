@@ -1502,5 +1502,5 @@ function showDice(diceNum){
     // document.getElementById("dice_image").classList[1] = "dice" + diceNum;
     document.getElementById("dice_image").classList[0].style.backgroundImage = "url(resources/diceImages/die-" + diceNum + ".gif)";
 }
-
+//
 waitForUpdate();
