@@ -480,13 +480,33 @@ function positionDrop(event, newContainerElement) {
     let new_placementContainerId = newContainerElement.getAttribute("data-positionContainerId");
     let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
 
+    let islandFrom;
+    let islandTo;
+    //need to know which island number it is going to / came from
+    if (old_positionId <= 54) {
+        islandFrom = 0;
+    } else if (old_positionId == 118) {
+        islandFrom = -4;  //this represents the purchase container thingy (need to deal with this somehow)
+    } else {
+        islandFrom = document.querySelector("[data-positionId='" + old_positionId + "']").parentNode.getAttribute("data-islandNum");
+    }
+    if (new_positionId <= 54) {
+        islandTo = 0;
+    } else if (new_positionId == 118) {
+        islandTo = -4;  //this represents the purchase container thingy (need to deal with this somehow)
+    } else {
+        islandTo = document.querySelector("[data-positionId='" + new_positionId + "']").parentNode.getAttribute("data-islandNum");
+    }
+
+
     if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
         if (movementTerrainCheck(unitTerrain, positionType) === "true") {
             let phpMoveCheck = new XMLHttpRequest();
             phpMoveCheck.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    let movementCost = this.responseText;
-                    if (movementCost !== "-1") {
+                    alert(this.responseText);
+                    let movementCost = parseInt(this.responseText);
+                    if (movementCost > 0) {
                         if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
                             //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
                             let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;
@@ -549,14 +569,18 @@ function positionDrop(event, newContainerElement) {
                                 }
                             }
                         }
-                    }
-                    else{
+                    } else{
                         // Piece was out of moves
-                        userFeedback("This piece is out of moves!");
+                        if (movementCost == -2) {
+                            userFeedback("News alert prevented that!");
+                        } else {
+                            userFeedback("This piece is out of moves!");
+                        }
+
                     }
                 }
             };
-            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves, true);
+            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName, true);
             phpMoveCheck.send();
         }
     }
