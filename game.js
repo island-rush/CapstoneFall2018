@@ -414,6 +414,24 @@ function popupDragleave(event, callingElement) {
     event.stopPropagation();
 }
 
+function popupDragOver(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    event.stopPropagation();
+}
+
+function popupDragEnter(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    event.stopPropagation();
+}
+
+function landDragLeave(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(hoverTimer);
+    event.stopPropagation();
+}
+
 function hideIslands() {
     let x = document.getElementsByClassName("special_island3x3");
     let i;
@@ -504,7 +522,7 @@ function positionDrop(event, newContainerElement) {
             let phpMoveCheck = new XMLHttpRequest();
             phpMoveCheck.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    alert(this.responseText);
+                    // alert(this.responseText);
                     let movementCost = parseInt(this.responseText);
                     if (movementCost > 0) {
                         if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
