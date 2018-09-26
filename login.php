@@ -88,8 +88,8 @@
                                     <tr>
                                         <td>Red or Blue Team</td>
                                         <td>
-                                            <input type="radio" name="team" value="Red" checked> Red<br>
-                                            <input type="radio" name="team" value="Blue"> Blue<br>
+                                            <input type="radio" name="team" value="Red"> Red<br>
+                                            <input type="radio" name="team" value="Blue" checked> Blue<br>
                                         </td>
                                     </tr>
                                     <tr>
