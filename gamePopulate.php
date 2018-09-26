@@ -739,9 +739,9 @@ $effectText = ""; //set before every insert
 // Start doing all the inserts for ALL news alerts.
 $text = "Canada wins ping pong gold medal during Olympics";
 $effectText = "No effect on game play";
-$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText, newsActivated) VALUES(?,?,?,?,?,?)';
 $query = $db->prepare($query);
-$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->bind_param("iisssi",$gameId, $order, $nothing, $text, $effectText, $true );
 $query->execute();
 
 //next one, and so on

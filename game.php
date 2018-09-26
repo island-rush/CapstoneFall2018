@@ -206,9 +206,13 @@ $u = $results->fetch_assoc();
             </div>
         </div>
         <div id="bottom_panel">
-            <button id="battle_button" disabled>Loading...</button>
+            <div id="battle_button_container">
+                <button id="battle_button" disabled>Loading...</button>
+            </div>
             <div id="user_feedback">User Feedback...</div>
-            <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
+            <div id="phase_button_container">
+                <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
+            </div>
         </div>
     </div>
 

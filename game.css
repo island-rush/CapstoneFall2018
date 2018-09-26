@@ -201,10 +201,12 @@ html, body {
 
     z-index: 100;
 }
-#battle_button{
+#battle_button_container{
     margin-left: 5%;
     margin-right: 10%;
     margin-top: 2%;
+}
+#battle_button{
     padding-top: 2%;
     padding-left: 2%;
     padding-bottom: 2%;
@@ -215,6 +217,7 @@ html, body {
     background-color: burlywood;
     border-color: #c19c71;
 }
+
 #user_feedback{
     float: left;
     width: 40%;
@@ -223,10 +226,12 @@ html, body {
     -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
-#phase_button{
+#purchase_buttons_container{
     margin-left: 5%;
     margin-right: 10%;
     margin-top: 2%;
+}
+#phase_button{
     padding-top: 2%;
     padding-left: 2%;
     padding-bottom: 2%;
@@ -243,10 +248,12 @@ html, body {
 /* NEWS ALERT POPUP CSS */
 #newsPopup{
     width: 25%;
-    height: 25%;
+    height: 35%;
     position: absolute;
     display: none;
-    background-image: url("resources/unitImages/Newspaper.jpg");
+    /*background-image: url("resources/unitImages/Newspaper.jpg");*/
+    background-color: #e6e6e6;
+    border: solid black 3px;
     /*background-repeat: no-repeat;*/
     /*background-size: 390px 490px;*/
     /*background-color: #D4D4D4;*/

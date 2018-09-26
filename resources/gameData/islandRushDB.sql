@@ -155,8 +155,6 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
   PRIMARY KEY(`newsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-INSERT INTO newsAlerts VALUES (1, 1, 0, 'All', '{"transport":1, "submarine":1, "destroyer":1, "aircraftCarrier":1, "soldier":1, "artillery":1, "tank":1, "marine":1, "lav":1, "attackHeli":1, "sam":1, "fighter":1, "bomber":1, "stealthBomber":1, "tanker":1}', 'disable', 5, 200, 1, 0, 'CHAOS AND CALAMITY: Local partisans overthrow the leadership on Shrek Island', 'All units must roll a 5 or higher or will be destroyed.', 1);
-
 
 -- SELECT * FROM newsAlerts;
 
