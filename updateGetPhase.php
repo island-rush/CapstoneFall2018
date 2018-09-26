@@ -20,6 +20,8 @@ $gameRedHpoints = $r['gameRedHpoints'];
 $gameBlueHpoints = $r['gameBlueHpoints'];
 
 
+
+
 $new_gamePhase = $gamePhase;
 $new_gameTurn = $gameTurn;
 $new_gameCurrentTeam = $gameCurrentTeam;
@@ -95,7 +97,37 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     }
 }
 
-$arr = array('gamePhase' => (string) $new_gamePhase, 'gameTurn' => (string) $new_gameTurn, 'gameCurrentTeam' => (string) $new_gameCurrentTeam, 'canMove' => (string) $canMove, 'canPurchase' => (string) $canPurchase, 'canUndo' => (string) $canUndo, 'canNextPhase' => (string) $canNextPhase, 'canTrash' => (string) $canTrash, 'canAttack' => (string) $canAttack, 'gameRedRpoints' => (string) $gameRedRpoints, 'gameBlueRpoints' => (string) $gameBlueRpoints, 'gameRedHpoints' => (string) $gameRedHpoints, 'gameBlueHpoints' => (string) $gameBlueHpoints);
+//grab latest newsalert
+$zero = 0;
+$one = 1;
+$query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength != ? ORDER BY newsOrder DESC";
+$preparedQuery4 = $db->prepare($query4);
+$preparedQuery4->bind_param("iii", $gameId, $one, $zero);
+$preparedQuery4->execute();
+$results4 = $preparedQuery4->get_result();
+$r4= $results4->fetch_assoc();
+
+$newsEffect = $r4['newsEffect'];
+$newsText = $r4['newsText'];
+$newsEffectText = $r4['newsEffectText'];
+
+
+$arr = array('gamePhase' => (string) $new_gamePhase,
+    'gameTurn' => (string) $new_gameTurn,
+    'gameCurrentTeam' => (string) $new_gameCurrentTeam,
+    'canMove' => (string) $canMove,
+    'canPurchase' => (string) $canPurchase,
+    'canUndo' => (string) $canUndo,
+    'canNextPhase' => (string) $canNextPhase,
+    'canTrash' => (string) $canTrash,
+    'canAttack' => (string) $canAttack,
+    'gameRedRpoints' => (string) $gameRedRpoints,
+    'gameBlueRpoints' => (string) $gameBlueRpoints,
+    'gameRedHpoints' => (string) $gameRedHpoints,
+    'gameBlueHpoints' => (string) $gameBlueHpoints,
+    'newsEffect' => (string) $newsEffect,
+    'newsText' => (string) $newsText,
+    'newsEffectText' => (string) $newsEffectText);
 echo json_encode($arr);
 
 $db->close();

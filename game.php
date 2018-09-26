@@ -139,7 +139,7 @@ $u = $results->fetch_assoc();
         <?php
         $activated = 1;
         $zero = 0;
-        $query3 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength != ?";
+        $query3 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength != ? ORDER BY newsOrder DESC";
         $preparedQuery3 = $db->prepare($query3);
         $preparedQuery3->bind_param("iii", $gameId, $activated, $zero);
         $preparedQuery3->execute();

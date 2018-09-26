@@ -1302,6 +1302,15 @@ function updateNextPhase() {
             gameBlueRpoints = decoded.gameBlueRpoints;
             gameRedHpoints = decoded.gameRedHpoints;
             gameBlueHpoints = decoded.gameBlueHpoints;
+
+            newsEffect = decoded.newsEffect;
+            newsText = decoded.newsText;
+            newsEffectText = decoded.newsEffectText;
+
+            //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
+            document.getElementById("newsText").innerHTML = newsText;
+
+
             document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
             document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
             document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
