@@ -19,6 +19,10 @@ $gameBlueRpoints = $r['gameBlueRpoints'];
 $gameRedHpoints = $r['gameRedHpoints'];
 $gameBlueHpoints = $r['gameBlueHpoints'];
 
+$newsText = "Default Text";
+$newsEffectText = "Default Effect Text";
+$newsEffect = "Default Effect";
+
 $myTeam = $_SESSION['myTeam'];
 
 $new_gamePhase = ($gamePhase % 7) + 1;
@@ -39,8 +43,6 @@ $query = $db->prepare($query);
 $query->bind_param("iisi", $new_gamePhase, $new_gameTurn, $new_gameCurrentTeam, $gameId);
 $query->execute();
 
-$newsalertthing1 = "newsalertthing1Default";
-$newsalertthing2 = "newsalertthing2Default";
 //.....etc for as many needed for news table / updating process
 
 if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
@@ -54,15 +56,32 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
 
     //copy this code from below (or fix the if statements to make better (not as important to be efficient here))
     if ($new_gamePhase == 1) {
-        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ?";
+        $zero = 0;
+        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength != ? ORDER BY newsOrder";
         $preparedQuery4 = $db->prepare($query4);
-        $preparedQuery4->bind_param("i", $gameId);
+        $preparedQuery4->bind_param("iii", $gameId, $zero, $zero);
         $preparedQuery4->execute();
         $results4 = $preparedQuery4->get_result();
         $r4= $results4->fetch_assoc();
 
-        $newsalertthing1 = $r4['newsThing1'];
-        $newsalertthing2 = $r4['newsThing2'];
+        $newsId = $r4['newsId'];
+        $newsEffect = $r4['newsEffect'];
+        $newsText = $r4['newsText'];
+        $newsEffectText = $r4['newsEffectText'];
+
+        //activate this newsalert
+        $nowActivated = 1;
+        $query = 'UPDATE newsAlerts SET newsActivated = ? WHERE (newsId = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ii", $nowActivated, $newsId);
+        $query->execute();
+
+        //decrement -1 for all activated length != 0
+        $decrementValue = 1;
+        $query = 'UPDATE newsAlerts SET newsLength = newsLength - ? WHERE (newsGameId = ?) AND (newsActivated = ?) AND (newsLength != ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("iiii", $decrementValue, $gameId, $nowActivated, $zero);
+        $query->execute();
     }
 } else {
     if ($new_gamePhase == 1) {
@@ -74,17 +93,33 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canTrash = "false";
         $canAttack = "false";
 
-        //grab all news things from the database (table not yet defined)
-        //make sure to get the next alert in order! (or have something to identify that its been used already like updates used to be)
-        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ?";
+
+        $zero = 0;
+        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? ORDER BY newsOrder";
         $preparedQuery4 = $db->prepare($query4);
-        $preparedQuery4->bind_param("i", $gameId);
+        $preparedQuery4->bind_param("ii", $gameId, $zero);
         $preparedQuery4->execute();
         $results4 = $preparedQuery4->get_result();
         $r4= $results4->fetch_assoc();
 
-        $newsalertthing1 = $r4['newsThing1'];
-        $newsalertthing2 = $r4['newsThing2'];
+        $newsId = $r4['newsId'];
+        $newsEffect = $r4['newsEffect'];
+        $newsText = $r4['newsText'];
+        $newsEffectText = $r4['newsEffectText'];
+
+        //activate this newsalert
+        $nowActivated = 1;
+        $query = 'UPDATE newsAlerts SET newsActivated = ? WHERE (newsId = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ii", $nowActivated, $newsId);
+        $query->execute();
+
+        //decrement -1 for all activated length != 0
+        $decrementValue = 1;
+        $query = 'UPDATE newsAlerts SET newsLength = newsLength - ? WHERE (newsGameId = ?) AND (newsActivated = ?) AND (newsLength != ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("iiii", $decrementValue, $gameId, $nowActivated, $zero);
+        $query->execute();
 
 
     } elseif ($new_gamePhase == 2) {
@@ -244,8 +279,9 @@ $arr = array('gamePhase' => (string) $new_gamePhase,
     'gameBlueRpoints' => (string) $gameBlueRpoints,
     'gameRedHpoints' => (string) $gameRedHpoints,
     'gameBlueHpoints' => (string) $gameBlueHpoints,
-    'newsalertthing1' => $newsalertthing1,
-    'newsalertthing2' => $newsalertthing2);
+    'newsEffect' => (string) $newsEffect,
+    'newsText' => (string) $newsText,
+    'newsEffectText' => (string) $newsEffectText);
 echo json_encode($arr);
 
 

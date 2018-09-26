@@ -643,6 +643,9 @@ function changePhase() {
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
 
+                newsEffect = decoded.newsEffect;
+                newsText = decoded.newsText;
+                newsEffectText = decoded.newsEffectText;
 
 
                 //Dont get these because these aren't update on phase (yet)
@@ -677,6 +680,7 @@ function changePhase() {
                 if (gamePhase === "1") {
                     // alert("phase1");
                     //TODO: phase effects here and grab phase stuff???
+                    document.getElementById("newsPopup").innerHTML = newsText;
                     document.getElementById("newsPopup").style.display = "block";
                     userFeedback("Click Next Phase to advance to next phase.");
                 } else {
