@@ -17,7 +17,7 @@ function bodyLoader() {
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
     document.getElementById("newsTitle").innerHTML = "News Alert";
 
-    document.getElementById("newsText").innerHTML = newsEffectText;
+    document.getElementById("newsText").innerHTML = newsText;
 
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {

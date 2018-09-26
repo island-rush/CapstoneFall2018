@@ -38,6 +38,8 @@ if ($new_gamePhase == 1) {
     $new_gameCurrentTeam = $gameCurrentTeam;
 }
 
+$nowActivated = 1;
+
 $query = 'UPDATE games SET gamePhase = ?, gameTurn = ?, gameCurrentTeam = ? WHERE (gameId = ?)';
 $query = $db->prepare($query);
 $query->bind_param("iisi", $new_gamePhase, $new_gameTurn, $new_gameCurrentTeam, $gameId);
@@ -69,22 +71,24 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $newsText = $r4['newsText'];
         $newsEffectText = $r4['newsEffectText'];
 
-        //activate this newsalert
-        $nowActivated = 1;
-        $query = 'UPDATE newsAlerts SET newsActivated = ? WHERE (newsId = ?)';
-        $query = $db->prepare($query);
-        $query->bind_param("ii", $nowActivated, $newsId);
-        $query->execute();
-
         //decrement -1 for all activated length != 0
         $decrementValue = 1;
         $query = 'UPDATE newsAlerts SET newsLength = newsLength - ? WHERE (newsGameId = ?) AND (newsActivated = ?) AND (newsLength != ?)';
         $query = $db->prepare($query);
         $query->bind_param("iiii", $decrementValue, $gameId, $nowActivated, $zero);
         $query->execute();
+
+        //activate this newsalert
+        $query = 'UPDATE newsAlerts SET newsActivated = ? WHERE (newsId = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ii", $nowActivated, $newsId);
+        $query->execute();
+
+
     }
 } else {
     if ($new_gamePhase == 1) {
+        //TODO: this code potentially never executes (i never as the client phasechange into my own newsalert)
         //news alert
         $canMove = "false";
         $canPurchase = "false";
@@ -107,18 +111,17 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $newsText = $r4['newsText'];
         $newsEffectText = $r4['newsEffectText'];
 
-        //activate this newsalert
-        $nowActivated = 1;
-        $query = 'UPDATE newsAlerts SET newsActivated = ? WHERE (newsId = ?)';
-        $query = $db->prepare($query);
-        $query->bind_param("ii", $nowActivated, $newsId);
-        $query->execute();
-
         //decrement -1 for all activated length != 0
         $decrementValue = 1;
         $query = 'UPDATE newsAlerts SET newsLength = newsLength - ? WHERE (newsGameId = ?) AND (newsActivated = ?) AND (newsLength != ?)';
         $query = $db->prepare($query);
         $query->bind_param("iiii", $decrementValue, $gameId, $nowActivated, $zero);
+        $query->execute();
+
+        //activate this newsalert
+        $query = 'UPDATE newsAlerts SET newsActivated = ? WHERE (newsId = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ii", $nowActivated, $newsId);
         $query->execute();
 
 
