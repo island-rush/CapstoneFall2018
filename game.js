@@ -680,7 +680,7 @@ function changePhase() {
                 if (gamePhase === "1") {
                     // alert("phase1");
                     //TODO: phase effects here and grab phase stuff???
-                    document.getElementById("newsPopup").innerHTML = newsText;
+                    document.getElementById("newsText").innerHTML = newsText;
                     document.getElementById("newsPopup").style.display = "block";
                     userFeedback("Click Next Phase to advance to next phase.");
                 } else {
@@ -1308,6 +1308,8 @@ function updateNextPhase() {
             newsEffectText = decoded.newsEffectText;
 
             //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
+            document.getElementById("newsTitle").innerHTML = "News Alert";
+
             document.getElementById("newsText").innerHTML = newsText;
 
 
