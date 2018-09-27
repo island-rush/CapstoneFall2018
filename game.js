@@ -17,7 +17,7 @@ function bodyLoader() {
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
     document.getElementById("newsTitle").innerHTML = "News Alert";
 
-    document.getElementById("newsText").innerHTML = newsEffectText;
+    document.getElementById("newsText").innerHTML = newsText;
 
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
@@ -692,6 +692,9 @@ function changePhase() {
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
 
+                newsEffect = decoded.newsEffect;
+                newsText = decoded.newsText;
+                newsEffectText = decoded.newsEffectText;
 
 
                 //Dont get these because these aren't update on phase (yet)
@@ -726,6 +729,7 @@ function changePhase() {
                 if (gamePhase === "1") {
                     // alert("phase1");
                     //TODO: phase effects here and grab phase stuff???
+                    document.getElementById("newsText").innerHTML = newsText;
                     document.getElementById("newsPopup").style.display = "block";
                     userFeedback("Click Next Phase to advance to next phase.");
                 } else {
@@ -1347,6 +1351,17 @@ function updateNextPhase() {
             gameBlueRpoints = decoded.gameBlueRpoints;
             gameRedHpoints = decoded.gameRedHpoints;
             gameBlueHpoints = decoded.gameBlueHpoints;
+
+            newsEffect = decoded.newsEffect;
+            newsText = decoded.newsText;
+            newsEffectText = decoded.newsEffectText;
+
+            //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
+            document.getElementById("newsTitle").innerHTML = "News Alert";
+
+            document.getElementById("newsText").innerHTML = newsText;
+
+
             document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
             document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
             document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
