@@ -9,12 +9,19 @@ $islandFrom = (int) $_REQUEST['islandFrom'];
 $islandTo = (int) $_REQUEST['islandTo'];
 $unitName = $_REQUEST['unitName'];
 
+$old_placementContainerId = (int) $_REQUEST['old_placementContainerId'];  //not used, don't care where come from, takes a move to board a container
+$new_placementContainerId = (int) $_REQUEST['new_placementContainerId'];
+
 $new_positionId = (int)$_REQUEST['new_positionId'];
 $old_positionId = (int)$_REQUEST['old_positionId'];
 $placementCurrentMoves = (int)$_REQUEST['placementCurrentMoves'];
 $thingToEcho = 0;
 if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
     $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
+    //if moving into a container, 1 extra move
+    if ($new_placementContainerId != 999999) {
+        $thingToEcho++;
+    }
 } else {
     $thingToEcho = -1;
 }

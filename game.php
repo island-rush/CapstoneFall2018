@@ -415,7 +415,6 @@ $u = $results->fetch_assoc();
                 <div id="dice_image" class="dice"></div>
                 <div></div>
             </div>
-
         </div>
         <div id="newsPopup">
             <div id="newsTitle">Loading Title...</div>
