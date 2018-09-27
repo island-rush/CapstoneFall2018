@@ -17,7 +17,7 @@ function bodyLoader() {
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
     document.getElementById("newsTitle").innerHTML = "News Alert";
 
-    document.getElementById("newsText").innerHTML = newsText;
+    document.getElementById("newsText").innerHTML = newsEffectText;
 
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
@@ -518,7 +518,11 @@ function positionDrop(event, newContainerElement) {
 
 
     if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
-        if (movementTerrainCheck(unitTerrain, positionType) === "true") {
+        if (movementTerrainCheck(unitName,
+                                 document.getElementById(new_positionId),
+                                 unitTerrain,
+                                 new_placementContainerId,
+                                 positionType) === true) {
             let phpMoveCheck = new XMLHttpRequest();
             phpMoveCheck.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -620,8 +624,53 @@ function positionDragover(event, callingElement) {
     hoverTimer = setTimeout(function() { hideIslands();}, 1000)
 }
 
-function movementTerrainCheck(unitTerrain, positionType) {
-    return "true";
+//pass in the position now, not the type
+function movementTerrainCheck(unit, position, unitTerrain, new_placementContainerId, positionTerrain) {
+    let vehicles = ["tank", "lav", "sam", "attackHeli", "artillery"];
+    let container;
+    let containerType;
+    if (new_placementContainerId !== "999999"){
+        container = document.querySelector("[data-placementId='" + new_placementContainerId + "']").childNodes[0];
+        containerType = container.parentNode.getAttribute("data-unitName");
+    }
+    //=========================================================No Container=========================================
+    //if there is no container, check if the piece can move there based on the terrain
+    if (new_placementContainerId === "999999" && (unitTerrain !== positionTerrain && unitTerrain !== "air")){
+        return false;
+        //check if the piece can go into the container
+        // ====================================================Transport============================================
+    } else if(containerType === "transport" && unitTerrain === "land"){
+        if (container.childElementCount === 3){
+            return false;
+            //if there are 2 pieces in a transport make sure that i
+        } else if (container.childElementCount === 2){
+                //if the first child is in the vehicles list
+            if( vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 ||
+                //or id the second child is in the vehicles list
+                vehicles.indexOf(container.childNodes[1].getAttribute("data-unitName")) >= 0 ||
+                //or if the unit is in the vehicles list while therer are already 2, return false.
+                vehicles.indexOf(unit) >= 0){
+                 return false;
+            }
+        } else if (container.childElementCount === 1 &&
+                   vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 &&
+                   vehicles.indexOf(unit) >= 0) {
+            return false;
+        } else {
+            return true;
+        }
+    // =================================================AIRCRAFT CARRIER============================================
+    } else if (containerType === "aircraftCarrier" && unitTerrain === "air") {
+        if(unit === "fighter") {
+            let numFighters = container.childElementCount;
+           return (numFighters < 2);
+        } else {
+            return false
+        }
+    } else if ( unitTerrain === "air" &&  containerType !== "aircraftCarrier") { return false; }
+      else if ( unitTerrain === "water") { return false; }
+      else if ( unitTerrain === "land" && containerType === "aircraftCarrier") { return false }
+    return true;
 }
 
 
@@ -643,9 +692,6 @@ function changePhase() {
                 canTrash = decoded.canTrash;
                 canAttack = decoded.canAttack;
 
-                newsEffect = decoded.newsEffect;
-                newsText = decoded.newsText;
-                newsEffectText = decoded.newsEffectText;
 
 
                 //Dont get these because these aren't update on phase (yet)
@@ -680,7 +726,6 @@ function changePhase() {
                 if (gamePhase === "1") {
                     // alert("phase1");
                     //TODO: phase effects here and grab phase stuff???
-                    document.getElementById("newsText").innerHTML = newsText;
                     document.getElementById("newsPopup").style.display = "block";
                     userFeedback("Click Next Phase to advance to next phase.");
                 } else {
@@ -1302,17 +1347,6 @@ function updateNextPhase() {
             gameBlueRpoints = decoded.gameBlueRpoints;
             gameRedHpoints = decoded.gameRedHpoints;
             gameBlueHpoints = decoded.gameBlueHpoints;
-
-            newsEffect = decoded.newsEffect;
-            newsText = decoded.newsText;
-            newsEffectText = decoded.newsEffectText;
-
-            //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
-            document.getElementById("newsTitle").innerHTML = "News Alert";
-
-            document.getElementById("newsText").innerHTML = newsText;
-
-
             document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
             document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
             document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
