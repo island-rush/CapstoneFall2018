@@ -4,7 +4,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 47.5vw;
+    height: 47.1vw;
     width: 100vw;
     overflow-x: hidden;
 }
@@ -105,81 +105,67 @@ html, body {
     height: 20%;
     /*background-color: red;*/
 }
-
 #team_indicators{
     width: 100%;
     height: 20%;
 }
-
 #red_team_indicator{
     height: 100%;
     width: 50%;
     float: left;
 }
-
 #blue_team_indicator{
     height: 100%;
     width: 50%;
     float: left;
 }
-
 #rPoints_indicators{
     width: 100%;
     height: 20%;
 }
-
 #red_rPoints_indicator{
     height: 100%;
     width: 40%;
     float: left;
 }
-
 #rPoints_label{
     height: 100%;
     width: 20%;
     float: left;
 }
-
 #blue_rPoints_indicator{
     height: 100%;
     width: 40%;
     float: left;
 }
-
 #hPoints_indicators{
     width: 100%;
     height: 20%;
 }
-
 #red_hPoints_indicator{
     height: 100%;
     width: 40%;
     float: left;
 }
-
 #hPoints_label{
     height: 100%;
     width: 20%;
     float: left;
 }
-
 #blue_hPoints_indicator{
     height: 100%;
     width: 40%;
     float: left;
 }
-
 #misc_info_undo{
     width: 100%;
     height: 20%;
 }
-
 #game_version{
     height: 100%;
     width: 50%;
     float: left;
 }
-
 #undo_button_div{
     height: 100%;
     width: 50%;
@@ -202,48 +188,47 @@ html, body {
     z-index: 100;
 }
 #battle_button_container{
-    margin-left: 5%;
-    margin-right: 10%;
-    margin-top: 2%;
+    height: 100%;
+    width: 25%;
+    float: left;
 }
 #battle_button{
-    padding-top: 2%;
-    padding-left: 2%;
-    padding-bottom: 2%;
-    padding-right: 2%;
-    float: left;
+    width: 60%;
+    height: 50%;
+    margin: 10% 20%; /*top right bottom left */
     font-family: Impact;
     font-size: 18px;
     background-color: burlywood;
     border-color: #c19c71;
 }
-
-#user_feedback{
+#user_feedback_container{
     float: left;
-    width: 40%;
-    margin-top: 2%;
-    background-color: sandybrown;
-    -ms-text-overflow: ellipsis;
+    width: 50%;
+    height: 100%;
+    /*background-color: sandybrown;*/
+}
+#user_feedback{
+    width: 100%;
+    height: 60%;
+    margin: 5% 0;
+    text-align: center;
+    white-space: nowrap;
     text-overflow: ellipsis;
+    text-weight: bold;
+    text-size: 14px;
 }
 
-
-/*//who the heck put this here, its already at the top*/
-/*#purchase_buttons_container{*/
-    /*margin-left: 5%;*/
-    /*margin-right: 10%;*/
-    /*margin-top: 2%;*/
-/*}*/
-
-
-#phase_button{
-    padding-top: 2%;
-    padding-left: 2%;
-    padding-bottom: 2%;
-    padding-right: 2%;
+#phase_button_container{
     float: left;
+    width: 25%;
+    height: 100%;
+}
+#phase_button{
+    width: 80%;
+    height: 70%;
+    margin: 5.5% 10%; /*top right bottom left */
     font-family: Impact;
-    font-size: 18px;
+    font-size: 24px;
     background-color: burlywood;
     border-color: #c19c71;
 }
