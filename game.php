@@ -425,6 +425,10 @@ $u = $results->fetch_assoc();
                 <div id="newsBodyText">loading text...</div>
                 <div id="newsBodySubText">loading subtext...</div>
             </div>
+            <div id="popupBodyHybrid">
+                <button>Button</button>
+                <div>This is text</div>
+            </div>
         </div>
     </div>
 </div>

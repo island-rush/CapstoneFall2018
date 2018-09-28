@@ -265,7 +265,11 @@ html, body {
     height: 30%;
 }
 #newsBodyText{
-
+    margin-top: 5px;
+    font-family: Helvetica-Black;
+    text-indent: 2.5%;
+    font-size: large;
+    height: 30%;
 }
 
 .news{

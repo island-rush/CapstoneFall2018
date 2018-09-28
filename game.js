@@ -13,7 +13,6 @@ function bodyLoader() {
     document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
     document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
-
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
     document.getElementById("popupTitle").innerHTML = "News Alert";
 
@@ -142,15 +141,30 @@ function bodyLoader() {
     } else {
         document.getElementById("phase_button").disabled = true;
     }
+    // NEWS ALERT PHASE
     if (gamePhase === "1") {
-        // alert("phase1");
-        //TODO: phase effects here and grab phase stuff???
+        // Show popup with News Alert body, hide Hybrid body
         document.getElementById("popup").style.display = "block";
+        document.getElementById("popupBodyNews").style.display = "block";
+        document.getElementById("popupBodyHybrid").style.display = "none";
         userFeedback("Click Next Phase to advance to next phase.");
     } else {
-        // alert("not phase 1");
+        // Hide the popup because it shouldnt be showing.
         document.getElementById("popup").style.display = "none";
     }
+
+    if (gamePhase === "6") { // HYBRID WAR
+        //convert the battle button to be a hybrid warfare shop button
+        document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
+        document.getElementById("battle_button").disabled = false;
+        document.getElementById("battle_button").onclick =function () {
+            document.getElementById("popupBodyNews").style.display = "none";
+            document.getElementById("popupBodyHybrid").style.display = "block";
+            document.getElementById("popup").style.display = "block";
+        };
+
+    }
+
 }
 
 //TODO: disable sidepanel buttons during a battle!
@@ -710,7 +724,7 @@ function changePhase() {
         let phpPhaseChange = new XMLHttpRequest();
         phpPhaseChange.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                // alert(this.responseText);
+                // TODO: COMMENT WHAT IS HAPPENING HERE
                 let decoded = JSON.parse(this.responseText);
                 gamePhase = decoded.gamePhase;
                 gameTurn = decoded.gameTurn;
@@ -744,8 +758,6 @@ function changePhase() {
                 document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
                 document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
-                //TODO: deal with news alerts from table (not yet defined / implemented)
-                // alert(decoded.newsalertthing1);
 
                 if (canAttack === "true") {
                     document.getElementById("battle_button").disabled = false;
@@ -762,23 +774,41 @@ function changePhase() {
                 } else {
                     document.getElementById("phase_button").disabled = true;
                 }
-                // alert(gamePhase);
-                if (gamePhase === "1") {
-                    // alert("phase1");
+
+                if (gamePhase === "1") {  // NEWS ALERT PHASE
+                    document.getElementById("popupBodyHybrid").style.display = "none";
+                    document.getElementById("popupBodyNews").style.display = "block";
                     document.getElementById("newsBodyText").innerHTML = newsText;
                     document.getElementById("newsBodySubText").innerHTML = newsEffectText;
-
                     document.getElementById("popup").style.display = "block";
-                    userFeedback(phaseText);
+                    userFeedback(phaseText); //tell the user what happened int the news alert ( rollDie )
                 } else {
-                    // alert("not phase 1");
                     document.getElementById("popup").style.display = "none";
                 }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
 
+                if (gamePhase === "6") { // HYBRID WAR
+                    //convert the battle button to be a hybrid warfare shop button
+                    document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
+                    document.getElementById("battle_button").disabled = false;
+                    document.getElementById("battle_button").onclick =function () {
+                        document.getElementById("popupBodyNews").style.display = "none";
+                        document.getElementById("popupBodyHybrid").style.display = "block";
+                        document.getElementById("popup").style.display = "block";
+                    };
 
-                if (gamePhase === "7") {
+                }else{
+                    //Let the canAttack check above enable or disable, but set the html stuff back
+                    document.getElementById("battle_button").innerHTML = "Select Battle";
+                    document.getElementById("battle_button").onclick = function() {
+                        if (confirm("Are you sure you want to battle?")) {
+                            battleChangeSection("selectPos");
+                        }
+                    };
+                }
+
+                if (gamePhase === "7") { // TALLY POINTS/ROUND RECAP
                     userFeedback("Click next phase to advance to the other player's turn.");
                     let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
                     for (let x = 0; x < allPieces.length; x++) {
