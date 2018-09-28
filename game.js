@@ -15,7 +15,7 @@ function bodyLoader() {
 
 
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
-    document.getElementById("popup").innerHTML = "News Alert";
+    document.getElementById("popupTitle").innerHTML = "News Alert";
 
     document.getElementById("newsBodyText").innerHTML = newsText;
     document.getElementById("newsBodySubText").innerHTML = newsEffectText;
@@ -1404,7 +1404,7 @@ function updateNextPhase() {
             newsEffectText = decoded.newsEffectText;
 
             //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
-            document.getElementById("popup").innerHTML = "News Alert";
+            document.getElementById("popupTitle").innerHTML = "News Alert";
 
             document.getElementById("newsBodyText").innerHTML = newsText;
             document.getElementById("newsBodySubText").innerHTML = newsEffectText;
