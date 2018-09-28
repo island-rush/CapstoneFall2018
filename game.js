@@ -15,9 +15,10 @@ function bodyLoader() {
 
 
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
-    document.getElementById("newsTitle").innerHTML = "News Alert";
+    document.getElementById("popup").innerHTML = "News Alert";
 
-    document.getElementById("newsText").innerHTML = newsText;
+    document.getElementById("newsBodyText").innerHTML = newsText;
+    document.getElementById("newsBodySubText").innerHTML = newsEffectText;
 
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
@@ -144,11 +145,11 @@ function bodyLoader() {
     if (gamePhase === "1") {
         // alert("phase1");
         //TODO: phase effects here and grab phase stuff???
-        document.getElementById("newsPopup").style.display = "block";
+        document.getElementById("popup").style.display = "block";
         userFeedback("Click Next Phase to advance to next phase.");
     } else {
         // alert("not phase 1");
-        document.getElementById("newsPopup").style.display = "none";
+        document.getElementById("popup").style.display = "none";
     }
 }
 
@@ -725,11 +726,11 @@ function changePhase() {
                 newsText = decoded.newsText;
                 newsEffectText = decoded.newsEffectText;
                 //fix these for refactor
-                // document.getElementById("popup_text").innerHTML = newsText;
 
                 let phaseText = decoded.phaseText;
                 //change to another part of the popup
-                // document.getElementById("newsText").innerHTML = newsText;
+                // document.getElementById("newsBodyText").innerHTML = newsText;
+                // document.getElementById("newsBodySubText").innerHTML = newsEffectText;
                 // document.getElementById("newsText").innerHTML = phaseText;
                 // userFeedback(phaseText);
 
@@ -764,13 +765,14 @@ function changePhase() {
                 // alert(gamePhase);
                 if (gamePhase === "1") {
                     // alert("phase1");
-                    document.getElementById("newsText").innerHTML = newsText;
+                    document.getElementById("newsBodyText").innerHTML = newsText;
+                    document.getElementById("newsBodySubText").innerHTML = newsEffectText;
 
-                    document.getElementById("newsPopup").style.display = "block";
+                    document.getElementById("popup").style.display = "block";
                     userFeedback(phaseText);
                 } else {
                     // alert("not phase 1");
-                    document.getElementById("newsPopup").style.display = "none";
+                    document.getElementById("popup").style.display = "none";
                 }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
@@ -1402,9 +1404,10 @@ function updateNextPhase() {
             newsEffectText = decoded.newsEffectText;
 
             //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
-            document.getElementById("newsTitle").innerHTML = "News Alert";
+            document.getElementById("popup").innerHTML = "News Alert";
 
-            document.getElementById("newsText").innerHTML = newsText;
+            document.getElementById("newsBodyText").innerHTML = newsText;
+            document.getElementById("newsBodySubText").innerHTML = newsEffectText;
 
 
             document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
@@ -1430,10 +1433,10 @@ function updateNextPhase() {
             if (gamePhase === "1") {
                 // alert("phase1");
                 //TODO: phase effects here and grab phase stuff???
-                document.getElementById("newsPopup").style.display = "block";
+                document.getElementById("popup").style.display = "block";
             } else {
                 // alert("not phase 1");
-                document.getElementById("newsPopup").style.display = "none";
+                document.getElementById("popup").style.display = "none";
             }
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;

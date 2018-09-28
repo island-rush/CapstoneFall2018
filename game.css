@@ -213,7 +213,7 @@ html, body {
     margin: 5% 0;
     text-align: center;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow: auto;
     text-weight: bold;
     text-size: 14px;
 }
@@ -226,7 +226,7 @@ html, body {
 #phase_button{
     width: 80%;
     height: 70%;
-    margin: 5.5% 10%; /*top right bottom left */
+    margin: 5.5% 10%; /*top&bottom right&left */  /*top right bottom left */
     font-family: Impact;
     font-size: 24px;
     background-color: burlywood;
@@ -236,7 +236,7 @@ html, body {
 
 /*--------------------------------------------------------------------------------------------------------------*/
 /* NEWS ALERT POPUP CSS */
-#newsPopup{
+#popup{
     width: 25%;
     height: 35%;
     position: absolute;
@@ -252,16 +252,20 @@ html, body {
     margin-left: 20%;
     margin-top: 15%;
 }
-#newsTitle{
+#popupTitle{
     text-align: center;
     font-size: xx-large;
     font-family: "Old English Text MT";
     /*background-image: url("resources/mapImages/battle_zone.png");*/
 }
-#newsText{
+#popupBodyNews{
     font-family: Helvetica-Black;
     text-indent: 2.5%;
     font-size: large;
+    height: 30%;
+}
+#newsBodyText{
+
 }
 
 .news{
@@ -475,7 +479,7 @@ html, body {
 
 
 /*----------------------------------------------------------------------------------------------*/
-/*GAME PIECE CSS.*/
+/*GAME PIECE CSS*/
 
 .gamePiece {
     width: 33.333%;

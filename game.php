@@ -419,9 +419,12 @@ $u = $results->fetch_assoc();
                 <div></div>
             </div>
         </div>
-        <div id="newsPopup">
-            <div id="newsTitle">Loading Title...</div>
-            <div id="newsText">Loading Text...</div>
+        <div id="popup">
+            <div id="popupTitle">Loading Title...</div>
+            <div id="popupBodyNews">
+                <div id="newsBodyText">loading text...</div>
+                <div id="newsBodySubText">loading subtext...</div>
+            </div>
         </div>
     </div>
 </div>
