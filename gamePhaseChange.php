@@ -85,6 +85,75 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $query->execute();
 
 
+        //check to see if roll or die, if so run logic for deleting pieces
+        if ($newsEffect == "rollDie") {
+            $zone = $r4['newsZone'];
+            $rollValueNeeded = $r4['newsRollValue'];  //2-6? (1 doesn't make sense)
+            $islandNum = $zone - 100;  //island zones are 'island4' = 104
+            $teamEffected = $r4['newsTeam'];  //Red, Blue, All
+
+            //figure out which actual positions correspond to the island
+            $islandSpots = [[75, 76, 77, 78], [79, 80, 81, 82], [83, 84, 85], [86, 87, 88, 89], [90, 91, 92, 93], [94, 95, 96], [97, 98, 99], [100, 101, 102], [103, 104, 105, 106], [107, 108, 109, 110], [111, 112, 113], [114, 115, 116, 117], [55, 56, 57, 58, 59, 60, 61, 62, 63, 64], [65, 66, 67, 68, 69, 70, 71, 72, 73, 74]];
+            $thisIslandSpots = $islandSpots[$islandNum-1];
+
+            //for each of these spots, loop through pieces in them, for the specific team listed (could be both), and do random roll to remove
+            //if remove, delete the piece (and pieces inside if container?), and send updates to BOTH teams to do html updates
+
+            for ($x = 0; $x < sizeof($thisIslandSpots); $x++) {
+                if ($teamEffected == "All") {
+                    $query = 'SELECT * FROM placements WHERE (placementGameId = ?) AND (placementPositionId = ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("ii", $gameId, $thisIslandSpots[$x]);
+                } else {
+                    $query = 'SELECT * FROM placements WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iis", $gameId, $thisIslandSpots[$x], $teamEffected);
+                }
+
+                $query->execute();
+                $results = $query->get_result();
+                $num_results = $results->num_rows;
+
+                if ($num_results > 0) {
+                    for ($i=0; $i < $num_results; $i++) {
+                        $r5= $results->fetch_assoc();
+                        $placementId = $r5['placementId'];
+
+                        $RandRoll = rand(1, 6);
+                        if ($RandRoll < $rollValueNeeded) {
+                            //delete the real piece from database
+                            $query = 'DELETE FROM placements WHERE placementId = ?';
+                            $query = $db->prepare($query);
+                            $query->bind_param("i", $placementId);
+                            $query->execute();
+
+                            //delete the stuff within the container
+                            $query = 'DELETE FROM placements WHERE placementContainerId = ?';
+                            $query = $db->prepare($query);
+                            $query->bind_param("i", $placementId);
+                            $query->execute();
+
+                            //Tell other client about deletion
+                            $red = "Red";
+                            $blue = "Blue";
+                            $newValue = 0;
+                            $updateType = "rollDie";
+
+                            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                            $query = $db->prepare($query);
+                            $query->bind_param("iissi", $gameId, $newValue, $red, $updateType, $placementId);
+                            $query->execute();
+
+                            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                            $query = $db->prepare($query);
+                            $query->bind_param("iissi", $gameId, $newValue, $blue, $updateType, $placementId);
+                            $query->execute();
+                        }
+                    }
+                }
+            }
+        }
+
     }
 } else {
     if ($new_gamePhase == 1) {
@@ -123,69 +192,6 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $query = $db->prepare($query);
         $query->bind_param("ii", $nowActivated, $newsId);
         $query->execute();
-
-        //check to see if roll or die, if so run logic for deleting pieces
-        if ($newsEffect == "rollDie") {
-            $zone = $r4['newsZone'];
-            $rollValueNeeded = $r4['newsRollValue'];  //2-6? (1 doesn't make sense)
-            $islandNum = $zone - 100;  //island zones are 'island4' = 104
-            $teamEffected = $r4['newsTeam'];  //Red, Blue, All
-
-            //figure out which actual positions correspond to the island
-            $islandSpots = [[75, 76, 77, 78], [79, 80, 81, 82], [83, 84, 85], [86, 87, 88, 89], [90, 91, 92, 93], [94, 95, 96], [97, 98, 99], [100, 101, 102], [103, 104, 105, 106], [107, 108, 109, 110], [111, 112, 113], [114, 115, 116, 117], [55, 56, 57, 58, 59, 60, 61, 62, 63, 64], [65, 66, 67, 68, 69, 70, 71, 72, 73, 74]];
-            $thisIslandSpots = $islandSpots[$islandNum-1];
-
-            //for each of these spots, loop through pieces in them, for the specific team listed (could be both), and do random roll to remove
-            //if remove, delete the piece (and pieces inside if container?), and send updates to BOTH teams to do html updates
-
-            for ($x = 0; $x < sizeof($thisIslandSpots); $x++) {
-                //database call to get the pieces (based on team)
-
-                //loop through all pieces with random roll
-
-                //delete accordingly and send both updates
-
-                if ($teamEffected == "All") {
-                    $query = 'SELECT * FROM placements WHERE (placementGameId = ?) AND (placementPositionId = ?)';
-                    $query = $db->prepare($query);
-                    $query->bind_param("ii", $gameId, $positionId);
-                } else {
-                    $query = 'SELECT * FROM placements WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?)';
-                    $query = $db->prepare($query);
-                    $query->bind_param("iis", $gameId, $positionId, $teamEffected);
-                }
-
-                $query->execute();
-                $results = $query->get_result();
-                $num_results = $results->num_rows;
-
-                if ($num_results > 0) {
-                    for ($i=0; $i < $num_results; $i++) {
-                        $r5= $results->fetch_assoc();
-                        $placementId = $r5['placementId'];
-
-                        $RandRoll = rand(1, 6);
-                        if ($RandRoll >= $rollValueNeeded) {
-                            //delete the piece
-
-
-
-
-
-
-                        }
-                            //else ignore
-                    }
-                }
-
-
-
-
-
-            }
-
-
-        }
 
 
     } elseif ($new_gamePhase == 2) {

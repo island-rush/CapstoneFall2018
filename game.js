@@ -1273,6 +1273,8 @@ function waitForUpdate() {
                 updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
             } else if (decoded.updateType === "pieceDelete") {
                 updatePieceDelete(decoded.updatePlacementId);
+            } else if (decoded.updateType === "rollDie") {
+                updateRollDie(decoded.updatePlacementId);
             } else if (decoded.updateType === "pieceTrash") {
                 updatePieceTrash(decoded.updatePlacementId);
             } else if (decoded.updateType === "piecePurchase") {
@@ -1300,6 +1302,10 @@ function waitForUpdate() {
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
+}
+
+function updateRollDie(placementId) {
+    document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
 }
 
 function updateIslandChange(islandIdentifier, newTeam) {

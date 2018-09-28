@@ -745,13 +745,27 @@ $query->bind_param("iisssi",$gameId, $order, $nothing, $text, $effectText, $true
 $query->execute();
 
 //next one, and so on
+//$order = 2;
+//$text = "International Surf Contest performance plummets as Zmar Island runs out of tequila";
+//$effectText = "No effect on game play";
+//$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+//$query = $db->prepare($query);
+//$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+//$query->execute();
+//testing rollDie here(comment above is actual alert)
 $order = 2;
+$zone = 104;
+$rollValue = 6;
 $text = "International Surf Contest performance plummets as Zmar Island runs out of tequila";
 $effectText = "No effect on game play";
-$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText, newsZone, newsRollValue, newsTeam) VALUES(?,?,?,?,?,?,?,?)';
 $query = $db->prepare($query);
-$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->bind_param("iisssiis",$gameId, $order, $rollDie, $text, $effectText, $zone, $rollValue, $red);
 $query->execute();
+
+
+
+
 
 $order = 3;
 $rollValue = 5;
