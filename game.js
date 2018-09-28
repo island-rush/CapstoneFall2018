@@ -739,6 +739,11 @@ function changePhase() {
                 newsText = decoded.newsText;
                 newsEffectText = decoded.newsEffectText;
 
+                let phaseText = decoded.phaseText;
+                //change to another part of the popup
+                // document.getElementById("newsText").innerHTML = newsText;
+                // document.getElementById("newsText").innerHTML = phaseText;
+                // userFeedback(phaseText);
 
                 //Dont get these because these aren't update on phase (yet)
                 gameRedRpoints = decoded.gameRedRpoints;
@@ -773,8 +778,9 @@ function changePhase() {
                     // alert("phase1");
                     //TODO: phase effects here and grab phase stuff???
                     document.getElementById("newsText").innerHTML = newsText;
+
                     document.getElementById("newsPopup").style.display = "block";
-                    userFeedback("Click Next Phase to advance to next phase.");
+                    userFeedback(phaseText);
                 } else {
                     // alert("not phase 1");
                     document.getElementById("newsPopup").style.display = "none";

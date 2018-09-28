@@ -23,6 +23,8 @@ $newsText = "Default Text";
 $newsEffectText = "Default Effect Text";
 $newsEffect = "Default Effect";
 
+$phaseText = "";
+
 $myTeam = $_SESSION['myTeam'];
 
 $new_gamePhase = ($gamePhase % 7) + 1;
@@ -89,23 +91,31 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         if ($newsEffect == "rollDie") {
             $zone = $r4['newsZone'];
             $rollValueNeeded = $r4['newsRollValue'];  //2-6? (1 doesn't make sense)
-            $islandNum = $zone - 100;  //island zones are 'island4' = 104
+
+            if ($zone >= 100) {  //assume never 200 or something for all islands
+                $islandNum = $zone - 100;  //island zones are 'island4' = 104
+//                $thisIslandSpots = [];
+                //figure out which actual positions correspond to the island
+                $islandSpots = [[75, 76, 77, 78], [79, 80, 81, 82], [83, 84, 85], [86, 87, 88, 89], [90, 91, 92, 93], [94, 95, 96], [97, 98, 99], [100, 101, 102], [103, 104, 105, 106], [107, 108, 109, 110], [111, 112, 113], [114, 115, 116, 117], [55, 56, 57, 58, 59, 60, 61, 62, 63, 64], [65, 66, 67, 68, 69, 70, 71, 72, 73, 74]];
+                $thisIslandSpots = $islandSpots[$islandNum-1];
+            } else {
+                $thisIslandSpots = [99999999];
+                $thisIslandSpots[0] = $zone;
+            }
+
             $teamEffected = $r4['newsTeam'];  //Red, Blue, All
 
-            //figure out which actual positions correspond to the island
-            $islandSpots = [[75, 76, 77, 78], [79, 80, 81, 82], [83, 84, 85], [86, 87, 88, 89], [90, 91, 92, 93], [94, 95, 96], [97, 98, 99], [100, 101, 102], [103, 104, 105, 106], [107, 108, 109, 110], [111, 112, 113], [114, 115, 116, 117], [55, 56, 57, 58, 59, 60, 61, 62, 63, 64], [65, 66, 67, 68, 69, 70, 71, 72, 73, 74]];
-            $thisIslandSpots = $islandSpots[$islandNum-1];
+
 
             //for each of these spots, loop through pieces in them, for the specific team listed (could be both), and do random roll to remove
             //if remove, delete the piece (and pieces inside if container?), and send updates to BOTH teams to do html updates
-
             for ($x = 0; $x < sizeof($thisIslandSpots); $x++) {
                 if ($teamEffected == "All") {
-                    $query = 'SELECT * FROM placements WHERE (placementGameId = ?) AND (placementPositionId = ?)';
+                    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementUnitId = unitId)';
                     $query = $db->prepare($query);
                     $query->bind_param("ii", $gameId, $thisIslandSpots[$x]);
                 } else {
-                    $query = 'SELECT * FROM placements WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?)';
+                    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (placementUnitId = unitId)';
                     $query = $db->prepare($query);
                     $query->bind_param("iis", $gameId, $thisIslandSpots[$x], $teamEffected);
                 }
@@ -121,6 +131,13 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
 
                         $RandRoll = rand(1, 6);
                         if ($RandRoll < $rollValueNeeded) {
+                            //add to phase string
+                            $unitName = $r5['unitName'];
+                            $teamId = $r5['placementTeamId'];
+
+                            $phaseText = $phaseText.$teamId."'s ".$unitName." was destroyed. ";
+
+
                             //delete the real piece from database
                             $query = 'DELETE FROM placements WHERE placementId = ?';
                             $query = $db->prepare($query);
@@ -353,7 +370,8 @@ $arr = array('gamePhase' => (string) $new_gamePhase,
     'gameBlueHpoints' => (string) $gameBlueHpoints,
     'newsEffect' => (string) $newsEffect,
     'newsText' => (string) $newsText,
-    'newsEffectText' => (string) $newsEffectText);
+    'newsEffectText' => (string) $newsEffectText,
+    'phaseText' => (string) $phaseText);
 echo json_encode($arr);
 
 
