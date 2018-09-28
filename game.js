@@ -600,7 +600,7 @@ function positionDrop(event, newContainerElement) {
             phpMoveCheck.send();
 
         } else {
-            alert("failed move check");
+            // alert("failed move check");
             //TODO: user feedback here?
         }
     }
@@ -623,53 +623,55 @@ function positionDragover(event, callingElement) {
 }
 
 //pass in the position now, not the type
-// function movementTerrainCheck(unit, position, unitTerrain, new_placementContainerId, positionTerrain) {
-//     let vehicles = ["tank", "lav", "sam", "attackHeli", "artillery"];
-//     let container;
-//     let containerType;
-//     if (new_placementContainerId !== "999999"){
-//         container = document.querySelector("[data-placementId='" + new_placementContainerId + "']").childNodes[0];
-//         containerType = container.parentNode.getAttribute("data-unitName");
-//     }
-//     //=========================================================No Container=========================================
-//     //if there is no container, check if the piece can move there based on the terrain
-//     if (new_placementContainerId === "999999" && (unitTerrain !== positionTerrain && unitTerrain !== "air")){
-//         return false;
-//         //check if the piece can go into the container
-//         // ====================================================Transport============================================
-//     } else if(containerType === "transport" && unitTerrain === "land"){
-//         if (container.childElementCount === 3){
-//             return false;
-//             //if there are 2 pieces in a transport make sure that i
-//         } else if (container.childElementCount === 2){
-//                 //if the first child is in the vehicles list
-//             if( vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 ||
-//                 //or id the second child is in the vehicles list
-//                 vehicles.indexOf(container.childNodes[1].getAttribute("data-unitName")) >= 0 ||
-//                 //or if the unit is in the vehicles list while therer are already 2, return false.
-//                 vehicles.indexOf(unit) >= 0){
-//                  return false;
-//             }
-//         } else if (container.childElementCount === 1 &&
-//                    vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 &&
-//                    vehicles.indexOf(unit) >= 0) {
-//             return false;
-//         } else {
-//             return true;
-//         }
-//     // =================================================AIRCRAFT CARRIER============================================
-//     } else if (containerType === "aircraftCarrier" && unitTerrain === "air") {
-//         if(unit === "fighter") {
-//             let numFighters = container.childElementCount;
-//            return (numFighters < 2);
-//         } else {
-//             return false
-//         }
-//     } else if ( unitTerrain === "air" &&  containerType !== "aircraftCarrier") { return false; }
-//       else if ( unitTerrain === "water") { return false; }
-//       else if ( unitTerrain === "land" && containerType === "aircraftCarrier") { return false }
-//     return true;
-// }
+function movementCheck(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
+    let vehicles = ["tank", "lav", "sam", "attackHeli", "artillery"];
+    let container;
+    let containerType;
+    if (new_placementContainerId !== "999999"){
+        container = document.querySelector("[data-placementId='" + new_placementContainerId + "']").childNodes[0];
+        containerType = container.parentNode.getAttribute("data-unitName");
+    }
+    //=========================================================No Container=========================================
+    //if there is no container, check if the piece can move there based on the terrain
+    if (new_placementContainerId === "999999" && (unitTerrain !== positionTerrain && unitTerrain !== "air")){
+        return false;
+        // ====================================================Transport============================================
+        //check if the piece can go into the container
+    } else if (new_placementContainerId === "999999" && (unitTerrain === positionTerrain || unitTerrain === "air")) {
+        return true;
+    } else if(containerType === "transport" && unitTerrain === "land"){
+        if (container.childElementCount === 3){
+            return false;
+            //if there are 2 pieces in a transport make sure that i
+        } else if (container.childElementCount === 2){
+            //if the first child is in the vehicles list
+            if( vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 ||
+                //or id the second child is in the vehicles list
+                vehicles.indexOf(container.childNodes[1].getAttribute("data-unitName")) >= 0 ||
+                //or if the unit is in the vehicles list while therer are already 2, return false.
+                vehicles.indexOf(unitName) >= 0){
+                return false;
+            }
+        } else if (container.childElementCount === 1 &&
+            vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 &&
+            vehicles.indexOf(unitName) >= 0) {
+            return false;
+        } else {
+            return true;
+        }   // =================================================AIRCRAFT CARRIER============================================
+    } else if (containerType === "aircraftCarrier" && unitTerrain === "air") {
+        if(unitName === "fighter") {
+            let numFighters = container.childElementCount;
+            return (numFighters < 2);
+        } else {
+            return false;
+        }
+    } else if ( unitTerrain === "air" &&  containerType !== "aircraftCarrier") {
+        return false; }
+    else if ( unitTerrain === "land" && containerType === "aircraftCarrier") {
+        return false; }
+    return true;
+}
 
 function movementCheck2(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
     if (new_placementContainerId != "999999") {
@@ -688,12 +690,14 @@ function movementCheck2(unitName, unitTerrain, new_placementContainerId, positio
             }
             if (listPeople.includes(unitName)) {  //piece dropping in is a person
                 if (containerParent.childNodes[0].childNodes.length === 2) {  //both were people, allow a 3rd person
-                    return listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName")) && listPeople.includes(containerParent.childNodes[0].childNodes[1].getAttribute("data-unitName"));
+                    return listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName"))
+                        && listPeople.includes(containerParent.childNodes[0].childNodes[1].getAttribute("data-unitName"));
                 }
                 return true;  //person dropping into transport with 1 piece in it (always allowed)
             } else {
                 //machine can drop in with a single person, can't drop into a transport with 2 pieces inside
-                return containerParent.childNodes[0].childNodes.length === 1 && listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName"));
+                return    (containerParent.childNodes[0].childNodes.length === 1
+                        && listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName")));
             }
         } else {  //not transport -> must be aircraftCarrier
             return unitName === "fighter" && containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
@@ -702,8 +706,6 @@ function movementCheck2(unitName, unitTerrain, new_placementContainerId, positio
         return unitTerrain === "air" || unitTerrain === positionTerrain; //air anywhere, or match terrain
     }
 }
-
-
 
 function changePhase() {
     if (canNextPhase === "true") {
