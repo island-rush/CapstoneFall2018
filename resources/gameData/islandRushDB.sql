@@ -156,9 +156,9 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
--- SELECT * FROM newsAlerts;
+SELECT * FROM newsAlerts;
 
--- SELECT * FROM updates;
+SELECT * FROM updates;
 
 -- SELECT * FROM placements;
 

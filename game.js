@@ -685,27 +685,17 @@ function movementCheck2(unitName, unitTerrain, new_placementContainerId, positio
             if (containerParent.childNodes[0].childNodes.length === 3) {
                 return false;  //already full of soldiers (max number)
             }
-            if (unitName === "marine" || unitName === "soldier") {  //piece dropping in is a person
-                if (containerParent.childNodes[0].childNodes.length === 2) {
-                    //both were people, allow a 3rd person
+            if (listPeople.includes(unitName)) {  //piece dropping in is a person
+                if (containerParent.childNodes[0].childNodes.length === 2) {  //both were people, allow a 3rd person
                     return listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName")) && listPeople.includes(containerParent.childNodes[0].childNodes[1].getAttribute("data-unitName"));
-                } else {
-                    return true;  //person dropping into transport with 1 piece in it (always allowed)
                 }
+                return true;  //person dropping into transport with 1 piece in it (always allowed)
             } else {
-                if (containerParent.childNodes[0].childNodes.length === 1) {
-                    //machine can drop in with a single person
-                    return listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName"));
-                } else {
-                    return false; //machine can't drop into a transport with 2 pieces inside
-                }
+                //machine can drop in with a single person, can't drop into a transport with 2 pieces inside
+                return containerParent.childNodes[0].childNodes.length === 1 && listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName"));
             }
         } else {  //not transport -> must be aircraftCarrier
-            if (unitName === "fighter") {
-                return containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
-            } else {
-                return false;
-            }
+            return unitName === "fighter" && containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
         }
     } else {  //wasn't a container
         return unitTerrain === "air" || unitTerrain === positionTerrain; //air anywhere, or match terrain
