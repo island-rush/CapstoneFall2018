@@ -1,7 +1,7 @@
 //Javascript Functions used by the Island Rush Game
 //Created by C1C Spencer Adolph (7/28/2018)
 
-//First function called to load the game
+//First function called to load the game...
 function bodyLoader() {
     // alert(myTeam);
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
@@ -173,10 +173,9 @@ function pieceClick(event, callingElement) {
             callingElement.parentNode.classList.add("selectedPos");
         } else {
             let unitName = callingElement.getAttribute("data-unitName");
-            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+            if (unitName === "transport" || unitName === "aircraftCarrier") {
                 hideContainers("transportContainer");
                 hideContainers("aircraftCarrierContainer");
-                hideContainers("lavContainer");
                 if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
                     callingElement.childNodes[0].style.display = "block";
                     callingElement.style.zIndex = 30;
@@ -241,7 +240,7 @@ function pieceDragstart(event, callingElement) {
 
 function pieceDragleave(event, callingElement) {
     event.preventDefault();
-    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier" || callingElement.getAttribute("data-unitName") === "lav") {
+    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier") {
         if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
             clearTimeout(hoverTimer);
         }
@@ -252,7 +251,7 @@ function pieceDragleave(event, callingElement) {
 function pieceDragenter(event, callingElement) {
     event.preventDefault();
     let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+    if (unitName === "transport" || unitName === "aircraftCarrier") {
         //only dragenter to open up container pieces
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
             clearTimeout(hoverTimer);
@@ -357,7 +356,7 @@ function containerDragleave(event, callingElement) {
 function containerHasSpotOpen(new_placementContainerId, unitName) {
     //Can't put transport inside another transport
     if (new_placementContainerId !== "999999") {
-        if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+        if (unitName === "transport" || unitName === "aircraftCarrier") {
             return "false";
         }
     }
@@ -382,7 +381,6 @@ function islandClick(event, callingElement) {
     hideIslands();  //only 1 island visible at a time
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
     clearHighlighted();
     if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
         document.getElementsByClassName(callingElement.id)[0].style.display = "block";
@@ -460,7 +458,6 @@ function gameboardClick(event, callingElement) {
     hideIslands();
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
     clearHighlighted();
     event.stopPropagation();
 }
@@ -470,7 +467,6 @@ function waterClick(event, callingElement) {
     hideIslands();
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
     clearHighlighted();
     if (gameBattleSection === "selectPos") {
         clearSelectedPos();
@@ -534,7 +530,7 @@ function positionDrop(event, newContainerElement) {
                             newContainerElement.appendChild(pieceDropped);
                             pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
                             pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
-                            if (unitName === "transport" || unitName === "aircraftCarrier" || unitName === "lav") {
+                            if (unitName === "transport" || unitName === "aircraftCarrier") {
                                 pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
                             }
 
@@ -1052,7 +1048,6 @@ function battleSelectPieces() {
 
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
     clearHighlighted();
     clearSelectedPos();
     clearSelected();
@@ -1087,7 +1082,6 @@ function battleSelectPosition() {
 
         hideContainers("transportContainer");
         hideContainers("aircraftCarrierContainer");
-        hideContainers("lavContainer");
         clearHighlighted();
         battleChangeSection("selectPieces");
     }
@@ -1505,7 +1499,6 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
 
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
-    hideContainers("lavContainer");
     clearHighlighted();
     clearSelectedPos();
     clearSelected();
