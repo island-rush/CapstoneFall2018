@@ -738,6 +738,8 @@ function changePhase() {
                 newsEffect = decoded.newsEffect;
                 newsText = decoded.newsText;
                 newsEffectText = decoded.newsEffectText;
+                //fix these for refactor
+                // document.getElementById("popup_text").innerHTML = newsText;
 
                 let phaseText = decoded.phaseText;
                 //change to another part of the popup
@@ -776,7 +778,6 @@ function changePhase() {
                 // alert(gamePhase);
                 if (gamePhase === "1") {
                     // alert("phase1");
-                    //TODO: phase effects here and grab phase stuff???
                     document.getElementById("newsText").innerHTML = newsText;
 
                     document.getElementById("newsPopup").style.display = "block";
@@ -837,6 +838,9 @@ function battleChangeSection(newSection) {
     gameBattleSection = newSection;
 
     if (newSection === "selectPos") {
+        document.getElementById("phase_button").disabled = true;
+        document.getElementById("undo_button").disabled = true;
+
         document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
@@ -953,6 +957,8 @@ function battleChangeSection(newSection) {
         document.getElementById("actionPopupButton").disabled = true;
 
     } else if (newSection === "none") {
+        document.getElementById("phase_button").disabled = false;
+        document.getElementById("undo_button").disabled = false;
 
         let phpBattleEnding = new XMLHttpRequest();
         phpBattleEnding.open("POST", "battleEnding.php?gameId=" + gameId, true);

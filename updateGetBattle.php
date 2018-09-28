@@ -19,7 +19,10 @@ $gameBattleSubSection = $r['gameBattleSubSection'];
 $gameBattleLastRoll = $r['gameBattleLastRoll'];
 $gameBattleLastMessage = $r['gameBattleLastMessage'];
 
-$arr = array('gameBattleSection' => $gameBattleSection, 'gameBattleSubSection' => $gameBattleSubSection, 'gameBattleLastRoll' => $gameBattleLastRoll, 'gameBattleLastMessage' => $gameBattleLastMessage);
+$arr = array('gameBattleSection' => $gameBattleSection,
+    'gameBattleSubSection' => $gameBattleSubSection,
+    'gameBattleLastRoll' => $gameBattleLastRoll,
+    'gameBattleLastMessage' => $gameBattleLastMessage);
 echo json_encode($arr);
 
 $db->close();

@@ -381,7 +381,8 @@ html, body {
 
 #battleZonePopup{
     width: 30%;
-    height: 59%;
+    padding-bottom: 37%;
+    /*height: 70%;*/
     position: absolute;
     display: none;
     background-image: url("resources/mapImages/battle_zone.png");
