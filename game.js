@@ -515,7 +515,7 @@ function positionDrop(event, newContainerElement) {
 
 
     if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
-        if (movementCheck2(unitName, unitTerrain, new_placementContainerId, positionType) === true) {
+        if (movementCheck(unitName, unitTerrain, new_placementContainerId, positionType) === true) {
 
             let phpMoveCheck = new XMLHttpRequest();
             phpMoveCheck.onreadystatechange = function () {
@@ -670,7 +670,7 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
         return false; }
     else if ( unitTerrain === "land" && containerType === "aircraftCarrier") {
         return false; }
-    return true;
+    return false;
 }
 
 function movementCheck2(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
