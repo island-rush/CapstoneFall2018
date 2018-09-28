@@ -524,7 +524,7 @@ function positionDrop(event, newContainerElement) {
                 if (this.readyState === 4 && this.status === 200) {
                     // alert(this.responseText);
                     let movementCost = parseInt(this.responseText);
-                    if (movementCost > 0) {
+                    if (movementCost >= 0) {
                         if ((new_placementContainerId !== "999999" && containerHasSpotOpen(new_placementContainerId, unitName) === "true") || new_placementContainerId === "999999") {
                             //MANY OTHER CHECKS FOR MOVEMENT CAN HAPPEN HERE, JUST NEST MORE FUNCTIONS (see above)
                             let new_placementCurrentMoves = old_placementCurrentMoves - movementCost;

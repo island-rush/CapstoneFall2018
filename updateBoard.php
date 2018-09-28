@@ -6,6 +6,7 @@ include("db.php");
 //variables from the request
 $gameId = $_REQUEST['gameId'];
 $myTeam = $_REQUEST['myTeam'];
+$allTeam = "All";
 
 $updateId = 0;
 
