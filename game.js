@@ -5,7 +5,18 @@
 function bodyLoader() {
     // alert(myTeam);
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
-    document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+    // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+    if (gameCurrentTeam === "Red") {
+        //red highlight
+        document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+        //blue unhighlight
+        document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+    } else {
+        //blue highlight
+        document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+        //red unhighlight
+        document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+    }
 
     document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
     document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
@@ -788,7 +799,18 @@ function changePhase() {
                     document.getElementById("popup").style.display = "none";
                 }
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
-                document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+                // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+                if (gameCurrentTeam === "Red") {
+                    //red highlight
+                    document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+                    //blue unhighlight
+                    document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+                } else {
+                    //blue highlight
+                    document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+                    //red unhighlight
+                    document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+                }
 
                 if (gamePhase === "6") { // HYBRID WAR
                     //convert the battle button to be a hybrid warfare shop button
@@ -1471,7 +1493,18 @@ function updateNextPhase() {
                 document.getElementById("popup").style.display = "none";
             }
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
-            document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+            // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+            if (gameCurrentTeam === "Red") {
+                //red highlight
+                document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+                //blue unhighlight
+                document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+            } else {
+                //blue highlight
+                document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+                //red unhighlight
+                document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+            }
         }
     };
     phpPhaseChange.open("GET", "updateGetPhase.php", true);  // removes the element from the database

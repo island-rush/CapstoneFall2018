@@ -25,7 +25,7 @@
                         document.getElementById('instructorFeedback').innerHTML = "\tERROR: Instructor must be specified";
                         valid = false;
                     }
-                    if(team !== 'Red' && team !== 'Blue'){
+                    if(team !== 'Red' && team !== 'Blue' && team != 'Spectator'){
                         document.getElementById('formFeedback').innerHTML = "ERROR: Team not set correctly," +
                             " how'd you even do this?";
                         valid = false;
@@ -90,6 +90,7 @@
                                         <td>
                                             <input type="radio" name="team" value="Red"> Red<br>
                                             <input type="radio" name="team" value="Blue" checked> Blue<br>
+                                            <input type="radio" name="team" value="Spectator"> Spectator<br>
                                         </td>
                                     </tr>
                                     <tr>

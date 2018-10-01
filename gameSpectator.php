@@ -153,7 +153,7 @@ $u = $results->fetch_assoc();
 
         var hoverTimer;
     </script>
-    <script src="game.js"></script>
+    <script src="gameSpectator.js"></script>
     <script src="d6.js"></script>
 </head>
 
@@ -162,8 +162,8 @@ $u = $results->fetch_assoc();
     <div id="side_panel">
         <div id="titlebar">Reinforcements</div>
         <div id="purchase_buttons_container">
-<!--            name, cost, maxmoves-->
-<!--            TODO: populate these values from database, not hardcoding-->
+            <!--            name, cost, maxmoves-->
+            <!--            TODO: populate these values from database, not hardcoding-->
             <div class="purchase_square transport" title="Transport&#013;Cost: 8&#013;Moves: 2" id="transport" data-unitCost="8" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square destroyer" title="Destroyer&#013;Cost: 10&#013;Moves: 2" id="destroyer" data-unitCost="10" data-unitId="2" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
@@ -205,21 +205,21 @@ $u = $results->fetch_assoc();
             <div id="misc_info_undo">
                 <div id="game_version">V 0.22Alpha</div>
                 <div id="undo_button_div">
-                    <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
+<!--                    <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>-->
                 </div>
             </div>
         </div>
-        <div id="bottom_panel">
-            <div id="battle_button_container">
-                <button id="battle_button" disabled>Loading...</button>
-            </div>
-            <div id="user_feedback_container">
-                <div id="user_feedback">User Feedback...</div>
-            </div>
-            <div id="phase_button_container">
-                <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
-            </div>
-        </div>
+<!--        <div id="bottom_panel">-->
+<!--            <div id="battle_button_container">-->
+<!--                <button id="battle_button" disabled>Loading...</button>-->
+<!--            </div>-->
+<!--            <div id="user_feedback_container">-->
+<!--                <div id="user_feedback">User Feedback...</div>-->
+<!--            </div>-->
+<!--            <div id="phase_button_container">-->
+<!--<!--                <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>-->-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
 
@@ -418,16 +418,9 @@ $u = $results->fetch_assoc();
                 <div></div>
             </div>
         </div>
-        <div id="popup">
-            <div id="popupTitle">Loading Title...</div>
-            <div id="popupBodyNews">
-                <div id="newsBodyText">loading text...</div>
-                <div id="newsBodySubText">loading subtext...</div>
-            </div>
-            <div id="popupBodyHybrid">
-                <button>Button</button>
-                <div>This is text</div>
-            </div>
+        <div id="newsPopup">
+            <div id="newsTitle">Loading Title...</div>
+            <div id="newsText">Loading Text...</div>
         </div>
     </div>
 </div>

@@ -119,6 +119,9 @@ html, body {
     width: 50%;
     float: left;
 }
+.highlightedTeam{
+    background-color: green;
+}
 #rPoints_indicators{
     width: 100%;
     height: 20%;
