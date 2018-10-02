@@ -341,10 +341,12 @@ function waitForUpdate() {
                 updateIslandChange(decoded.updateIsland, decoded.updateIslandTeam);
             }
 
+            alert("gotback");
+
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
         }
     };
-    phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
+    phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);
     phpUpdateBoard.send();
 }
 
