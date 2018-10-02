@@ -1,6 +1,6 @@
 <?php
 set_time_limit(0);  //to wait forever (default timeout is 30 seconds)
-session_start();
+//session_start();
 include("db.php");
 
 //variables from the request
