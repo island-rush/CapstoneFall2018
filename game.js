@@ -176,7 +176,9 @@ function bodyLoader() {
 
     }
 
-
+    if (document.getElementById("battleActionPopup").style.display == "block") {
+        showDice(gameBattleLastRoll);
+    }
     //access the battle popup
     //change the dice image to the last roll
 
@@ -1301,14 +1303,12 @@ function battleAttackCenter(type) {
             pieceAttacked.setAttribute("data-wasHit", decoded.wasHit);
 
             gameBattleLastRoll = decoded.lastRoll;
+            alert(gameBattleLastRoll);
             let wasHitVariable = decoded.wasHit;
-            //number of the last roll
-            //if it was hit, hit animation or thingy
             gameBattleSubSection = decoded.new_gameBattleSubSection;
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
             document.getElementById("battleActionPopup").style.display = "block";
             rollDice();
-
         }
     };
     phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
@@ -1711,15 +1711,20 @@ function userFeedback(text){
 }
 
 function rollDice(){
-    let randomRoll = Math.floor(Math.random() * 6) + 1 ;
-    let numRolls = Math.floor(Math.random() * 11) + 10  ;
-    for (let i = 1; i < numRolls; i++) {
+    let numRolls = Math.floor(Math.random() * 15) + 10;
+    for (let i = 1; i <= numRolls; i++) {
         (function (i) {
-            setTimeout(function () {showDice(randomRoll)}, 100 * i);
+            let randomRoll = Math.floor(Math.random() * 6) + 1 ;
+            if (i < numRolls) {
+                setTimeout(function () {showDice(randomRoll)}, i*150);
+            }
+            if (i == numRolls) {
+                setTimeout(function () {showDice(gameBattleLastRoll)}, i*150);
+            }
         })(i);
     }
-    showDice(gameBattleLastRoll);
 }
+
 
 function showDice(diceNum){
 
