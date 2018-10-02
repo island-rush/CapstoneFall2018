@@ -4,7 +4,7 @@
 //First function called to load the game...
 function bodyLoader() {
     // alert(myTeam);
-    // document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
+    document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
     // if (gameCurrentTeam === "Red") {
     //     //red highlight
@@ -18,11 +18,11 @@ function bodyLoader() {
     //     document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
     // }
 
-    // document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
-    // document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+    document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+    document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
 
-    // document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
-    // document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
+    document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
+    document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
 
     //TODO: this isn't always defaulted to news, the popup may be other titles onload
