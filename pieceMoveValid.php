@@ -16,14 +16,43 @@ $new_positionId = (int)$_REQUEST['new_positionId'];
 $old_positionId = (int)$_REQUEST['old_positionId'];
 $placementCurrentMoves = (int)$_REQUEST['placementCurrentMoves'];
 $thingToEcho = 0;
-if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
-    $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
-    //if moving into a container, 1 extra move
-    if ($new_placementContainerId != 999999) {
-        $thingToEcho++;
+
+$redPlaceValid = array(55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 0, 13, 21, 20, 19);
+$bluePlaceValid = array(65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 8, 7, 6, 12, 18, 25, 31, 38, 45, 54);
+
+//purchase container
+if ($islandFrom == -4) {
+    if ($myTeam == "Red") {
+        //must have new postition id valid in list
+        if (in_array($new_positionId, $redPlaceValid)) {
+            $thingToEcho = 0;
+            if ($new_placementContainerId != 999999) {
+                $thingToEcho++;
+            }
+        } else {
+            $thingToEcho = -1;
+        }
+    } else {
+        //same as red
+        if (in_array($new_positionId, $bluePlaceValid)) {
+            $thingToEcho = 0;
+            if ($new_placementContainerId != 999999) {
+                $thingToEcho++;
+            }
+        } else {
+            $thingToEcho = -1;
+        }
     }
 } else {
-    $thingToEcho = -1;
+    if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
+        $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
+        //if moving into a container, 1 extra move
+        if ($new_placementContainerId != 999999) {
+            $thingToEcho++;
+        }
+    } else {
+        $thingToEcho = -1;
+    }
 }
 
 //get any + all active news alerts for both teams

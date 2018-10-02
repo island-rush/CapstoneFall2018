@@ -245,7 +245,7 @@ function pieceClick(event, callingElement) {
 function pieceDragstart(event, callingElement) {
     userFeedback("drag the piece around and hover over an island to place onto it.");
     //canMove is dictated by phase and current Team
-    if ((canMove === "true" || canPurchase === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
+    if ((canMove === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
         //From the container (parent of the piece)
         event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
         //From the Piece

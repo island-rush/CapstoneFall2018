@@ -48,8 +48,6 @@ $u = $results->fetch_assoc();
             myPoints = <?php echo $u['gameBlueRpoints']; ?>;
         }
 
-        //things
-
         var lastUpdateId = <?php
             $query8 = "SELECT * FROM updates WHERE updateGameId = ? ORDER BY updateId DESC";
             $preparedQuery8 = $db->prepare($query8);

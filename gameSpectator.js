@@ -313,7 +313,6 @@ function waitForUpdate() {
             // alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
-            //useful
             lastUpdateId = decoded.lastUpdateId;
 
             if (decoded.updateType === "pieceMove") {
@@ -344,12 +343,12 @@ function waitForUpdate() {
                 updateIslandChange(decoded.updateIsland, decoded.updateIslandTeam);
             }
 
-            alert("gotback");
+            // alert("gotback");
 
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
         }
     };
-    phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);
+    phpUpdateBoard.open("GET", "updateBoardSpectator.php?gameId=" + gameId + "&myTeam=" + myTeam + "&lastUpdateId=" + lastUpdateId, true);
     phpUpdateBoard.send();
 }
 

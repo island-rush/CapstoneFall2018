@@ -19,31 +19,10 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $_SESSION['myTeam'] = $team;
     $_SESSION['gameId'] = $r['gameId'];
     $_SESSION['gameBattleAdjacentArray'] = json_encode([]);
-    
-    
+
+
     if ($team == "Spectator") {
         //unlimited spectators, just go there and get updates?
-
-        //get the latest updateID, and set session variable for this spectator
-        $query8 = "SELECT * FROM updates WHERE updateGameId = ? ORDER BY updateId DESC";
-        $preparedQuery8 = $db->prepare($query8);
-        $preparedQuery8->bind_param("i", $r['gameId']);
-        $preparedQuery8->execute();
-        $results8 = $preparedQuery8->get_result();
-
-        $num_results8 = $results8->num_rows;
-
-        if ($num_results8 == 0) {
-            $_SESSION['lastUpdateId'] = 0;
-        } else {
-            $r8= $results8->fetch_assoc();
-            //this should be the last number
-            $_SESSION['lastUpdateId'] = $r8['updateId'];
-        }
-
-
-
-
         header("location:gameSpectator.php");
         exit;
     } else {
