@@ -226,7 +226,8 @@ $u = $results->fetch_assoc();
 
 
     <div id="game_board" onclick="gameboardClick(event, this);">
-        <div id="grid_marker"></div>
+        <div id="grid_marker_top"></div>
+        <div id="grid_marker_right"></div>
         <div class="gridblockLeftBig <?php echo $u['gameIsland13']; ?>" id="special_island13" data-islandNum="13">
             <div class="gridblockTiny" data-positionType="land" id="pos13a" data-positionId="55" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 55; include("pieceDisplay.php"); ?></div>
             <div class="gridblockTiny" data-positionType="land" id="pos13b" data-positionId="56" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 56; include("pieceDisplay.php"); ?></div>
