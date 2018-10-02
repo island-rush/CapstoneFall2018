@@ -48,6 +48,26 @@ $u = $results->fetch_assoc();
             myPoints = <?php echo $u['gameBlueRpoints']; ?>;
         }
 
+        //things
+
+        var lastUpdateId = <?php
+            $query8 = "SELECT * FROM updates WHERE updateGameId = ? ORDER BY updateId DESC";
+            $preparedQuery8 = $db->prepare($query8);
+            $preparedQuery8->bind_param("i", $r['gameId']);
+            $preparedQuery8->execute();
+            $results8 = $preparedQuery8->get_result();
+
+            $num_results8 = $results8->num_rows;
+
+            if ($num_results8 == 0) {
+                echo 0;
+            } else {
+                $r8= $results8->fetch_assoc();
+                //this should be the last number
+                echo $r8['updateId'];
+            }
+            ?>;
+
         var gameBattlePosSelected = "<?php echo $u['gameBattlePosSelected']; ?>";
         var gameBattleSection = "<?php echo $u['gameBattleSection']; ?>";
         var gameBattleSubSection = "<?php echo $u['gameBattleSubSection']; ?>";

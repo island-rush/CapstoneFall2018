@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("db.php");
-
+//things
 $gameId = $_SESSION['gameId'];
 $myTeam = $_SESSION['myTeam'];
 

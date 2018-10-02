@@ -539,7 +539,8 @@ function positionDrop(event, newContainerElement) {
     }
 
 
-    if (old_positionId !== "118" || (old_positionId == "118" && gamePhase == 5)) {
+    //another check
+    if ((old_positionId != "118" && gamePhase != 5) || (old_positionId == "118" && gamePhase == 5)) {
         if (movementCheck(unitName, unitTerrain, new_placementContainerId, positionType) === true) {
 
             let phpMoveCheck = new XMLHttpRequest();

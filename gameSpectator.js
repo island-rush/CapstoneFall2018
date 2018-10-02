@@ -313,6 +313,9 @@ function waitForUpdate() {
             // alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
+            //useful
+            lastUpdateId = decoded.lastUpdateId;
+
             if (decoded.updateType === "pieceMove") {
                 updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
             } else if (decoded.updateType === "pieceDelete") {
