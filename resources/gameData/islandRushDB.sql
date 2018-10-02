@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `updates`(
 	`updateGameId` int(5) NOT NULL,
 	`updateValue` int(5) NOT NULL,  -- has the update been processed / changed / null? (0 = not been processed) (1 = processed)  
 	`updateTeam` varchar(10),
-	`updateType` varchar(30),
+	`updateType` varchar(30), -- phaseChange,
 	`updatePlacementId` int(4) DEFAULT 0,
 	`updateNewPositionId` int(4) DEFAULT 0,
 	`updateNewContainerId` int(4) DEFAULT 0,

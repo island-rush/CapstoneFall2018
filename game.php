@@ -222,9 +222,6 @@ $u = $results->fetch_assoc();
         </div>
     </div>
 
-
-
-
     <div id="game_board" onclick="gameboardClick(event, this);">
         <div id="grid_marker_top"></div>
         <div id="grid_marker_right"></div>
@@ -427,8 +424,25 @@ $u = $results->fetch_assoc();
                 <div id="newsBodySubText">loading subtext...</div>
             </div>
             <div id="popupBodyHybrid">
-                <button>Button</button>
-                <div>This is text</div>
+                <form id="setPoints">
+                    <label for="setRedRpoints">Red R Points</label>
+                    <input type="number" id="setRedRpoints">
+                    <br>
+                    <label for="setRedHpoints">Red HW Points</label>
+                    <input type="number" id="setRedHpoints">
+                    <br>
+                    <label for="setBlueRpoints">Blue R Points</label>
+                    <input type="number" id="setBlueRpoints">
+                    <br>
+                    <label for="setBlueHpoints">Blue HW Points</label>
+                    <input type="number" id="setBlueHpoints">
+
+                    <br>
+                    <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
+                    <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
+                </form>
+
+                <button id="popupHybridClose" onclick="function(){document.getElementById('popup').style.display = 'none'}">Close this popup</button>
             </div>
         </div>
     </div>
