@@ -160,11 +160,12 @@ SELECT * FROM newsAlerts;
 
 SELECT * FROM updates;
 
+SELECT * FROM updates WHERE updateGameId = 1 AND updateId > 7 ORDER BY updateId ASC;
+
 -- SELECT * FROM placements;
 
 -- SELECT * FROM movements;
 
--- SELECT * FROM games;
+SELECT * FROM games;
 
 -- SELECT * FROM battlePieces;
-

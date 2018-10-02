@@ -176,6 +176,10 @@ function bodyLoader() {
 
     }
 
+
+    //access the battle popup
+    //change the dice image to the last roll
+
 }
 
 //TODO: disable sidepanel buttons during a battle!
@@ -1718,8 +1722,15 @@ function rollDice(){
 }
 
 function showDice(diceNum){
+
+    let diceImageThing = document.getElementById("dice_image");
+    let currentCSS = diceImageThing.classList[0];
+    diceImageThing.classList.remove(currentCSS);
+    diceImageThing.classList.add("dice" + diceNum);
+
+
     // document.getElementById("dice_image").classList[1] = "dice" + diceNum;
-    document.getElementById("dice_image").classList[0].style.backgroundImage = "url(resources/diceImages/die-" + diceNum + ".gif)";
+    // document.getElementById("dice_image").classList[0].style.backgroundImage = "url(resources/diceImages/die-" + diceNum + ".gif)";
 }
 //
 waitForUpdate();
