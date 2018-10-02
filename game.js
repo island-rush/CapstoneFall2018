@@ -1303,7 +1303,6 @@ function battleAttackCenter(type) {
             pieceAttacked.setAttribute("data-wasHit", decoded.wasHit);
 
             gameBattleLastRoll = decoded.lastRoll;
-            alert(gameBattleLastRoll);
             let wasHitVariable = decoded.wasHit;
             gameBattleSubSection = decoded.new_gameBattleSubSection;
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
