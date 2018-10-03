@@ -160,12 +160,31 @@ SELECT * FROM newsAlerts;
 
 SELECT * FROM updates;
 
-SELECT * FROM updates WHERE updateGameId = 1 AND updateId > 7 ORDER BY updateId ASC;
+-- SELECT * FROM updates WHERE updateGameId = 1 AND updateId > 7 ORDER BY updateId ASC;
 
--- SELECT * FROM placements;
+-- SELECT * FROM placements NATUAL JOIN units WHERE (unitId = placementUnitId);
 
 -- SELECT * FROM movements;
 
 SELECT * FROM games;
 
+
+
+-- SELECT * FROM placements NATURAL JOIN units WHERE (unitName = 'tanker') AND (placementGameId = 1) AND (unitId = placementUnitId) AND (placementTeamId = 'Blue');
+
+-- SELECT * FROM placements NATURAL JOIN units WHERE (unitName = 'fighter') AND (placementGameId = 1) AND (unitId = placementUnitId) AND (placementTeamId = 'Blue');
+
+-- SELECT * FROM (SELECT * FROM placements NATURAL JOIN units WHERE (unitName = 'fighter') AND (placementGameId = 1) AND (unitId = placementUnitId) AND (placementTeamId = 'Blue')) JOIN ;
+
+
+
+-- SELECT b.placementId, b.unitName, b.placementCurrentMoves FROM (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) a Join (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) b USING(placementPositionId) WHERE (a.placementTeamId = 'Blue') AND (b.placementTeamId = 'Blue') AND (a.placementGameId = 1) AND (b.placementGameId = 1) AND (a.placementPositionId = b.placementPositionId) AND (a.unitName = 'tanker') AND (b.unitName = 'fighter' OR b.unitName = 'stealthBomber' OR b.unitName = 'bomber');
+
+
+
+
+
+
 -- SELECT * FROM battlePieces;
+
+-- INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (1, 0, 'Red', 'phaseChange');

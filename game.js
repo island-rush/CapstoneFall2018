@@ -4,15 +4,20 @@
 //First function called to load the game...
 function bodyLoader() {
 
-    let phpPositionGet = new XMLHttpRequest();
-    phpPositionGet.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let decoded = JSON.parse(this.responseText);
-            gameBattleAdjacentArray = decoded.adjacentArray;
-        }
-    };
-    phpPositionGet.open("POST", "battleGetAdjacentPos.php?positionSelected=" + gameBattlePosSelected, true);
-    phpPositionGet.send();
+    if (gameBattlePosSelected != "999999") {
+        let phpPositionGet = new XMLHttpRequest();
+        phpPositionGet.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(this.responseText);
+                let decoded = JSON.parse(this.responseText);
+                gameBattleAdjacentArray = decoded.adjacentArray;
+            }
+        };
+        phpPositionGet.open("POST", "battleGetAdjacentPos.php?positionSelected=" + gameBattlePosSelected, true);
+        phpPositionGet.send();
+    }
+
+
 
 
     // alert(myTeam);
@@ -663,7 +668,7 @@ function positionDrop(event, newContainerElement) {
                     }
                 }
             };
-            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName, true);
+            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId + "&old_positionId=" + old_positionId + "&placementId=" + placementId + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName, true);
             phpMoveCheck.send();
         } else {
             // alert("failed move check");
@@ -723,127 +728,129 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
 
 function changePhase() {
     if (canNextPhase === "true") {
-        let phpPhaseChange = new XMLHttpRequest();
-        phpPhaseChange.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                // TODO: COMMENT WHAT IS HAPPENING HERE
-                let decoded = JSON.parse(this.responseText);
-                gamePhase = decoded.gamePhase;
-                gameTurn = decoded.gameTurn;
-                gameCurrentTeam = decoded.gameCurrentTeam;
-                canMove = decoded.canMove;
-                canPurchase = decoded.canPurchase;
-                canUndo = decoded.canUndo;
-                canNextPhase = decoded.canNextPhase;
-                canTrash = decoded.canTrash;
-                canAttack = decoded.canAttack;
+        if ((gamePhase == 4 && confirm("Any aircraft not on carriers/airstrips or heli's not over land will get deleted.\nAre you sure you want to continue?")) || gamePhase != 4) {
+            let phpPhaseChange = new XMLHttpRequest();
+            phpPhaseChange.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    // TODO: COMMENT WHAT IS HAPPENING HERE
+                    let decoded = JSON.parse(this.responseText);
+                    gamePhase = decoded.gamePhase;
+                    gameTurn = decoded.gameTurn;
+                    gameCurrentTeam = decoded.gameCurrentTeam;
+                    canMove = decoded.canMove;
+                    canPurchase = decoded.canPurchase;
+                    canUndo = decoded.canUndo;
+                    canNextPhase = decoded.canNextPhase;
+                    canTrash = decoded.canTrash;
+                    canAttack = decoded.canAttack;
 
-                newsEffect = decoded.newsEffect;
-                newsText = decoded.newsText;
-                newsEffectText = decoded.newsEffectText;
-                //fix these for refactor
+                    newsEffect = decoded.newsEffect;
+                    newsText = decoded.newsText;
+                    newsEffectText = decoded.newsEffectText;
+                    //fix these for refactor
 
-                let phaseText = decoded.phaseText;
-                //change to another part of the popup
-                // document.getElementById("newsBodyText").innerHTML = newsText;
-                // document.getElementById("newsBodySubText").innerHTML = newsEffectText;
-                // document.getElementById("newsText").innerHTML = phaseText;
-                // userFeedback(phaseText);
+                    let phaseText = decoded.phaseText;
+                    //change to another part of the popup
+                    // document.getElementById("newsBodyText").innerHTML = newsText;
+                    // document.getElementById("newsBodySubText").innerHTML = newsEffectText;
+                    // document.getElementById("newsText").innerHTML = phaseText;
+                    // userFeedback(phaseText);
 
-                //Dont get these because these aren't update on phase (yet)
-                gameRedRpoints = decoded.gameRedRpoints;
-                gameBlueRpoints = decoded.gameBlueRpoints;
-                gameRedHpoints = decoded.gameRedHpoints;
-                gameBlueHpoints = decoded.gameBlueHpoints;
-                document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
-                document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
-                document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
-                document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
+                    //Dont get these because these aren't update on phase (yet)
+                    gameRedRpoints = decoded.gameRedRpoints;
+                    gameBlueRpoints = decoded.gameBlueRpoints;
+                    gameRedHpoints = decoded.gameRedHpoints;
+                    gameBlueHpoints = decoded.gameBlueHpoints;
+                    document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+                    document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+                    document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
+                    document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
 
-                if (canAttack === "true") {
-                    document.getElementById("battle_button").disabled = false;
-                } else {
-                    document.getElementById("battle_button").disabled = true;
-                }
-                if (canUndo === "true") {
-                    document.getElementById("undo_button").disabled = false;
-                } else {
-                    document.getElementById("undo_button").disabled = true;
-                }
-                if (canNextPhase === "true") {
-                    document.getElementById("phase_button").disabled = false;
-                } else {
-                    document.getElementById("phase_button").disabled = true;
-                }
-
-                //SETTING THE CURRENT PHASE AND CURRENT TEAM DISPLAY
-                document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
-                // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
-                if (gameCurrentTeam === "Red") {
-                    //red highlight
-                    document.getElementById("red_team_indicator").classList.add("highlightedTeam");
-                    //blue unhighlight
-                    document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
-                } else {
-                    //blue highlight
-                    document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
-                    //red unhighlight
-                    document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
-                }
-                // NEWS ALERT PHASE
-                if (gamePhase === "1") {
-                    document.getElementById("popupBodyHybrid").style.display = "none";
-                    document.getElementById("popupBodyNews").style.display = "block";
-                    document.getElementById("newsBodyText").innerHTML = newsText;
-                    document.getElementById("newsBodySubText").innerHTML = newsEffectText;
-                    document.getElementById("popup").style.display = "block";
-                    userFeedback(phaseText); //tell the user what happened int the news alert ( rollDie )
-                } else {
-                    document.getElementById("popup").style.display = "none";
-                }
-
-                // HYBRID WAR PHASE
-                if (gamePhase === "6") {
-                    //convert the battle button to be a hybrid warfare shop button
-                    document.getElementById("battle_button").innerHTML = "Hybrid Warfare Tool";
-                    document.getElementById("battle_button").disabled = false;
-                    document.getElementById("battle_button").onclick =function () {
-                        document.getElementById("popupBodyNews").style.display = "none";
-                        document.getElementById("popupBodyHybrid").style.display = "block";
-                        document.getElementById("setRedRpoints").value = gameRedRpoints;
-                        document.getElementById("setRedHpoints").value = gameRedHpoints;
-                        document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                        document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-                        document.getElementById("popup").style.display = "block";
-                    };
-                }else{
-                    // not hybrid, should be the battle button
-                    //Let the canAttack check above enable or disable battle button, but set the html stuff back
-                    document.getElementById("battle_button").innerHTML = "Select Battle";
-                    document.getElementById("battle_button").onclick = function() {
-                        if (confirm("Are you sure you want to battle?")) {
-                            battleChangeSection("selectPos");
-                        }
-                    };
-                }
-
-                if (gamePhase === "7") { // TALLY POINTS/ROUND RECAP
-                    userFeedback("Click next phase to advance to the other player's turn.");
-                    let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
-                    for (let x = 0; x < allPieces.length; x++) {
-                        let currentPiece = allPieces[x];
-                        let unitName = currentPiece.getAttribute("data-unitName");
-                        let newMoves = unitsMoves[unitName];
-                        currentPiece.setAttribute("data-placementCurrentMoves", newMoves);
-                        currentPiece.setAttribute("data-placementBattleUsed", "0")
+                    if (canAttack === "true") {
+                        document.getElementById("battle_button").disabled = false;
+                    } else {
+                        document.getElementById("battle_button").disabled = true;
                     }
-                }
+                    if (canUndo === "true") {
+                        document.getElementById("undo_button").disabled = false;
+                    } else {
+                        document.getElementById("undo_button").disabled = true;
+                    }
+                    if (canNextPhase === "true") {
+                        document.getElementById("phase_button").disabled = false;
+                    } else {
+                        document.getElementById("phase_button").disabled = true;
+                    }
 
-            }
-        };
-        phpPhaseChange.open("GET", "gamePhaseChange.php", true);  // removes the element from the database
-        phpPhaseChange.send();
+                    //SETTING THE CURRENT PHASE AND CURRENT TEAM DISPLAY
+                    document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
+                    // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
+                    if (gameCurrentTeam === "Red") {
+                        //red highlight
+                        document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+                        //blue unhighlight
+                        document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+                    } else {
+                        //blue highlight
+                        document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+                        //red unhighlight
+                        document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+                    }
+                    // NEWS ALERT PHASE
+                    if (gamePhase === "1") {
+                        document.getElementById("popupBodyHybrid").style.display = "none";
+                        document.getElementById("popupBodyNews").style.display = "block";
+                        document.getElementById("newsBodyText").innerHTML = newsText;
+                        document.getElementById("newsBodySubText").innerHTML = newsEffectText;
+                        document.getElementById("popup").style.display = "block";
+                        userFeedback(phaseText); //tell the user what happened int the news alert ( rollDie )
+                    } else {
+                        document.getElementById("popup").style.display = "none";
+                    }
+
+                    // HYBRID WAR PHASE
+                    if (gamePhase === "6") {
+                        //convert the battle button to be a hybrid warfare shop button
+                        document.getElementById("battle_button").innerHTML = "Hybrid Warfare Tool";
+                        document.getElementById("battle_button").disabled = false;
+                        document.getElementById("battle_button").onclick =function () {
+                            document.getElementById("popupBodyNews").style.display = "none";
+                            document.getElementById("popupBodyHybrid").style.display = "block";
+                            document.getElementById("setRedRpoints").value = gameRedRpoints;
+                            document.getElementById("setRedHpoints").value = gameRedHpoints;
+                            document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                            document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                            document.getElementById("popup").style.display = "block";
+                        };
+                    }else{
+                        // not hybrid, should be the battle button
+                        //Let the canAttack check above enable or disable battle button, but set the html stuff back
+                        document.getElementById("battle_button").innerHTML = "Select Battle";
+                        document.getElementById("battle_button").onclick = function() {
+                            if (confirm("Are you sure you want to battle?")) {
+                                battleChangeSection("selectPos");
+                            }
+                        };
+                    }
+
+                    if (gamePhase === "7") { // TALLY POINTS/ROUND RECAP
+                        userFeedback("Click next phase to advance to the other player's turn.");
+                        let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
+                        for (let x = 0; x < allPieces.length; x++) {
+                            let currentPiece = allPieces[x];
+                            let unitName = currentPiece.getAttribute("data-unitName");
+                            let newMoves = unitsMoves[unitName];
+                            currentPiece.setAttribute("data-placementCurrentMoves", newMoves);
+                            currentPiece.setAttribute("data-placementBattleUsed", "0")
+                        }
+                    }
+
+                }
+            };
+            phpPhaseChange.open("GET", "gamePhaseChange.php", true);  // removes the element from the database
+            phpPhaseChange.send();
+        }
     }
 }
 

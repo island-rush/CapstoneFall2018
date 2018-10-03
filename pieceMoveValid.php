@@ -14,11 +14,20 @@ $new_placementContainerId = (int) $_REQUEST['new_placementContainerId'];
 
 $new_positionId = (int)$_REQUEST['new_positionId'];
 $old_positionId = (int)$_REQUEST['old_positionId'];
-$placementCurrentMoves = (int)$_REQUEST['placementCurrentMoves'];
+$placementId = (int)$_REQUEST['placementId'];
 $thingToEcho = 0;
 
 $redPlaceValid = array(55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 0, 13, 21, 20, 19);
 $bluePlaceValid = array(65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 8, 7, 6, 12, 18, 25, 31, 38, 45, 54);
+
+$query = 'SELECT * FROM placements WHERE (placementId = ?)';
+$query = $db->prepare($query);
+$query->bind_param("i", $placementId);
+$query->execute();
+$results = $query->get_result();
+$r = $results->fetch_assoc();
+$placementCurrentMoves = $r['placementCurrentMoves'];
+
 
 //purchase container
 if ($islandFrom == -4) {

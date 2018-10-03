@@ -290,7 +290,40 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canTrash = "false";
         $canAttack = "true";
     } elseif ($new_gamePhase == 4) {
-        //fortification movement
+        //fortification movement (+1 moves for aircraft in same position as tanker)
+
+        //loop through all tankers for this team
+        //at each of their positions, look for aircraft
+        //for each aircraft + moves
+
+        $tanker = "tanker";
+        $bomber = "bomber";
+        $fighter = "fighter";
+        $stealthBomber = "stealthBomber";
+        $query = 'SELECT b.placementId, b.unitName, b.placementCurrentMoves FROM (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) a Join (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) b USING(placementPositionId) WHERE (a.placementTeamId = ?) AND (b.placementTeamId = ?) AND (a.placementGameId = ?) AND (b.placementGameId = ?) AND (a.placementPositionId = b.placementPositionId) AND (a.unitName = ?) AND (b.unitName = ? OR b.unitName = ? OR b.unitName = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ssiissss", $myTeam,$myTeam, $gameId, $gameId, $tanker, $bomber, $fighter, $stealthBomber);
+        $query->execute();
+        $results = $query->get_result();
+        $num_results = $results->num_rows;
+        if ($num_results > 0) {
+            for ($i = 0; $i < $num_results; $i++) {
+                $r6 = $results->fetch_assoc();
+                $placementId = $r6['placementId'];
+                $unitName = $r6['unitName'];
+
+                $updateValue = 2;
+                if ($unitName == "bomber" || $unitName == "stealthBomber") {
+                    $updateValue = 3;
+                }
+
+                $query = 'UPDATE placements SET placementCurrentMoves = placementCurrentMoves + ? WHERE (placementId = ?)';
+                $query = $db->prepare($query);
+                $query->bind_param("ii", $updateValue, $placementId);
+                $query->execute();
+            }
+        }
+
         $canMove = "true";
         $canPurchase = "false";
         $canUndo = "true";
@@ -299,6 +332,95 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canAttack = "false";
     } elseif ($new_gamePhase == 5) {
         //reinforcement place
+
+        //delete any aircraft that aren't where they need to be
+        //fighters in carriers or on airstrips
+        //bombers or stealthbombers or tankers on airstrips
+        //heli over land
+
+        $airFieldSpots = [56, 57, 78, 83, 89, 113, 66, 68];
+        $carrierSpots = [];
+        //get carrier positions
+        $carrier = "aircraftCarrier";
+        $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("is", $gameId, $carrier);
+        $query->execute();
+        $results = $query->get_result();
+        $num_results = $results->num_rows;
+        if ($num_results > 0) {
+            for ($i = 0; $i < $num_results; $i++) {
+                $r0 = $results->fetch_assoc();
+                $thisPosition = $r0['placementId'];
+                array_push($carrierSpots, $thisPosition);
+            }
+        }
+
+        $heli = "attackHeli";
+        $tanker = "tanker";
+        $bomber = "bomber";
+        $fighter = "fighter";
+        $stealthBomber = "stealthBomber";
+        $purchaseSpot = 118;
+        $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (placementPositionId != ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("isssssi", $gameId, $heli, $tanker, $bomber, $fighter, $stealthBomber, $purchaseSpot);
+        $query->execute();
+        $results = $query->get_result();
+        $num_results = $results->num_rows;
+        if ($num_results > 0) {
+            for ($i = 0; $i < $num_results; $i++) {
+                $r0 = $results->fetch_assoc();
+                $placementId = $r0['placementId'];
+                $unitName = $r0['unitName'];
+                $containerId = $r0['placementContainerId'];
+                $positionId = $r0['placementPositionId'];
+                $deletePiece = false;
+                if ($unitName == "attackHeli") {
+                    if ($positionId < 55) {
+                        $deletePiece = true;
+                    }
+                } elseif ($unitName == "fighter") {
+                    if (!in_array($containerId, $carrierSpots) && !in_array($positionId, $airFieldSpots)) {
+                        $deletePiece = true;
+                    }
+                } else {
+                    //must be tanker, bomber, stealthbomber
+                    if (!in_array($positionId, $airFieldSpots)) {
+                        $deletePiece = true;
+                    }
+                }
+
+                if ($deletePiece) {
+                    //TODO: other things for losing a piece (subtract points that its worth?)
+
+                    //delete the real piece from database
+                    $query = 'DELETE FROM placements WHERE placementId = ?';
+                    $query = $db->prepare($query);
+                    $query->bind_param("i", $placementId);
+                    $query->execute();
+
+                    //Tell other client(s) about deletion
+                    $newValue = 0;
+                    $Red = "Red";
+                    $Blue = "Blue";
+                    $updateType = "rollDie";
+
+                    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
+                    $query->execute();
+
+                    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
+                    $query->execute();
+                }
+
+            }
+        }
+
+
         $canMove = "true";
         $canPurchase = "false";
         $canUndo = "true";
