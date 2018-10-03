@@ -560,7 +560,7 @@ html, body {
     margin: 0;
     position: absolute;
     display: none;
-    /*z-index: 15;*/
+    z-index: 15;
 }
 .aircraftCarrierContainer{
     height: 100%;
@@ -569,24 +569,10 @@ html, body {
     margin: 0;
     position: absolute;
     display: none;
-    /*z-index: 15;*/
-}
-.lavContainer{
-    height: 100%;
-    width: 200%;
-    background-color: rosybrown;
-    margin: 0;
-    position: absolute;
-    display: none;
-    /*z-index: 15;*/
+    z-index: 15;
 }
 
 .aircraftCarrierContainer > .gamePiece{
-    height: 100%;
-    width: 50%;
-}
-
-.lavContainer > .gamePiece{
     height: 100%;
     width: 50%;
 }
@@ -626,11 +612,14 @@ html, body {
     background-color: white;
 }
 .selectedPos{
-    background-color: #fffb00;
+    box-shadow: 0px 0px 0px 1px #ffef0c inset;
+    /*background-color: #fffb00;*/
 }
-.selectedPos:hover{
-    background-color: #fff400;
-}
+/*this hover not needed?*/
+/*.selectedPos:hover{*/
+    /*box-shadow: 0px 0px 0px 1px #ffef0c inset;*/
+    /*!*background-color: #fff400;*!*/
+/*}*/
 
 /*----------------------------------------------------------------------------------------------*/
 /*ISLAND POSITIONS CSS*/

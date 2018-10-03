@@ -54,7 +54,7 @@ $u = $results->fetch_assoc();
         var gameBattleLastRoll = "<?php echo $u['gameBattleLastRoll']; ?>";
         var gameBattleLastMessage = "<?php echo $u['gameBattleLastMessage']; ?>";
 
-        var gameBattleAdjacentArray = <?php echo $_SESSION['gameBattleAdjacentArray'] ?>;
+        var gameBattleAdjacentArray;
 
         <?php
         //TODO: could replace this with a get phase update ajax function

@@ -3,6 +3,18 @@
 
 //First function called to load the game...
 function bodyLoader() {
+
+    let phpPositionGet = new XMLHttpRequest();
+    phpPositionGet.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let decoded = JSON.parse(this.responseText);
+            gameBattleAdjacentArray = decoded.adjacentArray;
+        }
+    };
+    phpPositionGet.open("POST", "battleGetAdjacentPos.php?positionSelected=" + gameBattlePosSelected, true);
+    phpPositionGet.send();
+
+
     // alert(myTeam);
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
@@ -49,13 +61,20 @@ function bodyLoader() {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Pieces";
         document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        userFeedback("Now click on the zone that you want to attack. Then click the Select Pieces button, where the Battle button used to be.");
+        //more visual indication of selecting position
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
     } else if (gameBattleSection === "selectPieces") {
         document.getElementById("phase_button").disabled = true;
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Start Battle";
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
+        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+
+        userFeedback("Select the pieces you want to attack with. They must be adjacent to the zone being attacked. Then Start the Battle!");
     } else {
-        userFeedback("Disable phase button?")
+        userFeedback("Disable phase button?");
         document.getElementById("battle_button").disabled = true;
         document.getElementById("battle_button").innerHTML = "Select Battle";
     }
@@ -138,17 +157,27 @@ function bodyLoader() {
     }
 
     if (canAttack === "true") {
-        document.getElementById("battle_button").disabled = false;
+        if (gameBattleSection !== "attack" && gameBattleSection !== "counter" && gameBattleSection !== "askRepeat") {
+            document.getElementById("battle_button").disabled = false;
+        } else {
+            document.getElementById("battle_button").disabled = true;
+        }
     } else {
         document.getElementById("battle_button").disabled = true;
     }
     if (canUndo === "true") {
-        document.getElementById("undo_button").disabled = false;
+        if (gameBattleSection === "none") {
+            document.getElementById("undo_button").disabled = false;
+        }
     } else {
         document.getElementById("undo_button").disabled = true;
     }
     if (canNextPhase === "true") {
-        document.getElementById("phase_button").disabled = false;
+        if (gameBattleSection === "none") {
+            document.getElementById("phase_button").disabled = false;
+        } else {
+            document.getElementById("phase_button").disabled = true;
+        }
     } else {
         document.getElementById("phase_button").disabled = true;
     }
@@ -211,6 +240,7 @@ function pieceClick(event, callingElement) {
                 if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
                     callingElement.childNodes[0].style.display = "block";
                     callingElement.style.zIndex = 30;
+                    callingElement.parentNode.style.zIndex = 70;
                     callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
                 }
             }
@@ -402,6 +432,7 @@ function hideContainers(containerType) {
     for (r = 0; r < s.length; r++) {
         s[r].style.display = "none";
         s[r].parentNode.style.zIndex = 15;
+        s[r].parentNode.parentNode.style.zIndex = 10;
         s[r].setAttribute("data-containerPopped", "false");
     }
 }
@@ -543,12 +574,9 @@ function positionDrop(event, newContainerElement) {
     } else {
         islandTo = document.querySelector("[data-positionId='" + new_positionId + "']").parentNode.getAttribute("data-islandNum");
     }
-
-
     //another check
     if ((old_positionId != "118" && gamePhase != 5) || (old_positionId == "118" && gamePhase == 5)) {
         if (movementCheck(unitName, unitTerrain, new_placementContainerId, positionType) === true) {
-
             let phpMoveCheck = new XMLHttpRequest();
             phpMoveCheck.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -630,13 +658,11 @@ function positionDrop(event, newContainerElement) {
             };
             phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId + "&old_positionId=" + old_positionId + "&placementCurrentMoves=" + old_placementCurrentMoves + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName, true);
             phpMoveCheck.send();
-
         } else {
             // alert("failed move check");
             //TODO: user feedback here?
         }
-    }
-    else{
+    } else{
         // Cannot move this piece? (not sure if this is necessary since we disable pieces that shouldn't move..)
         userFeedback("Cannot move this piece.");
     }
@@ -654,58 +680,7 @@ function positionDragover(event, callingElement) {
     hoverTimer = setTimeout(function() { hideIslands();}, 1000)
 }
 
-//pass in the position now, not the type
 function movementCheck(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
-    let vehicles = ["tank", "lav", "sam", "attackHeli", "artillery"];
-    let container;
-    let containerType;
-    if (new_placementContainerId !== "999999"){
-        container = document.querySelector("[data-placementId='" + new_placementContainerId + "']").childNodes[0];
-        containerType = container.parentNode.getAttribute("data-unitName");
-    }
-    //=========================================================No Container=========================================
-    //if there is no container, check if the piece can move there based on the terrain
-    if (new_placementContainerId === "999999" && (unitTerrain !== positionTerrain && unitTerrain !== "air")){
-        return false;
-        // ====================================================Transport============================================
-        //check if the piece can go into the container
-    } else if (new_placementContainerId === "999999" && (unitTerrain === positionTerrain || unitTerrain === "air")) {
-        return true;
-    } else if(containerType === "transport" && unitTerrain === "land"){
-        if (container.childElementCount === 3){
-            return false;
-            //if there are 2 pieces in a transport make sure that i
-        } else if (container.childElementCount === 2){
-            //if the first child is in the vehicles list
-            if( vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 ||
-                //or id the second child is in the vehicles list
-                vehicles.indexOf(container.childNodes[1].getAttribute("data-unitName")) >= 0 ||
-                //or if the unit is in the vehicles list while therer are already 2, return false.
-                vehicles.indexOf(unitName) >= 0){
-                return false;
-            }
-        } else if (container.childElementCount === 1 &&
-            vehicles.indexOf(container.childNodes[0].getAttribute("data-unitName")) >= 0 &&
-            vehicles.indexOf(unitName) >= 0) {
-            return false;
-        } else {
-            return true;
-        }   // =================================================AIRCRAFT CARRIER============================================
-    } else if (containerType === "aircraftCarrier" && unitTerrain === "air") {
-        if(unitName === "fighter") {
-            let numFighters = container.childElementCount;
-            return (numFighters < 2);
-        } else {
-            return false;
-        }
-    } else if ( unitTerrain === "air" &&  containerType !== "aircraftCarrier") {
-        return false; }
-    else if ( unitTerrain === "land" && containerType === "aircraftCarrier") {
-        return false; }
-    return false;
-}
-
-function movementCheck2(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
     if (new_placementContainerId != "999999") {
         let containerParent = document.querySelector("[data-placementId='" + new_placementContainerId + "']");
         if (containerParent.getAttribute("data-unitName") === "transport") {
@@ -1710,18 +1685,15 @@ function userFeedback(text){
 }
 
 function rollDice(){
-    let numRolls = Math.floor(Math.random() * 15) + 10;
-    for (let i = 1; i <= numRolls; i++) {
-        (function (i) {
-            let randomRoll = Math.floor(Math.random() * 6) + 1 ;
-            if (i < numRolls) {
-                setTimeout(function () {showDice(randomRoll)}, i*150);
-            }
-            if (i == numRolls) {
-                setTimeout(function () {showDice(gameBattleLastRoll)}, i*150);
-            }
-        })(i);
+    let numRolls = Math.floor(Math.random() * 40) + 20;
+    let thingy;
+    let i;
+    for (i = 1; i < numRolls; i++) {
+        let randomRoll = Math.floor(Math.random() * 6) + 1;
+        thingy = setTimeout(function () {showDice(randomRoll)}, (i+1)*100);
     }
+    thingy = setTimeout(function () {showDice(gameBattleLastRoll)}, (i+1)*100);
+
 }
 
 

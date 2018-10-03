@@ -18,7 +18,6 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
 
     $_SESSION['myTeam'] = $team;
     $_SESSION['gameId'] = $r['gameId'];
-    $_SESSION['gameBattleAdjacentArray'] = json_encode([]);
 
 
     if ($team == "Spectator") {
