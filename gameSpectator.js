@@ -3,20 +3,31 @@
 
 //First function called to load the game...
 function bodyLoader() {
+    // let phpPositionGet = new XMLHttpRequest();
+    // phpPositionGet.onreadystatechange = function () {
+    //     if (this.readyState === 4 && this.status === 200) {
+    //         let decoded = JSON.parse(this.responseText);
+    //         gameBattleAdjacentArray = decoded.adjacentArray;
+    //     }
+    // };
+    // phpPositionGet.open("POST", "battleGetAdjacentPos.php?positionSelected=" + gameBattlePosSelected, true);
+    // phpPositionGet.send();
+
+
     // alert(myTeam);
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
-    // if (gameCurrentTeam === "Red") {
-    //     //red highlight
-    //     document.getElementById("red_team_indicator").classList.add("highlightedTeam");
-    //     //blue unhighlight
-    //     document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
-    // } else {
-    //     //blue highlight
-    //     document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
-    //     //red unhighlight
-    //     document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
-    // }
+    if (gameCurrentTeam === "Red") {
+        //red highlight
+        document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+        //blue unhighlight
+        document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+    } else {
+        //blue highlight
+        document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+        //red unhighlight
+        document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+    }
 
     document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
     document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
@@ -25,10 +36,6 @@ function bodyLoader() {
     document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
 
-    //TODO: this isn't always defaulted to news, the popup may be other titles onload
-    document.getElementById("newsTitle").innerHTML = "News Alert";
-
-    document.getElementById("newsText").innerHTML = newsText;
 
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
@@ -49,13 +56,20 @@ function bodyLoader() {
         // document.getElementById("battle_button").disabled = false;
         // document.getElementById("battle_button").innerHTML = "Select Pieces";
         // document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        // userFeedback("Now click on the zone that you want to attack. Then click the Select Pieces button, where the Battle button used to be.");
+        //more visual indication of selecting position
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
     } else if (gameBattleSection === "selectPieces") {
         // document.getElementById("phase_button").disabled = true;
         // document.getElementById("battle_button").disabled = false;
         // document.getElementById("battle_button").innerHTML = "Start Battle";
         // document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
+        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+
+        // userFeedback("Select the pieces you want to attack with. They must be adjacent to the zone being attacked. Then Start the Battle!");
     } else {
-        // userFeedback("Disable phase button?")
+        // userFeedback("Disable phase button?");
         // document.getElementById("battle_button").disabled = true;
         // document.getElementById("battle_button").innerHTML = "Select Battle";
     }
@@ -138,29 +152,71 @@ function bodyLoader() {
     }
 
     if (canAttack === "true") {
-        // document.getElementById("battle_button").disabled = false;
+        if (gameBattleSection !== "attack" && gameBattleSection !== "counter" && gameBattleSection !== "askRepeat") {
+            // document.getElementById("/button").disabled = false;
+        } else {
+            // document.getElementById("battle_button").disabled = true;
+        }
     } else {
         // document.getElementById("battle_button").disabled = true;
     }
     if (canUndo === "true") {
-        // document.getElementById("undo_button").disabled = false;
+        if (gameBattleSection === "none") {
+            // document.getElementById("undo_button").disabled = false;
+        }
     } else {
         // document.getElementById("undo_button").disabled = true;
     }
     if (canNextPhase === "true") {
-        // document.getElementById("phase_button").disabled = false;
+        if (gameBattleSection === "none") {
+            // document.getElementById("phase_button").disabled = false;
+        } else {
+            // document.getElementById("phase_button").disabled = true;
+        }
     } else {
         // document.getElementById("phase_button").disabled = true;
     }
+    // NEWS ALERT PHASE
     if (gamePhase === "1") {
-        // alert("phase1");
-        //TODO: phase effects here and grab phase stuff???
-        document.getElementById("newsPopup").style.display = "block";
+        // Show popup with News Alert body, hide Hybrid body
+        // TODO: this isn't always defaulted to news, the popup may be other titles onload -set by phase tho so this is fine for now
+        document.getElementById("popupTitle").innerHTML = "News Alert";
+        document.getElementById("newsBodyText").innerHTML = newsText;
+        document.getElementById("newsBodySubText").innerHTML = newsEffectText;
+        document.getElementById("popupBodyNews").style.display = "block";
+        document.getElementById("popupBodyHybrid").style.display = "none";
+        document.getElementById("popup").style.display = "block";
         // userFeedback("Click Next Phase to advance to next phase.");
     } else {
-        // alert("not phase 1");
-        document.getElementById("newsPopup").style.display = "none";
+        // Hide the popup because it shouldnt be showing.
+        document.getElementById("popup").style.display = "none";
     }
+    // HYBRID WAR PHASE
+    if (gamePhase === "6") {
+        // if they refresh, close the popup. they can press button again
+        document.getElementById("popup").style.display = "none";
+        //convert the battle button to be a hybrid warfare shop button
+        // document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
+        // document.getElementById("battle_button").disabled = false;
+        // document.getElementById("battle_button").onclick =function () {
+        //     document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Tool";
+        //     document.getElementById("popupBodyNews").style.display = "none";
+        //     document.getElementById("popupBodyHybrid").style.display = "block";
+        //     document.getElementById("setRedRpoints").value = gameRedRpoints;
+        //     document.getElementById("setRedHpoints").value = gameRedHpoints;
+        //     document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+        //     document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+        //     document.getElementById("popup").style.display = "block";
+        // };
+
+    }
+
+    if (document.getElementById("battleActionPopup").style.display == "block") {
+        showDice(gameBattleLastRoll);
+    }
+    //access the battle popup
+    //change the dice image to the last roll
+
 }
 
 function pieceClick(event, callingElement) {
@@ -454,9 +510,10 @@ function updateNextPhase() {
             newsEffectText = decoded.newsEffectText;
 
             //TODO: 2 text elements change here (not yet implemented in game.php html + other js code)
-            document.getElementById("newsTitle").innerHTML = "News Alert";
+            document.getElementById("popupTitle").innerHTML = "News Alert";
 
-            document.getElementById("newsText").innerHTML = newsText;
+            document.getElementById("newsBodyText").innerHTML = newsText;
+            document.getElementById("newsBodySubText").innerHTML = newsEffectText;
 
 
             document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
@@ -482,10 +539,10 @@ function updateNextPhase() {
             if (gamePhase === "1") {
                 // alert("phase1");
                 //TODO: phase effects here and grab phase stuff???
-                document.getElementById("newsPopup").style.display = "block";
+                document.getElementById("popup").style.display = "block";
             } else {
                 // alert("not phase 1");
-                document.getElementById("newsPopup").style.display = "none";
+                document.getElementById("popup").style.display = "none";
             }
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;

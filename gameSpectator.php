@@ -244,6 +244,7 @@ $u = $results->fetch_assoc();
 
 
     <div id="game_board" onclick="gameboardClick(event, this);">
+        <div id="grid_marker_top"></div>
         <div class="gridblockLeftBig <?php echo $u['gameIsland13']; ?>" id="special_island13" data-islandNum="13">
             <div class="gridblockTiny" data-positionType="land" id="pos13a" data-positionId="55" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 55; include("pieceDisplay.php"); ?></div>
             <div class="gridblockTiny" data-positionType="land" id="pos13b" data-positionId="56" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 56; include("pieceDisplay.php"); ?></div>
@@ -436,9 +437,33 @@ $u = $results->fetch_assoc();
                 <div></div>
             </div>
         </div>
-        <div id="newsPopup">
-            <div id="newsTitle">Loading Title...</div>
-            <div id="newsText">Loading Text...</div>
+        <div id="popup">
+            <div id="popupTitle">Loading Title...</div>
+            <div id="popupBodyNews">
+                <div id="newsBodyText">loading text...</div>
+                <div id="newsBodySubText">loading subtext...</div>
+            </div>
+            <div id="popupBodyHybrid">
+                <form id="setPoints">
+                    <label for="setRedRpoints">Red R Points</label>
+                    <input type="number" id="setRedRpoints">
+                    <br>
+                    <label for="setRedHpoints">Red HW Points</label>
+                    <input type="number" id="setRedHpoints">
+                    <br>
+                    <label for="setBlueRpoints">Blue R Points</label>
+                    <input type="number" id="setBlueRpoints">
+                    <br>
+                    <label for="setBlueHpoints">Blue HW Points</label>
+                    <input type="number" id="setBlueHpoints">
+
+                    <br>
+                    <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
+                    <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
+                </form>
+
+                <button id="popupHybridClose" onclick="function(){document.getElementById('popup').style.display = 'none'}">Close this popup</button>
+            </div>
         </div>
     </div>
 </div>
