@@ -36,11 +36,7 @@ function bodyLoader() {
     document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
     document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
-    //TODO: this isn't always defaulted to news, the popup may be other titles onload
-    document.getElementById("popupTitle").innerHTML = "News Alert";
 
-    document.getElementById("newsBodyText").innerHTML = newsText;
-    document.getElementById("newsBodySubText").innerHTML = newsEffectText;
 
     //TODO: change this to be team specific (based on if I am the current team or not) (reorganize / refactor)(or is this already done with canAttack?)
     if (gameBattleSection !== "none" && gameBattleSection !== "selectPos" && gameBattleSection !== "selectPieces") {
@@ -184,22 +180,33 @@ function bodyLoader() {
     // NEWS ALERT PHASE
     if (gamePhase === "1") {
         // Show popup with News Alert body, hide Hybrid body
-        document.getElementById("popup").style.display = "block";
+        // TODO: this isn't always defaulted to news, the popup may be other titles onload -set by phase tho so this is fine for now
+        document.getElementById("popupTitle").innerHTML = "News Alert";
+        document.getElementById("newsBodyText").innerHTML = newsText;
+        document.getElementById("newsBodySubText").innerHTML = newsEffectText;
         document.getElementById("popupBodyNews").style.display = "block";
         document.getElementById("popupBodyHybrid").style.display = "none";
+        document.getElementById("popup").style.display = "block";
         userFeedback("Click Next Phase to advance to next phase.");
     } else {
         // Hide the popup because it shouldnt be showing.
         document.getElementById("popup").style.display = "none";
     }
-
-    if (gamePhase === "6") { // HYBRID WAR
+    // HYBRID WAR PHASE
+    if (gamePhase === "6") {
+        // if they refresh, close the popup. they can press button again
+        document.getElementById("popup").style.display = "none";
         //convert the battle button to be a hybrid warfare shop button
         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").onclick =function () {
+            document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Tool";
             document.getElementById("popupBodyNews").style.display = "none";
             document.getElementById("popupBodyHybrid").style.display = "block";
+            document.getElementById("setRedRpoints").value = gameRedRpoints;
+            document.getElementById("setRedHpoints").value = gameRedHpoints;
+            document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+            document.getElementById("setBlueHpoints").value = gameBlueHpoints;
             document.getElementById("popup").style.display = "block";
         };
 
@@ -770,16 +777,7 @@ function changePhase() {
                     document.getElementById("phase_button").disabled = true;
                 }
 
-                if (gamePhase === "1") {  // NEWS ALERT PHASE
-                    document.getElementById("popupBodyHybrid").style.display = "none";
-                    document.getElementById("popupBodyNews").style.display = "block";
-                    document.getElementById("newsBodyText").innerHTML = newsText;
-                    document.getElementById("newsBodySubText").innerHTML = newsEffectText;
-                    document.getElementById("popup").style.display = "block";
-                    userFeedback(phaseText); //tell the user what happened int the news alert ( rollDie )
-                } else {
-                    document.getElementById("popup").style.display = "none";
-                }
+                //SETTING THE CURRENT PHASE AND CURRENT TEAM DISPLAY
                 document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
                 // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
                 if (gameCurrentTeam === "Red") {
@@ -793,19 +791,35 @@ function changePhase() {
                     //red unhighlight
                     document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
                 }
+                // NEWS ALERT PHASE
+                if (gamePhase === "1") {
+                    document.getElementById("popupBodyHybrid").style.display = "none";
+                    document.getElementById("popupBodyNews").style.display = "block";
+                    document.getElementById("newsBodyText").innerHTML = newsText;
+                    document.getElementById("newsBodySubText").innerHTML = newsEffectText;
+                    document.getElementById("popup").style.display = "block";
+                    userFeedback(phaseText); //tell the user what happened int the news alert ( rollDie )
+                } else {
+                    document.getElementById("popup").style.display = "none";
+                }
 
-                if (gamePhase === "6") { // HYBRID WAR
+                // HYBRID WAR PHASE
+                if (gamePhase === "6") {
                     //convert the battle button to be a hybrid warfare shop button
-                    document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
+                    document.getElementById("battle_button").innerHTML = "Hybrid Warfare Tool";
                     document.getElementById("battle_button").disabled = false;
                     document.getElementById("battle_button").onclick =function () {
                         document.getElementById("popupBodyNews").style.display = "none";
                         document.getElementById("popupBodyHybrid").style.display = "block";
+                        document.getElementById("setRedRpoints").value = gameRedRpoints;
+                        document.getElementById("setRedHpoints").value = gameRedHpoints;
+                        document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                        document.getElementById("setBlueHpoints").value = gameBlueHpoints;
                         document.getElementById("popup").style.display = "block";
                     };
-
                 }else{
-                    //Let the canAttack check above enable or disable, but set the html stuff back
+                    // not hybrid, should be the battle button
+                    //Let the canAttack check above enable or disable battle button, but set the html stuff back
                     document.getElementById("battle_button").innerHTML = "Select Battle";
                     document.getElementById("battle_button").onclick = function() {
                         if (confirm("Are you sure you want to battle?")) {
@@ -1682,6 +1696,24 @@ function updateBattleSection() {
 // Function to set the User Feedback text on the bottom bar of the game screen
 function userFeedback(text){
     document.getElementById("user_feedback").innerHTML = text;
+}
+//Function for resetting the values of the hybrid tool inputs
+function hybridResetPoints(){
+    document.getElementById("setRedRpoints").value = gameRedRpoints;
+    document.getElementById("setRedHpoints").value = gameRedHpoints;
+    document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+    document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+}
+//Function for sumbitting the values of the hybrid tool to the database
+function hybridSetPoints(){
+    let newRedRpoints = document.getElementById("setRedRpoints").valueOf();
+    let newRedHpoints = document.getElementById("setRedHpoints").valueOf();
+    let newBlueRpoints = document.getElementById("setBlueRpoints").valueOf();
+    let newBlueHpoints = document.getElementById("setBlueHpoints").valueOf();
+    let setPoints = new XMLHttpRequest();
+    setPoints.open("POST", "hybridSetPoints.php?newRedRpoints=" + newRedRpoints + "&newRedHpoints=" + newRedHpoints + "&newBlueRpoints=" + newBlueRpoints + "&newBlueHpoints=" + newBlueHpoints, true);
+    setPoints.send();
+    document.getElementById("hybridSetPoints").innerHTML = "Submitted!";
 }
 
 function rollDice(){
