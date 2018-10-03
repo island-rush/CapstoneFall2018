@@ -16,6 +16,9 @@ $query = $db->prepare($query);
 $query->bind_param("ssisii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $gameId);
 $query->execute();
 
+//if newbattlesection == selectpos
+//increment games
+
 
 $newValue = 0;
 $updateType = "battleSectionChange";

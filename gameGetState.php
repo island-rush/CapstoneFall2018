@@ -1,4 +1,8 @@
 <?php
+
+//TODO: this entire file may have been residue from faulty merge with refactor branch
+//possibly not even used at all
+
 session_start();  //needed to update session variables
 include("db.php");
 
