@@ -5,7 +5,8 @@ include("db.php");
 
 //variables from the request
 $gameId = $_REQUEST['gameId'];
-$myTeam = $_REQUEST['myTeam'];
+$myTeam = $_REQUEST['myTeam'];  //not used -> in the sql statement, looking for all
+$lastUpdateId = $_REQUEST['lastUpdateId'];
 $allTeam = "All";
 
 $updateId = 0;
@@ -14,9 +15,9 @@ while(true) {
     sleep(.25);
     //call to database to check for the update
     $valuecheck = 0;
-    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateValue = ?) AND (updateTeam != ?)';
+    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateId > ?) ORDER BY updateId ASC';
     $query = $db->prepare($query);
-    $query->bind_param("iis", $gameId, $valuecheck, $myTeam);
+    $query->bind_param("ii", $gameId, $lastUpdateId);
     $query->execute();
     $results = $query->get_result();
     $num_results = $results->num_rows;
@@ -24,17 +25,12 @@ while(true) {
     if ($num_results > 0) {
         $r= $results->fetch_assoc();
         $updateId = $r['updateId'];
-        $arr = array('updateType' => (string) $r['updateType'], 'updatePlacementId' => (string) $r['updatePlacementId'], 'updateNewPositionId' => (string) $r['updateNewPositionId'], 'updateNewContainerId' => (string) $r['updateNewContainerId'], 'updateNewUnitId' => (string) $r['updateNewUnitId'], 'updateBattlePieceState' => (string) $r['updateBattlePieceState'], 'updateBattlePositionSelectedPieces' => (string) $r['updateBattlePositionSelectedPieces'], 'updateBattlePiecesSelected' => (string) $r['updateBattlePiecesSelected'], 'updateIsland' => (string) $r['updateIsland'], 'updateIslandTeam' => (string) $r['updateIslandTeam']);
+        $lastUpdateId = $updateId;
+        $arr = array('updateType' => (string) $r['updateType'], 'lastUpdateId' => $lastUpdateId, 'updatePlacementId' => (string) $r['updatePlacementId'], 'updateNewPositionId' => (string) $r['updateNewPositionId'], 'updateNewContainerId' => (string) $r['updateNewContainerId'], 'updateNewUnitId' => (string) $r['updateNewUnitId'], 'updateBattlePieceState' => (string) $r['updateBattlePieceState'], 'updateBattlePositionSelectedPieces' => (string) $r['updateBattlePositionSelectedPieces'], 'updateBattlePiecesSelected' => (string) $r['updateBattlePiecesSelected'], 'updateIsland' => (string) $r['updateIsland'], 'updateIslandTeam' => (string) $r['updateIslandTeam']);
         echo json_encode($arr);
         break;
     }
 }
-
-$newValue = 1;
-$query = 'UPDATE updates SET updateValue = ? WHERE (updateId = ?)';
-$query = $db->prepare($query);
-$query->bind_param("ii", $newValue, $updateId);
-$query->execute();
 
 $results->free();
 $db->close();

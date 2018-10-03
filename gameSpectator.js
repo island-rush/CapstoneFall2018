@@ -313,7 +313,7 @@ function waitForUpdate() {
             // alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
-            lastUpdateId = decoded.lastUpdateId;
+            lastUpdateId = decoded.lastUpdateId;  //returned as an int?
 
             if (decoded.updateType === "pieceMove") {
                 updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);

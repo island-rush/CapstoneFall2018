@@ -11,13 +11,15 @@ $gameBattleLastRoll = $_REQUEST['gameBattleLastRoll'];
 $gameBattleLastMessage = $_REQUEST['gameBattleLastMessage'];
 $gameBattlePosSelected = $_REQUEST['gameBattlePosSelected'];
 
-$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ? WHERE (gameId = ?)';
-$query = $db->prepare($query);
-$query->bind_param("ssisii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $gameId);
-$query->execute();
+$increment = 0;
+if ($gameBattleSection == "selectPos") {
+    $increment = 1;
+}
 
-//if newbattlesection == selectpos
-//increment games
+$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameTurn = gameTurn + ? WHERE (gameId = ?)';
+$query = $db->prepare($query);
+$query->bind_param("ssisiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $increment, $gameId);
+$query->execute();
 
 
 $newValue = 0;
