@@ -1198,8 +1198,8 @@ html, body {
 
 #dice_image{
     /*div sizing in here*/
-    width: 80%;
-    height: 80%;
+    width: 400px;
+    height: 400px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-left: 5%;
@@ -1213,20 +1213,20 @@ html, body {
 }
 
 .dice1{
-    background-image: url("resources/diceImages/die-1.gif");
+    background-image: url("resources/diceImages/die-1.png");
 }
 .dice2{
-    background-image: url("resources/diceImages/die-2.gif");
+    background-image: url("resources/diceImages/die-2.png");
 }
 .dice3{
-    background-image: url("resources/diceImages/die-3.gif");
+    background-image: url("resources/diceImages/die-3.png");
 }
 .dice4{
-    background-image: url("resources/diceImages/die-4.gif");
+    background-image: url("resources/diceImages/die-4.png");
 }
 .dice5{
-    background-image: url("resources/diceImages/die-5.gif");
+    background-image: url("resources/diceImages/die-5.png");
 }
 .dice6{
-    background-image: url("resources/diceImages/die-6.gif");
+    background-image: url("resources/diceImages/die-6.png");
 }
