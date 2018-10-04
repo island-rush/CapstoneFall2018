@@ -442,7 +442,7 @@ $u = $results->fetch_assoc();
                     <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
                 </form>
 
-                <button id="popupHybridClose" onclick="function(){document.getElementById('popup').style.display = 'none'}">Close this popup</button>
+                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'">Close this popup</button>
             </div>
         </div>
     </div>

@@ -812,9 +812,10 @@ function changePhase() {
                     // HYBRID WAR PHASE
                     if (gamePhase === "6") {
                         //convert the battle button to be a hybrid warfare shop button
-                        document.getElementById("battle_button").innerHTML = "Hybrid Warfare Tool";
+                        document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                         document.getElementById("battle_button").disabled = false;
                         document.getElementById("battle_button").onclick =function () {
+                            document.getElementById("hybridSubmitPoints").value = "Submit new Point Values";
                             document.getElementById("popupBodyNews").style.display = "none";
                             document.getElementById("popupBodyHybrid").style.display = "block";
                             document.getElementById("setRedRpoints").value = gameRedRpoints;
@@ -1720,7 +1721,7 @@ function hybridSetPoints(){
     let setPoints = new XMLHttpRequest();
     setPoints.open("POST", "hybridSetPoints.php?newRedRpoints=" + newRedRpoints + "&newRedHpoints=" + newRedHpoints + "&newBlueRpoints=" + newBlueRpoints + "&newBlueHpoints=" + newBlueHpoints, true);
     setPoints.send();
-    document.getElementById("hybridSetPoints").innerHTML = "Submitted!";
+    document.getElementById("hybridSubmitPoints").value = "Submitted!";
 }
 
 function rollDice(){
