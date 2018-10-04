@@ -362,9 +362,9 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $fighter = "fighter";
         $stealthBomber = "stealthBomber";
         $purchaseSpot = 118;
-        $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (placementPositionId != ?)';
+        $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementTeamId = ?) AND (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (placementPositionId != ?)';
         $query = $db->prepare($query);
-        $query->bind_param("isssssi", $gameId, $heli, $tanker, $bomber, $fighter, $stealthBomber, $purchaseSpot);
+        $query->bind_param("issssssi", $myTeam, $gameId, $heli, $tanker, $bomber, $fighter, $stealthBomber, $purchaseSpot);
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
