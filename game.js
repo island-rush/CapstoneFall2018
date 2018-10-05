@@ -89,7 +89,8 @@ function bodyLoader() {
             } else {
                 document.getElementById("actionPopupButton").disabled = true;
             }
-            document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
+            document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
+                "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
             document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "counter") {
             if (myTeam !== gameCurrentTeam) {
@@ -97,7 +98,8 @@ function bodyLoader() {
             } else {
                 document.getElementById("actionPopupButton").disabled = false;
             }
-            document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
+            document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
+                "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
             document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
             if (myTeam !== gameCurrentTeam) {
@@ -1275,7 +1277,8 @@ function battleAttackCenter(type) {
             let actionButton = document.getElementById("actionPopupButton");
             if (new_gameBattleSubSection === "defense_bonus") {
                 actionButton.disabled = true;
-                actionButton.innerHTML = "HIT! Roll for Defense Bonus";
+                actionButton.innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
+                    "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
                 actionButton.onclick = function() { battleAttackCenter("defend"); };
             } else if (new_gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
                 if (myTeam === gameCurrentTeam) {
@@ -1530,7 +1533,8 @@ function updateBattleAttack() {
             document.getElementById("battleActionPopup").style.display = "block";
             if (gameBattleSubSection === "defense_bonus") {
                 document.getElementById("actionPopupButton").disabled = false;
-                document.getElementById("actionPopupButton").innerHTML = "HIT! Roll for Defense Bonus";
+                document.getElementById("actionPopupButton").innerHTML = "HIT! The Defender's unit was destroyed!! The Defender" +
+                    "has the opportunity to knock out the Attacker's unit. Roll for defense bonus!";
                 document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
             } else if (gameBattleSubSection === "continue_choosing") {
                 document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
@@ -1615,7 +1619,8 @@ function updateBattleSection() {
                     } else {
                         document.getElementById("actionPopupButton").disabled = true;
                     }
-                    document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
+                    document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
+                        "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
                     document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
                 } else if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "counter") {
                     if (myTeam !== gameCurrentTeam) {
@@ -1623,7 +1628,8 @@ function updateBattleSection() {
                     } else {
                         document.getElementById("actionPopupButton").disabled = false;
                     }
-                    document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
+                    document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
+                        "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
                     document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
                 } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
                     if (myTeam !== gameCurrentTeam) {
