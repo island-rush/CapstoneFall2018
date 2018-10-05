@@ -52,6 +52,12 @@ $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
 $query->execute();
 
+$Spec = "Spec";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
+$query->execute();
+
 
 if ($wasHit == 1) {
     $pieceId = $_REQUEST['pieceId'];

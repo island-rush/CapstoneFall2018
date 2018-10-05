@@ -8,15 +8,20 @@ $gameId = $_REQUEST['gameId'];
 $myTeam = $_REQUEST['myTeam'];
 $allTeam = "All";
 
+$notMyTeam = "Red";
+if ($myTeam == "Red") {
+    $notMyTeam = "Blue";
+}
+
 $updateId = 0;
 
 while(true) {
     sleep(.25);
     //call to database to check for the update
     $valuecheck = 0;
-    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateValue = ?) AND (updateTeam != ?)';
+    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateValue = ?) AND (updateTeam = ?)';
     $query = $db->prepare($query);
-    $query->bind_param("iis", $gameId, $valuecheck, $myTeam);
+    $query->bind_param("iis", $gameId, $valuecheck, $notMyTeam);
     $query->execute();
     $results = $query->get_result();
     $num_results = $results->num_rows;

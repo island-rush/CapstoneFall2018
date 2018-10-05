@@ -51,4 +51,10 @@ $query = $db->prepare($query);
 $query->bind_param("iisss", $gameId, $newValue, $myTeam, $updateType, $piecesSelectedHTMLstring);
 $query->execute();
 
+$Spec = "Spec";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePiecesSelected) VALUES (?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss", $gameId, $newValue, $Spec, $updateType, $piecesSelectedHTMLstring);
+$query->execute();
+
 $db->close();

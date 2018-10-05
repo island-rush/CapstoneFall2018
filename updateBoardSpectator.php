@@ -10,14 +10,15 @@ $lastUpdateId = $_REQUEST['lastUpdateId'];
 $allTeam = "All";
 
 $updateId = 0;
+$updateTeam = "Spec";
 
 while(true) {
     sleep(.25);
     //call to database to check for the update
     $valuecheck = 0;
-    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateId > ?) ORDER BY updateId ASC';
+    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateId > ?) AND (updateTeam = ?) ORDER BY updateId ASC';
     $query = $db->prepare($query);
-    $query->bind_param("ii", $gameId, $lastUpdateId);
+    $query->bind_param("iis", $gameId, $lastUpdateId, $updateTeam);
     $query->execute();
     $results = $query->get_result();
     $num_results = $results->num_rows;

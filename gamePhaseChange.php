@@ -165,6 +165,12 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                             $query = $db->prepare($query);
                             $query->bind_param("iissi", $gameId, $newValue, $blue, $updateType, $placementId);
                             $query->execute();
+
+                            $Spec = "Spec";
+                            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                            $query = $db->prepare($query);
+                            $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+                            $query->execute();
                         }
                     }
                 }
@@ -415,6 +421,12 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                     $query = $db->prepare($query);
                     $query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
                     $query->execute();
+
+                    $Spec = "Spec";
+                    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+                    $query->execute();
                 }
 
             }
@@ -429,6 +441,52 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canAttack = "false";
     } elseif ($new_gamePhase == 6) {
         //hybrid warfare
+
+        //delete pieces that were not placed
+
+
+        $purchaseSpot = 118;
+        $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementGameId = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ii", $purchaseSpot, $gameId);
+        $query->execute();
+        $results = $query->get_result();
+        $num_results = $results->num_rows;
+        if ($num_results > 0) {
+            for ($i = 0; $i < $num_results; $i++) {
+                $r1 = $results->fetch_assoc();
+                $placementId = $r1['placementId'];
+
+                //delete the real piece from database
+                $query = 'DELETE FROM placements WHERE placementId = ?';
+                $query = $db->prepare($query);
+                $query->bind_param("i", $placementId);
+                $query->execute();
+
+                //Tell other client(s) about deletion
+                $newValue = 0;
+                $Red = "Red";
+                $Blue = "Blue";
+                $Spec = "Spec";  //possible spectator solution
+                $updateType = "rollDie";
+
+                $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                $query = $db->prepare($query);
+                $query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
+                $query->execute();
+
+                $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                $query = $db->prepare($query);
+                $query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
+                $query->execute();
+
+                $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+                $query = $db->prepare($query);
+                $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+                $query->execute();
+            }
+        }
+
         $canMove = "false";
         $canPurchase = "false";
         $canUndo = "false";
@@ -473,6 +531,12 @@ $updateType = "phaseChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
+
+$Spec = "Spec";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
 $query->execute();
 
 

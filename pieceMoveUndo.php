@@ -53,6 +53,12 @@ $query = $db->prepare($query);
 $query->bind_param("iissiii", $movementGameId, $newValue, $myTeam, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer);
 $query->execute();
 
+$Spec = "Spec";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId) VALUES (?, ?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissiii", $movementGameId, $newValue, $Spec, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer);
+$query->execute();
+
 //Return information about how to undo the movement
 $arr = array('placementId' => $movementNowPlacement, 'old_placementContainerId' => $old_placementContainerId, 'old_placementPositionId' => $old_placementPositionId, 'new_placementPositionId' => $movementFromPosition, 'new_placementCurrentMoves' => $new_placementCurrentMoves, 'new_placementContainerId' => $movementFromContainer);
 echo json_encode($arr);

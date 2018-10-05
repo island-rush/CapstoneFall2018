@@ -52,4 +52,10 @@ $query = $db->prepare($query);
 $query->bind_param("iissss", $gameId, $newValue, $myTeam, $updateType, $islandToChange, $newTeam);
 $query->execute();
 
+$Spec = "Spec";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateIsland, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissss", $gameId, $newValue, $Spec, $updateType, $islandToChange, $newTeam);
+$query->execute();
+
 $db->close();

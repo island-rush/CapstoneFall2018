@@ -18,11 +18,22 @@ $query = $db->prepare($query);
 $query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
 $query->execute();
 
+$Spec = "Spec";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+$query->execute();
+
 $newValue = 0;
 $updateType = "phaseChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
 $query->execute();
 
 

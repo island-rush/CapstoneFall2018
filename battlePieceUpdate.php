@@ -19,6 +19,12 @@ if ($new_battlePieceState != 9) {
     $query = $db->prepare($query);
     $query->bind_param("iissii", $gameId, $newValue, $myTeam, $updateType, $battlePieceId, $new_battlePieceState);
     $query->execute();
+
+    $Spec = "Spec";
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateBattlePieceState) VALUES (?, ?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissii", $gameId, $newValue, $Spec, $updateType, $battlePieceId, $new_battlePieceState);
+    $query->execute();
 } else {
     //delete the piece from database
     $query = 'DELETE FROM battlePieces WHERE battlePieceId = ?';
@@ -44,6 +50,12 @@ if ($new_battlePieceState != 9) {
     $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
     $query = $db->prepare($query);
     $query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $battlePieceId);
+    $query->execute();
+
+    $Spec = "Spec";
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $battlePieceId);
     $query->execute();
 }
 
