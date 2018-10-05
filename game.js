@@ -522,7 +522,7 @@ function hideIslands() {
 function landClick(event, callingElement) {
     event.preventDefault();
 
-    if (gameBattleSection === "selectPos") {
+    if (gameBattleSection === "selectPos" && gameCurrentTeam == myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }
@@ -545,7 +545,7 @@ function waterClick(event, callingElement) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     clearHighlighted();
-    if (gameBattleSection === "selectPos") {
+    if (gameBattleSection === "selectPos" && gameCurrentTeam == myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }

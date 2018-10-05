@@ -443,8 +443,6 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         //hybrid warfare
 
         //delete pieces that were not placed
-
-
         $purchaseSpot = 118;
         $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementGameId = ?)';
         $query = $db->prepare($query);
@@ -467,7 +465,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 $newValue = 0;
                 $Red = "Red";
                 $Blue = "Blue";
-                $Spec = "Spec";  //possible spectator solution
+                $Spec = "Spec";  //spectator solution
                 $updateType = "rollDie";
 
                 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';

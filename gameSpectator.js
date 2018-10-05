@@ -79,7 +79,7 @@ function bodyLoader() {
         document.getElementById("battleActionPopup").style.display = "block";
         if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "attack") {
             if (myTeam !== gameCurrentTeam) {
-                document.getElementById("actionPopupButton").disabled = false;
+                // document.getElementById("actionPopupButton").disabled = false;
             } else {
                 document.getElementById("actionPopupButton").disabled = true;
             }
@@ -89,7 +89,7 @@ function bodyLoader() {
             if (myTeam !== gameCurrentTeam) {
                 document.getElementById("actionPopupButton").disabled = true;
             } else {
-                document.getElementById("actionPopupButton").disabled = false;
+                // document.getElementById("actionPopupButton").disabled = false;
             }
             document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
             document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
@@ -97,13 +97,13 @@ function bodyLoader() {
             if (myTeam !== gameCurrentTeam) {
                 document.getElementById("actionPopupButton").disabled = true;
             } else {
-                document.getElementById("actionPopupButton").disabled = false;
+                // document.getElementById("actionPopupButton").disabled = false;
             }
             document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
             document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
         } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "counter") {
             if (myTeam !== gameCurrentTeam) {
-                document.getElementById("actionPopupButton").disabled = false;
+                // document.getElementById("actionPopupButton").disabled = false;
             } else {
                 document.getElementById("actionPopupButton").disabled = true;
             }
@@ -116,7 +116,7 @@ function bodyLoader() {
 
     if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
         if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
-            document.getElementById("attackButton").disabled = false;
+            // document.getElementById("attackButton").disabled = false;
         }
     }
 
@@ -140,12 +140,12 @@ function bodyLoader() {
 
     if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
         // document.getElementById("attackButton").disabled = false;
-        document.getElementById("changeSectionButton").disabled = false;
+        // document.getElementById("changeSectionButton").disabled = false;
     }
 
     if (gameBattleSection === "askRepeat" && myTeam === gameCurrentTeam) {
-        document.getElementById("attackButton").disabled = false;
-        document.getElementById("changeSectionButton").disabled = false;
+        // document.getElementById("attackButton").disabled = false;
+        // document.getElementById("changeSectionButton").disabled = false;
     } else if (gameBattleSection === "askRepeat" && myTeam !== gameCurrentTeam) {
         document.getElementById("attackButton").disabled = true;
         document.getElementById("changeSectionButton").disabled = true;
@@ -380,7 +380,7 @@ function waitForUpdate() {
             } else if (decoded.updateType === "pieceTrash") {
                 updatePieceTrash(decoded.updatePlacementId);
             } else if (decoded.updateType === "piecePurchase") {
-                updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId));
+                updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId), decoded.updateTeam);
             } else if (decoded.updateType === "battlePieceMove") {
                 updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
             } else if (decoded.updateType === "phaseChange") {
@@ -436,17 +436,12 @@ function updateBattlePieceMove(battlePieceId, battlePieceState) {
     document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
 }
 
-function updatePiecePurchase(placementId, unitId) {
+function updatePiecePurchase(placementId, unitId, updateTeam) {
     // alert("purchasing");
     let purchaseContainer = document.getElementById("purchased_container");
-    let notMyTeam;
-    if (myTeam === "Red") {
-        notMyTeam = "Blue";
-    } else {
-        notMyTeam = "Red";
-    }
+
     let echoString = "";
-    echoString += "<div class='" + unitNames[unitId] + " gamePiece " + notMyTeam + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitId] + "' data-placementContainerId='999999' data-placementTeamId='" + notMyTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+    echoString += "<div class='" + unitNames[unitId] + " gamePiece " + updateTeam + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitId] + "' data-placementContainerId='999999' data-placementTeamId='" + notMyTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
     if (unitNames[unitId] === "transport" || unitNames[unitId] === "aircraftCarrier") {
         let classthing;
         if (unitNames[unitId] === "transport") {
@@ -454,7 +449,7 @@ function updatePiecePurchase(placementId, unitId) {
         } else {
             classthing = "aircraftCarrierContainer";
         }
-        echoString += "<div class='" + classthing + " " + notMyTeam + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' data-positionId='118' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
+        echoString += "<div class='" + classthing + " " + updateTeam + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' data-positionId='118' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
     }
     echoString += "</div>";  // end the overall piece
     purchaseContainer.innerHTML += echoString;
@@ -662,7 +657,7 @@ function updateBattleSection() {
                 document.getElementById("battleActionPopup").style.display = "block";
                 if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "attack") {
                     if (myTeam !== gameCurrentTeam) {
-                        document.getElementById("actionPopupButton").disabled = false;
+                        // document.getElementById("actionPopupButton").disabled = false;
                     } else {
                         document.getElementById("actionPopupButton").disabled = true;
                     }
@@ -672,7 +667,7 @@ function updateBattleSection() {
                     if (myTeam !== gameCurrentTeam) {
                         document.getElementById("actionPopupButton").disabled = true;
                     } else {
-                        document.getElementById("actionPopupButton").disabled = false;
+                        // document.getElementById("actionPopupButton").disabled = false;
                     }
                     document.getElementById("actionPopupButton").innerHTML = "click to roll for defense bonus";
                     document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
@@ -680,13 +675,13 @@ function updateBattleSection() {
                     if (myTeam !== gameCurrentTeam) {
                         document.getElementById("actionPopupButton").disabled = true;
                     } else {
-                        document.getElementById("actionPopupButton").disabled = false;
+                        // document.getElementById("actionPopupButton").disabled = false;
                     }
                     document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
                     document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
                 } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "counter") {
                     if (myTeam !== gameCurrentTeam) {
-                        document.getElementById("actionPopupButton").disabled = false;
+                        // document.getElementById("actionPopupButton").disabled = false;
                     } else {
                         document.getElementById("actionPopupButton").disabled = true;
                     }
@@ -724,20 +719,20 @@ function updateBattleSection() {
             if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
 
                 if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
-                    document.getElementById("attackButton").disabled = false;
+                    // document.getElementById("attackButton").disabled = false;
                 } else {
                     document.getElementById("attackButton").disabled = true;
                 }
 
 
-                document.getElementById("changeSectionButton").disabled = false;
+                // document.getElementById("changeSectionButton").disabled = false;
             }
 
             // alert("changing section to something");
             if (gameBattleSection === "askRepeat" && myTeam === gameCurrentTeam) {
                 // alert("myteam = current team enable");
-                document.getElementById("attackButton").disabled = false;
-                document.getElementById("changeSectionButton").disabled = false;
+                // document.getElementById("attackButton").disabled = false;
+                // document.getElementById("changeSectionButton").disabled = false;
             } else if (gameBattleSection === "askRepeat" && myTeam !== gameCurrentTeam) {
                 // alert("myteam != current team disable");
                 document.getElementById("attackButton").disabled = true;
@@ -772,5 +767,5 @@ function showDice(diceNum){
     // document.getElementById("dice_image").classList[1] = "dice" + diceNum;
     document.getElementById("dice_image").classList[0].style.backgroundImage = "url(resources/diceImages/die-" + diceNum + ".gif)";
 }
-//
+
 waitForUpdate();
