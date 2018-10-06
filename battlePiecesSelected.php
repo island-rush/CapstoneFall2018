@@ -13,9 +13,10 @@ $piecesSelectedHTMLstring = "";
 
 for ($i = 0; $i < sizeof($sentArray); $i++) {
     //get info about placement from database
-    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementId = ?) AND (placementUnitId = unitId)';
+    $unused = 0;
+    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementId = ?) AND (placementUnitId = unitId) AND (placementBattleUsed = ?)';
     $query = $db->prepare($query);
-    $query->bind_param("i", $sentArray[$i]);
+    $query->bind_param("ii", $sentArray[$i], $unused);
     $query->execute();
     $results = $query->get_result();
     $r= $results->fetch_assoc();
@@ -56,5 +57,11 @@ $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType
 $query = $db->prepare($query);
 $query->bind_param("iisss", $gameId, $newValue, $Spec, $updateType, $piecesSelectedHTMLstring);
 $query->execute();
+
+
+//$query = 'UPDATE games SET gameBattleTurn = ? WHERE gameId = ?';
+//$query = $db->prepare($query);
+//$query->bind_param("ii", $newValue,  $gameId);
+//$query->execute();
 
 $db->close();

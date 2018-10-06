@@ -368,10 +368,10 @@ function waitForUpdate() {
             // alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
 
-            lastUpdateId = decoded.lastUpdateId;  //returned as an int?
+            lastUpdateId = parseInt(decoded.lastUpdateId);  //returned as an int?
 
             if (decoded.updateType === "pieceMove") {
-                updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
+                updatePieceMove(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewPositionId), parseInt(decoded.updateNewContainerId));
             } else if (decoded.updateType === "pieceDelete") {
                 updatePieceDelete(decoded.updatePlacementId);
             } else if (decoded.updateType === "rollDie") {

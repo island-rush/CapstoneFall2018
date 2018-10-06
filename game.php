@@ -53,6 +53,7 @@ $u = $results->fetch_assoc();
         var gameBattleSubSection = "<?php echo $u['gameBattleSubSection']; ?>";
         var gameBattleLastRoll = "<?php echo $u['gameBattleLastRoll']; ?>";
         var gameBattleLastMessage = "<?php echo $u['gameBattleLastMessage']; ?>";
+        var gameBattleTurn = "<?php echo $u['gameBattleTurn']; ?>";
 
         var gameBattleAdjacentArray;
 

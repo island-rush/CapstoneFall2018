@@ -334,7 +334,7 @@ function pieceDragleave(event, callingElement) {
 
 function pieceDragenter(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
+    clearTimeout(pieceTimer);
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier") {
         //only dragenter to open up container pieces
@@ -484,7 +484,7 @@ function islandClick(event, callingElement) {
 
 function islandDragenter(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
+    clearTimeout(islandTimer);
     islandTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
     event.stopPropagation();
 }
@@ -706,7 +706,7 @@ function positionDragover(event, callingElement) {
     } else {
         event.dataTransfer.dropEffect = "all";
     }
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000)
+    islandTimer = setTimeout(function() { hideIslands();}, 1000)
 }
 
 function movementCheck(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
@@ -914,6 +914,8 @@ function battleChangeSection(newSection) {
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("battle_button").innerHTML = "Start Battle";
 
+        gameBattleTurn = 0;
+
         userFeedback("Select the pieces you want to attack with. They must be adjacent to the zone being attacked. Then Start the Battle!");
         //more visual indication of selecting pieces
     } else if (newSection === "attack") {
@@ -1019,6 +1021,8 @@ function battleChangeSection(newSection) {
         document.getElementById("actionPopupButton").disabled = true;
         document.getElementById("actionPopupButton").disabled = true;
 
+        gameBattleTurn = gameBattleTurn + 1;
+
     } else if (newSection === "none") {
         document.getElementById("phase_button").disabled = false;
         document.getElementById("undo_button").disabled = false;
@@ -1086,7 +1090,7 @@ function battleChangeSection(newSection) {
     // alert(gameBattlePosSelected);
 
     let phpBattleUpdate = new XMLHttpRequest();
-    phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected, true);
+    phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected + "&gameBattleTurn=" + gameBattleTurn, true);
     phpBattleUpdate.send();
 
     // alert("thing sent");
@@ -1366,6 +1370,8 @@ function waitForUpdate() {
                 updateBattleSection();
             } else if (decoded.updateType === "islandChange") {
                 updateIslandChange(decoded.updateIsland, decoded.updateIslandTeam);
+            } else if (decoded.updateType === "battlePieceRemove") {
+                updateBattlePieceRemove(decoded.updatePlacementId);
             }
 
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
@@ -1373,6 +1379,10 @@ function waitForUpdate() {
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
+}
+
+function updateBattlePieceRemove(placementId) {
+
 }
 
 function updateRollDie(placementId) {

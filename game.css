@@ -625,7 +625,7 @@ html, body {
 /*ISLAND POSITIONS CSS*/
 
 .gridblockTiny{
-    background-color: rgba(255, 15, 0, 0.31);
+    /*background-color: rgba(255, 15, 0, 0.31);*/
     position: absolute;
 }
 

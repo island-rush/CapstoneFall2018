@@ -40,7 +40,6 @@ $u = $results->fetch_assoc();
         var gameRedHpoints = "<?php echo $u['gameRedHpoints']; ?>";
         var gameBlueHpoints = "<?php echo $u['gameBlueHpoints']; ?>";
 
-
         var myPoints;
         if (myTeam === "Red") {
             myPoints = <?php echo $u['gameRedRpoints']; ?>;
