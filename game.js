@@ -1,6 +1,9 @@
 //Javascript Functions used by the Island Rush Game
 //Created by C1C Spencer Adolph (7/28/2018)
 
+let islandTimer;
+let pieceTimer;
+
 //First function called to load the game...
 function bodyLoader() {
 
@@ -230,6 +233,7 @@ function bodyLoader() {
 //TODO: disable sidepanel buttons during a battle!
 //---------------------------------------------------
 function pieceClick(event, callingElement) {
+    // alert("clicked");
     event.preventDefault();
     //open container if applicable
     if (gameBattleSection === "selectPieces") {
@@ -315,10 +319,14 @@ function pieceDragstart(event, callingElement) {
 }
 
 function pieceDragleave(event, callingElement) {
+    // alert("dragleave");
     event.preventDefault();
     if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier") {
-        if (callingElement.childNodes[0].getAttribute("data-containerPopped") === "false") {
-            clearTimeout(hoverTimer);
+        // alert("was container");
+        // alert(callingElement.childNodes[0].getAttribute("data-containerPopped"));
+        if (callingElement.childNodes[0].getAttribute("data-containerPopped") == "false") {
+            // alert("clear timeout container not popped");
+            clearTimeout(pieceTimer);
         }
     }
     event.stopPropagation();
@@ -326,12 +334,13 @@ function pieceDragleave(event, callingElement) {
 
 function pieceDragenter(event, callingElement) {
     event.preventDefault();
+    clearTimeout(hoverTimer);
     let unitName = callingElement.getAttribute("data-unitName");
     if (unitName === "transport" || unitName === "aircraftCarrier") {
         //only dragenter to open up container pieces
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-            clearTimeout(hoverTimer);
-            hoverTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
+            clearTimeout(pieceTimer);
+            pieceTimer = setTimeout(function() { pieceClick(event, callingElement);}, 1000);
         }
     }
     event.stopPropagation();
@@ -424,8 +433,14 @@ function pieceTrash(event, trashElement) {
 
 function containerDragleave(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
+    clearTimeout(pieceTimer);
+    pieceTimer = setTimeout(function() { waterClick(event, callingElement);}, 1000);
+    event.stopPropagation();
+}
+
+function containerDragenter(event, callingElement) {
+    event.preventDefault();
+    clearTimeout(pieceTimer);
     event.stopPropagation();
 }
 
@@ -470,40 +485,40 @@ function islandClick(event, callingElement) {
 function islandDragenter(event, callingElement) {
     event.preventDefault();
     clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
+    islandTimer = setTimeout(function() { islandClick(event, callingElement);}, 1000);
     event.stopPropagation();
 }
 
 function islandDragleave(event, callingElement) {
     event.preventDefault();
     if (callingElement.getAttribute("data-islandPopped") === "false") {
-        clearTimeout(hoverTimer);
+        clearTimeout(islandTimer);
     }
     event.stopPropagation();
 }
 
 function popupDragleave(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function() { hideIslands();}, 1000);
+    clearTimeout(islandTimer);
+    islandTimer = setTimeout(function() { hideIslands();}, 1000);
     event.stopPropagation();
 }
 
 function popupDragOver(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
+    clearTimeout(islandTimer);
     event.stopPropagation();
 }
 
 function popupDragEnter(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
+    clearTimeout(islandTimer);
     event.stopPropagation();
 }
 
 function landDragLeave(event, callingElement) {
     event.preventDefault();
-    clearTimeout(hoverTimer);
+    clearTimeout(islandTimer);
     event.stopPropagation();
 }
 

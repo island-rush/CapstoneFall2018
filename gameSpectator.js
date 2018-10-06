@@ -208,7 +208,6 @@ function bodyLoader() {
         //     document.getElementById("setBlueHpoints").value = gameBlueHpoints;
         //     document.getElementById("popup").style.display = "block";
         // };
-
     }
 
     if (document.getElementById("battleActionPopup").style.display == "block") {

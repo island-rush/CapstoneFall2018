@@ -150,8 +150,6 @@ $u = $results->fetch_assoc();
         var newsText = "<?php echo $r3['newsText'] ?>";
         var newsEffect = "<?php echo $r3['newsEffect'] ?>";
         //TODO: get the other text and put it inside the popup
-
-        var hoverTimer;
     </script>
     <script src="game.js"></script>
     <script src="d6.js"></script>
@@ -247,7 +245,7 @@ $u = $results->fetch_assoc();
         <div class="gridblock water" data-positionId="7" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 7; include("pieceDisplay.php"); ?></div>
         <div class="gridblock water" data-positionId="8" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 8; include("pieceDisplay.php"); ?></div>
         <div class="gridblock grid_special_island1 <?php echo $u['gameIsland1']; ?>" id="special_island1" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="islandClick(event, this);">
-            <div id="special_island1_pop" class="special_island1 special_island3x3 <?php echo $u['gameIsland1']; ?>" data-islandNum="1" ondragover="popupDragOver(event, this);" ondragleave="popupDragleave(event, this);">
+            <div id="special_island1_pop" class="special_island1 special_island3x3 <?php echo $u['gameIsland1']; ?>" data-islandNum="1" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondragleave="popupDragleave(event, this);">
                 <div class="gridblockTiny" data-positionType="land" id="pos1a" data-positionId="75" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 75; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos1b" data-positionId="76" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 76; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos1c" data-positionId="77" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 77; include("pieceDisplay.php"); ?></div>
