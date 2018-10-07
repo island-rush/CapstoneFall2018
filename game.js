@@ -242,7 +242,9 @@ function pieceClick(event, callingElement) {
                 if (callingElement.classList.contains("selected")) {
                     callingElement.classList.remove("selected");
                 } else {
-                    callingElement.classList.add("selected");
+                    if (callingElement.getAttribute("data-placementBattleUsed") == 0) {
+                        callingElement.classList.add("selected");
+                    }
                 }
             }
         }
@@ -444,6 +446,8 @@ function containerDragenter(event, callingElement) {
     event.stopPropagation();
 }
 
+
+//TODO: this function now obsolete with movement check, needs to be removed
 function containerHasSpotOpen(new_placementContainerId, unitName) {
     //Can't put transport inside another transport
     if (new_placementContainerId !== "999999") {
@@ -623,6 +627,10 @@ function positionDrop(event, newContainerElement) {
                             if (unitName === "transport" || unitName === "aircraftCarrier") {
                                 pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
                             }
+
+                            // title='".$unitName2."&#013;Moves: ".$placementCurrentMoves2."'
+                            pieceDropped.setAttribute("title", unitName + "\n" +
+                                "Moves: " + new_placementCurrentMoves);
 
                             //Update the placement in the database and add a movement to the database
                             let phpRequest = new XMLHttpRequest();
@@ -1103,6 +1111,7 @@ function battleSelectPieces() {
     let allPieces = document.getElementsByClassName("selected");
     let x;
     for (x = 0; x < allPieces.length; x++) {
+        allPieces[x].setAttribute("data-placementBattleUsed", "1");
         parameterArray.push(allPieces[x].getAttribute("data-placementId"));
     }
 
@@ -1345,7 +1354,7 @@ function waitForUpdate() {
             let decoded = JSON.parse(this.responseText);
 
             if (decoded.updateType === "pieceMove") {
-                updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId);
+                updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId, decoded.updateNewMoves);
             } else if (decoded.updateType === "pieceDelete") {
                 updatePieceDelete(decoded.updatePlacementId);
             } else if (decoded.updateType === "rollDie") {
@@ -1437,7 +1446,7 @@ function updatePiecePurchase(placementId, unitId) {
     purchaseContainer.innerHTML += echoString;
 }
 
-function updatePieceMove(placementId, newPositionId, newContainerId){
+function updatePieceMove(placementId, newPositionId, newContainerId, newMoves){
     // alert(placementId);
     // alert(newPositionId);
     // alert(newContainerId);
@@ -1450,6 +1459,11 @@ function updatePieceMove(placementId, newPositionId, newContainerId){
     }
     // alert(theContainer);
     theContainer.appendChild(pieceToMove);
+    let unitName = pieceToMove.getAttribute("data-unitName");
+
+    pieceToMove.setAttribute("title", unitName + "\n" +
+        "Moves: " + newMoves);
+
     // theContainer.append
 }
 

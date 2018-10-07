@@ -41,15 +41,15 @@ $query->execute();
 
 $newValue = 0;
 $updateType = "pieceMove";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId) VALUES (?, ?, ?, ?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissiii", $gameId, $newValue, $myTeam, $updateType, $placementId, $new_positionId, $new_placementContainerId);
+$query->bind_param("iissiiii", $gameId, $newValue, $myTeam, $updateType, $placementId, $new_positionId, $new_placementContainerId, $new_placementCurrentMoves);
 $query->execute();
 
 $Spec = "Spec";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId) VALUES (?, ?, ?, ?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissiii", $gameId, $newValue, $Spec, $updateType, $placementId, $new_positionId, $new_placementContainerId);
+$query->bind_param("iissiiii", $gameId, $newValue, $Spec, $updateType, $placementId, $new_positionId, $new_placementContainerId, $new_placementCurrentMoves);
 $query->execute();
 
 
