@@ -1391,7 +1391,7 @@ function waitForUpdate() {
 }
 
 function updateBattlePieceRemove(placementId) {
-
+    document.querySelector("[data-battlePieceId='" + placementId + "']").remove();  //battlezone
 }
 
 function updateRollDie(placementId) {
