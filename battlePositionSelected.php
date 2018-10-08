@@ -8,6 +8,11 @@ $defenseTeam = $_REQUEST['defenseTeam'];
 $battleTerrain = $_REQUEST['battleTerrain'];
 $myTeam = $_SESSION['myTeam'];
 
+$notMyTeam = "Blue";
+if ($myTeam == "Blue") {
+    $notMyTeam = "Red";
+}
+
 
 if ($battleTerrain == "water") {
     $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (unitTerrain != "ground") AND (placementUnitId = unitId)';
@@ -39,7 +44,7 @@ if ($num_results > 0) {
         $query2->bind_param("iiii", $placementId, $gameId, $pieceState, $wasHit);
         $query2->execute();
 
-        $htmlString = $htmlString."<div class='".$unitName." gamePiece' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
+        $htmlString = $htmlString."<div class='".$unitName." gamePiece ".$notMyTeam."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
     }
 }
 

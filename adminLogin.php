@@ -43,6 +43,7 @@
             <a href="./index.php">Home</a>
             <a href="./login.php">Play the Game</a>
             <a class="active" href="adminLogin.php">Teacher Admin</a>
+            <a href="ruleBook.php">Rule Book</a>
         </nav>
 
         <div class="spacer">
