@@ -231,9 +231,14 @@ function bodyLoader() {
 }
 
 function logout() {
-    let phpRequest = new XMLHttpRequest();
-    phpRequest.open("GET", "logout.php", true);
-    phpRequest.send();
+    if (confirm("Are you sure you want to logout?")) {
+        // alert("logging out");
+        // let phpRequest = new XMLHttpRequest();
+        // phpRequest.open("GET", "logout.php", true);
+        // phpRequest.send();
+
+        window.location.replace("logout.php");
+    }
 }
 
 //TODO: disable sidepanel buttons during a battle!
