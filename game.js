@@ -780,7 +780,7 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
 
 function changePhase() {
     if (canNextPhase === "true") {
-        if ((gamePhase == 4 && confirm("Any aircraft not on carriers/airstrips or heli's not over land will get deleted.\nAre you sure you want to continue?")) || gamePhase != 4) {
+        if ((gamePhase == 4 && confirm("Any aircraft not on carriers/airstrips or heli's not over land will get deleted.\nAre you sure you want to continue?")) || (gamePhase != 4 && confirm("Are you sure you want to go to the next phase?"))) {
             let phpPhaseChange = new XMLHttpRequest();
             phpPhaseChange.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {

@@ -348,9 +348,9 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $carrierSpots = [];
         //get carrier positions
         $carrier = "aircraftCarrier";
-        $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ?)';
+        $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ?) AND (placementTeamId = ?)';
         $query = $db->prepare($query);
-        $query->bind_param("is", $gameId, $carrier);
+        $query->bind_param("iss", $gameId, $carrier, $myTeam);
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
@@ -370,7 +370,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $purchaseSpot = 118;
         $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementTeamId = ?) AND (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (placementPositionId != ?)';
         $query = $db->prepare($query);
-        $query->bind_param("issssssi", $myTeam, $gameId, $heli, $tanker, $bomber, $fighter, $stealthBomber, $purchaseSpot);
+        $query->bind_param("sisssssi", $myTeam, $gameId, $heli, $tanker, $bomber, $fighter, $stealthBomber, $purchaseSpot);
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
@@ -383,6 +383,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 $positionId = $r0['placementPositionId'];
                 $deletePiece = false;
                 if ($unitName == "attackHeli") {
+                    //over water
                     if ($positionId < 55) {
                         $deletePiece = true;
                     }
