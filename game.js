@@ -1067,6 +1067,13 @@ function battleChangeSection(newSection) {
         phpBattleEnding.send();
         
         //clear out the divs for battle piece deletion
+        document.getElementById("unused_attacker").innerHTML = null;
+        document.getElementById("unused_defender").innerHTML = null;
+        document.getElementById("used_attacker").innerHTML = null;
+        document.getElementById("used_defender").innerHTML = null;
+        document.getElementById("center_attacker").innerHTML = null;
+        document.getElementById("center_defender").innerHTML = null;
+
         document.getElementById("battleZonePopup").style.display = "none";
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
@@ -1676,7 +1683,6 @@ function updateBattleSection() {
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
 
-
             if (gameBattleSubSection !== "choosing_pieces") {
                 document.getElementById("battleActionPopup").style.display = "block";
                 if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "attack") {
@@ -1717,13 +1723,6 @@ function updateBattleSection() {
             } else {
                 document.getElementById("battleActionPopup").style.display = "none";
             }
-
-
-
-
-
-
-
 
             if (gameBattleSection === "attack") {
                 document.getElementById("attackButton").innerHTML = "Attack section";
@@ -1767,6 +1766,14 @@ function updateBattleSection() {
 
             if (gameBattleSection === "none") {
                 document.getElementById("battleZonePopup").style.display = "none";
+
+                //clear out the pieces from html(battlepieces)
+                document.getElementById("unused_attacker").innerHTML = null;
+                document.getElementById("unused_defender").innerHTML = null;
+                document.getElementById("used_attacker").innerHTML = null;
+                document.getElementById("used_defender").innerHTML = null;
+                document.getElementById("center_attacker").innerHTML = null;
+                document.getElementById("center_defender").innerHTML = null;
             }
         }
     };

@@ -414,7 +414,7 @@ $u = $results->fetch_assoc();
             <div id="battleActionPopup">
                 <button id="actionPopupButton" disabled>Loading...</button>
                 <div id="dice_image" class="dice"></div>
-                <div></div>
+<!--                <div></div>-->
             </div>
         </div>
         <div id="popup">

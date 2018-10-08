@@ -273,6 +273,15 @@ html, body {
     height: 30%;
 }
 
+/*//added by spencer*/
+#newsBodySubText{
+    margin-top: 50px;
+    font-family: Helvetica-Black;
+    text-indent: 2.5%;
+    font-size: large;
+    height: 30%;
+}
+
 .news{
     background-image: url("resources/unitImages/Newspaper.jpg");
 }
