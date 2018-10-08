@@ -230,6 +230,12 @@ function bodyLoader() {
 
 }
 
+function logout() {
+    let phpRequest = new XMLHttpRequest();
+    phpRequest.open("GET", "logout.php", true);
+    phpRequest.send();
+}
+
 //TODO: disable sidepanel buttons during a battle!
 //---------------------------------------------------
 function pieceClick(event, callingElement) {
@@ -399,6 +405,13 @@ function pieceMoveUndo() {
                     } else {
                         document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
                     }
+
+                    let unitName = pieceToUndo.getAttribute("data-unitName");
+
+                    pieceToUndo.setAttribute("title", unitName + "\n" +
+                        "Moves: " + decoded.new_placementCurrentMoves);
+
+
                 }
             }
         };
@@ -517,12 +530,18 @@ function popupDragOver(event, callingElement) {
 function popupDragEnter(event, callingElement) {
     event.preventDefault();
     clearTimeout(islandTimer);
+
+    callingElement.classList.add("mouseOver");
+
     event.stopPropagation();
 }
 
 function landDragLeave(event, callingElement) {
     event.preventDefault();
     clearTimeout(islandTimer);
+
+    callingElement.classList.remove("mouseOver");
+
     event.stopPropagation();
 }
 
@@ -576,6 +595,9 @@ function waterClick(event, callingElement) {
 
 function positionDrop(event, newContainerElement) {
     event.preventDefault();
+
+    newContainerElement.classList.remove("mouseOver");
+
     clearHighlighted();
     //Already approved to move by pieceDragstart (same team and good phase)
     let placementId = event.dataTransfer.getData("placementId");

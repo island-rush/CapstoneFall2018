@@ -628,6 +628,16 @@ html, body {
     /*background-color: rgba(255, 15, 0, 0.31);*/
     position: absolute;
 }
+.gridblockTiny:hover{
+    background-color: rgba(255, 15, 0, 0.31);
+}
+
+.mouseOver{
+    background-color: rgba(255, 252, 8, 0.31);
+}
+/*.gridblockTiny:{*/
+    /*background-color: rgba(255, 15, 0, 0.31);*/
+/*}*/
 
 #pos13a{
     width: 22%;
