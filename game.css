@@ -252,13 +252,13 @@ html, body {
     margin-top: 5%;
 }
 #popupTitle{
-    background-color:red;
+    /*background-color:red;*/
     text-align: center;
     font-size: xx-large;
     font-family: "Old English Text MT";
 }
 #popupBodyNews{
-    background: Blue;
+    /*background: Blue;*/
     font-family: Helvetica-Black;
     text-indent: 2.5%;
     font-size: large;
@@ -282,17 +282,21 @@ html, body {
 
 #popupBodyHybrid{
     margin-top: 5px;
-    background: Blue;
+    /*background: Blue;*/
     font-family: Helvetica-Black;
     height: 80%;
 }
 #setPoints{ /* Form */
 
 }
-h3#setPoints{margin:0;}
-input#setPoints{
-    width: 5%;
-}
+/*h3#setPoints{margin:0;}*/
+/*input#setPoints{*/
+    /*width: 5%;*/
+/*}*/
+
+/*#setPoints > input{*/
+    /*width: 10%;*/
+/*}*/
 
 .news{
     background-image: url("resources/unitImages/Newspaper.jpg");
