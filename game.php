@@ -433,13 +433,11 @@ $u = $results->fetch_assoc();
                     <h3>Set Points</h3>
                     <label for="setRedRpoints">Red R Points</label>
                     <input type="number" id="setRedRpoints">
-                    <br>
                     <label for="setRedHpoints">Red HW Points</label>
                     <input type="number" id="setRedHpoints">
                     <br>
                     <label for="setBlueRpoints">Blue R Points</label>
                     <input type="number" id="setBlueRpoints">
-                    <br>
                     <label for="setBlueHpoints">Blue HW Points</label>
                     <input type="number" id="setBlueHpoints">
 
@@ -458,6 +456,8 @@ $u = $results->fetch_assoc();
                     </select>
                     <input type="submit" value="Add 1 move to this team's troops">
                 </form>
+                <br>
+                <hr>
                 <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'; document.getElementById('hybridSubmitPoints').value = 'Submit new Point Values'">Close this popup</button>
             </div>
         </div>

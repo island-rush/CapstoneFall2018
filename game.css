@@ -199,7 +199,7 @@ html, body {
 #battle_button{
     width: 60%;
     height: 50%;
-    margin: 10% 20%; /*top right bottom left */
+    margin: 7% 20%; /*top right bottom left */
     font-family: Impact;
     font-size: 18px;
     background-color: burlywood;
@@ -214,7 +214,7 @@ html, body {
 #user_feedback{
     width: 100%;
     height: 60%;
-    margin: 5% 0;
+    margin: 3% 0;
     text-align: center;
     white-space: nowrap;
     overflow: auto;
@@ -289,14 +289,11 @@ html, body {
 #setPoints{ /* Form */
 
 }
-/*h3#setPoints{margin:0;}*/
-/*input#setPoints{*/
-    /*width: 5%;*/
-/*}*/
 
-/*#setPoints > input{*/
-    /*width: 10%;*/
-/*}*/
+#setPoints > h3 {margin:0;}
+#setPoints > input[type=number]{
+    width: 7%;
+}
 
 .news{
     background-image: url("resources/unitImages/Newspaper.jpg");
