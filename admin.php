@@ -1,17 +1,83 @@
-<?php
-    //control this page with the session info (which game-admin page did they log into?)
-    session_start();
-    $gameId = $_SESSION['gameId'];
-?>
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {display:none;}
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
     <title>Island Rush Admin</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript">
-        //functions here for administrating this page
-    </script>
+
+        function setActive(){
+            let gameActive;
+            if (document.getElementById("activeToggle").checked === true){
+                gameActive = 1;
+            }else{
+                gameActive = 0;
+            }
+            alert(gameActive);
+            let setGameActivity = new XMLHttpRequest();
+            setGameActivity.open("POST", "setGameActive.php?gameActive=" + gameActive, true);
+            setGameActivity.send();
+        }
+
+
+        </script>
 </head>
 
 <body>
@@ -25,8 +91,41 @@
 </nav>
 
 
-<p>Teacher Admin Stuff Here</p>
+<div class="spacer">
+    <table border="0" width="100%">
+        <tbody>
+        <tr>
+            <td colspan="4">
+                <br />
+                <h1>Admin Tools</h1>
 
+                <div id="toggle_swtich_text">Toggle if the game is active or not.</div>
+
+                <label  class="switch">
+                    <input id="activeToggle" type="checkbox" <?php
+                    session_start();
+                    include("db.php");
+
+                    $gameId = $_SESSION['gameId'];
+                    $query = "SELECT gameActive FROM GAMES WHERE gameId = ?";
+                    $preparedQuery = $db->prepare($query);
+                    $preparedQuery->bind_param("i", $gameId);
+                    $preparedQuery->execute();
+
+                    $results = $preparedQuery->get_result();
+                    $r= $results->fetch_assoc();
+                    $gameChecked = $r['gameActive'];
+
+                    if ($gameChecked === 1){
+                        echo "checked";
+                    }
+                    ?> onclick="setActive()">
+                    <span class="slider round"></span>
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>
