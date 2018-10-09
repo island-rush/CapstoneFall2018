@@ -30,6 +30,10 @@
                             " how'd you even do this?";
                         valid = false;
                     }
+                    if (isActive == false && team != 'spectator'){
+                        document.getElementById('formFeedback').innerHTML = "ERROR: Selected game is currently inactive.";
+                        valid == false;
+                    }
                     return valid;
                 }
 
@@ -68,6 +72,7 @@
                                             <div id="formFeedback" class="formError">
                                                 <?php
                                                 if (isset($_GET['err'])) {echo 'ERROR: Something Not Valid.'; }
+                                                if (isset($_GET['err2'])) {echo 'ERROR: This game is currently inactive. Choose to spectate or choose another game.'; }
                                                 ?>
                                             </div>
                                         </td>
