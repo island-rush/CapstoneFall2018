@@ -1,5 +1,5 @@
 //Javascript Functions used by the Island Rush Game
-//Created by C1C Spencer Adolph (7/28/2018)
+//Created by C1C Spencer Adolph (7/28/2018).
 
 let islandTimer;
 let pieceTimer;
