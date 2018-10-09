@@ -22,28 +22,21 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $_SESSION['myTeam'] = $team;
     $_SESSION['gameId'] = $r['gameId'];
 
-    $gameId = $_SESSION['gameId'];
-    $query = "SELECT gameActive FROM GAMES WHERE gameId = ?";
-    $preparedQuery = $db->prepare($query);
-    $preparedQuery->bind_param("i", $gameId);
-    $preparedQuery->execute();
-
-    $results = $preparedQuery->get_result();
-    $r= $results->fetch_assoc();
-    $gameChecked = $r['gameActive'];
 
     if ($team == "Spectator") {
         //unlimited spectators, just go there and get updates?
         header("location:gameSpectator.php");
         exit;
     } else {
-        //Go straight to game, don't wait for other player
-        header("location:game.php");
 
-        if ($gameChecked === 0){
+        $active = $r['gameActive'];
+        if ($active == 0) {
             header("location:login.php?err2=1");
             exit;
-            }
+        }
+
+        //Go straight to game, don't wait for other player
+        header("location:game.php");
 
         //Update the Database to say this team has joined
         if ($team == "Red") {

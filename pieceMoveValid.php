@@ -104,6 +104,46 @@ if ($num_results > 0) {
     }
 }
 
+//missile checks (could refactor above to not execute if missle, but this override is okay (since echo is below it))
+if ($unitName == "missile") {
+    //old position == 118
+    //new position must be 121, 122, 123, 124
+    //new position must be in an island owned by this team
+    //this position must be empty (prevented by making missiles 100% of container/position)
+    $possibleMissilePositions = [121, 122, 123, 124];
+    $thingToEcho = -3;
+    if ($old_positionId == 118) {
+        if (in_array($new_positionId, $possibleMissilePositions)) {
+            $query = 'SELECT * FROM games WHERE gameId = ?';
+            $query = $db->prepare($query);
+            $query->bind_param("i", $gameId);
+            $query->execute();
+            $results = $query->get_result();
+            $r = $results->fetch_assoc();
+            $islandOwner = 'badDefaultValueInitialize';
+            if ($islandTo == 2) {
+                //121
+                $islandOwner = $r['gameIsland2'];
+            } elseif ($islandTo == 6) {
+                //122
+                $islandOwner = $r['gameIsland6'];
+            } elseif ($islandTo == 7) {
+                //123
+                $islandOwner = $r['gameIsland7'];
+            } else {
+                //islandTo = 9, 124
+                $islandOwner = $r['gameIsland9'];
+            }
+            if ($islandOwner == $myTeam) {
+                //good to move there
+                $thingToEcho = 0;
+            }
+        }
+    }
+}
+
+
+
 echo $thingToEcho;
 
 $db->close();

@@ -247,34 +247,6 @@ function pieceClick(event, callingElement) {
                 }
             }
             clearHighlighted();
-            //show the piece's moves
-            // let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-            // let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-            // let phpAvailableMoves = new XMLHttpRequest();
-            // phpAvailableMoves.onreadystatechange = function () {
-            //     if (this.readyState === 4 && this.status === 200) {
-            //         let decoded = JSON.parse(this.responseText);
-            //         let g;
-            //         for (g = 0; g < decoded.length; g++) {
-            //             let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-            //             gridThing.classList.add("highlighted");
-            //             if (gridThing.classList[0] === "gridblockTiny") {
-            //                 let parent = gridThing.parentNode;
-            //                 let parclass = parent.classList;
-            //                 if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-            //                     let islandsquare = document.getElementById(parclass[0]);
-            //                     islandsquare.classList.add("highlighted");
-            //                     if (islandsquare.id === "special_island5") {
-            //                         document.getElementById("special_island5_extra").classList.add("highlighted");
-            //                     }
-            //                 }
-            //             }
-            //
-            //         }
-            //     }
-            // };
-            // phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-            // phpAvailableMoves.send();
         }
     }
     event.stopPropagation();

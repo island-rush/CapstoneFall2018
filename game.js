@@ -28,14 +28,14 @@ function bodyLoader() {
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
     if (gameCurrentTeam === "Red") {
         //red highlight
-        document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+        document.getElementById("red_team_indicator").classList.add("highlightedTeamRed");
         //blue unhighlight
-        document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+        document.getElementById("blue_team_indicator").classList.remove("highlightedTeamBlue");
     } else {
         //blue highlight
-        document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+        document.getElementById("blue_team_indicator").classList.add("highlightedTeamBlue");
         //red unhighlight
-        document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+        document.getElementById("red_team_indicator").classList.remove("highlightedTeamRed");
     }
 
     document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
@@ -276,34 +276,6 @@ function pieceClick(event, callingElement) {
                 }
             }
             clearHighlighted();
-            //show the piece's moves
-            // let thisMoves = callingElement.getAttribute("data-placementCurrentMoves");
-            // let thisPos = callingElement.parentNode.getAttribute("data-positionId");
-            // let phpAvailableMoves = new XMLHttpRequest();
-            // phpAvailableMoves.onreadystatechange = function () {
-            //     if (this.readyState === 4 && this.status === 200) {
-            //         let decoded = JSON.parse(this.responseText);
-            //         let g;
-            //         for (g = 0; g < decoded.length; g++) {
-            //             let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
-            //             gridThing.classList.add("highlighted");
-            //             if (gridThing.classList[0] === "gridblockTiny") {
-            //                 let parent = gridThing.parentNode;
-            //                 let parclass = parent.classList;
-            //                 if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-            //                     let islandsquare = document.getElementById(parclass[0]);
-            //                     islandsquare.classList.add("highlighted");
-            //                     if (islandsquare.id === "special_island5") {
-            //                         document.getElementById("special_island5_extra").classList.add("highlighted");
-            //                     }
-            //                 }
-            //             }
-            //
-            //         }
-            //     }
-            // };
-            // phpAvailableMoves.open("GET", "pieceMoveAvailable.php?thisPos=" + thisPos + "&thisMoves=" + thisMoves, true);
-            // phpAvailableMoves.send();
         }
     }
     event.stopPropagation();
@@ -774,7 +746,7 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
             return unitName === "fighter" && containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
         }
     } else {  //wasn't a container
-        return unitTerrain === "air" || unitTerrain === positionTerrain; //air anywhere, or match terrain
+        return unitTerrain === "air" || unitTerrain === positionTerrain; //air anywhere, or match terrain (missile = missile)
     }
 }
 
@@ -840,14 +812,14 @@ function changePhase() {
                     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
                     if (gameCurrentTeam === "Red") {
                         //red highlight
-                        document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+                        document.getElementById("red_team_indicator").classList.add("highlightedTeamRed");
                         //blue unhighlight
-                        document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+                        document.getElementById("blue_team_indicator").classList.remove("highlightedTeamBlue");
                     } else {
                         //blue highlight
-                        document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+                        document.getElementById("blue_team_indicator").classList.add("highlightedTeamBlue");
                         //red unhighlight
-                        document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+                        document.getElementById("red_team_indicator").classList.remove("highlightedTeamRed");
                     }
                     // NEWS ALERT PHASE
                     if (gamePhase === "1") {
@@ -1573,14 +1545,14 @@ function updateNextPhase() {
             // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
             if (gameCurrentTeam === "Red") {
                 //red highlight
-                document.getElementById("red_team_indicator").classList.add("highlightedTeam");
+                document.getElementById("red_team_indicator").classList.add("highlightedTeamRed");
                 //blue unhighlight
-                document.getElementById("blue_team_indicator").classList.remove("highlightedTeam");
+                document.getElementById("blue_team_indicator").classList.remove("highlightedTeamBlue");
             } else {
                 //blue highlight
-                document.getElementById("blue_team_indicator").classList.add("highlightedTeam");
+                document.getElementById("blue_team_indicator").classList.add("highlightedTeamBlue");
                 //red unhighlight
-                document.getElementById("red_team_indicator").classList.remove("highlightedTeam");
+                document.getElementById("red_team_indicator").classList.remove("highlightedTeamRed");
             }
         }
     };

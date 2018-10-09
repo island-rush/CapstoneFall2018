@@ -70,12 +70,11 @@
             }else{
                 gameActive = 0;
             }
-            alert(gameActive);
+            // alert(gameActive);
             let setGameActivity = new XMLHttpRequest();
             setGameActivity.open("POST", "setGameActive.php?gameActive=" + gameActive, true);
             setGameActivity.send();
         }
-
 
         </script>
 </head>

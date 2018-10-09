@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 0, 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
 INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
 
 

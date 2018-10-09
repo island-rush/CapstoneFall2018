@@ -12,12 +12,12 @@ $u = $results->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Island Rush Game</title>
+    <title>Island Rush Game V0.22 Alpha</title>
     <link rel="shortcut icon" type="image/x-icon" href="http://localhost/favicon.ico?v=2">
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
-        var unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker'];
+        var unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker', 'missile'];
         var unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
             if ($num_results2 > 0) {
                 for ($i=0; $i < $num_results2; $i++) {
@@ -178,7 +178,7 @@ $u = $results->fetch_assoc();
             <div class="purchase_square bomber" title="Bomber&#013;Cost: 12&#013;Moves: 6" id="bomber" data-unitCost="12" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square stealthBomber" title="StealthBomber&#013;Cost: 15&#013;Moves: 5" id="stealthBomber" data-unitCost="15" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square tanker" title="Tanker&#013;Cost: 11&#013;Moves: 5" id="tanker" data-unitCost="11" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square tanker" title="Missile&#013;Cost: 10" id="missile" data-unitCost="10" data-unitId="14" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square missile" title="Missile&#013;Cost: 10" id="missile" data-unitCost="10" data-unitId="15" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
         </div>
         <div id="purchase_seperator">Shop-Inventory</div>
         <div id="shopping_things">
@@ -202,10 +202,11 @@ $u = $results->fetch_assoc();
                 <div id="blue_hPoints_indicator">Loading</div>
             </div>
             <div id="misc_info_undo">
-                <div id="game_version">V 0.22Alpha</div>
+                <div id="logout_div">
+                    <button id="logout_button" onclick="logout();">Logout</button>
+                </div>
                 <div id="undo_button_div">
                     <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
-                    <button id="logout_button" onclick="logout();">Logout</button>
                 </div>
             </div>
         </div>
@@ -262,6 +263,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos2b" data-positionId="80" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 80; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos2c" data-positionId="81" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 81; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos2d" data-positionId="82" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 82; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM1" data-positionId="121" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 121; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="11" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 11; include("pieceDisplay.php"); ?></div>
@@ -319,6 +321,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos6a" data-positionId="94" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 94; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos6b" data-positionId="95" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 95; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos6c" data-positionId="96" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 96; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM2" data-positionId="122" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 122; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="25" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 25; include("pieceDisplay.php"); ?></div>
@@ -328,6 +331,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos7a" data-positionId="97" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 97; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos7b" data-positionId="98" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 98; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos7c" data-positionId="99" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 99; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM3" data-positionId="123" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 123; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="27" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 27; include("pieceDisplay.php"); ?></div>
@@ -355,6 +359,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos9b" data-positionId="104" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 104; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos9c" data-positionId="105" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 105; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos9d" data-positionId="106" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 106; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM4" data-positionId="124" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 124; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="36" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 36; include("pieceDisplay.php"); ?></div>

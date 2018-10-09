@@ -117,8 +117,11 @@ html, body {
     width: 50%;
     float: left;
 }
-.highlightedTeam{
-    background-color: green;
+.highlightedTeamRed{
+    background-color: rgba(128, 2, 0, 0.31);
+}
+.highlightedTeamBlue{
+    background-color: rgba(0, 26, 165, 0.45);
 }
 #rPoints_indicators{
     width: 100%;
@@ -162,7 +165,7 @@ html, body {
     width: 100%;
     height: 20%;
 }
-#game_version{
+#logout_div{
     height: 100%;
     width: 50%;
     float: left;
@@ -555,6 +558,7 @@ html, body {
 .bomber{background-image: url("resources/unitImages/bomber.PNG");}
 .stealthBomber{background-image: url("resources/unitImages/stealthBomber.png");}
 .tanker{background-image: url("resources/unitImages/tanker.png");}
+.missile{background-image: url("resources/unitImages/missile.png");}
 
 #purchased_container > .gamePiece{
     width: 15%;
@@ -589,6 +593,11 @@ html, body {
 .transportContainer > .gamePiece{
     height: 50%;
     width: 50%;
+}
+
+.missileContainer > .gamePiece{
+    height: 100%;
+    width: 100%;
 }
 
 #unused_attacker > .gamePiece{
@@ -1213,6 +1222,51 @@ html, body {
     -webkit-transform: rotate(0deg); /* Safari */
     transrm: rotate(0deg);
 }
+
+
+#posM1{
+    /*width: 21%;*/
+    /*height: 21%;*/
+    /*margin-left: 35%;*/
+    /*margin-top:34%;*/
+    /*-ms-transform: rotate(0deg); !* IE 9 *!*/
+    /*-webkit-transform: rotate(0deg); !* Safari *!*/
+    /*transrm: rotate(0deg);*/
+}
+#posM2{
+    /*width: 21%;*/
+    /*height: 21%;*/
+    /*margin-left: 35%;*/
+    /*margin-top:34%;*/
+    /*-ms-transform: rotate(0deg); !* IE 9 *!*/
+    /*-webkit-transform: rotate(0deg); !* Safari *!*/
+    /*transrm: rotate(0deg);*/
+}
+#posM3{
+    background-color: white;
+    width: 15%;
+    height: 15%;
+    margin-left: 5%;
+    margin-top: 5%;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Safari */
+    transrm: rotate(0deg);
+}
+#posM4{
+    /*width: 21%;*/
+    /*height: 21%;*/
+    /*margin-left: 35%;*/
+    /*margin-top:34%;*/
+    /*-ms-transform: rotate(0deg); !* IE 9 *!*/
+    /*-webkit-transform: rotate(0deg); !* Safari *!*/
+    /*transrm: rotate(0deg);*/
+}
+
+
+
+
+
+
 
 
 #dice_image{

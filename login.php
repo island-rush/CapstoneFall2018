@@ -30,10 +30,6 @@
                             " how'd you even do this?";
                         valid = false;
                     }
-                    if (isActive == false && team != 'spectator'){
-                        document.getElementById('formFeedback').innerHTML = "ERROR: Selected game is currently inactive.";
-                        valid == false;
-                    }
                     return valid;
                 }
 
