@@ -1793,10 +1793,10 @@ function hybridResetPoints(){
 }
 //Function for sumbitting the values of the hybrid tool to the database
 function hybridSetPoints(){
-    let newRedRpoints = document.getElementById("setRedRpoints").valueOf();
-    let newRedHpoints = document.getElementById("setRedHpoints").valueOf();
-    let newBlueRpoints = document.getElementById("setBlueRpoints").valueOf();
-    let newBlueHpoints = document.getElementById("setBlueHpoints").valueOf();
+    let newRedRpoints = document.getElementById("setRedRpoints").value;
+    let newRedHpoints = document.getElementById("setRedHpoints").value;
+    let newBlueRpoints = document.getElementById("setBlueRpoints").value;
+    let newBlueHpoints = document.getElementById("setBlueHpoints").value;
     let setPoints = new XMLHttpRequest();
     setPoints.open("POST", "hybridSetPoints.php?newRedRpoints=" + newRedRpoints + "&newRedHpoints=" + newRedHpoints + "&newBlueRpoints=" + newBlueRpoints + "&newBlueHpoints=" + newBlueHpoints, true);
     setPoints.send();

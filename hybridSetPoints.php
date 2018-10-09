@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include("db.php");
 $gameId = $_SESSION['gameId'];
 // Get new point values from the POST
@@ -13,8 +13,8 @@ $query = "UPDATE GAMES SET gameRedRpoints = ?, gameRedHpoints = ?, gameBlueRpoin
 $preparedQuery = $db->prepare($query);
 $preparedQuery->bind_param("iiiii", $newRedRpoints, $newRedHpoints, $newBlueRpoints, $newBlueHpoints, $gameId);
 $preparedQuery->execute();
-$results = $preparedQuery->get_result();
-$r= $results->fetch_assoc();
+//$results = $preparedQuery->get_result();
+//$r= $results->fetch_assoc();
 
 
 $red = 'Red';
