@@ -34,4 +34,14 @@ $query = $db->prepare($query);
 $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
 $query->execute();
 
+
+//this needed to stop further undo after any piece is deleted
+$one = 1;
+$query = 'UPDATE games SET gameTurn = gameTurn + ? WHERE gameId = ?';
+$query = $db->prepare($query);
+$query->bind_param("ii", $gameId, $one);
+$query->execute();
+
+
+
 $db->close();

@@ -2,9 +2,21 @@
 include("db.php");
 
 $movementGameId = $_REQUEST['gameId'];
-$movementTurn = $_REQUEST['gameTurn'];
-$movementPhase = $_REQUEST['gamePhase'];
+//$movementTurn = $_REQUEST['gameTurn'];
+//$movementPhase = $_REQUEST['gamePhase'];
 $myTeam = $_REQUEST['myTeam'];
+
+$query = 'SELECT * FROM games WHERE gameId = ?';
+$query = $db->prepare($query);
+$query->bind_param("i", $movementGameId);
+$query->execute();
+$results = $query->get_result();
+$r= $results->fetch_assoc();
+
+$movementTurn = $r['gameTurn'];
+$movementPhase = $r['gamePhase'];
+
+
 
 //Get the last movement made
 $query = 'SELECT * FROM movements WHERE movementGameId = ? AND movementTurn = ? AND movementPhase = ? ORDER BY movementId DESC LIMIT 0, 1';

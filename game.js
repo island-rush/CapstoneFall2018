@@ -676,6 +676,27 @@ function positionDrop(event, newContainerElement) {
                                     let phpRequestTeamChange = new XMLHttpRequest();
                                     phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
                                     phpRequestTeamChange.send();
+
+                                    //if there is a missile there, change the team for it (db change is in above php call)
+                                    let missileIslandFlags = [79, 94, 97, 103];
+                                    if (missileIslandFlags.includes(parseInt(new_positionId))) {
+                                        //check to see if missile is there
+                                        let docId = "posM1";
+                                        if (new_positionId == 94) {
+                                            docId = "posM2";
+                                        } else if (new_positionId == 97) {
+                                            docId = "posM3";
+                                        } else if (new_positionId == 103) {
+                                            docId = "posM4";
+                                        }
+                                        let missileContainer = document.getElementById(docId);
+                                        if (missileContainer.childNodes.length == 1) {
+                                            let missile = missileContainer.childNodes[0];
+                                            missile.classList.remove(parentTeam);
+                                            missile.classList.add(newTeam);
+                                            missile.setAttribute("data-placementTeamId", newTeam);
+                                        }
+                                    }
                                 }
                             }
 
