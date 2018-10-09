@@ -57,6 +57,11 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
         $query->bind_param("ii", $joinedValue, $_SESSION['gameId']);
         $query->execute();
 
+        $query = 'DELETE from UPDATES where updateGameId = ?';
+        $query = $db->prepare($query);
+        $query->bind_param("i", $_SESSION['gameId']);
+        $query->execute();
+
         $results->free();
         $db->close();
 

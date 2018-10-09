@@ -636,8 +636,6 @@ function positionDrop(event, newContainerElement) {
                             phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                             phpRequest.send();
 
-
-
                             let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
                             let containerElement;
                             if (flagPositions.includes(parseInt(new_positionId)) || flagPositions.includes(parseInt(new_positionId))) {
@@ -678,6 +676,86 @@ function positionDrop(event, newContainerElement) {
                                     let phpRequestTeamChange = new XMLHttpRequest();
                                     phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
                                     phpRequestTeamChange.send();
+                                }
+                            }
+
+                            //check to see if the piece was dropped at a missile target position
+                            //then check if there is an 'enemy' missile at that island spot (missile container)
+                            //if so, delete the piece and delete the missile and give user feedback about what happened
+                            let missileTargets1 = [2, 3, 4, 10, 11, 15, 16];
+                            let missileTargets2 = [16, 17, 18, 24, 25, 29, 30, 31];
+                            let missileTargets3 = [19, 20, 21, 26, 27, 32, 33, 34];
+                            let missileTargets4 = [28, 35, 36, 41, 42];
+
+                            if (missileTargets1.includes(parseInt(new_positionId))) {
+                                //check if missile on this island
+                                if (document.getElementById("posM1").childNodes.length == 1) {
+                                    //check if island is owned by other team? / if missile is owned TODO: missile always owned by island owner
+                                    if (!document.getElementById("posM1").childNodes[0].classList.contains(myTeam)) {
+                                        //delete the piece that moved html
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        //delete the piece that moved db
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM1").childNodes[0].getAttribute("data-placementId");
+                                        //delete the missile html
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        //delete the missile db
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        //user feedback
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
+                                }
+                            }
+                            if (missileTargets2.includes(parseInt(new_positionId))) {
+                                if (document.getElementById("posM2").childNodes.length == 1) {
+                                    if (!document.getElementById("posM2").childNodes[0].classList.contains(myTeam)) {
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM2").childNodes[0].getAttribute("data-placementId");
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
+                                }
+                            }
+                            if (missileTargets3.includes(parseInt(new_positionId))) {
+                                if (document.getElementById("posM3").childNodes.length == 1) {
+                                    if (!document.getElementById("posM3").childNodes[0].classList.contains(myTeam)) {
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM3").childNodes[0].getAttribute("data-placementId");
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
+                                }
+                            }
+                            if (missileTargets4.includes(parseInt(new_positionId))) {
+                                if (document.getElementById("posM4").childNodes.length == 1) {
+                                    if (!document.getElementById("posM4").childNodes[0].classList.contains(myTeam)) {
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM4").childNodes[0].getAttribute("data-placementId");
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
                                 }
                             }
                         }
