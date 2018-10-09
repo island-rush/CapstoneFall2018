@@ -241,32 +241,28 @@ html, body {
 /*--------------------------------------------------------------------------------------------------------------*/
 /* NEWS ALERT POPUP CSS */
 #popup{
-    width: 25%;
-    height: 35%;
+    width: 35%;
+    height: 60%;
     position: absolute;
     display: none;
-    /*background-image: url("resources/unitImages/Newspaper.jpg");*/
     background-color: #e6e6e6;
     border: solid black 3px;
-    /*background-repeat: no-repeat;*/
-    /*background-size: 390px 490px;*/
-    /*background-color: #D4D4D4;*/
-    /*background-position: center;*/
     z-index: 500;
-    margin-left: 20%;
-    margin-top: 15%;
+    margin-left: 15%;
+    margin-top: 5%;
 }
 #popupTitle{
+    background-color:red;
     text-align: center;
     font-size: xx-large;
     font-family: "Old English Text MT";
-    /*background-image: url("resources/mapImages/battle_zone.png");*/
 }
 #popupBodyNews{
+    background: Blue;
     font-family: Helvetica-Black;
     text-indent: 2.5%;
     font-size: large;
-    height: 30%;
+    height: 80%;
 }
 #newsBodyText{
     margin-top: 5px;
@@ -276,13 +272,26 @@ html, body {
     height: 30%;
 }
 
-/*//added by spencer*/
 #newsBodySubText{
-    margin-top: 50px;
+    margin-top: 5px;
     font-family: Helvetica-Black;
     text-indent: 2.5%;
     font-size: large;
-    height: 30%;
+    height: 70%;
+}
+
+#popupBodyHybrid{
+    margin-top: 5px;
+    background: Blue;
+    font-family: Helvetica-Black;
+    height: 80%;
+}
+#setPoints{ /* Form */
+
+}
+h3#setPoints{margin:0;}
+input#setPoints{
+    width: 5%;
 }
 
 .news{

@@ -430,6 +430,7 @@ $u = $results->fetch_assoc();
             </div>
             <div id="popupBodyHybrid">
                 <form id="setPoints">
+                    <h3>Set Points</h3>
                     <label for="setRedRpoints">Red R Points</label>
                     <input type="number" id="setRedRpoints">
                     <br>
@@ -446,8 +447,18 @@ $u = $results->fetch_assoc();
                     <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
                     <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
                 </form>
-
-                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'">Close this popup</button>
+                <p>other stuff</p>
+                <button id="hybridPieceDelete">Delete a Piece</button>
+                <form id="boostMoves">
+                    <h3>Add 1 move to troops</h3>
+                    <label for="moveTeam">Team</label>
+                    <select name="team" id="moveTeam" required>
+                        <option value="Red">Red</option>
+                        <option value="Blue">Blue</option>
+                    </select>
+                    <input type="submit" value="Add 1 move to this team's troops">
+                </form>
+                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'; document.getElementById('hybridSubmitPoints').value = 'Submit new Point Values'">Close this popup</button>
             </div>
         </div>
     </div>

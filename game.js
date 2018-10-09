@@ -1643,6 +1643,32 @@ function updateNextPhase() {
                 document.getElementById("popup").style.display = "none";
             }
 
+            // HYBRID WAR PHASE
+            if (gamePhase === "6") {
+                //convert the battle button to be a hybrid warfare shop button
+                document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
+                document.getElementById("battle_button").disabled = false;
+                document.getElementById("battle_button").onclick =function () {
+                    document.getElementById("popupBodyNews").style.display = "none";
+                    document.getElementById("popupBodyHybrid").style.display = "block";
+                    document.getElementById("setRedRpoints").value = gameRedRpoints;
+                    document.getElementById("setRedHpoints").value = gameRedHpoints;
+                    document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                    document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                    document.getElementById("popup").style.display = "block";
+                };
+            }else{
+                // not hybrid, should be the battle button
+                //Let the canAttack check above enable or disable battle button, but set the html stuff back
+                document.getElementById("battle_button").innerHTML = "Select Battle";
+                document.getElementById("battle_button").onclick = function() {
+                    if (confirm("Are you sure you want to battle?")) {
+                        battleChangeSection("selectPos");
+                    }
+                };
+            }
+
+
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
             if (gameCurrentTeam === "Red") {
