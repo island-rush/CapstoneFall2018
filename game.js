@@ -966,10 +966,9 @@ function changePhase() {
                             let unitName = currentPiece.getAttribute("data-unitName");
                             let newMoves = unitsMoves[unitName];
                             currentPiece.setAttribute("data-placementCurrentMoves", newMoves);
-                            currentPiece.setAttribute("data-placementBattleUsed", "0")
+                            currentPiece.setAttribute("data-placementBattleUsed", "0");
                         }
                     }
-
                 }
             };
             phpPhaseChange.open("GET", "gamePhaseChange.php", true);  // removes the element from the database
