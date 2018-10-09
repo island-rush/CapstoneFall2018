@@ -1798,7 +1798,7 @@ function hybridSetPoints(){
     let newBlueRpoints = document.getElementById("setBlueRpoints").value;
     let newBlueHpoints = document.getElementById("setBlueHpoints").value;
     let setPoints = new XMLHttpRequest();
-    setPoints.open("POST", "hybridSetPoints.php?newRedRpoints=" + newRedRpoints + "&newRedHpoints=" + newRedHpoints + "&newBlueRpoints=" + newBlueRpoints + "&newBlueHpoints=" + newBlueHpoints, true);
+    setPoints.open("GET", "hybridSetPoints.php?newRedRpoints=" + newRedRpoints + "&newRedHpoints=" + newRedHpoints + "&newBlueRpoints=" + newBlueRpoints + "&newBlueHpoints=" + newBlueHpoints, true);
     setPoints.send();
     document.getElementById("hybridSubmitPoints").value = "Submitted!";
 }
