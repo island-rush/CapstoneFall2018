@@ -216,8 +216,7 @@ html, body {
     height: 60%;
     margin: 3% 0;
     text-align: center;
-    white-space: nowrap;
-    overflow: auto;
+    overflow-wrap: break-word;
     text-weight: bold;
     text-size: 14px;
 }

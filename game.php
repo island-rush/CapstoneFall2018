@@ -433,11 +433,11 @@ $u = $results->fetch_assoc();
                     <h3>Set Points</h3>
                     <label for="setRedRpoints">Red R Points</label>
                     <input type="number" id="setRedRpoints">
-                    <label for="setRedHpoints">Red HW Points</label>
-                    <input type="number" id="setRedHpoints">
-                    <br>
                     <label for="setBlueRpoints">Blue R Points</label>
                     <input type="number" id="setBlueRpoints">
+                    <br>
+                    <label for="setRedHpoints">Red HW Points</label>
+                    <input type="number" id="setRedHpoints">
                     <label for="setBlueHpoints">Blue HW Points</label>
                     <input type="number" id="setBlueHpoints">
 
