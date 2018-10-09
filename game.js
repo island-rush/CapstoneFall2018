@@ -1636,10 +1636,13 @@ function updateNextPhase() {
                 // alert("phase1");
                 //TODO: phase effects here and grab phase stuff???
                 document.getElementById("popup").style.display = "block";
+                document.getElementById("popupBodyNews").style.display = "block";
+                document.getElementById("popupBodyHybrid").style.display = "none";
             } else {
                 // alert("not phase 1");
                 document.getElementById("popup").style.display = "none";
             }
+
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
             if (gameCurrentTeam === "Red") {

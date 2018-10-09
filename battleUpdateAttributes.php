@@ -17,14 +17,14 @@ if ($gameBattleSection == "selectPos") {
     $increment = 1;
 }
 
-$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameTurn = gameTurn + ? WHERE (gameId = ?)';
+$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = gameBattleTurn + ? WHERE (gameId = ?)';
 $query = $db->prepare($query);
 $query->bind_param("ssisiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $increment, $gameId);
 $query->execute();
 
 
 //if new section == askRepeat, check turn = 2, then remove battlePiece aircraft
-if ($gameBattleSection == "askRepeat" && $gameBattleTurn == 2) {
+if ($gameBattleSection == "askRepeat" && $gameBattleTurn >= 2) {
     $fighter = "fighter";
     $bomber = "bomber";
     $stealthBomber = "stealthBomber";

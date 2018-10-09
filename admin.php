@@ -72,7 +72,7 @@
             }
             // alert(gameActive);
             let setGameActivity = new XMLHttpRequest();
-            setGameActivity.open("POST", "setGameActive.php?gameActive=" + gameActive, true);
+            setGameActivity.open("POST", "adminGameToggle.php?gameActive=" + gameActive, true);
             setGameActivity.send();
         }
 
