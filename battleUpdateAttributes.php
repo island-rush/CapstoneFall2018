@@ -17,9 +17,9 @@ if ($gameBattleSection == "selectPos") {
     $increment = 1;
 }
 
-$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = gameBattleTurn + ? WHERE (gameId = ?)';
+$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = gameBattleTurn + ?, gameTurn = gameTurn + ? WHERE (gameId = ?)';
 $query = $db->prepare($query);
-$query->bind_param("ssisiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $increment, $gameId);
+$query->bind_param("ssisiiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $increment, $increment, $gameId);
 $query->execute();
 
 
