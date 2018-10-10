@@ -53,7 +53,7 @@ $u = $results->fetch_assoc();
         var gameBattleSubSection = "<?php echo $u['gameBattleSubSection']; ?>";
         var gameBattleLastRoll = "<?php echo $u['gameBattleLastRoll']; ?>";
         var gameBattleLastMessage = "<?php echo $u['gameBattleLastMessage']; ?>";
-        var gameBattleTurn = "<?php echo $u['gameBattleTurn']; ?>";
+        var gameBattleTurn = <?php echo $u['gameBattleTurn']; ?>;
 
         var gameBattleAdjacentArray;
 
@@ -78,7 +78,7 @@ $u = $results->fetch_assoc();
                 $canAttack = "false";
             } elseif ($u['gamePhase'] == 2) {
                 //reinforcement purchase
-                $canMove = "false";
+                $canMove = "true";
                 $canPurchase = "true";
                 $canUndo = "false";
                 $canNextPhase = "true";

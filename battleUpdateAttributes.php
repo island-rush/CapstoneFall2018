@@ -10,18 +10,20 @@ $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 $gameBattleLastRoll = $_REQUEST['gameBattleLastRoll'];
 $gameBattleLastMessage = $_REQUEST['gameBattleLastMessage'];
 $gameBattlePosSelected = $_REQUEST['gameBattlePosSelected'];
-$gameBattleTurn = $_REQUEST['gameBattleTurn'];
+$gameBattleTurn = (int) $_REQUEST['gameBattleTurn'];
 
 $increment = 0;
 if ($gameBattleSection == "selectPos") {
     $increment = 1;
 }
 
-$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = gameBattleTurn + ?, gameTurn = gameTurn + ? WHERE (gameId = ?)';
+$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = ?, gameTurn = gameTurn + ? WHERE (gameId = ?)';
 $query = $db->prepare($query);
-$query->bind_param("ssisiiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $increment, $increment, $gameId);
+$query->bind_param("ssisiiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $gameBattleTurn, $increment, $gameId);
 $query->execute();
 
+
+//this is the code to get rid of aircraft after 2 turns
 
 //if new section == askRepeat, check turn = 2, then remove battlePiece aircraft
 if ($gameBattleSection == "askRepeat" && $gameBattleTurn >= 2) {
@@ -30,7 +32,7 @@ if ($gameBattleSection == "askRepeat" && $gameBattleTurn >= 2) {
     $stealthBomber = "stealthBomber";
     $tanker = "tanker";
     $wasNotHit = 0;
-    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) WHERE (placementId = battlePieceId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
+    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
     $query = $db->prepare($query);
     $query->bind_param("ssssii", $fighter, $bomber, $stealthBomber, $tanker, $wasNotHit, $gameId);
     $query->execute();
