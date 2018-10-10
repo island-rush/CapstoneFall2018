@@ -1905,6 +1905,17 @@ function hybridSetPoints(){
     document.getElementById("hybridSubmitPoints").value = "Submitted!";
 }
 
+// Function for deleting a piece on the board
+function hybridDeletePiece(){
+
+}
+
+// Function for adding moves to a certain team from the hybrid panel
+function hybridAddMove(){
+    let team = document.getElementById("hybridmoveTeam").value;
+}
+
+
 function rollDice(){
     let numRolls = Math.floor(Math.random() * 40) + 20;
     let thingy;

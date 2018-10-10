@@ -440,21 +440,20 @@ $u = $results->fetch_assoc();
                     <input type="number" id="setRedHpoints">
                     <label for="setBlueHpoints">Blue HW Points</label>
                     <input type="number" id="setBlueHpoints">
-
                     <br>
                     <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
                     <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
                 </form>
-                <p>other stuff</p>
-                <button id="hybridPieceDelete">Delete a Piece</button>
-                <form id="boostMoves">
+                <p>Other Hybrid Tool Options</p>
+                <button id="hybridPieceDelete" onclick="hybridDeletePiece()">Delete a Piece</button>
+                <form id="hybridboostMoves">
                     <h3>Add 1 move to troops</h3>
-                    <label for="moveTeam">Team</label>
-                    <select name="team" id="moveTeam" required>
+                    <label for="hybridmoveTeam">Team</label>
+                    <select name="team" id="hybridmoveTeam" required>
                         <option value="Red">Red</option>
                         <option value="Blue">Blue</option>
                     </select>
-                    <input type="submit" value="Add 1 move to this team's troops">
+                    <input type="submit" value="Add 1 move to this team's troops" onclick="hybridAddMove()">
                 </form>
                 <br>
                 <hr>
