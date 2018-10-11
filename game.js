@@ -5,6 +5,7 @@ let islandTimer;
 let pieceTimer;
 let deleteHybridState = "false";
 let disableAirfieldHybridState = "false";
+let bankHybridState = "false";
 let randomTimer;
 
 //First function called to load the game...
@@ -275,14 +276,10 @@ function pieceClick(event, callingElement) {
                 callingElement.classList.add("selected");
                 randomTimer = setTimeout(function() {
                     if (confirm("Is this the piece you want to delete?")) {
-                        //TODO: remove 6 hybrid points with php request
-
-
-
                         //delete the piece db
                         let placementId = callingElement.getAttribute("data-placementId");
                         let phpDeleteRequest = new XMLHttpRequest();
-                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                        phpDeleteRequest.open("POST", "hybridDeletePiece.php?placementId=" + placementId, true);
                         phpDeleteRequest.send();
                         //html remove
                         callingElement.remove();
@@ -499,9 +496,25 @@ function islandClick(event, callingElement) {
     hideContainers("aircraftCarrierContainer");
     clearHighlighted();
     if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
-        document.getElementsByClassName(callingElement.id)[0].style.display = "block";
-        callingElement.style.zIndex = 20;  //default for a gridblock is 10
-        callingElement.setAttribute("data-islandPopped", "true");
+        if (bankHybridState === "true") {
+            //TODO: check to see if i don't already own it
+            callingElement.classList.add("selected");
+            randomTimer = setTimeout(function() {
+                if (confirm("")) {
+                    let islandNum = 99;
+                    let phpBankRequest = new XMLHttpRequest();
+                    phpBankRequest.open("POST", "hybridBank.php?islandNum=" + islandNum, true);
+                    phpBankRequest.send();
+                    document.getElementById("whole_game").style.backgroundColor = "black";
+                    deleteHybridState = "false";
+                } else {
+                    callingElement.classList.remove("selected");
+                }}, 50);
+        } else {
+            document.getElementsByClassName(callingElement.id)[0].style.display = "block";
+            callingElement.style.zIndex = 20;  //default for a gridblock is 10
+            callingElement.setAttribute("data-islandPopped", "true");
+        }
     }
     event.stopPropagation();
 }
@@ -1967,7 +1980,6 @@ function hybridSetPoints(){
 function hybridDeletePiece() {
     //TODO: for all of these check locally for enough points before confirm / selecting (user feedback for no points)
     if (confirm("Are you sure you want to delete a piece?")) {
-        //delete the points from this team? (how to deal with this (where))
         document.getElementById("popup").style.display = "none";
         deleteHybridState = "true";
         document.getElementById("whole_game").style.backgroundColor = "yellow";
@@ -2013,6 +2025,12 @@ function hybridNuke() {
 
 function hybridBank() {
     //select an island to count towards your rpoints? (not big) (2 turns)
+    if (confirm("Are you sure you want use Bank?")) {
+        hideIslands();
+        document.getElementById("popup").style.display = "none";
+        bankHybridState = "true";
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
+    }
 }
 
 //Just for testing. remove once Hybrid is done
