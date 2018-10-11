@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `games`(
   `gameBattleSection` varchar(20) NOT NULL DEFAULT 'none',  -- "none" (no popup), "attack", "counter", "askRepeat"......"selectPos", "selectPieces"?
   `gameBattleSubSection` varchar(20) NOT NULL DEFAULT 'choosing_pieces', -- "choosing_pieces", "attacked_popup", "defense_popup"
   `gameBattleTurn` int(3) NOT NULL DEFAULT 79,  -- put in to kick out aircraft after 2 turns
-  `gameBattleLastRoll` int(1) NOT NULL DEFAULT 0, -- 0 for default (or no roll to display anymore/reset), 1-6 for roll
+  `gameBattleLastRoll` int(1) NOT NULL DEFAULT 1, -- 1 for default (or no roll to display anymore/reset), 1-6 for roll
   `gameBattleLastMessage` varchar(50) DEFAULT '', -- used for explaining what happened "red killed blue's fighter with fighter" ex...
   `gameBattlePosSelected` int(4) NOT NULL DEFAULT 999999, -- positionId chosen by attacker (999999 default)
   `gameIsland1` varchar(10) NOT NULL DEFAULT 'Red',
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
-INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 0, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 1, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 1, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
 
 
 -- Table of Units (static)
@@ -163,31 +163,9 @@ SELECT * FROM newsAlerts;
 
 SELECT * FROM updates;
 
--- SELECT * FROM updates WHERE updateGameId = 1 AND updateId > 7 ORDER BY updateId ASC;
+SELECT * FROM movements;
 
--- SELECT * FROM placements NATUAL JOIN units WHERE (unitId = placementUnitId);
-
--- SELECT * FROM movements;
+SELECT * FROM battlePieces;
 
 SELECT * FROM games;
 
-
-
--- SELECT * FROM placements NATURAL JOIN units WHERE (unitName = 'tanker') AND (placementGameId = 1) AND (unitId = placementUnitId) AND (placementTeamId = 'Blue');
-
--- SELECT * FROM placements NATURAL JOIN units WHERE (unitName = 'fighter') AND (placementGameId = 1) AND (unitId = placementUnitId) AND (placementTeamId = 'Blue');
-
--- SELECT * FROM (SELECT * FROM placements NATURAL JOIN units WHERE (unitName = 'fighter') AND (placementGameId = 1) AND (unitId = placementUnitId) AND (placementTeamId = 'Blue')) JOIN ;
-
-
-
--- SELECT b.placementId, b.unitName, b.placementCurrentMoves FROM (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) a Join (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) b USING(placementPositionId) WHERE (a.placementTeamId = 'Blue') AND (b.placementTeamId = 'Blue') AND (a.placementGameId = 1) AND (b.placementGameId = 1) AND (a.placementPositionId = b.placementPositionId) AND (a.unitName = 'tanker') AND (b.unitName = 'fighter' OR b.unitName = 'stealthBomber' OR b.unitName = 'bomber');
-
-
-
-
-
-
--- SELECT * FROM battlePieces;
-
--- INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (1, 0, 'Red', 'phaseChange');

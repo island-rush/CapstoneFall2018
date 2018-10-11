@@ -3,6 +3,8 @@
 
 let islandTimer;
 let pieceTimer;
+let deleteHybridState = "false";
+let randomTimer;
 
 //First function called to load the game...
 function bodyLoader() {
@@ -242,7 +244,6 @@ function logout() {
     }
 }
 
-//TODO: disable sidepanel buttons during a battle!
 //---------------------------------------------------
 function pieceClick(event, callingElement) {
     // alert("clicked");
@@ -265,18 +266,41 @@ function pieceClick(event, callingElement) {
             clearSelectedPos();
             callingElement.parentNode.classList.add("selectedPos");
         } else {
-            let unitName = callingElement.getAttribute("data-unitName");
-            if (unitName === "transport" || unitName === "aircraftCarrier") {
-                hideContainers("transportContainer");
-                hideContainers("aircraftCarrierContainer");
-                if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
-                    callingElement.childNodes[0].style.display = "block";
-                    callingElement.style.zIndex = 30;
-                    callingElement.parentNode.style.zIndex = 70;
-                    callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+            if (deleteHybridState === "true") {
+                callingElement.classList.add("selected");
+                randomTimer = setTimeout(function() {
+                    if (confirm("Is this the piece you want to delete?")) {
+                        //TODO: remove 6 hybrid points with php request
+
+
+
+                        //delete the piece db
+                        let placementId = callingElement.getAttribute("data-placementId");
+                        let phpDeleteRequest = new XMLHttpRequest();
+                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                        phpDeleteRequest.send();
+                        //html remove
+                        callingElement.remove();
+                        document.getElementById("whole_game").style.backgroundColor = "black";
+                        deleteHybridState = "false";
+                    } else {
+                        callingElement.classList.remove("selected");
+                    }}, 50);
+            } else {
+                let unitName = callingElement.getAttribute("data-unitName");
+                if (unitName === "transport" || unitName === "aircraftCarrier") {
+                    hideContainers("transportContainer");
+                    hideContainers("aircraftCarrierContainer");
+                    if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
+                        callingElement.childNodes[0].style.display = "block";
+                        callingElement.style.zIndex = 30;
+                        callingElement.parentNode.style.zIndex = 70;
+                        callingElement.childNodes[0].setAttribute("data-containerPopped", "true");
+                    }
                 }
+                clearHighlighted();
             }
-            clearHighlighted();
+
         }
     }
     event.stopPropagation();
@@ -1905,16 +1929,36 @@ function hybridSetPoints(){
     document.getElementById("hybridSubmitPoints").value = "Submitted!";
 }
 
-// Function for deleting a piece on the board
-function hybridDeletePiece(){
+function hybridDeletePiece() {
+    //check that they have 6 points...
+    //TODO: check 6 points in db? (or local client if risky)(or get latest with phase get and then check local?!)
 
+    if (confirm("Are you sure you want to delete a piece?")) {
+        //delete the points from this team? (how to deal with this (where))
+        document.getElementById("popup").style.display = "none";
+        deleteHybridState = "true";
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
+    }
 }
 
-// Function for adding moves to a certain team from the hybrid panel
-function hybridAddMove(){
-    let team = document.getElementById("hybridmoveTeam").value;
+function hybridAddMove() {
+    // alert("add move");
+    let phpAddMove = new XMLHttpRequest();
+    phpAddMove.open("GET", "hybridAddMove.php", true);
+    phpAddMove.send();
 }
 
+function hybridHumanitary() {
+    let phpHumanitary = new XMLHttpRequest();
+    phpHumanitary.open("GET", "hybridHumanitary.php", true);
+    phpHumanitary.send();
+}
+
+function hybridDisableAircraft() {
+    let phpDisableAircraft = new XMLHttpRequest();
+    phpDisableAircraft.open("GET", "hybridDisableAircraft.php", true);
+    phpDisableAircraft.send();
+}
 
 function rollDice(){
     let numRolls = Math.floor(Math.random() * 40) + 20;

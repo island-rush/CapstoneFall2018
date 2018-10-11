@@ -177,6 +177,62 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
             }
         }
 
+        $moveEffect = "addMove";
+        $one = 1;
+        $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength = ? AND newsTeam = ? AND newsEffect = ? ORDER BY newsOrder";
+        $preparedQuery4 = $db->prepare($query4);
+        $preparedQuery4->bind_param("iiiss", $gameId, $one, $one, $new_gameCurrentTeam, $moveEffect);
+        $preparedQuery4->execute();
+        $results = $preparedQuery4->get_result();
+        $num_results = $results->num_rows;
+
+        if ($num_results == 1) {
+//            $r9 = $results->fetch_assoc();
+            //there was a newsalert to add moves
+            $query4 = "UPDATE placements SET placementCurrentMoves = placementCurrentMoves + ? WHERE placementGameId = ? AND placementTeamId = ?";
+            $preparedQuery4 = $db->prepare($query4);
+            $preparedQuery4->bind_param("iis", $one, $gameId, $new_gameCurrentTeam);
+            $preparedQuery4->execute();
+
+
+            $query2 = 'SELECT * FROM placements WHERE placementTeamId = ? AND placementGameId = ?';
+            $query2 = $db->prepare($query2);
+            $query2->bind_param("i", $placementId);
+            $query2->execute();
+            $results = $query2->get_result();
+            $num_results = $results->num_rows;
+
+            if ($num_results > 0) {
+                for ($i = 0; $i < $num_results; $i++) {
+                    $r33 = $results->fetch_assoc();
+                    $placementId = $r33['placementId'];
+                    $newMoves = $r33['placementCurrentMoves'];
+
+                    //Tell other client(s) about moveupdate
+                    $newValue = 0;
+                    $Red = "Red";
+                    $Blue = "Blue";
+                    $Spec = "Spec";
+                    $updateType = "updateMoves";
+
+                    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iissii", $gameId, $newValue, $Red, $updateType, $placementId, $newMoves);
+                    $query->execute();
+
+                    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iissii", $gameId, $newValue, $Blue, $updateType, $placementId, $newMoves);
+                    $query->execute();
+
+                    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?)';
+                    $query = $db->prepare($query);
+                    $query->bind_param("iissii", $gameId, $newValue, $Spec, $updateType, $placementId, $newMoves);
+                    $query->execute();
+                }
+            }
+        }
+
     }
 } else {
     if ($new_gamePhase == 1) {
@@ -215,6 +271,11 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $query = $db->prepare($query);
         $query->bind_param("ii", $nowActivated, $newsId);
         $query->execute();
+
+
+        //add moves to the pieces if the news alert is active for this team
+
+
 
 
     } elseif ($new_gamePhase == 2) {
@@ -555,17 +616,24 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     }
 }
 
+$Blue = "Blue";
+$Red = "Red";
 $newValue = 0;
 $updateType = "phaseChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->bind_param("iiss", $gameId, $newValue, $Blue, $updateType);
 $query->execute();
 
 $Spec = "Spec";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Red, $updateType);
 $query->execute();
 
 
