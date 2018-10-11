@@ -444,10 +444,7 @@ $u = $results->fetch_assoc();
                     <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
                     <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
                 </form>
-                <p>Other Hybrid Tool Options</p>
                 <button id="hybridPieceDelete" onclick="hybridDeletePiece()">Delete a Piece</button>
-                <button id="hybridDisableAircraft" onclick="hybridDisableAircraft();">Disable Aircraft</button>
-                <button id="hybridDisableAirfield" onclick="hybridDisableAirfield();">Disable Airfield</button>
                 <form id="hybridboostMoves">
                     <h3>Add 1 move to troops</h3>
                     <label for="hybridmoveTeam">Team</label>
@@ -460,6 +457,69 @@ $u = $results->fetch_assoc();
                 <br>
                 <hr>
                 <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'; document.getElementById('hybridSubmitPoints').value = 'Submit new Point Values'">Close this popup</button>
+                <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
+            </div>
+            <div id="popupBodyHybridMenu">
+                <div id="hybridInstructions">
+                    <p>Instructions:<br>Select which Hybrid Warfare Option you would like to use. Mouse over the name for more information about what each option does.</p>
+                </div>
+                <div id="hybridTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Name</th>
+                                <th>Cost</th>
+                                <th>Choose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">Cyber</td>
+                                <td title="A Cyber attack causes an enemy airfield to be completely shutdown. &#013;Aircraft may not leave or enter that airfield during the enemy turn.">Air Traffic Control Scramble</td>
+                                <td>3</td>
+                                <td><button id="hybridAirfieldShutdown" onclick="hybridDisableAirfield();">Choose</button></td>
+                            </tr>
+                            <tr>
+                                <td title="Enemy island value counts towards your points for the next two turns. &#013;Enemy team does not earn any points from this island.">Bank Drain</td>
+                                <td>4</td>
+                                <td><button id="hybridBankDrain">Choose</button></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Space</td>
+                                <td title="Satellite technology has discovered how to temporarily shorten all &#013;logisical routes. For one turn, all your units get +1 moves.">Advanced Remote Sensing</td>
+                                <td>8</td>
+                                <td><button id="hybridAddMove" onclick="hybridAddMove()">Choose</button></td>
+                            </tr>
+                            <tr>
+                                <td title="Satellite technology allows for kinetic effects from space! &#013;Instantly destroy a unit on the board. &#013;(destroying a container destroys everything inside of it)">Rods from God</td>
+                                <td>6</td>
+                                <td><button id="hybridDeletePiece" onclick="hybridDeletePiece()">Choose</button></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Nuclear</td>
+                                <td title="A high altitude ICBM detonation produces an electromagnetic pulse &#013;over all enemy aircraft, disabling them for their next turn.">Goldeneye</td>
+                                <td>10</td>
+                                <td><button id="hybridAircraftDisable" onclick="hybridDisableAircraft()">Choose</button></td>
+                            </tr>
+                            <tr>
+                                <td title="An ICBM ground burst strike destroys a non-capital island. All units on island &#013;and adjacent sea zones are destroyed. The island will not be used for &#013;the rest of the game and does not contribute to points.">Nuclear Strike</td>
+                                <td>12</td>
+                                <td><button id="hybridNukeIsland" >Choose</button></td>
+                            </tr>
+                            <tr>
+                                <td>Humanitarian</td>
+                                <td title="When a News alert notifies a team about a catastrophe in an area, &#013;teams have the option to provide humanitarian aid to that nation. &#013;Spend 3 HW points and receive 10 Reinforcement Points.">Humanitarian Option</td>
+                                <td>3</td>
+                                <td><button id="hybridHumanitarian" onclick="hybridHumanitary()">Choose</button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <br>
+                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none';" style="margin:0 auto; width:30%;">Close this popup</button>
+                <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
             </div>
         </div>
     </div>

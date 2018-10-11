@@ -183,10 +183,10 @@ html, body {
 #bottom_panel{
     position: absolute;
     background-color: wheat;
-    width: 304%;
+    width: 304.5%;
     height: 13%;
     /*top: 82%;*/
-    margin-left: 118%;
+    margin-left: 117.5%;
     margin-top: 175%;
 
     z-index: 100;
@@ -252,6 +252,8 @@ html, body {
 }
 #popupTitle{
     /*background-color:red;*/
+    width: 100%;
+    height: 10%;
     text-align: center;
     font-size: xx-large;
     font-family: "Old English Text MT";
@@ -279,20 +281,59 @@ html, body {
     height: 70%;
 }
 
-#popupBodyHybrid{
+#popupBodyHybrid {
     margin-top: 5px;
-    /*background: Blue;*/
     font-family: Helvetica-Black;
     height: 80%;
 }
-#setPoints{ /* Form */
-
-}
-
 #setPoints > h3 {margin:0;}
 #setPoints > input[type=number]{
     width: 7%;
 }
+
+#popupBodyHybridMenu{
+    /*background-color:blue;*/
+    width:100%;
+    height:88%
+}
+
+#hybridInstructions{
+    /*background-color: orange;*/
+    text-align: center;
+    width: 100%;
+    height: 15%;
+}
+#hybridInstructions > p{
+    margin: 2% 4%;
+    /*width: 100%;*/
+    /*height: 100%;*/
+
+}
+#hybridTable{
+    /*background-color: green;*/
+    height: 65%;
+    width: 80%;
+    margin:auto;
+}
+#hybridTable > table{
+    height: 100%;
+    width: 100%;
+    margin: auto;
+}
+
+/*#popupBodyHybridMenu > p{*/
+    /*text-align: center;*/
+    /*margin: 4%;*/
+/*}*/
+/*#hybridTable > table {*/
+    /*margin: 0 auto;*/
+    /*height: 50%;*/
+    /*background-color: green;*/
+/*}*/
+#hybridTable > th, td {
+    border-bottom: 1px solid #909090;
+}
+
 
 .news{
     background-image: url("resources/unitImages/Newspaper.jpg");
@@ -1238,6 +1279,7 @@ html, body {
 
 .missileContainer{
     background-color: rgba(0, 0, 0, 0.5);
+    border: solid red 3px;
 }
 #posM1{
     width: 15%;

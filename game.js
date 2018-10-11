@@ -200,6 +200,7 @@ function bodyLoader() {
         document.getElementById("newsBodySubText").innerHTML = newsEffectText;
         document.getElementById("popupBodyNews").style.display = "block";
         document.getElementById("popupBodyHybrid").style.display = "none";
+        document.getElementById("popupBodyHybridMenu").style.display = "none";
         document.getElementById("popup").style.display = "block";
         userFeedback("Click Next Phase to advance to next phase.");
     } else {
@@ -216,7 +217,10 @@ function bodyLoader() {
         document.getElementById("battle_button").onclick =function () {
             document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Tool";
             document.getElementById("popupBodyNews").style.display = "none";
-            document.getElementById("popupBodyHybrid").style.display = "block";
+            document.getElementById("popupBodyHybridMenu").style.display = "block";
+            //testing
+            document.getElementById("popupBodyHybrid").style.display = "none";
+
             document.getElementById("setRedRpoints").value = gameRedRpoints;
             document.getElementById("setRedHpoints").value = gameRedHpoints;
             document.getElementById("setBlueRpoints").value = gameBlueRpoints;
@@ -975,6 +979,7 @@ function changePhase() {
                     // NEWS ALERT PHASE
                     if (gamePhase === "1") {
                         document.getElementById("popupBodyHybrid").style.display = "none";
+                        document.getElementById("popupBodyHybridMenu").style.display = "none";
                         document.getElementById("popupBodyNews").style.display = "block";
                         document.getElementById("newsBodyText").innerHTML = newsText;
                         document.getElementById("newsBodySubText").innerHTML = newsEffectText;
@@ -992,7 +997,8 @@ function changePhase() {
                         document.getElementById("battle_button").onclick =function () {
                             document.getElementById("hybridSubmitPoints").value = "Submit new Point Values";
                             document.getElementById("popupBodyNews").style.display = "none";
-                            document.getElementById("popupBodyHybrid").style.display = "block";
+                            document.getElementById("popupBodyHybrid").style.display = "none";
+                            document.getElementById("popupBodyHybridMenu").style.display = "block";
                             document.getElementById("setRedRpoints").value = gameRedRpoints;
                             document.getElementById("setRedHpoints").value = gameRedHpoints;
                             document.getElementById("setBlueRpoints").value = gameBlueRpoints;
@@ -1691,6 +1697,7 @@ function updateNextPhase() {
                 document.getElementById("popup").style.display = "block";
                 document.getElementById("popupBodyNews").style.display = "block";
                 document.getElementById("popupBodyHybrid").style.display = "none";
+                document.getElementById("popupBodyHybridMenu").style.display = "none";
             } else {
                 // alert("not phase 1");
                 document.getElementById("popup").style.display = "none";
@@ -1703,7 +1710,8 @@ function updateNextPhase() {
                 document.getElementById("battle_button").disabled = false;
                 document.getElementById("battle_button").onclick =function () {
                     document.getElementById("popupBodyNews").style.display = "none";
-                    document.getElementById("popupBodyHybrid").style.display = "block";
+                    document.getElementById("popupBodyHybrid").style.display = "none";
+                    document.getElementById("popupBodyHybridMenu").style.display = "block";
                     document.getElementById("setRedRpoints").value = gameRedRpoints;
                     document.getElementById("setRedHpoints").value = gameRedHpoints;
                     document.getElementById("setBlueRpoints").value = gameBlueRpoints;
@@ -2005,6 +2013,17 @@ function hybridNuke() {
 
 function hybridBank() {
     //select an island to count towards your rpoints? (not big) (2 turns)
+}
+
+//Just for testing. remove once Hybrid is done
+function hybridToggle(){
+    if(document.getElementById("popupBodyHybrid").style.display === "block"){
+        document.getElementById("popupBodyHybrid").style.display = "none";
+        document.getElementById("popupBodyHybridMenu").style.display = "block";
+    }else{
+        document.getElementById("popupBodyHybrid").style.display = "block";
+        document.getElementById("popupBodyHybridMenu").style.display = "none";
+    }
 }
 
 function rollDice(){
