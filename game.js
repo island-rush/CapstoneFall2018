@@ -501,9 +501,11 @@ function islandClick(event, callingElement) {
             callingElement.classList.add("selected");
             randomTimer = setTimeout(function() {
                 if (confirm("")) {
-                    let islandNum = 99;
+                    let islandId = callingElement.id;
+                    let lastNumber = islandId[islandId.length-1];
+                    alert(lastNumber);
                     let phpBankRequest = new XMLHttpRequest();
-                    phpBankRequest.open("POST", "hybridBank.php?islandNum=" + islandNum, true);
+                    phpBankRequest.open("POST", "hybridBank.php?lastNumber=" + lastNumber, true);
                     phpBankRequest.send();
                     document.getElementById("whole_game").style.backgroundColor = "black";
                     deleteHybridState = "false";

@@ -12,6 +12,8 @@ $newTeam = $_REQUEST['newTeam'];
 $query = "";
 $missileCheck = 0;
 
+//TODO: delete newsalert bankAdd for any island if it changes ownership (set length to 0) (any that are activated?)
+
 if ($islandToChange == "special_island1") {
     $query = 'UPDATE games SET gameIsland1 = ? WHERE (gameId = ?)';
 } elseif ($islandToChange == "special_island2") {

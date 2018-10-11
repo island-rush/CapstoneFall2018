@@ -280,46 +280,305 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
 
     } elseif ($new_gamePhase == 2) {
 
+
+        //TODO: look for active newsalert that changes this somehow
+        $bankAdd = "bankAdd";
+        $one = 1;
+        $zero = 0;
+
         if ($gameTurn > 3) {
             $addPoints = 0;
 
             //for each island ownership, know how many points each is worth and add to the current team's reinforcement points
             if ($r['gameIsland1'] == $gameCurrentTeam) {
                 $addPoints += 4;
+                $zone = 101;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiiss", $gameId, $one, $zero, $myTeam, $bankAdd);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 4;
+                }
+            } else {
+                $zone = 101;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiiss", $gameId, $one, $zero, $myTeam, $bankAdd);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 4;
+                }
             }
             if ($r['gameIsland2'] == $gameCurrentTeam) {
                 $addPoints += 6;
+                $zone = 102;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 6;
+                }
+            } else {
+                $zone = 102;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 6;
+                }
             }
             if ($r['gameIsland3'] == $gameCurrentTeam) {
                 $addPoints += 4;
+                $zone = 103;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 4;
+                }
+            } else {
+                $zone = 103;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 4;
+                }
             }
             if ($r['gameIsland4'] == $gameCurrentTeam) {
                 $addPoints += 3;
+                $zone = 104;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 3;
+                }
+            } else {
+                $zone = 104;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 3;
+                }
             }
             if ($r['gameIsland5'] == $gameCurrentTeam) {
                 $addPoints += 8;
+                $zone = 105;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 8;
+                }
+            } else {
+                $zone = 105;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 8;
+                }
             }
             if ($r['gameIsland6'] == $gameCurrentTeam) {
                 $addPoints += 7;
+                $zone = 106;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 7;
+                }
+            } else {
+                $zone = 106;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 7;
+                }
             }
             if ($r['gameIsland7'] == $gameCurrentTeam) {
                 $addPoints += 7;
+                $zone = 107;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 7;
+                }
+            } else {
+                $zone = 107;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 7;
+                }
             }
             if ($r['gameIsland8'] == $gameCurrentTeam) {
                 $addPoints += 8;
+                $zone = 108;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 8;
+                }
+            } else {
+                $zone = 108;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 8;
+                }
             }
             if ($r['gameIsland9'] == $gameCurrentTeam) {
                 $addPoints += 8;
+                $zone = 109;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 8;
+                }
+            } else {
+                $zone = 109;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 8;
+                }
             }
             if ($r['gameIsland10'] == $gameCurrentTeam) {
                 $addPoints += 5;
+                $zone = 110;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 5;
+                }
+            } else {
+                $zone = 110;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 5;
+                }
             }
             if ($r['gameIsland11'] == $gameCurrentTeam) {
                 $addPoints += 5;
+                $zone = 111;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 5;
+                }
+            } else {
+                $zone = 111;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 5;
+                }
             }
             if ($r['gameIsland12'] == $gameCurrentTeam) {
                 $addPoints += 5;
+                $zone = 112;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints -= 5;
+                }
+            } else {
+                $zone = 112;
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
+                $preparedQuery4 = $db->prepare($query4);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $myTeam, $bankAdd, $zone);
+                $preparedQuery4->execute();
+                $results = $preparedQuery4->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results == 1) {
+                    $addPoints += 5;
+                }
             }
+            //don't do news alert cause couldn't select?!?!?!?!
             if ($r['gameIsland13'] == $gameCurrentTeam) {
                 $addPoints += 15;
             }
