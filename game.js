@@ -4,6 +4,7 @@
 let islandTimer;
 let pieceTimer;
 let deleteHybridState = "false";
+let disableAirfieldHybridState = "false";
 let randomTimer;
 
 //First function called to load the game...
@@ -566,7 +567,33 @@ function landClick(event, callingElement) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }
+    if (disableAirfieldHybridState === "true") {
 
+    }
+
+    if (disableAirfieldHybridState === "true") {
+        callingElement.classList.add("selectedPos");
+        let positionId = callingElement.getAttribute("data-positionId");
+        //check to see if the position is in a list
+        let listairfields = [56, 57, 78, 83, 89, 113, 116, 66, 67];
+        if (listairfields.includes(parseInt(positionId))) {
+            randomTimer = setTimeout(function() {
+                if (confirm("Is this the airfield you want to disable?")) {
+                    //TODO: remove 3 hybrid points with php request
+                    //disable db with newsalert
+                    let phpDeleteRequest = new XMLHttpRequest();
+                    phpDeleteRequest.open("POST", "hybridDisableAirfield.php?positionId=" + positionId, true);
+                    phpDeleteRequest.send();
+
+                    document.getElementById("whole_game").style.backgroundColor = "black";
+                    deleteHybridState = "false";
+                } else {
+                    callingElement.classList.remove("selectedPos");
+                }}, 50);
+        } else {
+            callingElement.classList.remove("selectedPos");
+        }
+    }
     event.stopPropagation();
 }
 
@@ -1930,9 +1957,7 @@ function hybridSetPoints(){
 }
 
 function hybridDeletePiece() {
-    //check that they have 6 points...
-    //TODO: check 6 points in db? (or local client if risky)(or get latest with phase get and then check local?!)
-
+    //TODO: for all of these check locally for enough points before confirm / selecting (user feedback for no points)
     if (confirm("Are you sure you want to delete a piece?")) {
         //delete the points from this team? (how to deal with this (where))
         document.getElementById("popup").style.display = "none";
@@ -1942,22 +1967,44 @@ function hybridDeletePiece() {
 }
 
 function hybridAddMove() {
-    // alert("add move");
-    let phpAddMove = new XMLHttpRequest();
-    phpAddMove.open("GET", "hybridAddMove.php", true);
-    phpAddMove.send();
+    if (confirm("Are you sure you want to add +1 moves to your pieces next turn?")) {
+        let phpAddMove = new XMLHttpRequest();
+        phpAddMove.open("GET", "hybridAddMove.php", true);
+        phpAddMove.send();
+    }
 }
 
 function hybridHumanitary() {
-    let phpHumanitary = new XMLHttpRequest();
-    phpHumanitary.open("GET", "hybridHumanitary.php", true);
-    phpHumanitary.send();
+    if (confirm("Are you sure you want to convert hybrid points to reinforcement points")) {
+        let phpHumanitary = new XMLHttpRequest();
+        phpHumanitary.open("GET", "hybridHumanitary.php", true);
+        phpHumanitary.send();
+    }
 }
 
 function hybridDisableAircraft() {
-    let phpDisableAircraft = new XMLHttpRequest();
-    phpDisableAircraft.open("GET", "hybridDisableAircraft.php", true);
-    phpDisableAircraft.send();
+    if (confirm("Are you sure you want to disable all aircraft?")) {
+        let phpDisableAircraft = new XMLHttpRequest();
+        phpDisableAircraft.open("GET", "hybridDisableAircraft.php", true);
+        phpDisableAircraft.send();
+    }
+}
+
+function hybridDisableAirfield() {
+    if (confirm("Are you sure you want to disable airfield?")) {
+        //delete the points from this team? (how to deal with this (where))
+        document.getElementById("popup").style.display = "none";
+        disableAirfieldHybridState = "true";
+        document.getElementById("whole_game").style.backgroundColor = "yellow";
+    }
+}
+
+function hybridNuke() {
+
+}
+
+function hybridBank() {
+    //select an island to count towards your rpoints? (not big) (2 turns)
 }
 
 function rollDice(){
@@ -1970,7 +2017,6 @@ function rollDice(){
     }
     thingy = setTimeout(function () {showDice(gameBattleLastRoll); document.getElementById("actionPopupButton").style.display = "block";}, (i+1)*180);
 }
-
 
 function showDice(diceNum){
 

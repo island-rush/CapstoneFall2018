@@ -73,9 +73,9 @@ if ($islandFrom == -4) {
 //else echo regular echo value (-1 or movement cost)
 
 $activated_value = 1;
-$query = 'SELECT * FROM newsAlerts WHERE (newsGameId = ?) AND (newsActivated = ?)';
+$query = 'SELECT * FROM newsAlerts WHERE (newsGameId = ?) AND (newsActivated = ?) AND (newsLength >= ?)';
 $query = $db->prepare($query);
-$query->bind_param("ii", $gameId, $activated_value);
+$query->bind_param("iii", $gameId, $activated_value, $activated_value);
 $query->execute();
 $results = $query->get_result();
 $num_results = $results->num_rows;
@@ -90,13 +90,17 @@ if ($num_results > 0) {
                 $newsPieces = $r['newsPieces'];
                 $newsZone = $r['newsZone'];
                 //zone is 200, or zone matches position, or zone matches islandnum + 100
-                if ($newsZone == 200 || $newsZone == $new_positionId || $newsZone == $old_positionId || ($newsZone + 100) == $islandFrom || ($newsZone + 100) == $islandTo) {
-                    //if piece name is marked 1 in the pieces json?
+                if ($newsZone == 200 ||
+                    ($newsZone == $new_positionId && $new_positionId < 100) ||
+                    ($newsZone == $old_positionId && $old_positionId < 100) ||
+                    ($newsZone + 100) == $islandFrom ||
+                    ($newsZone + 100) == $islandTo ||
+                    ($newsZone > 1000 && ($newsZone - 1000 == $new_positionId || $newsZone - 1000 == $old_positionId))) {
                     $decoded = json_decode($newsPieces, true);
-//                    echo $decoded;
-//                    echo $decoded['destroyer'];
-                    if ($decoded[$unitName] == 1) {
-                        $thingToEcho = -2;
+                    if ((int) $decoded[$unitName] == 1) {
+                        if ((int) $old_positionId != 118){  //purchased is exempt
+                            $thingToEcho = -2;
+                        }
                     }
                 }
             }

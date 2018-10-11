@@ -5,6 +5,9 @@ include("db.php");
 $gameId = $_SESSION['gameId'];
 $myTeam = $_SESSION['myTeam'];
 
+$positionDisabled = (int) $_REQUEST['positionId'] + 1000;
+
+
 $query = 'SELECT * FROM games WHERE gameId = ?';
 $query = $db->prepare($query);
 $query->bind_param("i",$gameId);
@@ -17,12 +20,12 @@ if ($myTeam == "Blue") {
     $points = (int) $r['gameBlueHpoints'];
 }
 
-if ($points >= 10) {
+if ($points >= 3) {
     //insert a newsalert that is active for 1-2 length? that disables all enemy aircraft from moving
     $order = 0;
     $length = 2;
     $activated = 1;
-    $zone = 200; //all zones everywhere
+    $zone = $positionDisabled;
     $disable = "disable";
     $team = "Red";
     if ($myTeam == "Red") {
@@ -35,13 +38,13 @@ if ($points >= 10) {
     $query->execute();
 
     //take away the hpoints
-    $ten = 10;
+    $three = 3;
     $query = 'UPDATE games SET gameRedHpoints = gameRedHpoints - ? WHERE gameId = ?';
     if ($myTeam == "Blue") {
         $query = 'UPDATE games SET gameBlueHpoints = gameBlueHpoints - ? WHERE gameId = ?';
     }
     $query = $db->prepare($query);
-    $query->bind_param("ii", $ten, $gameId);
+    $query->bind_param("ii", $three, $gameId);
     $query->execute();
 }
 

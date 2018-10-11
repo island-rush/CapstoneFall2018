@@ -446,6 +446,8 @@ $u = $results->fetch_assoc();
                 </form>
                 <p>Other Hybrid Tool Options</p>
                 <button id="hybridPieceDelete" onclick="hybridDeletePiece()">Delete a Piece</button>
+                <button id="hybridDisableAircraft" onclick="hybridDisableAircraft();">Disable Aircraft</button>
+                <button id="hybridDisableAirfield" onclick="hybridDisableAirfield();">Disable Airfield</button>
                 <form id="hybridboostMoves">
                     <h3>Add 1 move to troops</h3>
                     <label for="hybridmoveTeam">Team</label>
