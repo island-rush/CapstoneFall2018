@@ -42,44 +42,75 @@ if ($points >= 6) {
     $query = $db->prepare($query);
     $query->bind_param("i", $placementId);
     $query->execute();
+
+    $newValue = 0;
+    $updateType = "pieceTrash";
+    $Red = "Red";
+    $Blue = "Blue";
+
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
+    $query->execute();
+
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
+    $query->execute();
+
+    $Spec = "Spec";
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+    $query->execute();
 }
 
 
-$query = 'DELETE FROM placements WHERE placementId = ?';
-$query = $db->prepare($query);
-$query->bind_param("i", $placementId);
-$query->execute();
-
-//delete stuff inside if it was a container
-$query = 'DELETE FROM placements WHERE placementContainerId = ?';
-$query = $db->prepare($query);
-$query->bind_param("i", $placementId);
-$query->execute();
+//$query = 'DELETE FROM placements WHERE placementId = ?';
+//$query = $db->prepare($query);
+//$query->bind_param("i", $placementId);
+//$query->execute();
+//
+////delete stuff inside if it was a container
+//$query = 'DELETE FROM placements WHERE placementContainerId = ?';
+//$query = $db->prepare($query);
+//$query->bind_param("i", $placementId);
+//$query->execute();
 
 
 //update the other client and spectators
-$newValue = 0;
-$updateType = "pieceTrash";
 
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
-$query = $db->prepare($query);
-$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
-$query->execute();
-
-$Spec = "Spec";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
-$query = $db->prepare($query);
-$query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
-$query->execute();
 
 
 //this needed to stop further undo after any piece is deleted
-$one = 1;
-$query = 'UPDATE games SET gameTurn = gameTurn + ? WHERE gameId = ?';
+//$one = 1;
+//$query = 'UPDATE games SET gameTurn = gameTurn + ? WHERE gameId = ?';
+//$query = $db->prepare($query);
+//$query->bind_param("ii", $gameId, $one);
+//$query->execute();
+
+
+
+//might as well update the clients? (could put this inside the if statement)
+$Blue = "Blue";
+$Red = "Red";
+$Spec = "Spec";
+$newValue = 0;
+$updateType = "phaseChange";
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("ii", $gameId, $one);
+$query->bind_param("iiss", $gameId, $newValue, $Blue, $updateType);
 $query->execute();
 
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Red, $updateType);
+$query->execute();
 
 
 $db->close();

@@ -483,7 +483,7 @@ $u = $results->fetch_assoc();
                             <tr>
                                 <td title="Enemy island value counts towards your points for the next two turns. &#013;Enemy team does not earn any points from this island.">Bank Drain</td>
                                 <td>4</td>
-                                <td><button id="hybridBankDrain">Choose</button></td>
+                                <td><button id="hybridBankDrain" onclick="hybridBank();">Choose</button></td>
                             </tr>
                             <tr>
                                 <td rowspan="2">Space</td>
@@ -505,7 +505,7 @@ $u = $results->fetch_assoc();
                             <tr>
                                 <td title="An ICBM ground burst strike destroys a non-capital island. All units on island &#013;and adjacent sea zones are destroyed. The island will not be used for &#013;the rest of the game and does not contribute to points.">Nuclear Strike</td>
                                 <td>12</td>
-                                <td><button id="hybridNukeIsland" >Choose</button></td>
+                                <td><button id="hybridNukeIsland" onclick="hybridNuke();">Choose</button></td>
                             </tr>
                             <tr>
                                 <td>Humanitarian</td>

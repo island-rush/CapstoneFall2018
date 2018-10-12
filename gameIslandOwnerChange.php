@@ -138,6 +138,4 @@ $query->execute();
 
 
 
-
-
 $db->close();

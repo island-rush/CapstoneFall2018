@@ -279,23 +279,21 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
 
 
     } elseif ($new_gamePhase == 2) {
-
-
-        //TODO: look for active newsalert that changes this somehow
         $bankAdd = "bankAdd";
         $one = 1;
         $zero = 0;
 
-        if ($gameTurn > 3) {
+        //TODO: change this turn into 15 so no one gets points until red's first turn (this may come early if lots of battles???)
+        if ($new_gameTurn > 14) {
             $addPoints = 0;
 
             //for each island ownership, know how many points each is worth and add to the current team's reinforcement points
             if ($r['gameIsland1'] == $gameCurrentTeam) {
                 $addPoints += 4;
                 $zone = 101;
-                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? ORDER BY newsOrder";
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
                 $preparedQuery4 = $db->prepare($query4);
-                $preparedQuery4->bind_param("iiiss", $gameId, $one, $zero, $myTeam, $bankAdd);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $gameCurrentTeam, $bankAdd, $zone);
                 $preparedQuery4->execute();
                 $results = $preparedQuery4->get_result();
                 $num_results = $results->num_rows;
@@ -304,9 +302,9 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 }
             } else {
                 $zone = 101;
-                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? ORDER BY newsOrder";
+                $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam = ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
                 $preparedQuery4 = $db->prepare($query4);
-                $preparedQuery4->bind_param("iiiss", $gameId, $one, $zero, $myTeam, $bankAdd);
+                $preparedQuery4->bind_param("iiissi", $gameId, $one, $zero, $gameCurrentTeam, $bankAdd, $zone);
                 $preparedQuery4->execute();
                 $results = $preparedQuery4->get_result();
                 $num_results = $results->num_rows;
@@ -459,7 +457,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 }
             }
             if ($r['gameIsland8'] == $gameCurrentTeam) {
-                $addPoints += 8;
+                $addPoints += 10;
                 $zone = 108;
                 $query4 = "SELECT * FROM newsAlerts WHERE newsGameId = ? AND newsActivated = ? AND newsLength > ? AND newsTeam != ? AND newsEffect = ? AND newsZone = ? ORDER BY newsOrder";
                 $preparedQuery4 = $db->prepare($query4);
@@ -468,7 +466,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 $results = $preparedQuery4->get_result();
                 $num_results = $results->num_rows;
                 if ($num_results == 1) {
-                    $addPoints -= 8;
+                    $addPoints -= 10;
                 }
             } else {
                 $zone = 108;
@@ -479,7 +477,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 $results = $preparedQuery4->get_result();
                 $num_results = $results->num_rows;
                 if ($num_results == 1) {
-                    $addPoints += 8;
+                    $addPoints += 10;
                 }
             }
             if ($r['gameIsland9'] == $gameCurrentTeam) {
@@ -915,10 +913,6 @@ $arr = array('gamePhase' => (string) $new_gamePhase,
     'newsEffectText' => (string) $newsEffectText,
     'phaseText' => (string) $phaseText);
 echo json_encode($arr);
-
-
-
-
 
 
 $db->close();

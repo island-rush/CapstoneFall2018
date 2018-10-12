@@ -85,18 +85,23 @@ if ($num_results > 0) {
         $newsTeam = $r['newsTeam'];
         if ($newsTeam == $myTeam || $newsTeam == "All") {
             $newsEffect = $r['newsEffect'];
+
             //assume not dealing with other things for now
             if ($newsEffect == "disable") {
+
                 $newsPieces = $r['newsPieces'];
                 $newsZone = $r['newsZone'];
                 //zone is 200, or zone matches position, or zone matches islandnum + 100
+//                echo $newsZone;
                 if ($newsZone == 200 ||
                     ($newsZone == $new_positionId && $new_positionId < 100) ||
                     ($newsZone == $old_positionId && $old_positionId < 100) ||
-                    ($newsZone + 100) == $islandFrom ||
-                    ($newsZone + 100) == $islandTo ||
-                    ($newsZone > 1000 && ($newsZone - 1000 == $new_positionId || $newsZone - 1000 == $old_positionId))) {
+                    (($newsZone) == $islandFrom + 100) ||
+                    (($newsZone) == $islandTo + 100) ||
+                    (($newsZone > 1000) && (($newsZone - 1000 == $new_positionId) || ($newsZone - 1000 == $old_positionId)))) {
+//                    echo "bitchin";
                     $decoded = json_decode($newsPieces, true);
+
                     if ((int) $decoded[$unitName] == 1) {
                         if ((int) $old_positionId != 118){  //purchased is exempt
                             $thingToEcho = -2;
