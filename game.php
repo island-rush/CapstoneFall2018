@@ -444,17 +444,6 @@ $u = $results->fetch_assoc();
                     <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
                     <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
                 </form>
-                <button id="hybridPieceDelete" onclick="hybridDeletePiece()">Delete a Piece</button>
-                <form id="hybridboostMoves">
-                    <h3>Add 1 move to troops</h3>
-                    <label for="hybridmoveTeam">Team</label>
-                    <select name="team" id="hybridmoveTeam" required>
-                        <option value="Red">Red</option>
-                        <option value="Blue">Blue</option>
-                    </select>
-                    <input type="submit" value="Add 1 move to this team's troops" onclick="hybridAddMove()">
-                </form>
-                <br>
                 <hr>
                 <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'; document.getElementById('hybridSubmitPoints').value = 'Submit new Point Values'">Close this popup</button>
                 <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
@@ -489,18 +478,18 @@ $u = $results->fetch_assoc();
                                 <td rowspan="2">Space</td>
                                 <td title="Satellite technology has discovered how to temporarily shorten all &#013;logisical routes. For one turn, all your units get +1 moves.">Advanced Remote Sensing</td>
                                 <td>8</td>
-                                <td><button id="hybridAddMove" onclick="hybridAddMove()">Choose</button></td>
+                                <td><button id="hybridAddMove" onclick="hybridAddMove();">Choose</button></td>
                             </tr>
                             <tr>
                                 <td title="Satellite technology allows for kinetic effects from space! &#013;Instantly destroy a unit on the board. &#013;(destroying a container destroys everything inside of it)">Rods from God</td>
                                 <td>6</td>
-                                <td><button id="hybridDeletePiece" onclick="hybridDeletePiece()">Choose</button></td>
+                                <td><button id="hybridDeletePiece" onclick="hybridDeletePiece();">Choose</button></td>
                             </tr>
                             <tr>
-                                <td rowspan="2">Nuclear</td>
+                                <td rowspan="2" title="Using a nuclear option makes a team unable to use Humanitarian options for 3 turns">Nuclear*</td>
                                 <td title="A high altitude ICBM detonation produces an electromagnetic pulse &#013;over all enemy aircraft, disabling them for their next turn.">Goldeneye</td>
                                 <td>10</td>
-                                <td><button id="hybridAircraftDisable" onclick="hybridDisableAircraft()">Choose</button></td>
+                                <td><button id="hybridAircraftDisable" onclick="hybridDisableAircraft();">Choose</button></td>
                             </tr>
                             <tr>
                                 <td title="An ICBM ground burst strike destroys a non-capital island. All units on island &#013;and adjacent sea zones are destroyed. The island will not be used for &#013;the rest of the game and does not contribute to points.">Nuclear Strike</td>
@@ -511,7 +500,7 @@ $u = $results->fetch_assoc();
                                 <td>Humanitarian</td>
                                 <td title="When a News alert notifies a team about a catastrophe in an area, &#013;teams have the option to provide humanitarian aid to that nation. &#013;Spend 3 HW points and receive 10 Reinforcement Points.">Humanitarian Option</td>
                                 <td>3</td>
-                                <td><button id="hybridHumanitarian" onclick="hybridHumanitary()">Choose</button></td>
+                                <td><button id="hybridHumanitarian" onclick="hybridHumanitary();">Choose</button></td>
                             </tr>
                         </tbody>
 

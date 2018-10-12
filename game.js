@@ -217,7 +217,7 @@ function bodyLoader() {
         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").onclick =function () {
-            document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Tool";
+            document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
             document.getElementById("popupBodyNews").style.display = "none";
             document.getElementById("popupBodyHybridMenu").style.display = "block";
             //testing
@@ -1010,6 +1010,7 @@ function changePhase() {
                     }
                     // NEWS ALERT PHASE
                     if (gamePhase === "1") {
+                        document.getElementById("popupTitle").innerHTML = "News Alert";
                         document.getElementById("popupBodyHybrid").style.display = "none";
                         document.getElementById("popupBodyHybridMenu").style.display = "none";
                         document.getElementById("popupBodyNews").style.display = "block";
@@ -1027,7 +1028,7 @@ function changePhase() {
                         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                         document.getElementById("battle_button").disabled = false;
                         document.getElementById("battle_button").onclick =function () {
-                            document.getElementById("hybridSubmitPoints").value = "Submit new Point Values";
+                            document.getElementById("popuTitle").innerHTML = "Hybrid Warfare Menu";
                             document.getElementById("popupBodyNews").style.display = "none";
                             document.getElementById("popupBodyHybrid").style.display = "none";
                             document.getElementById("popupBodyHybridMenu").style.display = "block";
@@ -1731,10 +1732,11 @@ function updateNextPhase() {
             if (gamePhase === "1") {
                 // alert("phase1");
                 //TODO: phase effects here and grab phase stuff???
-                document.getElementById("popup").style.display = "block";
+                document.getElementById("popupTitle").innerHTML = "News Alert";
                 document.getElementById("popupBodyNews").style.display = "block";
                 document.getElementById("popupBodyHybrid").style.display = "none";
                 document.getElementById("popupBodyHybridMenu").style.display = "none";
+                document.getElementById("popup").style.display = "block";
             } else {
                 // alert("not phase 1");
                 document.getElementById("popup").style.display = "none";
@@ -1746,6 +1748,7 @@ function updateNextPhase() {
                 document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                 document.getElementById("battle_button").disabled = false;
                 document.getElementById("battle_button").onclick =function () {
+                    document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
                     document.getElementById("popupBodyNews").style.display = "none";
                     document.getElementById("popupBodyHybrid").style.display = "none";
                     document.getElementById("popupBodyHybridMenu").style.display = "block";
