@@ -313,8 +313,12 @@ function pieceDragstart(event, callingElement) {
     userFeedback("drag the piece around and hover over an island to place onto it.");
     //canMove is dictated by phase and current Team
     if ((canMove === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
-        //From the container (parent of the piece)
-        event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
+        //From the container (parent of the piece)(or position)
+        if (callingElement.parentNode.getAttribute("data-positionId") == null) {
+            event.dataTransfer.setData("positionId", callingElement.parentNode.parentNode.parentNode.getAttribute("data-positionId"));
+        } else {
+            event.dataTransfer.setData("positionId", callingElement.parentNode.getAttribute("data-positionId"));
+        }
         //From the Piece
         event.dataTransfer.setData("placementId", callingElement.getAttribute("data-placementId"));
         event.dataTransfer.setData("placementContainerId", callingElement.getAttribute("data-placementContainerId"));
@@ -397,26 +401,28 @@ function pieceMoveUndo() {
         let phpUndoRequest = new XMLHttpRequest();
         phpUndoRequest.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                let decoded = JSON.parse(this.responseText);
-                if (decoded.placementId !== null) {
-                    clearHighlighted();
-                    //Update the piece's attributes
-                    let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
-                    pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
-                    pieceToUndo.setAttribute("data-placementCurrentMoves", decoded.new_placementCurrentMoves);
-                    //Append to New Position
-                    if (decoded.new_placementContainerId !== 999999) {
-                        document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
-                    } else {
-                        document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
+                if (this.responseText != 3) {
+                    let decoded = JSON.parse(this.responseText);
+                    if (decoded.placementId !== null) {
+                        clearHighlighted();
+                        //Update the piece's attributes
+                        let pieceToUndo = document.querySelector("[data-placementId='" + decoded.placementId + "']");
+                        pieceToUndo.setAttribute("data-placementContainerId", decoded.new_placementContainerId);
+                        pieceToUndo.setAttribute("data-placementCurrentMoves", decoded.new_placementCurrentMoves);
+                        //Append to New Position
+                        if (decoded.new_placementContainerId !== 999999) {
+                            document.querySelector("[data-placementId='" + decoded.new_placementContainerId + "']").firstChild.appendChild(pieceToUndo);
+                        } else {
+                            document.querySelector("[data-positionId='" + decoded.new_placementPositionId + "']").appendChild(pieceToUndo);
+                        }
+
+                        let unitName = pieceToUndo.getAttribute("data-unitName");
+
+                        pieceToUndo.setAttribute("title", unitName + "\n" +
+                            "Moves: " + decoded.new_placementCurrentMoves);
+
+
                     }
-
-                    let unitName = pieceToUndo.getAttribute("data-unitName");
-
-                    pieceToUndo.setAttribute("title", unitName + "\n" +
-                        "Moves: " + decoded.new_placementCurrentMoves);
-
-
                 }
             }
         };
@@ -672,7 +678,11 @@ function positionDrop(event, newContainerElement) {
     let positionType = newContainerElement.getAttribute("data-positionType");
     let unitTerrain = event.dataTransfer.getData("unitTerrain");
     let new_positionId = newContainerElement.getAttribute("data-positionId");
+    if (new_positionId == null) {
+        new_positionId = newContainerElement.parentNode.parentNode.getAttribute("data-positionId");
+    }
     let old_positionId = event.dataTransfer.getData("positionId");
+    // alert(old_positionId);
     let old_placementContainerId = event.dataTransfer.getData("placementContainerId");
     let new_placementContainerId = newContainerElement.getAttribute("data-positionContainerId");
     let old_placementCurrentMoves = event.dataTransfer.getData("placementCurrentMoves");
@@ -711,9 +721,9 @@ function positionDrop(event, newContainerElement) {
                             newContainerElement.appendChild(pieceDropped);
                             pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
                             pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
-                            if (unitName === "transport" || unitName === "aircraftCarrier") {
-                                pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
-                            }
+                            // if (unitName === "transport" || unitName === "aircraftCarrier") {
+                            //     pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
+                            // }
 
                             // title='".$unitName2."&#013;Moves: ".$placementCurrentMoves2."'
                             pieceDropped.setAttribute("title", unitName + "\n" +
@@ -760,9 +770,9 @@ function positionDrop(event, newContainerElement) {
                                     parentParent.classList.remove(parentTeam);
                                     parentParent.classList.add(newTeam);
                                     //database change in games table
-                                    let islandNumber = parent.id;
+                                    let islandNumber = parentParent.id;
                                     let phpRequestTeamChange = new XMLHttpRequest();
-                                    phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
+                                    phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam + "&myTeam=" + myTeam, true);
                                     phpRequestTeamChange.send();
 
                                     //if there is a missile there, change the team for it (db change is in above php call)
@@ -1551,7 +1561,7 @@ function waitForUpdate() {
             let decoded = JSON.parse(this.responseText);
 
             if (decoded.updateType === "pieceMove") {
-                updatePieceMove(decoded.updatePlacementId, decoded.updateNewPositionId, decoded.updateNewContainerId, decoded.updateNewMoves);
+                updatePieceMove(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewPositionId), parseInt(decoded.updateNewContainerId), parseInt(decoded.updateNewMoves));
             } else if (decoded.updateType === "pieceDelete") {
                 updatePieceDelete(decoded.updatePlacementId);
             } else if (decoded.updateType === "rollDie") {
@@ -1625,7 +1635,8 @@ function updatePiecePurchase(placementId, unitId, updateTeam) {
     // alert("purchasing");
     let purchaseContainer = document.getElementById("purchased_container");
     let echoString = "";
-    echoString += "<div class='" + unitNames[unitId] + " gamePiece " + updateTeam + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitId] + "' data-placementContainerId='999999' data-placementTeamId='" + updateTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+    // let title1 = unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitId];
+    echoString += "<div class='" + unitNames[unitId] + " gamePiece " + updateTeam + "' title='" + unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitNames[unitId]] + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitNames[unitId]] + "' data-placementContainerId='999999' data-placementTeamId='" + updateTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
     if (unitNames[unitId] === "transport" || unitNames[unitId] === "aircraftCarrier") {
         let classthing;
         if (unitNames[unitId] === "transport") {
@@ -1633,7 +1644,7 @@ function updatePiecePurchase(placementId, unitId, updateTeam) {
         } else {
             classthing = "aircraftCarrierContainer";
         }
-        echoString += "<div class='" + classthing + " " + updateTeam + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' data-positionId='118' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
+        echoString += "<div class='" + classthing + " " + updateTeam + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
     }
     echoString += "</div>";  // end the overall piece
     purchaseContainer.innerHTML += echoString;
@@ -1653,13 +1664,14 @@ function updatePieceMove(placementId, newPositionId, newContainerId, newMoves){
     // alert(newContainerId);
     let pieceToMove = document.querySelector("[data-placementId='" + placementId + "']");
     let theContainer;
-    if (newContainerId != "999999") {
-        theContainer = document.querySelector("[data-placementId='" + newContainerId + "']").childNodes[0];
+    if (newContainerId !== 999999) {
+        theContainer = document.querySelector("[data-placementId='" + newContainerId + "']").firstChild;
     } else {
         theContainer = document.querySelector("[data-positionId='" + newPositionId + "']");
     }
+    // theContainer = document.querySelector("[data-positionId='" + newPositionId + "']");
     // alert(theContainer);
-    theContainer.appendChild(pieceToMove);
+    theContainer.append(pieceToMove);
     let unitName = pieceToMove.getAttribute("data-unitName");
 
     pieceToMove.setAttribute("title", unitName + "\n" +
@@ -2107,5 +2119,6 @@ function showDice(diceNum){
     // document.getElementById("dice_image").classList[1] = "dice" + diceNum;
     // document.getElementById("dice_image").classList[0].style.backgroundImage = "url(resources/diceImages/die-" + diceNum + ".gif)";
 }
-//
+
+
 waitForUpdate();

@@ -6,7 +6,6 @@ include("db.php");
 //variables from the request
 $gameId = $_REQUEST['gameId'];
 $myTeam = $_REQUEST['myTeam'];
-$allTeam = "All";
 
 $notMyTeam = "Red";
 if ($myTeam == "Red") {
@@ -19,7 +18,7 @@ while(true) {
     sleep(.25);
     //call to database to check for the update
     $valuecheck = 0;
-    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateValue = ?) AND (updateTeam = ?)';
+    $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateValue = ?) AND (updateTeam = ?) ORDER BY updateId ASC';
     $query = $db->prepare($query);
     $query->bind_param("iis", $gameId, $valuecheck, $notMyTeam);
     $query->execute();
@@ -29,7 +28,18 @@ while(true) {
     if ($num_results > 0) {
         $r= $results->fetch_assoc();
         $updateId = $r['updateId'];
-        $arr = array('updateType' => (string) $r['updateType'], 'updateTeam' => (string) $r['updateTeam'], 'updatePlacementId' => (string) $r['updatePlacementId'], 'updateNewPositionId' => (string) $r['updateNewPositionId'], 'updateNewContainerId' => (string) $r['updateNewContainerId'], 'updateNewMoves' => (string) $r['updateNewMoves'], 'updateNewUnitId' => (string) $r['updateNewUnitId'], 'updateBattlePieceState' => (string) $r['updateBattlePieceState'], 'updateBattlePositionSelectedPieces' => (string) $r['updateBattlePositionSelectedPieces'], 'updateBattlePiecesSelected' => (string) $r['updateBattlePiecesSelected'], 'updateIsland' => (string) $r['updateIsland'], 'updateIslandTeam' => (string) $r['updateIslandTeam']);
+        $arr = array('updateType' => (string) $r['updateType'],
+            'updateTeam' => (string) $r['updateTeam'],
+            'updatePlacementId' => (string) $r['updatePlacementId'],
+            'updateNewPositionId' => (string) $r['updateNewPositionId'],
+            'updateNewContainerId' => (string) $r['updateNewContainerId'],
+            'updateNewMoves' => (string) $r['updateNewMoves'],
+            'updateNewUnitId' => (string) $r['updateNewUnitId'],
+            'updateBattlePieceState' => (string) $r['updateBattlePieceState'],
+            'updateBattlePositionSelectedPieces' => (string) $r['updateBattlePositionSelectedPieces'],
+            'updateBattlePiecesSelected' => (string) $r['updateBattlePiecesSelected'],
+            'updateIsland' => (string) $r['updateIsland'],
+            'updateIslandTeam' => (string) $r['updateIslandTeam']);
         echo json_encode($arr);
         break;
     }

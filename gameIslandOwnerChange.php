@@ -1,13 +1,14 @@
 <?php
-session_start();
+//session_start();
 include("db.php");
 
-$myTeam = $_SESSION['myTeam'];
-$gameId = $_SESSION['gameId'];
-
+//$myTeam = $_SESSION['myTeam'];
+//$gameId = $_SESSION['gameId'];
 
 $islandToChange = $_REQUEST['islandToChange'];
 $newTeam = $_REQUEST['newTeam'];
+$gameId = $_REQUEST['gameId'];
+$myTeam = $_REQUEST['myTeam'];
 
 $query = "";
 $missileCheck = 0;

@@ -39,7 +39,7 @@ if ($islandFrom == -4) {
 //                $thingToEcho++;
 //            }
         } else {
-            $thingToEcho = -1;
+            $thingToEcho = -4;
         }
     } else {
         //same as red
@@ -49,16 +49,16 @@ if ($islandFrom == -4) {
 //                $thingToEcho++;
 //            }
         } else {
-            $thingToEcho = -1;
+            $thingToEcho = -4;
         }
     }
 } else {
     if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
         $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
         //if moving into a container, 1 extra move
-        if ($old_placementContainerId != 999999) {
-            $thingToEcho--;
-        }
+//        if ($old_placementContainerId != 999999) {
+//            $thingToEcho--;
+//        }
     } else {
         $thingToEcho = -1;
     }
