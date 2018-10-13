@@ -66,31 +66,6 @@ if ($points >= 6) {
 }
 
 
-//$query = 'DELETE FROM placements WHERE placementId = ?';
-//$query = $db->prepare($query);
-//$query->bind_param("i", $placementId);
-//$query->execute();
-//
-////delete stuff inside if it was a container
-//$query = 'DELETE FROM placements WHERE placementContainerId = ?';
-//$query = $db->prepare($query);
-//$query->bind_param("i", $placementId);
-//$query->execute();
-
-
-//update the other client and spectators
-
-
-
-//this needed to stop further undo after any piece is deleted
-//$one = 1;
-//$query = 'UPDATE games SET gameTurn = gameTurn + ? WHERE gameId = ?';
-//$query = $db->prepare($query);
-//$query->bind_param("ii", $gameId, $one);
-//$query->execute();
-
-
-
 //might as well update the clients? (could put this inside the if statement)
 $Blue = "Blue";
 $Red = "Red";

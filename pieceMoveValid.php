@@ -35,9 +35,9 @@ if ($islandFrom == -4) {
         //must have new postition id valid in list
         if (in_array($new_positionId, $redPlaceValid)) {
             $thingToEcho = 0;
-            if ($new_placementContainerId != 999999) {
-                $thingToEcho++;
-            }
+//            if ($new_placementContainerId != 999999) {
+//                $thingToEcho++;
+//            }
         } else {
             $thingToEcho = -1;
         }
@@ -45,9 +45,9 @@ if ($islandFrom == -4) {
         //same as red
         if (in_array($new_positionId, $bluePlaceValid)) {
             $thingToEcho = 0;
-            if ($new_placementContainerId != 999999) {
-                $thingToEcho++;
-            }
+//            if ($new_placementContainerId != 999999) {
+//                $thingToEcho++;
+//            }
         } else {
             $thingToEcho = -1;
         }
@@ -56,8 +56,8 @@ if ($islandFrom == -4) {
     if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
         $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
         //if moving into a container, 1 extra move
-        if ($new_placementContainerId != 999999) {
-            $thingToEcho++;
+        if ($old_placementContainerId != 999999) {
+            $thingToEcho--;
         }
     } else {
         $thingToEcho = -1;
@@ -151,7 +151,10 @@ if ($unitName == "missile") {
     }
 }
 
-
+if ($thingToEcho > 1) {
+    //Force one move at a time
+    echo -3;
+}
 
 echo $thingToEcho;
 

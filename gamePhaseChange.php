@@ -27,6 +27,13 @@ $phaseText = "";
 
 $myTeam = $_SESSION['myTeam'];
 
+
+if ($gameCurrentTeam != $myTeam) {
+    //exit early, was not supposed to get here?
+    echo "error, wrong team";
+    exit;
+}
+
 $new_gamePhase = ($gamePhase % 7) + 1;
 $new_gameTurn = $gameTurn + 1;
 
@@ -283,7 +290,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $one = 1;
         $zero = 0;
 
-        //TODO: change this turn into 15 so no one gets points until red's first turn (this may come early if lots of battles???)
+        //15 starts blue's second turn
         if ($new_gameTurn > 14) {
             $addPoints = 0;
 
@@ -733,7 +740,10 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 if ($unitName == "attackHeli") {
                     //over water
                     if ($positionId < 55) {
-                        $deletePiece = true;
+                        //but could be in container
+                        if ($containerId != 999999) {
+                            $deletePiece = true;
+                        }
                     }
                 } elseif ($unitName == "fighter") {
                     if (!in_array($containerId, $carrierSpots) && !in_array($positionId, $airFieldSpots)) {

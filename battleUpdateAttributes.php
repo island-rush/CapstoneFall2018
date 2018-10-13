@@ -12,14 +12,17 @@ $gameBattleLastMessage = $_REQUEST['gameBattleLastMessage'];
 $gameBattlePosSelected = $_REQUEST['gameBattlePosSelected'];
 $gameBattleTurn = (int) $_REQUEST['gameBattleTurn'];
 
-$increment = 0;
 if ($gameBattleSection == "selectPos") {
-    $increment = 1;
+    //prevent future undo
+    $query = 'DELETE FROM movements WHERE movementGameId = ?';
+    $query = $db->prepare($query);
+    $query->bind_param("i", $gameId);
+    $query->execute();
 }
 
-$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = ?, gameTurn = gameTurn + ? WHERE (gameId = ?)';
+$query = 'UPDATE games SET gameBattleSection = ?, gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ?, gameBattlePosSelected = ?, gameBattleTurn = ? WHERE (gameId = ?)';
 $query = $db->prepare($query);
-$query->bind_param("ssisiiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $gameBattleTurn, $increment, $gameId);
+$query->bind_param("ssisiii", $gameBattleSection, $gameBattleSubSection, $gameBattleLastRoll, $gameBattleLastMessage, $gameBattlePosSelected, $gameBattleTurn, $gameId);
 $query->execute();
 
 

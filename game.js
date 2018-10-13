@@ -796,7 +796,7 @@ function positionDrop(event, newContainerElement) {
                             let missileTargets3 = [19, 20, 21, 26, 27, 32, 33, 34];
                             let missileTargets4 = [28, 35, 36, 41, 42];
 
-                            if (missileTargets1.includes(parseInt(new_positionId))) {
+                            if (missileTargets1.includes(parseInt(new_positionId)) && unitName !== "submarine") {
                                 //check if missile on this island
                                 if (document.getElementById("posM1").childNodes.length == 1) {
                                     //check if island is owned by other team? / if missile is owned TODO: missile always owned by island owner
@@ -819,7 +819,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets2.includes(parseInt(new_positionId))) {
+                            if (missileTargets2.includes(parseInt(new_positionId)) && unitName !== "submarine") {
                                 if (document.getElementById("posM2").childNodes.length == 1) {
                                     if (!document.getElementById("posM2").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -835,7 +835,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets3.includes(parseInt(new_positionId))) {
+                            if (missileTargets3.includes(parseInt(new_positionId)) && unitName !== "submarine") {
                                 if (document.getElementById("posM3").childNodes.length == 1) {
                                     if (!document.getElementById("posM3").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -851,7 +851,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets4.includes(parseInt(new_positionId))) {
+                            if (missileTargets4.includes(parseInt(new_positionId)) && unitName !== "submarine") {
                                 if (document.getElementById("posM4").childNodes.length == 1) {
                                     if (!document.getElementById("posM4").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -873,9 +873,12 @@ function positionDrop(event, newContainerElement) {
                         if (movementCost == -2) {
                             userFeedback("News alert prevented that!");
                         } else {
-                            userFeedback("This piece is out of moves!");
+                            if (movementCost == -3) {
+                                userFeedback("Pieces must use moves one at a time.");
+                            } else {
+                                userFeedback("This piece is out of moves!");
+                            }
                         }
-
                     }
                 }
             };
@@ -939,7 +942,7 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
 
 function changePhase() {
     if (canNextPhase === "true") {
-        if ((gamePhase == 4 && confirm("Any aircraft not on carriers/airstrips or heli's not over land will get deleted.\nAre you sure you want to continue?")) || (gamePhase != 4 && confirm("Are you sure you want to go to the next phase?"))) {
+        if ((gamePhase == 5 && confirm("Any reinforcements not placed will get deleted, are you sure?")) || (gamePhase == 4 && confirm("Any aircraft not on carriers/airstrips or heli's not over land will get deleted.\nAre you sure you want to continue?")) || ((gamePhase != 4 && gamePhase != 5) && confirm("Are you sure you want to go to the next phase?"))) {
             let phpPhaseChange = new XMLHttpRequest();
             phpPhaseChange.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -949,6 +952,7 @@ function changePhase() {
                     gameTurn = decoded.gameTurn;
                     gameCurrentTeam = decoded.gameCurrentTeam;
                     canMove = decoded.canMove;
+                    // alert(canMove);
                     canPurchase = decoded.canPurchase;
                     canUndo = decoded.canUndo;
                     canNextPhase = decoded.canNextPhase;
@@ -1223,7 +1227,7 @@ function battleChangeSection(newSection) {
         phpBattleEnding.send();
 
         // gameTurn = parseInt(gameTurn) + 1;
-        
+
         //clear out the divs for battle piece deletion
         document.getElementById("unused_attacker").innerHTML = null;
         document.getElementById("unused_defender").innerHTML = null;
@@ -1687,7 +1691,9 @@ function updateNextPhase() {
             gameTurn = decoded.gameTurn;
             gameCurrentTeam = decoded.gameCurrentTeam;
             canMove = decoded.canMove;
+            // alert(canMove);
             canPurchase = decoded.canPurchase;
+            // alert(canPurchase);
             canUndo = decoded.canUndo;
             canNextPhase = decoded.canNextPhase;
             canTrash = decoded.canTrash;
@@ -1985,6 +1991,8 @@ function updateBattleSection() {
 function userFeedback(text){
     document.getElementById("user_feedback").innerHTML = text;
 }
+
+//--------------------------
 //Function for resetting the values of the hybrid tool inputs
 function hybridResetPoints(){
     document.getElementById("setRedRpoints").value = gameRedRpoints;
@@ -2075,6 +2083,7 @@ function hybridToggle(){
         document.getElementById("popupBodyHybridMenu").style.display = "none";
     }
 }
+//--------------------------
 
 function rollDice(){
     let numRolls = Math.floor(Math.random() * 40) + 20;
