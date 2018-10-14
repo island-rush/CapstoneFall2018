@@ -12,12 +12,12 @@ $u = $results->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Island Rush Game</title>
-    <link rel="shortcut icon" type="image/x-icon" href="http://localhost/favicon.ico?v=2">
+    <title>Island Rush Game V0.22 Alpha</title>
+    <!--    <link rel="shortcut icon" type="image/x-icon" href="http://localhost/favicon.ico">-->
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
-        var unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker'];
+        var unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker', 'missile'];
         var unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
             if ($num_results2 > 0) {
                 for ($i=0; $i < $num_results2; $i++) {
@@ -28,6 +28,8 @@ $u = $results->fetch_assoc();
                 }
             }
             echo json_encode($arr); ?>;
+
+        // var unitsMoves = [2, 2, 2, 2, 1, 1, 2, 1, 2, 3, 1, 4, 6, 5, 5, 10];
 
         var gameId = "<?php echo $_SESSION['gameId']; ?>";
         var gamePhase = "<?php echo $u['gamePhase']; ?>";
@@ -40,17 +42,12 @@ $u = $results->fetch_assoc();
         var gameRedHpoints = "<?php echo $u['gameRedHpoints']; ?>";
         var gameBlueHpoints = "<?php echo $u['gameBlueHpoints']; ?>";
 
-        var myPoints;
-        if (myTeam === "Red") {
-            myPoints = <?php echo $u['gameRedRpoints']; ?>;
-        } else {
-            myPoints = <?php echo $u['gameBlueRpoints']; ?>;
-        }
+        //testupdate
 
         var lastUpdateId = <?php
             $query8 = "SELECT * FROM updates WHERE updateGameId = ? ORDER BY updateId DESC";
             $preparedQuery8 = $db->prepare($query8);
-            $preparedQuery8->bind_param("i", $r['gameId']);
+            $preparedQuery8->bind_param("i", $gameId);
             $preparedQuery8->execute();
             $results8 = $preparedQuery8->get_result();
 
@@ -65,14 +62,21 @@ $u = $results->fetch_assoc();
             }
             ?>;
 
+        var myPoints;
+        if (myTeam === "Red") {
+            myPoints = <?php echo $u['gameRedRpoints']; ?>;
+        } else {
+            myPoints = <?php echo $u['gameBlueRpoints']; ?>;
+        }
+
         var gameBattlePosSelected = "<?php echo $u['gameBattlePosSelected']; ?>";
         var gameBattleSection = "<?php echo $u['gameBattleSection']; ?>";
         var gameBattleSubSection = "<?php echo $u['gameBattleSubSection']; ?>";
         var gameBattleLastRoll = "<?php echo $u['gameBattleLastRoll']; ?>";
         var gameBattleLastMessage = "<?php echo $u['gameBattleLastMessage']; ?>";
+        var gameBattleTurn = <?php echo $u['gameBattleTurn']; ?>;
 
-        //comment
-        //var gameBattleAdjacentArray = <?php //echo $_SESSION['gameBattleAdjacentArray'] ?>//;
+        var gameBattleAdjacentArray;
 
         <?php
         //TODO: could replace this with a get phase update ajax function
@@ -95,7 +99,7 @@ $u = $results->fetch_assoc();
                 $canAttack = "false";
             } elseif ($u['gamePhase'] == 2) {
                 //reinforcement purchase
-                $canMove = "false";
+                $canMove = "true";
                 $canPurchase = "true";
                 $canUndo = "false";
                 $canNextPhase = "true";
@@ -152,8 +156,6 @@ $u = $results->fetch_assoc();
         var canTrash = "<?php echo $canTrash; ?>";
         var canAttack = "<?php echo $canAttack; ?>";
 
-        //TODO: deal with newsAlerts on-load + live update (prelim code here)
-        //TODO this fails / will fail when refreshing at not the first turn of game?
         <?php
         $activated = 1;
         $zero = 0;
@@ -168,11 +170,9 @@ $u = $results->fetch_assoc();
         var newsText = "<?php echo $r3['newsText'] ?>";
         var newsEffect = "<?php echo $r3['newsEffect'] ?>";
         //TODO: get the other text and put it inside the popup
-
-        var hoverTimer;
     </script>
     <script src="gameSpectator.js"></script>
-    <script src="d6.js"></script>
+<!--    <script src="d6.js"></script>-->
 </head>
 
 <body onload="bodyLoader();">
@@ -186,18 +186,18 @@ $u = $results->fetch_assoc();
             <div class="purchase_square submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square destroyer" title="Destroyer&#013;Cost: 10&#013;Moves: 2" id="destroyer" data-unitCost="10" data-unitId="2" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square aircraftCarrier" title="Aircraft Carrier&#013;Cost: 15&#013;Moves: 2" id="aircraftCarrier" data-unitCost="15" data-unitId="3" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square soldier" title="Soldier&#013;Cost: 4&#013;Moves: 1" id="soldier" data-unitCost="4" data-unitId="4" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square artillery" title="Artillery&#013;Cost: 5&#013;Moves: 1" id="artillery" data-unitCost="5" data-unitId="5" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square tank" title="Tank&#013;Cost: 6&#013;Moves: 2" id="tank" data-unitCost="6" data-unitId="6" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square marine" title="Marine&#013;Cost: 5&#013;Moves: 1" id="marine" data-unitCost="5" data-unitId="7" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square lav" title="LAV&#013;Cost: 8&#013;Moves: 2" id="lav" data-unitCost="8" data-unitId="8" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square soldier" title="Soldier&#013;Cost: 4&#013;Moves: 1" id="soldier" data-unitCost="4" data-unitId="4" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square artillery" title="Artillery&#013;Cost: 5&#013;Moves: 1" id="artillery" data-unitCost="5" data-unitId="5" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square tank" title="Tank&#013;Cost: 6&#013;Moves: 2" id="tank" data-unitCost="6" data-unitId="6" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square marine" title="Marine&#013;Cost: 5&#013;Moves: 1" id="marine" data-unitCost="5" data-unitId="7" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square lav" title="LAV&#013;Cost: 8&#013;Moves: 2" id="lav" data-unitCost="8" data-unitId="8" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square attackHeli" title="AttackHeli&#013;Cost: 7&#013;Moves: 3" id="attackHeli" data-unitCost="7" data-unitId="9" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square sam" title="SAM&#013;Cost: 8&#013;Moves: 1" id="sam" data-unitCost="8" data-unitId="10" data-unitTerrain="ground" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square sam" title="SAM&#013;Cost: 8&#013;Moves: 1" id="sam" data-unitCost="8" data-unitId="10" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square fighter" title="Fighter&#013;Cost: 12&#013;Moves: 4" id="fighter" data-unitCost="12" data-unitId="11" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square bomber" title="Bomber&#013;Cost: 12&#013;Moves: 6" id="bomber" data-unitCost="12" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square stealthBomber" title="StealthBomber&#013;Cost: 15&#013;Moves: 5" id="stealthBomber" data-unitCost="15" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square tanker" title="Tanker&#013;Cost: 11&#013;Moves: 5" id="tanker" data-unitCost="11" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square tanker" title="Missile&#013;Cost: 10" id="missile" data-unitCost="10" data-unitId="14" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square missile" title="Missile&#013;Cost: 10" id="missile" data-unitCost="10" data-unitId="15" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
         </div>
         <div id="purchase_seperator">Shop-Inventory</div>
         <div id="shopping_things">
@@ -221,30 +221,30 @@ $u = $results->fetch_assoc();
                 <div id="blue_hPoints_indicator">Loading</div>
             </div>
             <div id="misc_info_undo">
-                <div id="game_version">V 0.22Alpha</div>
+                <div id="logout_div">
+                    <button id="logout_button" onclick="logout();">Logout</button>
+                </div>
                 <div id="undo_button_div">
-<!--                    <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>-->
+                    <button id="undo_button" disabled onclick="pieceMoveUndo();">Undo Movement</button>
                 </div>
             </div>
         </div>
-<!--        <div id="bottom_panel">-->
-<!--            <div id="battle_button_container">-->
-<!--                <button id="battle_button" disabled>Loading...</button>-->
-<!--            </div>-->
-<!--            <div id="user_feedback_container">-->
-<!--                <div id="user_feedback">User Feedback...</div>-->
-<!--            </div>-->
-<!--            <div id="phase_button_container">-->
-<!--<!--                <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>-->-->
-<!--            </div>-->
-<!--        </div>-->
+        <div id="bottom_panel">
+            <div id="battle_button_container">
+                <button id="battle_button" disabled>Loading...</button>
+            </div>
+            <div id="user_feedback_container">
+                <div id="user_feedback">User Feedback...</div>
+            </div>
+            <div id="phase_button_container">
+                <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
+            </div>
+        </div>
     </div>
-
-
-
 
     <div id="game_board" onclick="gameboardClick(event, this);">
         <div id="grid_marker_top"></div>
+        <!--        <div id="grid_marker_right"></div>-->
         <div class="gridblockLeftBig <?php echo $u['gameIsland13']; ?>" id="special_island13" data-islandNum="13">
             <div class="gridblockTiny" data-positionType="land" id="pos13a" data-positionId="55" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 55; include("pieceDisplay.php"); ?></div>
             <div class="gridblockTiny" data-positionType="land" id="pos13b" data-positionId="56" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 56; include("pieceDisplay.php"); ?></div>
@@ -267,8 +267,8 @@ $u = $results->fetch_assoc();
         <div class="gridblock water" data-positionId="7" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 7; include("pieceDisplay.php"); ?></div>
         <div class="gridblock water" data-positionId="8" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 8; include("pieceDisplay.php"); ?></div>
         <div class="gridblock grid_special_island1 <?php echo $u['gameIsland1']; ?>" id="special_island1" data-islandPopped="false" ondragleave="islandDragleave(event, this);" ondragenter="islandDragenter(event, this);" onclick="islandClick(event, this);">
-            <div id="special_island1_pop" class="special_island1 special_island3x3 <?php echo $u['gameIsland1']; ?>" data-islandNum="1" ondragover="popupDragOver(event, this);" ondragleave="popupDragleave(event, this);">
-                <div class="gridblockTiny" data-positionType="land" id="pos1a" data-positionId="75" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 75; include("pieceDisplay.php"); ?></div>
+            <div id="special_island1_pop" class="special_island1 special_island3x3 <?php echo $u['gameIsland1']; ?>" data-islandNum="1" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondragleave="popupDragleave(event, this);">
+                <div class="gridblockTiny" data-positionType="land" id="pos1a" data-positionId="75" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 75; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos1b" data-positionId="76" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 76; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos1c" data-positionId="77" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 77; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos1d" data-positionId="78" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 78; include("pieceDisplay.php"); ?></div>
@@ -282,6 +282,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos2b" data-positionId="80" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 80; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos2c" data-positionId="81" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 81; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos2d" data-positionId="82" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 82; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM1" data-positionId="121" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 121; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="11" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 11; include("pieceDisplay.php"); ?></div>
@@ -339,6 +340,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos6a" data-positionId="94" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 94; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos6b" data-positionId="95" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 95; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos6c" data-positionId="96" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 96; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM2" data-positionId="122" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 122; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="25" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 25; include("pieceDisplay.php"); ?></div>
@@ -348,6 +350,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos7a" data-positionId="97" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 97; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos7b" data-positionId="98" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 98; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos7c" data-positionId="99" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 99; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM3" data-positionId="123" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 123; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="27" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 27; include("pieceDisplay.php"); ?></div>
@@ -375,6 +378,7 @@ $u = $results->fetch_assoc();
                 <div class="gridblockTiny" data-positionType="land" id="pos9b" data-positionId="104" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 104; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos9c" data-positionId="105" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 105; include("pieceDisplay.php"); ?></div>
                 <div class="gridblockTiny" data-positionType="land" id="pos9d" data-positionId="106" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 106; include("pieceDisplay.php"); ?></div>
+                <div class="gridblockTiny missileContainer" data-positionType="missile" id="posM4" data-positionId="124" data-positionContainerId="999999" onclick="landClick(event, this);" ondragleave="landDragLeave(event, this);" ondragenter="popupDragEnter(event, this);" ondragover="popupDragOver(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 124; include("pieceDisplay.php"); ?></div>
             </div>
         </div>
         <div class="gridblock water" data-positionId="36" data-positionContainerId="999999" data-positionType="water" onclick="waterClick(event, this);" ondragover="positionDragover(event, this);" ondrop="positionDrop(event, this);"><?php $positionId = 36; include("pieceDisplay.php"); ?></div>
@@ -434,7 +438,7 @@ $u = $results->fetch_assoc();
             <div id="battleActionPopup">
                 <button id="actionPopupButton" disabled>Loading...</button>
                 <div id="dice_image" class="dice"></div>
-                <div></div>
+                <!--                <div></div>-->
             </div>
         </div>
         <div id="popup">
@@ -445,24 +449,85 @@ $u = $results->fetch_assoc();
             </div>
             <div id="popupBodyHybrid">
                 <form id="setPoints">
+                    <h3>Set Points</h3>
                     <label for="setRedRpoints">Red R Points</label>
                     <input type="number" id="setRedRpoints">
-                    <br>
-                    <label for="setRedHpoints">Red HW Points</label>
-                    <input type="number" id="setRedHpoints">
-                    <br>
                     <label for="setBlueRpoints">Blue R Points</label>
                     <input type="number" id="setBlueRpoints">
                     <br>
+                    <label for="setRedHpoints">Red HW Points</label>
+                    <input type="number" id="setRedHpoints">
                     <label for="setBlueHpoints">Blue HW Points</label>
                     <input type="number" id="setBlueHpoints">
-
                     <br>
                     <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
                     <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
                 </form>
+                <hr>
+                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'; document.getElementById('hybridSubmitPoints').value = 'Submit new Point Values'">Close this popup</button>
+                <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
+            </div>
+            <div id="popupBodyHybridMenu">
+                <div id="hybridInstructions">
+                    <p>Instructions:<br>Select which Hybrid Warfare Option you would like to use. Mouse over the name for more information about what each option does.</p>
+                </div>
+                <div id="hybridTable">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Name</th>
+                            <th>Cost</th>
+                            <th>Choose</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td rowspan="2">Cyber</td>
+                            <td title="A Cyber attack causes an enemy airfield to be completely shutdown. &#013;Aircraft may not leave or enter that airfield during the enemy turn.">Air Traffic Control Scramble</td>
+                            <td>3</td>
+                            <td><button id="hybridAirfieldShutdown" onclick="hybridDisableAirfield();">Choose</button></td>
+                        </tr>
+                        <tr>
+                            <td title="Enemy island value counts towards your points for the next two turns. &#013;Enemy team does not earn any points from this island.">Bank Drain</td>
+                            <td>4</td>
+                            <td><button id="hybridBankDrain" onclick="hybridBank();">Choose</button></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Space</td>
+                            <td title="Satellite technology has discovered how to temporarily shorten all &#013;logisical routes. For one turn, all your units get +1 moves.">Advanced Remote Sensing</td>
+                            <td>8</td>
+                            <td><button id="hybridAddMove" onclick="hybridAddMove();">Choose</button></td>
+                        </tr>
+                        <tr>
+                            <td title="Satellite technology allows for kinetic effects from space! &#013;Instantly destroy a unit on the board. &#013;(destroying a container destroys everything inside of it)">Rods from God</td>
+                            <td>6</td>
+                            <td><button id="hybridDeletePiece" onclick="hybridDeletePiece();">Choose</button></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" title="Using a nuclear option makes a team unable to use Humanitarian options for 3 turns">Nuclear*</td>
+                            <td title="A high altitude ICBM detonation produces an electromagnetic pulse &#013;over all enemy aircraft, disabling them for their next turn.">Goldeneye</td>
+                            <td>10</td>
+                            <td><button id="hybridAircraftDisable" onclick="hybridDisableAircraft();">Choose</button></td>
+                        </tr>
+                        <tr>
+                            <td title="An ICBM ground burst strike destroys a non-capital island. All units on island &#013;and adjacent sea zones are destroyed. The island will not be used for &#013;the rest of the game and does not contribute to points.">Nuclear Strike</td>
+                            <td>12</td>
+                            <td><button id="hybridNukeIsland" onclick="hybridNuke();">Choose</button></td>
+                        </tr>
+                        <tr>
+                            <td>Humanitarian</td>
+                            <td title="When a News alert notifies a team about a catastrophe in an area, &#013;teams have the option to provide humanitarian aid to that nation. &#013;Spend 3 HW points and receive 10 Reinforcement Points.">Humanitarian Option</td>
+                            <td>3</td>
+                            <td><button id="hybridHumanitarian" onclick="hybridHumanitary();">Choose</button></td>
+                        </tr>
+                        </tbody>
 
-                <button id="popupHybridClose" onclick="function(){document.getElementById('popup').style.display = 'none'}">Close this popup</button>
+                    </table>
+                </div>
+                <br>
+                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none';" style="margin:0 auto; width:30%;">Close this popup</button>
+                <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
             </div>
         </div>
     </div>

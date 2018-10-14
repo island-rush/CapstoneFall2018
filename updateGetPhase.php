@@ -45,7 +45,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canAttack = "false";
     } elseif ($new_gamePhase == 2) {
         //reinforcement purchase
-        $canMove = "false";
+        $canMove = "true";
         $canPurchase = "true";
         $canUndo = "false";
         $canNextPhase = "true";

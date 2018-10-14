@@ -596,6 +596,9 @@ html, body {
 .Blue{
     box-shadow: 0px 0px 0px 1px rgba(30, 208, 255, 0.67) inset;
 }
+.Nuke{
+    box-shadow: 0px 0px 0px 1px rgb(255, 255, 255) inset;
+}
 
 .transport{background-image: url("resources/unitImages/transport.png");}
 .submarine{background-image: url("resources/unitImages/submarine.png");}
@@ -697,7 +700,7 @@ html, body {
 /*ISLAND POSITIONS CSS*/
 
 .gridblockTiny{
-    /*background-color: rgba(255, 15, 0, 0.31);*/
+    background-color: rgba(255, 253, 250, 0.2);
     position: absolute;
 }
 .gridblockTiny:hover{
@@ -712,6 +715,7 @@ html, body {
 /*}*/
 
 #pos13a{
+    /*background-color: rgba(255, 0, 154, 0.51);*/
     width: 22%;
     height: 22%;
     margin-left: 5%;

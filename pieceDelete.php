@@ -5,7 +5,7 @@ include("db.php");
 $myTeam = $_SESSION['myTeam'];
 $gameId = $_SESSION['gameId'];
 
-$placementId = $_REQUEST['placementId'];
+$placementId = (int) $_REQUEST['placementId'];
 
 $query = 'DELETE FROM placements WHERE placementId = ?';
 $query = $db->prepare($query);
@@ -34,12 +34,10 @@ $query = $db->prepare($query);
 $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
 $query->execute();
 
-
-//this needed to stop further undo after any piece is deleted
-$one = 1;
-$query = 'UPDATE games SET gameTurn = gameTurn + ? WHERE gameId = ?';
+//prevent future undo
+$query = 'DELETE FROM movements WHERE movementGameId = ?';
 $query = $db->prepare($query);
-$query->bind_param("ii", $gameId, $one);
+$query->bind_param("i", $gameId);
 $query->execute();
 
 
