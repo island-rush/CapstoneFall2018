@@ -155,7 +155,7 @@ $u = $results->fetch_assoc();
         //TODO: get the other text and put it inside the popup
     </script>
     <script src="game.js"></script>
-    <script src="d6.js"></script>
+<!--    <script src="d6.js"></script>-->
 </head>
 
 <body onload="bodyLoader();">

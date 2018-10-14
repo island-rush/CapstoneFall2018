@@ -1289,7 +1289,7 @@ function battleChangeSection(newSection) {
                 //database change in games table
                 let islandNumber = parentParent.id;
                 let phpRequestTeamChange = new XMLHttpRequest();
-                phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam, true);
+                phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam + "&myTeam=" + myTeam, true);
                 phpRequestTeamChange.send();
             }
         }
@@ -1590,6 +1590,8 @@ function waitForUpdate() {
                 updateBattlePieceRemove(decoded.updatePlacementId);
             } else if (decoded.updateType === "updateMoves") {
                 updateMoves(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewMoves));
+            } else if (decoded.updateType === "updateMissile") {
+                updateMissileOwner(parseInt(decoded.updatePlacementId));
             }
 
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
@@ -1597,6 +1599,18 @@ function waitForUpdate() {
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
     phpUpdateBoard.send();
+}
+
+function updateMissileOwner(placementId) {
+    let missile = document.querySelector("[data-placementId='" + placementId + "']");
+    let oldTeam = missile.getAttribute("data-placementTeamId");
+    let newTeam = "Red";
+    if (oldTeam === "Red") {
+        newTeam = "Blue";
+    }
+    missile.classList.remove(oldTeam);
+    missile.classList.add(newTeam);
+    missile.setAttribute("data-placementTeamId", newTeam);
 }
 
 function updateBattlePieceRemove(placementId) {
@@ -2098,12 +2112,12 @@ function hybridToggle(){
 //--------------------------
 
 function rollDice(){
-    let numRolls = Math.floor(Math.random() * 40) + 20;
+    let numRolls = Math.floor(Math.random() * 5) + 11;
     let thingy;
     let i;
     for (i = 1; i < numRolls; i++) {
         let randomRoll = Math.floor(Math.random() * 6) + 1;
-        thingy = setTimeout(function () {showDice(randomRoll)}, (i+1)*180);
+        thingy = setTimeout(function () {showDice(randomRoll)}, (i+1)*150);
     }
     thingy = setTimeout(function () {showDice(gameBattleLastRoll); document.getElementById("actionPopupButton").style.display = "block";}, (i+1)*180);
 }

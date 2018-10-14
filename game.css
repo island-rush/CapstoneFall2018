@@ -700,7 +700,7 @@ html, body {
 /*ISLAND POSITIONS CSS*/
 
 .gridblockTiny{
-    background-color: rgba(254, 236, 255, 0.11);
+    background-color: rgba(255, 253, 250, 0.2);
     position: absolute;
 }
 .gridblockTiny:hover{
@@ -715,6 +715,7 @@ html, body {
 /*}*/
 
 #pos13a{
+    /*background-color: rgba(255, 0, 154, 0.51);*/
     width: 22%;
     height: 22%;
     margin-left: 5%;

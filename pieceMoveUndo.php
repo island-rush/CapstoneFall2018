@@ -67,11 +67,11 @@ if ($num_results > 0) {
     $query->bind_param("iissiiii", $movementGameId, $newValue, $myTeam, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer, $new_placementCurrentMoves);
     $query->execute();
 
-//    $Spec = "Spec";
-//    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-//    $query = $db->prepare($query);
-//    $query->bind_param("iissiiii", $movementGameId, $newValue, $Spec, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer, $new_placementCurrentMoves);
-//    $query->execute();
+    $Spec = "Spec";
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissiiii", $movementGameId, $newValue, $Spec, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer, $new_placementCurrentMoves);
+    $query->execute();
 
     //Return information about how to undo the movement
     $arr = array('placementId' => $movementNowPlacement,
