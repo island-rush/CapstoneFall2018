@@ -261,7 +261,7 @@ function pieceClick(event, callingElement) {
     // alert("clicked");
     event.preventDefault();
     //open container if applicable
-    if (gameBattleSection === "selectPieces") {
+    if (gameBattleSection === "selectPieces" && myTeam === gameCurrentTeam) {
         if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
             if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
                 if (callingElement.classList.contains("selected")) {
@@ -274,11 +274,11 @@ function pieceClick(event, callingElement) {
             }
         }
     } else {
-        if (gameBattleSection === "selectPos") {
+        if (gameBattleSection === "selectPos" && myTeam === gameCurrentTeam) {
             clearSelectedPos();
             callingElement.parentNode.classList.add("selectedPos");
         } else {
-            if (deleteHybridState === "true") {
+            if (deleteHybridState === "true" && myTeam === gameCurrentTeam) {
                 callingElement.classList.add("selected");
                 randomTimer = setTimeout(function() {
                     if (confirm("Is this the piece you want to delete?")) {
@@ -613,7 +613,7 @@ function hideIslands() {
 function landClick(event, callingElement) {
     event.preventDefault();
 
-    if (gameBattleSection === "selectPos" && gameCurrentTeam == myTeam) {
+    if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }
@@ -659,7 +659,7 @@ function waterClick(event, callingElement) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     clearHighlighted();
-    if (gameBattleSection === "selectPos" && gameCurrentTeam == myTeam) {
+    if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }
@@ -810,8 +810,9 @@ function positionDrop(event, newContainerElement) {
                             let missileTargets2 = [16, 17, 18, 24, 25, 29, 30, 31];
                             let missileTargets3 = [19, 20, 21, 26, 27, 32, 33, 34];
                             let missileTargets4 = [28, 35, 36, 41, 42];
+                            let acceptableTargets = ["transport", "destroyer", "aircraftCarrier"];
 
-                            if (missileTargets1.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets1.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 //check if missile on this island
                                 if (document.getElementById("posM1").childNodes.length == 1) {
                                     //check if island is owned by other team? / if missile is owned TODO: missile always owned by island owner
@@ -834,7 +835,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets2.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets2.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 if (document.getElementById("posM2").childNodes.length == 1) {
                                     if (!document.getElementById("posM2").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -850,7 +851,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets3.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets3.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 if (document.getElementById("posM3").childNodes.length == 1) {
                                     if (!document.getElementById("posM3").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -866,7 +867,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets4.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets4.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 if (document.getElementById("posM4").childNodes.length == 1) {
                                     if (!document.getElementById("posM4").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -1919,7 +1920,6 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
             newParent.appendChild(oldParent.childNodes[0]);
         }
     };
-
 }
 
 function updateBattleSection() {
@@ -2002,6 +2002,9 @@ function updateBattleSection() {
 
 
                 document.getElementById("changeSectionButton").disabled = false;
+            } else {
+                document.getElementById("attackButton").disabled = true;
+                document.getElementById("changeSectionButton").disabled = true;
             }
 
             // alert("changing section to something");

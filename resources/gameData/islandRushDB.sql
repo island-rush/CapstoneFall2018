@@ -1,5 +1,6 @@
 -- Database file for Island Rush Capstone (created 7/27/2018 by C1C Spencer Adolph)
 
+
 -- -----------------------------------------------------------------------------
 DROP DATABASE IF EXISTS islandRushDB;
 CREATE DATABASE islandRushDB;
@@ -9,13 +10,14 @@ SET SQL_SAFE_UPDATES = 0;
 -- -----------------------------------------------------------------------------
 
 
+
 -- Table of Games
 CREATE TABLE IF NOT EXISTS `games`(
   `gameId` int(5) NOT NULL AUTO_INCREMENT,
   `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
   `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
   `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
-  `gameActive` int(1) NOT NULL, -- 1 or 0
+  `gameActive` int(1) NOT NULL DEFAULT 0, -- 1 or 0
   `gameCurrentTeam`  varchar(5) NOT NULL DEFAULT 'Blue', -- 'Red' or 'Blue'
   `gameTurn` int(4) NOT NULL DEFAULT 0, -- 0, 1, 2, 3...
   `gamePhase`  int(1) NOT NULL DEFAULT 1, --  1 = news, 2 = reinforcements...
@@ -30,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `games`(
   `gameBattleTurn` int(3) NOT NULL DEFAULT 79,  -- put in to kick out aircraft after 2 turns
   `gameBattleLastRoll` int(1) NOT NULL DEFAULT 1, -- 1 for default (or no roll to display anymore/reset), 1-6 for roll
   `gameBattleLastMessage` varchar(50) DEFAULT '', -- used for explaining what happened "red killed blue's fighter with fighter" ex...
-  `gameBattlePosSelected` int(4) NOT NULL DEFAULT 999999, -- positionId chosen by attacker (999999 default)
+  `gameBattlePosSelected` int(8) NOT NULL DEFAULT 999999, -- positionId chosen by attacker (999999 default)
   `gameIsland1` varchar(10) NOT NULL DEFAULT 'Red',
   `gameIsland2` varchar(10) NOT NULL DEFAULT 'Red',
   `gameIsland3` varchar(10) NOT NULL DEFAULT 'Red',
@@ -48,8 +50,20 @@ CREATE TABLE IF NOT EXISTS `games`(
     PRIMARY KEY(`gameId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
-INSERT INTO `games` VALUES (1, 'M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 10, 60, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 1, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
-INSERT INTO `games` VALUES (2, 'T1A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 1, 'Blue', 0, 1, 100, 20, 0, 0, 0, 0, 'none', 'choosing_pieces', 0, 1, 'test message', 999999, 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Blue');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M3A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M3A2', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M6A1', 'Kazy', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M6B1', 'Burke', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T1A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T2A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T4A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T5A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T6A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T7A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
+
+
 
 
 -- Table of Units (static)
@@ -79,6 +93,8 @@ INSERT INTO `units` VALUES (14, 'tanker', 'air', 5, 11);
 INSERT INTO `units` VALUES (15, 'missile', 'missile', 0, 10);
 
 
+
+
 -- Table of game pieces and where they are in each game
 CREATE TABLE IF NOT EXISTS `placements`(
 	`placementId` int(16) NOT NULL AUTO_INCREMENT,
@@ -95,6 +111,8 @@ CREATE TABLE IF NOT EXISTS `placements`(
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
+
+
 -- Table of Movements
 CREATE TABLE IF NOT EXISTS `movements`(
 	`movementId` int(16) NOT NULL AUTO_INCREMENT,
@@ -106,9 +124,10 @@ CREATE TABLE IF NOT EXISTS `movements`(
     `movementNowPlacement` int(16) NOT NULL,  -- placement contains current position/container
     `movementCost` int(3) NOT NULL,  -- cost of moves
     PRIMARY KEY(`movementId`),
-    FOREIGN KEY (movementGameId) REFERENCES games(gameId),
-    FOREIGN KEY (movementNowPlacement) REFERENCES placements(placementId)
+    FOREIGN KEY (movementGameId) REFERENCES games(gameId)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
 
 
 -- Table of pieces involved in battles (duplicate pieces with battle only info)
@@ -119,6 +138,9 @@ CREATE TABLE IF NOT EXISTS `battlePieces`(
     `battlePieceWasHit` int(1) NOT NULL, -- 0 for false, 1 for true
     PRIMARY KEY(`battlePieceId`)
 );
+
+
+
 
 -- Table of board updates to send to other client (piece stuff mostly)
 CREATE TABLE IF NOT EXISTS `updates`(
@@ -140,6 +162,9 @@ CREATE TABLE IF NOT EXISTS `updates`(
 	PRIMARY KEY(`updateId`)
  ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
  
+ 
+ 
+ 
  -- Table of news alerts (not yet fully implemented)
 CREATE TABLE IF NOT EXISTS `newsAlerts`(
   `newsId` int(5) NOT NULL AUTO_INCREMENT,
@@ -150,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
   `newsEffect` varchar(20) NOT NULL, -- 'disable', 'rollDie', 'nothing',  ...
   `newsRollValue` varchar(2) NOT NULL DEFAULT 0, -- {1,2,3,4,5,6} default 0 but it isnt looked at unless effect=rollDie
   `newsZone` int(10) NOT NULL DEFAULT 666, -- {0-54, 101-114, 200} for sea zones 0-54, whole island 1-14, or all zones 200. if effect=nothing, default to 666.
-  `newsLength` int(2) NOT NULL DEFAULT 1, -- 1,2,3 (amount of turns the effect lasts)
+  `newsLength` int(10) NOT NULL DEFAULT 1, -- 1,2,3 (amount of turns the effect lasts)
   `newsHumanitarian` int(2) NOT NULL DEFAULT 0, -- 1 or 0
   `newsText` varchar(200) NOT NULL DEFAULT 'default string', -- the message that displays with the alert
   `newsEffectText` varchar(200) NOT NULL DEFAULT 'default string', -- the message about the action of the effect
@@ -159,13 +184,5 @@ CREATE TABLE IF NOT EXISTS `newsAlerts`(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
-SELECT * FROM newsAlerts;
 
-SELECT * FROM updates;
-
-SELECT * FROM movements;
-
-SELECT * FROM battlePieces;
-
-SELECT * FROM games;
 

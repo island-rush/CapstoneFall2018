@@ -61,16 +61,16 @@ function bodyLoader() {
         // document.getElementById("phase_button").disabled = false;
         // document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.getElementById("battle_button").onclick = function() {
-            if (confirm("Are you sure you want to battle?")) {
-                battleChangeSection("selectPos");
-            }
-        };
+        // document.getElementById("battle_button").onclick = function() {
+        //     if (confirm("Are you sure you want to battle?")) {
+        //         battleChangeSection("selectPos");
+        //     }
+        // };
     } else if (gameBattleSection === "selectPos") {
         document.getElementById("phase_button").disabled = true;
         // document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Pieces";
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        // document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         userFeedback("Now click on the zone that you want to attack. Then click the Select Pieces button, where the Battle button used to be.");
         //more visual indication of selecting position
         document.getElementById("whole_game").style.backgroundColor = "yellow";
@@ -78,7 +78,7 @@ function bodyLoader() {
         document.getElementById("phase_button").disabled = true;
         // document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Start Battle";
-        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+        // document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("whole_game").style.backgroundColor = "yellow";
         document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
 
@@ -100,7 +100,7 @@ function bodyLoader() {
             }
             document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
                 "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
-            document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+            // document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "counter") {
             if (myTeam !== gameCurrentTeam) {
                 document.getElementById("actionPopupButton").disabled = true;
@@ -109,7 +109,7 @@ function bodyLoader() {
             }
             document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
                 "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
-            document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+            // document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
             if (myTeam !== gameCurrentTeam) {
                 document.getElementById("actionPopupButton").disabled = true;
@@ -117,7 +117,7 @@ function bodyLoader() {
                 // document.getElementById("actionPopupButton").disabled = false;
             }
             document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-            document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+            // document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
         } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "counter") {
             if (myTeam !== gameCurrentTeam) {
                 // document.getElementById("actionPopupButton").disabled = false;
@@ -125,7 +125,7 @@ function bodyLoader() {
                 document.getElementById("actionPopupButton").disabled = true;
             }
             document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-            document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+            // document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
         }
     } else {
         document.getElementById("battleActionPopup").style.display = "none";
@@ -140,19 +140,19 @@ function bodyLoader() {
     //could consolidate these with a call to change section (with same section)
     if (gameBattleSection === "attack") {
         document.getElementById("attackButton").innerHTML = "Attack section";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+        // document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
+        // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
     } else if (gameBattleSection === "counter") {
         document.getElementById("attackButton").innerHTML = "Counter Attack";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+        // document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
         document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
+        // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
     } else if (gameBattleSection === "askRepeat") {
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
-        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        // document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+        // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
     }
 
     if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
@@ -216,19 +216,19 @@ function bodyLoader() {
         //convert the battle button to be a hybrid warfare shop button
         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
         // document.getElementById("battle_button").disabled = false;
-        document.getElementById("battle_button").onclick =function () {
-            document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
-            document.getElementById("popupBodyNews").style.display = "none";
-            document.getElementById("popupBodyHybridMenu").style.display = "block";
-            //testing
-            document.getElementById("popupBodyHybrid").style.display = "none";
-
-            document.getElementById("setRedRpoints").value = gameRedRpoints;
-            document.getElementById("setRedHpoints").value = gameRedHpoints;
-            document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-            document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-            document.getElementById("popup").style.display = "block";
-        };
+        // document.getElementById("battle_button").onclick =function () {
+        //     document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
+        //     document.getElementById("popupBodyNews").style.display = "none";
+        //     document.getElementById("popupBodyHybridMenu").style.display = "block";
+        //     //testing
+        //     document.getElementById("popupBodyHybrid").style.display = "none";
+        //
+        //     document.getElementById("setRedRpoints").value = gameRedRpoints;
+        //     document.getElementById("setRedHpoints").value = gameRedHpoints;
+        //     document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+        //     document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+        //     document.getElementById("popup").style.display = "block";
+        // };
 
     }
 
@@ -1041,26 +1041,26 @@ function changePhase() {
                         //convert the battle button to be a hybrid warfare shop button
                         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                         // document.getElementById("battle_button").disabled = false;
-                        document.getElementById("battle_button").onclick =function () {
-                            document.getElementById("popuTitle").innerHTML = "Hybrid Warfare Menu";
-                            document.getElementById("popupBodyNews").style.display = "none";
-                            document.getElementById("popupBodyHybrid").style.display = "none";
-                            document.getElementById("popupBodyHybridMenu").style.display = "block";
-                            document.getElementById("setRedRpoints").value = gameRedRpoints;
-                            document.getElementById("setRedHpoints").value = gameRedHpoints;
-                            document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                            document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-                            document.getElementById("popup").style.display = "block";
-                        };
+                        // document.getElementById("battle_button").onclick =function () {
+                        //     document.getElementById("popuTitle").innerHTML = "Hybrid Warfare Menu";
+                        //     document.getElementById("popupBodyNews").style.display = "none";
+                        //     document.getElementById("popupBodyHybrid").style.display = "none";
+                        //     document.getElementById("popupBodyHybridMenu").style.display = "block";
+                        //     document.getElementById("setRedRpoints").value = gameRedRpoints;
+                        //     document.getElementById("setRedHpoints").value = gameRedHpoints;
+                        //     document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                        //     document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                        //     document.getElementById("popup").style.display = "block";
+                        // };
                     }else{
                         // not hybrid, should be the battle button
                         //Let the canAttack check above enable or disable battle button, but set the html stuff back
                         document.getElementById("battle_button").innerHTML = "Select Battle";
-                        document.getElementById("battle_button").onclick = function() {
-                            if (confirm("Are you sure you want to battle?")) {
-                                battleChangeSection("selectPos");
-                            }
-                        };
+                        // document.getElementById("battle_button").onclick = function() {
+                        //     if (confirm("Are you sure you want to battle?")) {
+                        //         battleChangeSection("selectPos");
+                        //     }
+                        // };
                     }
 
                     if (gamePhase === "7") { // TALLY POINTS/ROUND RECAP
@@ -1114,14 +1114,14 @@ function battleChangeSection(newSection) {
         document.getElementById("phase_button").disabled = true;
         document.getElementById("undo_button").disabled = true;
 
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        // document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
         userFeedback("Now click on the zone that you want to attack. Then click the Select Pieces button, where the Battle button used to be.");
         //more visual indication of selecting position
         document.getElementById("whole_game").style.backgroundColor = "yellow";
     } else if (newSection === "selectPieces") {
-        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+        // document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("battle_button").innerHTML = "Start Battle";
 
         gameBattleTurn = 0;
@@ -1143,7 +1143,7 @@ function battleChangeSection(newSection) {
         }
         document.getElementById("battleZonePopup").style.display = "block";
         document.getElementById("attackButton").innerHTML = "Attack section";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+        // document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
 
         if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
             // document.getElementById("changeSectionButton").disabled = false;
@@ -1151,27 +1151,27 @@ function battleChangeSection(newSection) {
         // alert("enabling button in section change my click");
         // document.getElementById("changeSectionButton").disabled = false;
         document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
-        document.getElementById("changeSectionButton").onclick = function() {
-            battleChangeSection("counter");
-            let newParent = document.getElementById('unused_attacker');
-            let oldParent = document.getElementById('used_attacker');
-            while (oldParent.childNodes.length > 0) {
-                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-                let phpMoveBattlePiece = new XMLHttpRequest();
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
-                phpMoveBattlePiece.send();
-                newParent.appendChild(oldParent.childNodes[0]);
-            }
-            newParent = document.getElementById('unused_defender');
-            oldParent = document.getElementById('used_defender');
-            while (oldParent.childNodes.length > 0) {
-                oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-                let phpMoveBattlePiece = new XMLHttpRequest();
-                phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
-                phpMoveBattlePiece.send();
-                newParent.appendChild(oldParent.childNodes[0]);
-            }
-        };
+        // document.getElementById("changeSectionButton").onclick = function() {
+        //     battleChangeSection("counter");
+        //     let newParent = document.getElementById('unused_attacker');
+        //     let oldParent = document.getElementById('used_attacker');
+        //     while (oldParent.childNodes.length > 0) {
+        //         // oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+        //         let phpMoveBattlePiece = new XMLHttpRequest();
+        //         phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+        //         phpMoveBattlePiece.send();
+        //         newParent.appendChild(oldParent.childNodes[0]);
+        //     }
+        //     newParent = document.getElementById('unused_defender');
+        //     oldParent = document.getElementById('used_defender');
+        //     while (oldParent.childNodes.length > 0) {
+        //         // oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+        //         let phpMoveBattlePiece = new XMLHttpRequest();
+        //         phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+        //         phpMoveBattlePiece.send();
+        //         newParent.appendChild(oldParent.childNodes[0]);
+        //     }
+        // };
     } else if (newSection === "counter") {
 
         if (gameCurrentTeam === myTeam) {
@@ -1183,17 +1183,17 @@ function battleChangeSection(newSection) {
 
         document.getElementById("attackButton").disabled = true;
         document.getElementById("attackButton").innerHTML = "Counter Attack";
-        document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+        // document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
 
         // alert("counter disabling true i clicked i know");
         // document.getElementById("changeSectionButton").disabled = true;
         document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
+        // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
     } else if (newSection === "askRepeat") {
         let newParent = document.getElementById('unused_attacker');
         let oldParent = document.getElementById('used_attacker');
         while (oldParent.childNodes.length > 0) {
-            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            // oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
             let phpMoveBattlePiece = new XMLHttpRequest();
             phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
             phpMoveBattlePiece.send();
@@ -1202,7 +1202,7 @@ function battleChangeSection(newSection) {
         newParent = document.getElementById('unused_defender');
         oldParent = document.getElementById('used_defender');
         while (oldParent.childNodes.length > 0) {
-            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+            // oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
             let phpMoveBattlePiece = new XMLHttpRequest();
             phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
             phpMoveBattlePiece.send();
@@ -1211,7 +1211,7 @@ function battleChangeSection(newSection) {
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
         // document.getElementById("attackButton").disabled = false;
         //TODO: move elements back to where they belong / used -> unused?
-        document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+        // document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
         if ((gameCurrentTeam === myTeam && gameBattleSection === "askRepeat")) {
             // document.getElementById("attackButton").disabled = false;
         } else {
@@ -1221,7 +1221,7 @@ function battleChangeSection(newSection) {
         document.getElementById("attackButton").disabled = true;
 
         document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
-        document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+        // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
 
         document.getElementById("actionPopupButton").disabled = true;
         document.getElementById("actionPopupButton").disabled = true;
@@ -1249,11 +1249,11 @@ function battleChangeSection(newSection) {
         document.getElementById("battleZonePopup").style.display = "none";
         // document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.getElementById("battle_button").onclick = function() {
-            if(confirm("Are you sure you want to battle?")) {
-                battleChangeSection("selectPos");
-            }
-        };
+        // document.getElementById("battle_button").onclick = function() {
+        //     if(confirm("Are you sure you want to battle?")) {
+        //         battleChangeSection("selectPos");
+        //     }
+        // };
 
         //check to see if flag ownership changed, if the position of battle was a flag position
         let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
@@ -1450,7 +1450,7 @@ function battleEndRoll() {
         if (gameBattleSection === "attack") {
             centerAttack.removeChild(centerAttackPiece);
             usedAttack.appendChild(centerAttackPiece);
-            centerAttackPiece.onclick = function() {  };
+            // centerAttackPiece.onclick = function() {  };
             phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerAttackPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=3" + "&gameId=" + gameId, true);
             phpBattlePieceUpdate.send();
         } else {
@@ -1473,7 +1473,7 @@ function battleEndRoll() {
         if (gameBattleSection !== "attack") {
             centerDefend.removeChild(centerDefendPiece);
             usedDefend.appendChild(centerDefendPiece);
-            centerDefendPiece.onclick = function() {  };
+            // centerDefendPiece.onclick = function() {  };
             phpBattlePieceUpdate.open("POST", "battlePieceUpdate.php?battlePieceId=" + centerDefendPiece.getAttribute("data-battlePieceId") + "&new_battlePieceState=4" + "&gameId=" + gameId, true);
             phpBattlePieceUpdate.send();
         } else {
@@ -1513,7 +1513,7 @@ function battleAttackCenter(type) {
                 actionButton.disabled = true;
                 actionButton.innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
                     "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
-                actionButton.onclick = function() { battleAttackCenter("defend"); };
+                // actionButton.onclick = function() { battleAttackCenter("defend"); };
             } else if (new_gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
                 if (myTeam === gameCurrentTeam) {
                     // actionButton.disabled = false;
@@ -1522,7 +1522,7 @@ function battleAttackCenter(type) {
                 }
 
                 actionButton.innerHTML = "click to go back to Choosing";
-                actionButton.onclick = function() { battleEndRoll(); };
+                // actionButton.onclick = function() { battleEndRoll(); };
             } else if (new_gameBattleSubSection === "continue_choosing" && gameBattleSection === "counter") {
                 if (myTeam === gameCurrentTeam) {
                     actionButton.disabled = true;
@@ -1531,7 +1531,7 @@ function battleAttackCenter(type) {
                 }
 
                 actionButton.innerHTML = "click to go back to Choosing";
-                actionButton.onclick = function() { battleEndRoll(); };
+                // actionButton.onclick = function() { battleEndRoll(); };
             }
 
             pieceAttacked.setAttribute("data-wasHit", decoded.wasHit);
@@ -1781,26 +1781,26 @@ function updateNextPhase() {
                 //convert the battle button to be a hybrid warfare shop button
                 document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                 // document.getElementById("battle_button").disabled = false;
-                document.getElementById("battle_button").onclick =function () {
-                    document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
-                    document.getElementById("popupBodyNews").style.display = "none";
-                    document.getElementById("popupBodyHybrid").style.display = "none";
-                    document.getElementById("popupBodyHybridMenu").style.display = "block";
-                    document.getElementById("setRedRpoints").value = gameRedRpoints;
-                    document.getElementById("setRedHpoints").value = gameRedHpoints;
-                    document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                    document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-                    document.getElementById("popup").style.display = "block";
-                };
+                // document.getElementById("battle_button").onclick =function () {
+                //     document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
+                //     document.getElementById("popupBodyNews").style.display = "none";
+                //     document.getElementById("popupBodyHybrid").style.display = "none";
+                //     document.getElementById("popupBodyHybridMenu").style.display = "block";
+                //     document.getElementById("setRedRpoints").value = gameRedRpoints;
+                //     document.getElementById("setRedHpoints").value = gameRedHpoints;
+                //     document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                //     document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                //     document.getElementById("popup").style.display = "block";
+                // };
             }else{
                 // not hybrid, should be the battle button
                 //Let the canAttack check above enable or disable battle button, but set the html stuff back
                 document.getElementById("battle_button").innerHTML = "Select Battle";
-                document.getElementById("battle_button").onclick = function() {
-                    if (confirm("Are you sure you want to battle?")) {
-                        battleChangeSection("selectPos");
-                    }
-                };
+                // document.getElementById("battle_button").onclick = function() {
+                //     if (confirm("Are you sure you want to battle?")) {
+                //         battleChangeSection("selectPos");
+                //     }
+                // };
             }
 
 
@@ -1843,10 +1843,10 @@ function updateBattleAttack() {
                 // document.getElementById("actionPopupButton").disabled = false;
                 document.getElementById("actionPopupButton").innerHTML = "HIT! The Defender's unit was destroyed!! The Defender" +
                     "has the opportunity to knock out the Attacker's unit. Roll for defense bonus!";
-                document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+                // document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
             } else if (gameBattleSubSection === "continue_choosing") {
                 document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-                document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+                // document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
             }
             rollDice();
         }
@@ -1876,33 +1876,33 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
 
     document.getElementById("battleZonePopup").style.display = "block";
     document.getElementById("attackButton").innerHTML = "Attack section";  //already disabled by default?
-    document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+    // document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
     document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
 
     // alert("disable true because got update that pieces were selected");
     document.getElementById("changeSectionButton").disabled = true;  //other client can't change section, only currentTeam
 
-    document.getElementById("changeSectionButton").onclick = function() {
-        battleChangeSection("counter");
-        let newParent = document.getElementById('unused_attacker');
-        let oldParent = document.getElementById('used_attacker');
-        while (oldParent.childNodes.length > 0) {
-            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            let phpMoveBattlePiece = new XMLHttpRequest();
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
-            phpMoveBattlePiece.send();
-            newParent.appendChild(oldParent.childNodes[0]);
-        }
-        newParent = document.getElementById('unused_defender');
-        oldParent = document.getElementById('used_defender');
-        while (oldParent.childNodes.length > 0) {
-            oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
-            let phpMoveBattlePiece = new XMLHttpRequest();
-            phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
-            phpMoveBattlePiece.send();
-            newParent.appendChild(oldParent.childNodes[0]);
-        }
-    };
+    // document.getElementById("changeSectionButton").onclick = function() {
+    //     battleChangeSection("counter");
+    //     let newParent = document.getElementById('unused_attacker');
+    //     let oldParent = document.getElementById('used_attacker');
+    //     while (oldParent.childNodes.length > 0) {
+    //         oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+    //         let phpMoveBattlePiece = new XMLHttpRequest();
+    //         phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=1", true);
+    //         phpMoveBattlePiece.send();
+    //         newParent.appendChild(oldParent.childNodes[0]);
+    //     }
+    //     newParent = document.getElementById('unused_defender');
+    //     oldParent = document.getElementById('used_defender');
+    //     while (oldParent.childNodes.length > 0) {
+    //         oldParent.childNodes[0].onclick = function() { battlePieceClick(event, this); };
+    //         let phpMoveBattlePiece = new XMLHttpRequest();
+    //         phpMoveBattlePiece.open("POST", "battlePieceUpdate.php?battlePieceId=" + oldParent.childNodes[0].getAttribute("data-battlePieceId") + "&new_battlePieceState=2", true);
+    //         phpMoveBattlePiece.send();
+    //         newParent.appendChild(oldParent.childNodes[0]);
+    //     }
+    // };
 
 }
 
@@ -1928,7 +1928,7 @@ function updateBattleSection() {
                     }
                     document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
                         "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
-                    document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+                    // document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
                 } else if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "counter") {
                     if (myTeam !== gameCurrentTeam) {
                         document.getElementById("actionPopupButton").disabled = true;
@@ -1937,7 +1937,7 @@ function updateBattleSection() {
                     }
                     document.getElementById("actionPopupButton").innerHTML = "HIT!! The Defender's unit was destroyed!! The Defender " +
                         "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
-                    document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
+                    // document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
                 } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
                     if (myTeam !== gameCurrentTeam) {
                         document.getElementById("actionPopupButton").disabled = true;
@@ -1945,7 +1945,7 @@ function updateBattleSection() {
                         // document.getElementById("actionPopupButton").disabled = false;
                     }
                     document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-                    document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+                    // document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
                 } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "counter") {
                     if (myTeam !== gameCurrentTeam) {
                         // document.getElementById("actionPopupButton").disabled = false;
@@ -1953,7 +1953,7 @@ function updateBattleSection() {
                         document.getElementById("actionPopupButton").disabled = true;
                     }
                     document.getElementById("actionPopupButton").innerHTML = "click to go back to Choosing";  //attack popup was open, and clicked to roll defense bonus, now click to go back
-                    document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
+                    // document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
                 }
             } else {
                 document.getElementById("battleActionPopup").style.display = "none";
@@ -1961,19 +1961,19 @@ function updateBattleSection() {
 
             if (gameBattleSection === "attack") {
                 document.getElementById("attackButton").innerHTML = "Attack section";
-                document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
+                // document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
                 document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
-                document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
+                // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
             } else if (gameBattleSection === "counter") {
                 document.getElementById("attackButton").innerHTML = "Counter Attack";
-                document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
+                // document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
                 document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
-                document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
+                // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
             } else if (gameBattleSection === "askRepeat") {
                 document.getElementById("attackButton").innerHTML = "Click to Repeat";
-                document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
+                // document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
                 document.getElementById("changeSectionButton").innerHTML = "Click to Exit";
-                document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
+                // document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("none") };
             }
 
             if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {

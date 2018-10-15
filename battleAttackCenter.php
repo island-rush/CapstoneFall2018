@@ -22,7 +22,7 @@ if ($gameBattleSubSection == "choosing_pieces") {
     }
 } else {
     //defense bonus
-    if (($lastRoll >= $_SESSION['attack'][$attackUnitId][$defendUnitIt] && $_SESSION['attack'][$attackUnitId][$defendUnitIt] != 0) || ($_SESSION['attack'][$attackUnitId][$defendUnitIt] == 0 && $lastRoll == 6)) {
+    if (($lastRoll >= $_SESSION['attack'][$defendUnitIt][$attackUnitId] && $_SESSION['attack'][$defendUnitIt][$attackUnitId] != 0) || ($_SESSION['attack'][$defendUnitIt][$attackUnitId] == 0 && $lastRoll == 6)) {
         $wasHit = 1;
     } else {
         $wasHit = 0;
