@@ -49,6 +49,8 @@ function bodyLoader() {
     document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
     document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
+    document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
+
     document.getElementById("actionPopupButton").style.display = "block";
     showDice(gameBattleLastRoll);
 
@@ -1515,6 +1517,9 @@ function battleAttackCenter(type) {
         pieceAttacked = document.getElementById("center_attacker").childNodes[0];
     }
 
+    let attackUnitName = unitNames[attackUnitId];
+    let defendUnitName = unitNames[defendUnitId];
+
     let phpAttackCenter = new XMLHttpRequest();
     phpAttackCenter.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -1552,13 +1557,19 @@ function battleAttackCenter(type) {
             gameBattleLastRoll = decoded.lastRoll;
             let wasHitVariable = decoded.wasHit;
             gameBattleSubSection = decoded.new_gameBattleSubSection;
+
+            gameBattleLastMessage = decoded.gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
+            // alert(gameBattleLastMessage);
+
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
             document.getElementById("actionPopupButton").style.display = "none";
+            document.getElementById("lastBattleMessage").style.display = "none";
             document.getElementById("battleActionPopup").style.display = "block";
             rollDice();
         }
     };
-    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
+    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&attackUnitName=" + attackUnitName + "&defendUnitName=" + defendUnitName + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
     phpAttackCenter.send();
 }
 
@@ -1854,6 +1865,8 @@ function updateBattleAttack() {
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").style.display = "none";
             document.getElementById("actionPopupButton").style.display = "none";
             document.getElementById("battleActionPopup").style.display = "block";
             if (gameBattleSubSection === "defense_bonus") {
@@ -1932,7 +1945,9 @@ function updateBattleSection() {
             gameBattleSection = decoded.gameBattleSection;
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
+
             gameBattleLastMessage = decoded.gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
 
             if (gameBattleSubSection !== "choosing_pieces") {
                 document.getElementById("battleActionPopup").style.display = "block";
@@ -2140,7 +2155,7 @@ function rollDice(){
         let randomRoll = Math.floor(Math.random() * 6) + 1;
         thingy = setTimeout(function () {showDice(randomRoll)}, (i+1)*150);
     }
-    thingy = setTimeout(function () {showDice(gameBattleLastRoll); document.getElementById("actionPopupButton").style.display = "block";}, (i+1)*180);
+    thingy = setTimeout(function () {showDice(gameBattleLastRoll); document.getElementById("actionPopupButton").style.display = "block"; document.getElementById("lastBattleMessage").style.display = "block";}, (i+1)*180);
 }
 
 function showDice(diceNum){

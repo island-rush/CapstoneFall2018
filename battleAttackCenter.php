@@ -6,26 +6,35 @@ $myTeam = $_SESSION['myTeam'];
 $gameId = $_SESSION['gameId'];
 
 $attackUnitId = $_REQUEST['attackUnitId'];
-$defendUnitIt = $_REQUEST['defendUnitId'];
+$defendUnitId = $_REQUEST['defendUnitId'];
+
+$attackUnitName = $_REQUEST['attackUnitName'];
+$defendUnitName = $_REQUEST['defendUnitName'];
 
 $gameBattleSection = $_REQUEST['gameBattleSection'];
 $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
+
+$gameBattleLastMessage = "Test Game Battle Message";
 
 $lastRoll = rand(1, 6);
 
 if ($gameBattleSubSection == "choosing_pieces") {
     //regular attack
-    if ($lastRoll >= $_SESSION['attack'][$attackUnitId][$defendUnitIt] && $_SESSION['attack'][$attackUnitId][$defendUnitIt] != 0) {
+    if ($lastRoll >= $_SESSION['attack'][$attackUnitId][$defendUnitId] && $_SESSION['attack'][$attackUnitId][$defendUnitId] != 0) {
         $wasHit = 1;
+        $gameBattleLastMessage = $attackUnitName." hit ".$defendUnitName;
     } else {
         $wasHit = 0;
+        $gameBattleLastMessage = $attackUnitName." did not hit ".$defendUnitName;
     }
 } else {
     //defense bonus
-    if (($lastRoll >= $_SESSION['attack'][$defendUnitIt][$attackUnitId] && $_SESSION['attack'][$defendUnitIt][$attackUnitId] != 0) || ($_SESSION['attack'][$defendUnitIt][$attackUnitId] == 0 && $lastRoll == 6)) {
+    if (($lastRoll >= $_SESSION['attack'][$defendUnitId][$attackUnitId] && $_SESSION['attack'][$defendUnitId][$attackUnitId] != 0) || ($_SESSION['attack'][$defendUnitId][$attackUnitId] == 0 && $lastRoll == 6)) {
         $wasHit = 1;
+        $gameBattleLastMessage = $defendUnitName." hit ".$attackUnitName;
     } else {
         $wasHit = 0;
+        $gameBattleLastMessage = $defendUnitName." did not hit ".$attackUnitName;
     }
 }
 
@@ -35,13 +44,17 @@ if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "
     $nextThing = "continue_choosing";
 }
 
-$arr = array('lastRoll' => $lastRoll, 'wasHit' => $wasHit, 'new_gameBattleSubSection' => $nextThing);
+
+//$gameBattleLastMessage = "Test Game Battle Message";
+
+
+$arr = array('lastRoll' => $lastRoll, 'wasHit' => $wasHit, 'new_gameBattleSubSection' => $nextThing, 'gameBattleLastMessage' => $gameBattleLastMessage);
 echo json_encode($arr);
 
 
-$query = 'UPDATE games SET gameBattleSubSection = ?, gameBattleLastRoll = ? WHERE (gameId = ?)';
+$query = 'UPDATE games SET gameBattleSubSection = ?, gameBattleLastRoll = ?, gameBattleLastMessage = ? WHERE (gameId = ?)';
 $query = $db->prepare($query);
-$query->bind_param("sii",  $nextThing, $lastRoll, $gameId);
+$query->bind_param("sisi",  $nextThing, $lastRoll, $gameBattleLastMessage, $gameId);
 $query->execute();
 
 

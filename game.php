@@ -419,6 +419,7 @@ $u = $results->fetch_assoc();
                 <button id="changeSectionButton" disabled>Loading...</button>
             </div>
             <div id="battleActionPopup">
+                <div id="lastBattleMessage">Loading...</div>
                 <button id="actionPopupButton" disabled>Loading...</button>
                 <div id="dice_image" class="dice"></div>
 <!--                <div></div>-->
