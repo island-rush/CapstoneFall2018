@@ -17,6 +17,7 @@ $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 $gameBattleLastMessage = "Test Game Battle Message";
 
 $lastRoll = rand(1, 6);
+//$lastRoll = 6;
 
 if ($gameBattleSubSection == "choosing_pieces") {
     //regular attack
@@ -26,15 +27,18 @@ if ($gameBattleSubSection == "choosing_pieces") {
     } else {
         $wasHit = 0;
         $gameBattleLastMessage = $attackUnitName." did not hit ".$defendUnitName;
+        if ($_SESSION['attack'][$attackUnitId][$defendUnitId] == 0) {
+            $gameBattleLastMessage = $attackUnitName." can not hit ".$defendUnitName;
+        }
     }
 } else {
     //defense bonus
-    if (($lastRoll >= $_SESSION['attack'][$defendUnitId][$attackUnitId] && $_SESSION['attack'][$defendUnitId][$attackUnitId] != 0) || ($_SESSION['attack'][$defendUnitId][$attackUnitId] == 0 && $lastRoll == 6)) {
+    if (($lastRoll >= $_SESSION['attack'][$attackUnitId][$defendUnitId] && $_SESSION['attack'][$attackUnitId][$defendUnitId] != 0) || ($_SESSION['attack'][$attackUnitId][$defendUnitId] == 0 && $lastRoll == 6)) {
         $wasHit = 1;
-        $gameBattleLastMessage = $defendUnitName." hit ".$attackUnitName;
+        $gameBattleLastMessage = $attackUnitName." hit ".$defendUnitName;
     } else {
         $wasHit = 0;
-        $gameBattleLastMessage = $defendUnitName." did not hit ".$attackUnitName;
+        $gameBattleLastMessage = $attackUnitName." did not hit ".$defendUnitName;
     }
 }
 
@@ -60,22 +64,21 @@ $query->execute();
 
 $newValue = 0;
 $updateType = "battleAttacked";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateNewMoves) VALUES (?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $wasHit);
 $query->execute();
 
 $Spec = "Spec";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateNewMoves) VALUES (?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
+$query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $wasHit);
 $query->execute();
 
 
 if ($wasHit == 1) {
     $pieceId = $_REQUEST['pieceId'];
     $hit = 1;
-    //TODO: not for this gameId? (but every id is different so probably works)
     $query = 'UPDATE battlePieces SET battlePieceWasHit = ? WHERE (battlePieceId = ?)';
     $query = $db->prepare($query);
     $query->bind_param("ii", $hit, $pieceId);

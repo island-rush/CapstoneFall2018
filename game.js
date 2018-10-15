@@ -141,14 +141,14 @@ function bodyLoader() {
 
     //could consolidate these with a call to change section (with same section)
     if (gameBattleSection === "attack") {
-        document.getElementById("attackButton").innerHTML = "Attack section";
+        document.getElementById("attackButton").innerHTML = "Attack!";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
-        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+        document.getElementById("changeSectionButton").innerHTML = "End Attack/Start Counter";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
     } else if (gameBattleSection === "counter") {
         document.getElementById("attackButton").innerHTML = "Counter Attack";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
-        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+        document.getElementById("changeSectionButton").innerHTML = "End Counter Attack";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
     } else if (gameBattleSection === "askRepeat") {
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
@@ -217,7 +217,12 @@ function bodyLoader() {
         document.getElementById("popup").style.display = "none";
         //convert the battle button to be a hybrid warfare shop button
         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
-        document.getElementById("battle_button").disabled = false;
+        if (myTeam === gameCurrentTeam) {
+            document.getElementById("battle_button").disabled = false;
+        } else {
+            document.getElementById("battle_button").disabled = true;
+        }
+
         document.getElementById("battle_button").onclick =function () {
             if(document.getElementById("popup").style.display === "block"){
                 document.getElementById("popup").style.display = "none";
@@ -267,9 +272,11 @@ function pieceClick(event, callingElement) {
         if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
             if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
                 if (callingElement.classList.contains("selected")) {
+                    userFeedback("Piece deselected.");
                     callingElement.classList.remove("selected");
                 } else {
                     if (callingElement.getAttribute("data-placementBattleUsed") == 0) {
+                        userFeedback("Piece Selected");
                         callingElement.classList.add("selected");
                     }
                 }
@@ -373,6 +380,10 @@ function pieceDragenter(event, callingElement) {
 function piecePurchase(event, purchaseSquare) {
     event.preventDefault();
     if (canPurchase === "true") {
+        myPoints = gameRedRpoints;
+        if (myTeam === "Blue") {
+            myPoints = gameBlueRpoints;
+        }
         let costOfPiece = parseInt(purchaseSquare.getAttribute("data-unitCost"));
         if (myPoints >= costOfPiece) {
             // alert("doing thing correctly");
@@ -397,6 +408,9 @@ function piecePurchase(event, purchaseSquare) {
                     parent.innerHTML += this.responseText;
                 }
             };
+            purchasedString = "Piece purchased for " + costOfPiece + " points."
+            userFeedback(purchasedString);
+
             phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&costOfPiece=" + costOfPiece + "&newPoints=" + myPoints + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
             phpPurchaseRequest.send();
         }
@@ -437,6 +451,9 @@ function pieceMoveUndo() {
         phpUndoRequest.send();
         userFeedback("Move undone.");
     }
+    else {
+        userFeedback("Move cannot be undone.")
+    }
 }
 
 function pieceTrash(event, trashElement) {
@@ -460,8 +477,11 @@ function pieceTrash(event, trashElement) {
             phpTrashRequest.open("POST", "pieceTrash.php?placementId=" + placementId + "&myTeam=" + myTeam + "&gameId=" + gameId + "&newPoints=" + myPoints, true);
             phpTrashRequest.send();
         }
+        userFeedback("Piece trashed. Reinforcement Points refunded");
     }
-    userFeedback("Piece trashed. Reinforcement Points refunded");
+    else {
+        userFeedback("This piece cannot be trashed right now.");
+    }
 }
 
 function containerDragleave(event, callingElement) {
@@ -741,7 +761,7 @@ function positionDrop(event, newContainerElement) {
                             phpRequest.open("POST", "pieceMove.php?gameId=" + gameId + "&myTeam=" + myTeam + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&placementId=" + placementId + "&unitName=" + unitName + "&new_positionId=" + new_positionId + "&old_positionId=" + old_positionId + "&movementCost=" + movementCost  + "&new_placementCurrentMoves=" + new_placementCurrentMoves + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId, true);
                             phpRequest.send();
 
-                            let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
+                            let flagPositions = [55, 65, 75, 79, 85, 86, 90, 94, 97, 100, 103, 107, 111, 114];
                             let containerElement;
                             if (flagPositions.includes(parseInt(new_positionId)) || flagPositions.includes(parseInt(new_positionId))) {
                                 if (flagPositions.includes(parseInt(new_positionId))) {
@@ -767,7 +787,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                                 if (changeOwnership === "true") {
-                                    //TODO: could refactor and use ajax function combined for less duplication
+                                    //TODO: could refactor and use ajax function combined forr less duplication
                                     //change css of parent
                                     let parent = containerElement.parentNode;
                                     parent.classList.remove(parentTeam);
@@ -904,11 +924,11 @@ function positionDrop(event, newContainerElement) {
             phpMoveCheck.send();
         } else {
             // alert("failed move check");
-            //TODO: user feedback here?
+            // userFeedback("This piece is out of moves!");
         }
     } else{
         // Cannot move this piece? (not sure if this is necessary since we disable pieces that shouldn't move..)
-        userFeedback("Cannot move this piece.");
+        userFeedback("This piece cannot move here.");
     }
     event.stopPropagation();
 }
@@ -931,12 +951,15 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
             let listPeople = ["marine", "soldier"];
             let listMachines = ["tank", "lav", "attackHeli", "sam", "artillery"];
             if (!listPeople.includes(unitName) && !listMachines.includes(unitName)) {
+                userFeedback("This piece does not belong in a transport.");
                 return false;  //piece does not belong in transport container
+
             }
             if (containerParent.childNodes[0].childNodes.length === 0) {
                 return true;  //valid piece can always go into empty transport
             }
             if (containerParent.childNodes[0].childNodes.length === 3) {
+                userFeedback("This container is full.");
                 return false;  //already full of soldiers (max number)
             }
             if (listPeople.includes(unitName)) {  //piece dropping in is a person
@@ -1154,10 +1177,10 @@ function battleChangeSection(newSection) {
             userFeedback("Now press the Attack button to roll the dice!");
         } else {
             document.getElementById("attackButton").disabled = true;
-            // userFeedback("There must be a unit in both attacker and defender zones. Otherwise, end this round of attack by pressing Counter.")
+            userFeedback("There must be a unit in both attacker and defender zones. Otherwise, end this round of attack by pressing Counter.")
         }
         document.getElementById("battleZonePopup").style.display = "block";
-        document.getElementById("attackButton").innerHTML = "Attack section";
+        document.getElementById("attackButton").innerHTML = "Attack!";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
 
         if ((gameCurrentTeam === myTeam && gameBattleSection === "attack") || (gameCurrentTeam !== myTeam && gameBattleSection === "counter")) {
@@ -1165,7 +1188,7 @@ function battleChangeSection(newSection) {
         }
         // alert("enabling button in section change my click");
         document.getElementById("changeSectionButton").disabled = false;
-        document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+        document.getElementById("changeSectionButton").innerHTML = "End Attack/Start Counter";
         document.getElementById("changeSectionButton").onclick = function() {
             battleChangeSection("counter");
             let newParent = document.getElementById('unused_attacker');
@@ -1202,7 +1225,7 @@ function battleChangeSection(newSection) {
 
         // alert("counter disabling true i clicked i know");
         // document.getElementById("changeSectionButton").disabled = true;
-        document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+        document.getElementById("changeSectionButton").innerHTML = "End Counter Attack";
         document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat"); };
     } else if (newSection === "askRepeat") {
         let newParent = document.getElementById('unused_attacker');
@@ -1603,7 +1626,7 @@ function waitForUpdate() {
             } else if (decoded.updateType === "piecesSelected") {
                 updateBattlePiecesSelected(decoded.updateBattlePiecesSelected);
             } else if (decoded.updateType === "battleAttacked") {
-                updateBattleAttack();
+                updateBattleAttack(parseInt(decoded.updateNewMoves));
             } else if (decoded.updateType === "battleEnding") {
                 updateBattleEnding();
             } else if (decoded.updateType === "battleSectionChange") {
@@ -1660,6 +1683,9 @@ function updateIslandChange(islandIdentifier, newTeam) {
     islandMain.classList.add(newTeam);
     islandPop.classList.remove(oldTeam);
     islandPop.classList.add(newTeam);
+    feedbackStr = "This island is now owneed by " + newTeam + " Team!"
+    userFeedback(feedbackStr);
+
 }
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
@@ -1802,7 +1828,12 @@ function updateNextPhase() {
             if (gamePhase === "6") {
                 //convert the battle button to be a hybrid warfare shop button
                 document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
-                document.getElementById("battle_button").disabled = false;
+                if (myTeam === gameCurrentTeam) {
+                    document.getElementById("battle_button").disabled = false;
+                } else {
+                    document.getElementById("battle_button").disabled = true;
+                }
+
                 document.getElementById("battle_button").onclick =function () {
                     if(document.getElementById("popup").style.display === "block"){
                         document.getElementById("popup").style.display = "none";
@@ -1851,7 +1882,7 @@ function updateNextPhase() {
     phpPhaseChange.send();
 }
 
-function updateBattleAttack() {
+function updateBattleAttack(wasHit) {
 
     //get everything from database again (subsection / lastroll / lastmessage)
     //display and make buttons disabled or not based upon the team or current team
@@ -1861,10 +1892,21 @@ function updateBattleAttack() {
         if (this.readyState === 4 && this.status === 200) {
             // alert(this.responseText);
             let decoded = JSON.parse(this.responseText);
+
+            let pieceAttacked;
+            if (gameBattleSubSection === "defense_bonus") {
+                pieceAttacked = document.getElementById("center_attacker").childNodes[0];
+            } else {
+                pieceAttacked = document.getElementById("center_defender").childNodes[0];
+            }
+
             gameBattleSection = decoded.gameBattleSection;
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
+
+            pieceAttacked.setAttribute("data-wasHit", wasHit);
+
             document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
             document.getElementById("lastBattleMessage").style.display = "none";
             document.getElementById("actionPopupButton").style.display = "none";
@@ -1905,9 +1947,9 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
     clearSelected();
 
     document.getElementById("battleZonePopup").style.display = "block";
-    document.getElementById("attackButton").innerHTML = "Attack section";  //already disabled by default?
+    document.getElementById("attackButton").innerHTML = "Attack!";  //already disabled by default?
     document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
-    document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+    document.getElementById("changeSectionButton").innerHTML = "End Attack/Start Counter";
 
     // alert("disable true because got update that pieces were selected");
     document.getElementById("changeSectionButton").disabled = true;  //other client can't change section, only currentTeam
@@ -1991,14 +2033,14 @@ function updateBattleSection() {
             }
 
             if (gameBattleSection === "attack") {
-                document.getElementById("attackButton").innerHTML = "Attack section";
+                document.getElementById("attackButton").innerHTML = "Attack!";
                 document.getElementById("attackButton").onclick = function() { battleAttackCenter("attack"); };
-                document.getElementById("changeSectionButton").innerHTML = "Click to Counter";
+                document.getElementById("changeSectionButton").innerHTML = "End Attack/Start Counter";
                 document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("counter") };
             } else if (gameBattleSection === "counter") {
                 document.getElementById("attackButton").innerHTML = "Counter Attack";
                 document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
-                document.getElementById("changeSectionButton").innerHTML = "Click End Counter";
+                document.getElementById("changeSectionButton").innerHTML = "End Counter Attack";
                 document.getElementById("changeSectionButton").onclick = function() { battleChangeSection("askRepeat") };
             } else if (gameBattleSection === "askRepeat") {
                 document.getElementById("attackButton").innerHTML = "Click to Repeat";
