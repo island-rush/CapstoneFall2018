@@ -157,21 +157,9 @@ $query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTea
 $query = $db->prepare($query);
 $query->bind_param("iisiiii", $gameId, $lav, $red, $noContainerId, $moves[$lav], $position, $placementBattleUsed);
 $query->execute();
-
-$position = 85;
 $query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iisiiii", $gameId, $fighter, $red, $noContainerId, $moves[$fighter], $position, $placementBattleUsed);
-$query->execute();
-
-$position = 87;
-$query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
-$query = $db->prepare($query);
-$query->bind_param("iisiiii", $gameId, $bomber, $red, $noContainerId, $moves[$bomber], $position, $placementBattleUsed);
-$query->execute();
-$query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
-$query = $db->prepare($query);
-$query->bind_param("iisiiii", $gameId, $tanker, $red, $noContainerId, $moves[$tanker], $position, $placementBattleUsed);
 $query->execute();
 
 $position = 88;
@@ -184,6 +172,14 @@ $position = 89;
 $query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
 $query->bind_param("iisiiii", $gameId, $attackHeli, $red, $noContainerId, $moves[$attackHeli], $position, $placementBattleUsed);
+$query->execute();
+$query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iisiiii", $gameId, $bomber, $red, $noContainerId, $moves[$bomber], $position, $placementBattleUsed);
+$query->execute();
+$query = 'INSERT INTO placements (placementGameId, placementUnitId, placementTeamId, placementContainerId, placementCurrentMoves, placementPositionId, placementBattleUsed) VALUES(?, ?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iisiiii", $gameId, $tanker, $red, $noContainerId, $moves[$tanker], $position, $placementBattleUsed);
 $query->execute();
 
 $position = 97;
