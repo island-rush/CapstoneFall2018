@@ -778,7 +778,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                                 if (changeOwnership === "true") {
-                                    //TODO: could refactor and use ajax function combined for less duplication
+                                    //TODO: could refactor and use ajax function combined forr less duplication
                                     //change css of parent
                                     let parent = containerElement.parentNode;
                                     parent.classList.remove(parentTeam);
