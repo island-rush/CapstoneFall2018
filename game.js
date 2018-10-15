@@ -49,6 +49,8 @@ function bodyLoader() {
     document.getElementById("red_hPoints_indicator").innerHTML = gameRedHpoints;
     document.getElementById("blue_hPoints_indicator").innerHTML = gameBlueHpoints;
 
+    document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
+
     document.getElementById("actionPopupButton").style.display = "block";
     showDice(gameBattleLastRoll);
 
@@ -217,17 +219,22 @@ function bodyLoader() {
         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").onclick =function () {
-            document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
-            document.getElementById("popupBodyNews").style.display = "none";
-            document.getElementById("popupBodyHybridMenu").style.display = "block";
-            //testing
-            document.getElementById("popupBodyHybrid").style.display = "none";
+            if(document.getElementById("popup").style.display === "block"){
+                document.getElementById("popup").style.display = "none";
+            }
+            else{
+                document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
+                document.getElementById("popupBodyNews").style.display = "none";
+                document.getElementById("popupBodyHybridMenu").style.display = "block";
+                //testing
+                document.getElementById("popupBodyHybrid").style.display = "none";
 
-            document.getElementById("setRedRpoints").value = gameRedRpoints;
-            document.getElementById("setRedHpoints").value = gameRedHpoints;
-            document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-            document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-            document.getElementById("popup").style.display = "block";
+                document.getElementById("setRedRpoints").value = gameRedRpoints;
+                document.getElementById("setRedHpoints").value = gameRedHpoints;
+                document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                document.getElementById("popup").style.display = "block";
+            }
         };
 
     }
@@ -256,7 +263,7 @@ function pieceClick(event, callingElement) {
     // alert("clicked");
     event.preventDefault();
     //open container if applicable
-    if (gameBattleSection === "selectPieces") {
+    if (gameBattleSection === "selectPieces" && myTeam === gameCurrentTeam) {
         if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
             if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
                 if (callingElement.classList.contains("selected")) {
@@ -271,11 +278,11 @@ function pieceClick(event, callingElement) {
             }
         }
     } else {
-        if (gameBattleSection === "selectPos") {
+        if (gameBattleSection === "selectPos" && myTeam === gameCurrentTeam) {
             clearSelectedPos();
             callingElement.parentNode.classList.add("selectedPos");
         } else {
-            if (deleteHybridState === "true") {
+            if (deleteHybridState === "true" && myTeam === gameCurrentTeam) {
                 callingElement.classList.add("selected");
                 randomTimer = setTimeout(function() {
                     if (confirm("Is this the piece you want to delete?")) {
@@ -619,7 +626,7 @@ function hideIslands() {
 function landClick(event, callingElement) {
     event.preventDefault();
 
-    if (gameBattleSection === "selectPos" && gameCurrentTeam == myTeam) {
+    if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }
@@ -665,7 +672,7 @@ function waterClick(event, callingElement) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     clearHighlighted();
-    if (gameBattleSection === "selectPos" && gameCurrentTeam == myTeam) {
+    if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
     }
@@ -816,8 +823,9 @@ function positionDrop(event, newContainerElement) {
                             let missileTargets2 = [16, 17, 18, 24, 25, 29, 30, 31];
                             let missileTargets3 = [19, 20, 21, 26, 27, 32, 33, 34];
                             let missileTargets4 = [28, 35, 36, 41, 42];
+                            let acceptableTargets = ["transport", "destroyer", "aircraftCarrier"];
 
-                            if (missileTargets1.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets1.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 //check if missile on this island
                                 if (document.getElementById("posM1").childNodes.length == 1) {
                                     //check if island is owned by other team? / if missile is owned TODO: missile always owned by island owner
@@ -840,7 +848,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets2.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets2.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 if (document.getElementById("posM2").childNodes.length == 1) {
                                     if (!document.getElementById("posM2").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -856,7 +864,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets3.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets3.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 if (document.getElementById("posM3").childNodes.length == 1) {
                                     if (!document.getElementById("posM3").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -872,7 +880,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets4.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets4.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                                 if (document.getElementById("posM4").childNodes.length == 1) {
                                     if (!document.getElementById("posM4").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -1056,15 +1064,22 @@ function changePhase() {
                         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                         document.getElementById("battle_button").disabled = false;
                         document.getElementById("battle_button").onclick =function () {
-                            document.getElementById("popuTitle").innerHTML = "Hybrid Warfare Menu";
-                            document.getElementById("popupBodyNews").style.display = "none";
-                            document.getElementById("popupBodyHybrid").style.display = "none";
-                            document.getElementById("popupBodyHybridMenu").style.display = "block";
-                            document.getElementById("setRedRpoints").value = gameRedRpoints;
-                            document.getElementById("setRedHpoints").value = gameRedHpoints;
-                            document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                            document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-                            document.getElementById("popup").style.display = "block";
+                            if(document.getElementById("popup").style.display === "block"){
+                                document.getElementById("popup").style.display = "none";
+                            }
+                            else{
+                                document.getElementById("popuTitle").innerHTML = "Hybrid Warfare Menu";
+                                document.getElementById("popupBodyNews").style.display = "none";
+                                // testing
+                                document.getElementById("popupBodyHybrid").style.display = "none";
+                                document.getElementById("popupBodyHybridMenu").style.display = "block";
+                                document.getElementById("setRedRpoints").value = gameRedRpoints;
+                                document.getElementById("setRedHpoints").value = gameRedHpoints;
+                                document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                                document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                                document.getElementById("popup").style.display = "block";
+                            }
+
                         };
                     }else{
                         // not hybrid, should be the battle button
@@ -1516,6 +1531,9 @@ function battleAttackCenter(type) {
         pieceAttacked = document.getElementById("center_attacker").childNodes[0];
     }
 
+    let attackUnitName = unitNames[attackUnitId];
+    let defendUnitName = unitNames[defendUnitId];
+
     let phpAttackCenter = new XMLHttpRequest();
     phpAttackCenter.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -1553,13 +1571,19 @@ function battleAttackCenter(type) {
             gameBattleLastRoll = decoded.lastRoll;
             let wasHitVariable = decoded.wasHit;
             gameBattleSubSection = decoded.new_gameBattleSubSection;
+
+            gameBattleLastMessage = decoded.gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
+            // alert(gameBattleLastMessage);
+
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
             document.getElementById("actionPopupButton").style.display = "none";
+            document.getElementById("lastBattleMessage").style.display = "none";
             document.getElementById("battleActionPopup").style.display = "block";
             rollDice();
         }
     };
-    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
+    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&attackUnitName=" + attackUnitName + "&defendUnitName=" + defendUnitName + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId"), true);
     phpAttackCenter.send();
 }
 
@@ -1797,15 +1821,21 @@ function updateNextPhase() {
                 document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                 document.getElementById("battle_button").disabled = false;
                 document.getElementById("battle_button").onclick =function () {
-                    document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
-                    document.getElementById("popupBodyNews").style.display = "none";
-                    document.getElementById("popupBodyHybrid").style.display = "none";
-                    document.getElementById("popupBodyHybridMenu").style.display = "block";
-                    document.getElementById("setRedRpoints").value = gameRedRpoints;
-                    document.getElementById("setRedHpoints").value = gameRedHpoints;
-                    document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                    document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-                    document.getElementById("popup").style.display = "block";
+                    if(document.getElementById("popup").style.display === "block"){
+                        document.getElementById("popup").style.display = "none";
+                    }
+                    else{
+                        document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
+                        document.getElementById("popupBodyNews").style.display = "none";
+                        // testing
+                        document.getElementById("popupBodyHybrid").style.display = "none";
+                        document.getElementById("popupBodyHybridMenu").style.display = "block";
+                        document.getElementById("setRedRpoints").value = gameRedRpoints;
+                        document.getElementById("setRedHpoints").value = gameRedHpoints;
+                        document.getElementById("setBlueRpoints").value = gameBlueRpoints;
+                        document.getElementById("setBlueHpoints").value = gameBlueHpoints;
+                        document.getElementById("popup").style.display = "block";
+                    }
                 };
             }else{
                 // not hybrid, should be the battle button
@@ -1852,6 +1882,8 @@ function updateBattleAttack() {
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").style.display = "none";
             document.getElementById("actionPopupButton").style.display = "none";
             document.getElementById("battleActionPopup").style.display = "block";
             if (gameBattleSubSection === "defense_bonus") {
@@ -1918,7 +1950,6 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
             newParent.appendChild(oldParent.childNodes[0]);
         }
     };
-
 }
 
 function updateBattleSection() {
@@ -1931,7 +1962,9 @@ function updateBattleSection() {
             gameBattleSection = decoded.gameBattleSection;
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
+
             gameBattleLastMessage = decoded.gameBattleLastMessage;
+            document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
 
             if (gameBattleSubSection !== "choosing_pieces") {
                 document.getElementById("battleActionPopup").style.display = "block";
@@ -2001,6 +2034,9 @@ function updateBattleSection() {
 
 
                 document.getElementById("changeSectionButton").disabled = false;
+            } else {
+                document.getElementById("attackButton").disabled = true;
+                document.getElementById("changeSectionButton").disabled = true;
             }
 
             // alert("changing section to something");
@@ -2136,7 +2172,7 @@ function rollDice(){
         let randomRoll = Math.floor(Math.random() * 6) + 1;
         thingy = setTimeout(function () {showDice(randomRoll)}, (i+1)*150);
     }
-    thingy = setTimeout(function () {showDice(gameBattleLastRoll); document.getElementById("actionPopupButton").style.display = "block";}, (i+1)*180);
+    thingy = setTimeout(function () {showDice(gameBattleLastRoll); document.getElementById("actionPopupButton").style.display = "block"; document.getElementById("lastBattleMessage").style.display = "block";}, (i+1)*180);
 }
 
 function showDice(diceNum){

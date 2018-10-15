@@ -699,7 +699,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         //bombers or stealthbombers or tankers on airstrips
         //heli over land
 
-        $airFieldSpots = [56, 57, 78, 83, 89, 113, 66, 68];
+        $airFieldSpots = [56, 57, 78, 83, 89, 113, 116, 66, 68];
         $carrierSpots = [];
         //get carrier positions
         $carrier = "aircraftCarrier";
@@ -879,6 +879,28 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
             $query2 = $db->prepare($query2);
             $query2->bind_param("iii", $battleUsed, $placementMovesReset, $placementId);
             $query2->execute();
+
+            $newValue = 0;
+            $Red = "Red";
+            $Blue = "Blue";
+            $Spec = "Spec";
+            $updateType = "updateMoves";
+
+            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iissii", $gameId, $newValue, $Red, $updateType, $placementId, $placementMovesReset);
+            $query->execute();
+
+            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iissii", $gameId, $newValue, $Blue, $updateType, $placementId, $placementMovesReset);
+            $query->execute();
+
+            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iissii", $gameId, $newValue, $Spec, $updateType, $placementId, $placementMovesReset);
+            $query->execute();
+
         }
     }
 }

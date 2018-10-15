@@ -46,6 +46,8 @@
                     let phpGamePopulate = new XMLHttpRequest();
                     phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
                     phpGamePopulate.send();
+
+                    document.getElementById("populateButton").disabled = true;
                 }
         </script>
     </head>
@@ -106,7 +108,7 @@
                                     </tr>
                                 </table>
                             </form>
-                            <button onclick="populateGame()">Populate Game</button>
+                            <button id="populateButton" onclick="populateGame()">Populate Game</button>
                         </td>
                     </tr>
                 </tbody>
