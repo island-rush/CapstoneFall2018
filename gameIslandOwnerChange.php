@@ -53,6 +53,12 @@ $query = $db->prepare($query);
 $query->bind_param("si", $newTeam, $gameId);
 $query->execute();
 
+//prevent future undo
+$query = 'DELETE FROM movements WHERE movementGameId = ?';
+$query = $db->prepare($query);
+$query->bind_param("i", $gameId);
+$query->execute();
+
 $newValue = 0;
 $updateType = "islandChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateIsland, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
