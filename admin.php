@@ -99,11 +99,15 @@ $instructor = $r['gameInstructor'];
         }
 
         function populateGame() {
-            let phpGamePopulate = new XMLHttpRequest();
-            phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
-            phpGamePopulate.send();
+            if(confirm("ARE YOU SURE YOU WANT TO COMPLETELY RESET THIS GAME?")){
+                if(confirm("This will delete all information for the game and set it back to the initial Start of the game. &#013;&#013;ARE YOU SURE YOU WANT TO RESET?")){
+                    let phpGamePopulate = new XMLHttpRequest();
+                    phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
+                    phpGamePopulate.send();
 
-            document.getElementById("populateButton").disabled = true;
+                    document.getElementById("populateButton").disabled = true;
+                }
+            }
         }
 
         </script>
@@ -148,7 +152,7 @@ $instructor = $r['gameInstructor'];
                 <br />
                 <br />
 
-                <button id="populateButton" onclick="populateGame()">Populate Game</button>
+                <button id="populateButton" onclick="populateGame()">RESET GAME</button>
             </td>
         </tr>
         </tbody>

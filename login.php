@@ -108,7 +108,6 @@
                                     </tr>
                                 </table>
                             </form>
-                            <button id="populateButton" onclick="populateGame()">Populate Game</button>
                         </td>
                     </tr>
                 </tbody>

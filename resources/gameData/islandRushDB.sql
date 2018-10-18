@@ -51,18 +51,18 @@ CREATE TABLE IF NOT EXISTS `games`(
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 -- Insert games into the database
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M3A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M3A2', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3A1', 'Kaz', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3B1', 'Burke', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T1A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T2A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T4A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T5A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T6A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T7A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
-
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M3A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M1A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M2A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M3A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M4A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M5A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M6A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M7A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('T1A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('T2A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('T3A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('T4A1', 'test', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
 
 
 
