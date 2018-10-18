@@ -84,14 +84,14 @@
                                     <tr>
                                         <td>Section</td>
                                         <td>
-                                            <input name="section" type="text" id="section" value="m1a1">
+                                            <input name="section" type="text" id="section" placeholder="m1a1" required>
                                             <div style="display: inline" id="sectionFeedback" class="formError"></div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Teacher Last Name</td>
                                         <td>
-                                            <input name="instructor" type="text" id="instructor" value="adolph">
+                                            <input name="instructor" type="text" id="instructor" placeholder="Name" required>
                                             <div style="display: inline" id="instructorFeedback" class="formError"></div>
                                         </td>
                                     </tr>
