@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `games`(
   `gameId` int(5) NOT NULL AUTO_INCREMENT,
   `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
   `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
-  `gameAdminPassword` varchar(50) NOT NULL,  -- "password"
-  `gameActive` int(1) NOT NULL DEFAULT 0, -- 1 or 0
+  `gameAdminPassword` varchar(50) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- "password"
+  `gameActive` int(1) NOT NULL DEFAULT 1, -- 1 or 0
   `gameCurrentTeam`  varchar(5) NOT NULL DEFAULT 'Blue', -- 'Red' or 'Blue'
   `gameTurn` int(4) NOT NULL DEFAULT 0, -- 0, 1, 2, 3...
   `gamePhase`  int(1) NOT NULL DEFAULT 1, --  1 = news, 2 = reinforcements...
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS `games`(
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('M1A1', 'Adolph', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M3A1', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99');
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M3A2', 'Kulp', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M6A1', 'Kazy', '5f4dcc3b5aa765d61d8327deb882cf99');
-INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M6B1', 'Burke', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3A1', 'Kaz', '5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3B1', 'Burke', '5f4dcc3b5aa765d61d8327deb882cf99');
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T1A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T2A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('T3A1', 'Lewis', '5f4dcc3b5aa765d61d8327deb882cf99');
