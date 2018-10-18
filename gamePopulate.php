@@ -1,5 +1,4 @@
 <?php
-
 include("db.php");
 
 $instructor = $_REQUEST['instructor'];
@@ -11,13 +10,46 @@ $preparedQuery->bind_param("ss", $instructor,$section);
 $preparedQuery->execute();
 $results = $preparedQuery->get_result();
 $r= $results->fetch_assoc();
-
 $gameId = $r['gameId'];
 
-$query = "DELETE FROM PLACEMENTS where placementGameId = ?";
+//delete the game table + all other tables
+$query = "DELETE FROM placements WHERE placementGameId = ?";
 $preparedQuery = $db->prepare($query);
 $preparedQuery->bind_param("i", $gameId);
 $preparedQuery->execute();
+
+$query = "DELETE FROM movements WHERE movementGameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
+$query = "DELETE FROM battlePieces WHERE battleGameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
+$query = "DELETE FROM updates WHERE updateGameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
+$query = "DELETE FROM newsAlerts WHERE newsGameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
+$query = "DELETE FROM games where gameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
+//insert the game table
+$query = "INSERT INTO games (gameId, gameSection, gameInstructor) VALUES (?, ?, ?)";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("iss", $gameId, $section, $instructor);
+$preparedQuery->execute();
+
+//insert all placements + newsalerts
 
 //teams
 $red = "Red";

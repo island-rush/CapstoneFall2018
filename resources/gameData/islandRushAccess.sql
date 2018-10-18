@@ -7,7 +7,7 @@ USE islandRushDB;
 
 
 
-SELECT * FROM games;
+SELECT * FROM games WHERE gameId = 1;
 
 SELECT * FROM units;
 
@@ -17,9 +17,9 @@ SELECT * FROM movements;
 
 SELECT * FROM battlePieces;
 
-SELECT * FROM updates;
+SELECT * FROM updates order by updateId DESC;
 
 SELECT * FROM newsAlerts;
 
-
+-- UPDATE games SET gameRedJoined = 0 WHERE gameId = 1;
 

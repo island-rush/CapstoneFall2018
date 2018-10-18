@@ -1,3 +1,22 @@
+<?php
+session_start();
+include("db.php");
+
+$gameId = $_SESSION['gameId'];
+$query = "SELECT * FROM GAMES WHERE gameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
+
+$results = $preparedQuery->get_result();
+$r= $results->fetch_assoc();
+$gameChecked = $r['gameActive'];
+
+$section = $r['gameSection'];
+$instructor = $r['gameInstructor'];
+
+?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -63,6 +82,9 @@
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript">
 
+        let section = "<?php echo $section; ?>";
+        let instructor = "<?php echo $instructor; ?>";
+
         function setActive(){
             let gameActive;
             if (document.getElementById("activeToggle").checked === true){
@@ -74,6 +96,14 @@
             let setGameActivity = new XMLHttpRequest();
             setGameActivity.open("POST", "adminGameToggle.php?gameActive=" + gameActive, true);
             setGameActivity.send();
+        }
+
+        function populateGame() {
+            let phpGamePopulate = new XMLHttpRequest();
+            phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
+            phpGamePopulate.send();
+
+            document.getElementById("populateButton").disabled = true;
         }
 
         </script>
@@ -95,32 +125,30 @@
         <tbody>
         <tr>
             <td colspan="4">
-                <br />
+
                 <h1>Admin Tools</h1>
+
+                <div id="section">Section: <?php echo $section; ?></div>
+                <div id="instructor">Instructor: <?php echo $instructor; ?></div>
+
+                <br />
+                <br />
 
                 <div id="toggle_swtich_text">Toggle if the game is active or not.</div>
 
                 <label  class="switch">
                     <input id="activeToggle" type="checkbox" <?php
-                    session_start();
-                    include("db.php");
-
-                    $gameId = $_SESSION['gameId'];
-                    $query = "SELECT gameActive FROM GAMES WHERE gameId = ?";
-                    $preparedQuery = $db->prepare($query);
-                    $preparedQuery->bind_param("i", $gameId);
-                    $preparedQuery->execute();
-
-                    $results = $preparedQuery->get_result();
-                    $r= $results->fetch_assoc();
-                    $gameChecked = $r['gameActive'];
-
                     if ($gameChecked === 1){
                         echo "checked";
                     }
                     ?> onclick="setActive()">
                     <span class="slider round"></span>
                 </label>
+
+                <br />
+                <br />
+
+                <button id="populateButton" onclick="populateGame()">Populate Game</button>
             </td>
         </tr>
         </tbody>

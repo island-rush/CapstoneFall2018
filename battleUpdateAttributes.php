@@ -29,7 +29,7 @@ $query->execute();
 //this is the code to get rid of aircraft after 2 turns
 
 //if new section == askRepeat, check turn = 2, then remove battlePiece aircraft
-if ($gameBattleSection == "askRepeat" && $gameBattleTurn >= 6) {
+if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 1) {
     $fighter = "fighter";
     $bomber = "bomber";
     $stealthBomber = "stealthBomber";
