@@ -16,9 +16,9 @@ $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 
 $gameBattleLastMessage = "Test Game Battle Message";
 
-//$lastRoll = rand(1, 6);
+$lastRoll = rand(1, 6);
 //$lastRoll = 6;
-$lastRoll = 1;
+//$lastRoll = 1;
 
 if ($gameBattleSubSection == "choosing_pieces") {
     //regular attack
@@ -85,6 +85,8 @@ if ($wasHit == 1) {
     $query->bind_param("ii", $hit, $pieceId);
     $query->execute();
 }
+
+
 
 
 $db->close();
