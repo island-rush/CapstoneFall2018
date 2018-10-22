@@ -1,5 +1,5 @@
 <?php
-session_abort(); //log out? //TODO: more error handling / session handling
+session_abort(); //log out?
 session_start();
 
 
@@ -20,6 +20,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     if ($numRows == 1) {
         $r= $results->fetch_assoc();
         $_SESSION['gameId'] = $r['gameId'];
+        $_SESSION['secretAdminSessionVariable'] = "SpencerIsCool";
         header("location:admin.php");
     } else {
         //somehow had none or multiple database hits, not exactly 1 hit

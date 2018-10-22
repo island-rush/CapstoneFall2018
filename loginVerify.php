@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-
-
-
-//TODO: more checks to make sure user isn't already logged in?
 if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POST['team'])) ){
     include("db.php");
 

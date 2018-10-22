@@ -1331,7 +1331,7 @@ html, body {
     transrm: rotate(0deg);
 }
 
-#dice_image{
+.dice_image{
     /*div sizing in here*/
     width: 70%;
     height: 70%;
@@ -1340,28 +1340,58 @@ html, body {
     margin-left: 5%;
     margin-top: 10%;
     position: absolute;
+    /*display: none;*/
+    /*background-image: url("resources/diceImages/blank.gif");*/
 }
 
-.dice{
-    background-image: url("resources/diceImages/blank.gif");
-    /*!*sizeing*! for each image in the div*/
-}
-
-.dice1{
+#dice_image1{
+    /*z-index: 10;*/
+    display: none;
     background-image: url("resources/diceImages/die-1.png");
 }
-.dice2{
+#dice_image2{
+    /*z-index: 10;*/
+    display: none;
     background-image: url("resources/diceImages/die-2.png");
 }
-.dice3{
+#dice_image3{
+    /*z-index: 10;*/
+    display: none;
     background-image: url("resources/diceImages/die-3.png");
 }
-.dice4{
+#dice_image4{
+    /*z-index: 10;*/
+    display: none;
     background-image: url("resources/diceImages/die-4.png");
 }
-.dice5{
+#dice_image5{
+    /*z-index: 10;*/
+    display: none;
     background-image: url("resources/diceImages/die-5.png");
 }
-.dice6{
+#dice_image6{
+    /*z-index: 10;*/
+    display: none;
     background-image: url("resources/diceImages/die-6.png");
 }
+
+
+
+/*.dice1{*/
+    /*background-image: url("resources/diceImages/die-1.png");*/
+/*}*/
+/*.dice2{*/
+    /*background-image: url("resources/diceImages/die-2.png");*/
+/*}*/
+/*.dice3{*/
+    /*background-image: url("resources/diceImages/die-3.png");*/
+/*}*/
+/*.dice4{*/
+    /*background-image: url("resources/diceImages/die-4.png");*/
+/*}*/
+/*.dice5{*/
+    /*background-image: url("resources/diceImages/die-5.png");*/
+/*}*/
+/*.dice6{*/
+    /*background-image: url("resources/diceImages/die-6.png");*/
+/*}*/

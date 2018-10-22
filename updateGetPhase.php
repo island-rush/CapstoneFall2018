@@ -91,9 +91,6 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $canNextPhase = "true";
         $canTrash = "false";
         $canAttack = "false";
-
-        //TODO: reset the stuff like battle used = 0
-
     }
 }
 

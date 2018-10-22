@@ -14,11 +14,13 @@ $defendUnitName = $_REQUEST['defendUnitName'];
 $gameBattleSection = $_REQUEST['gameBattleSection'];
 $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 
+$posType = $_REQUEST['posType'];
+
 $gameBattleLastMessage = "Test Game Battle Message";
 
-$lastRoll = rand(1, 6);
+//$lastRoll = rand(1, 6);
 //$lastRoll = 6;
-//$lastRoll = 1;
+$lastRoll = 1;
 
 if ($gameBattleSubSection == "choosing_pieces") {
     //regular attack
@@ -43,7 +45,7 @@ if ($gameBattleSubSection == "choosing_pieces") {
     }
 }
 
-if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "choosing_pieces") {
+if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "choosing_pieces" && ($attackUnitName != "destroyer" && $posType == "land")) {
     $nextThing = "defense_bonus";
 } else {
     $nextThing = "continue_choosing";

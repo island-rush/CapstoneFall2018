@@ -19,6 +19,22 @@ $gameBlueRpoints = $r['gameBlueRpoints'];
 $gameRedHpoints = $r['gameRedHpoints'];
 $gameBlueHpoints = $r['gameBlueHpoints'];
 
+$gameIsland1 = $r['gameIsland1'];
+$gameIsland2 = $r['gameIsland2'];
+$gameIsland3 = $r['gameIsland3'];
+$gameIsland4 = $r['gameIsland4'];
+$gameIsland5 = $r['gameIsland5'];
+$gameIsland6 = $r['gameIsland6'];
+$gameIsland7 = $r['gameIsland7'];
+$gameIsland8 = $r['gameIsland8'];
+$gameIsland9 = $r['gameIsland9'];
+$gameIsland10 = $r['gameIsland10'];
+$gameIsland11 = $r['gameIsland11'];
+$gameIsland12 = $r['gameIsland12'];
+$gameIsland13 = $r['gameIsland13'];
+$gameIsland14 = $r['gameIsland14'];
+
+
 $newsText = "Default Text";
 $newsEffectText = "Default Effect Text";
 $newsEffect = "Default Effect";
@@ -243,7 +259,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
     }
 } else {
     if ($new_gamePhase == 1) {
-        //TODO: this code potentially never executes (i never as the client phasechange into my own newsalert)
+        //THIS SECTION OF CODE DOES NOT EXECUTE, REMOVE IN K3
         //news alert
         $canMove = "false";
         $canPurchase = "false";
@@ -699,7 +715,32 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         //bombers or stealthbombers or tankers on airstrips
         //heli over land
 
-        $airFieldSpots = [56, 57, 78, 83, 89, 113, 116, 66, 68];
+        $airFieldSpots = [];  //can only remain on the airfield if you own the island***
+        if ($gameIsland1 == $myTeam) {
+            array_push($airFieldSpots, 78);
+        }
+        if ($gameIsland3 == $myTeam) {
+            array_push($airFieldSpots, 83);
+        }
+        if ($gameIsland4 == $myTeam) {
+            array_push($airFieldSpots, 89);
+        }
+        if ($gameIsland11 == $myTeam) {
+            array_push($airFieldSpots, 113);
+        }
+        if ($gameIsland12 == $myTeam) {
+            array_push($airFieldSpots, 116);
+        }
+        if ($gameIsland13 == $myTeam) {
+            array_push($airFieldSpots, 57);
+            array_push($airFieldSpots, 56);
+        }
+        if ($gameIsland14 == $myTeam) {
+            array_push($airFieldSpots, 66);
+            array_push($airFieldSpots, 68);
+        }
+
+
         $carrierSpots = [];
         //get carrier positions
         $carrier = "aircraftCarrier";
@@ -757,8 +798,6 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 }
 
                 if ($deletePiece) {
-                    //TODO: other things for losing a piece (subtract points that its worth?)
-
                     //delete the real piece from database
                     $query = 'DELETE FROM placements WHERE placementId = ?';
                     $query = $db->prepare($query);

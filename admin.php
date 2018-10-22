@@ -2,6 +2,11 @@
 session_start();
 include("db.php");
 
+if (!isset($_SESSION['secretAdminSessionVariable'])) {
+    header("location:index.php");
+    exit;
+}
+
 $gameId = $_SESSION['gameId'];
 $query = "SELECT * FROM GAMES WHERE gameId = ?";
 $preparedQuery = $db->prepare($query);

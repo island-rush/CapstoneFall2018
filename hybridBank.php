@@ -24,9 +24,7 @@ if ($myTeam == "Blue") {
 }
 
 if ($points >= 4) {
-
-    //TODO: more checks to make sure don't already own the island in the db?
-    //TODO: also check to see if a newsalert isnt already active for this island? (weird but may cause bug if they buy twice)(they probably wouldn't get points twice)
+    //TODO: also check to see if a newsalert isnt already active for this island
 
     //insert a newsalert that is active for 1-2 length? that disables all enemy aircraft from moving
     $order = 0;

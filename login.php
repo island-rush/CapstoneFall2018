@@ -1,8 +1,6 @@
 <?php
-    //unset session here
-    //TODO: if session is set here, logout db?
+session_abort();
 ?>
-
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -53,7 +51,6 @@
     </head>
 
     <body>
-<!--    TODO: Change section to drop down menus for less user error, add passwords to the game/team? (more secure)...and simplify the form table-->
         <h1>Island Rush Login</h1>
         <nav>
             <a href="./index.php">Home</a>
