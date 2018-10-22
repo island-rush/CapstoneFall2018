@@ -18,9 +18,9 @@ $posType = $_REQUEST['posType'];
 
 $gameBattleLastMessage = "Test Game Battle Message";
 
-//$lastRoll = rand(1, 6);
+$lastRoll = rand(1, 6);
 //$lastRoll = 6;
-$lastRoll = 1;
+//$lastRoll = 1;
 
 if ($gameBattleSubSection == "choosing_pieces") {
     //regular attack
@@ -37,16 +37,34 @@ if ($gameBattleSubSection == "choosing_pieces") {
 } else {
     //defense bonus
     if (($lastRoll >= $_SESSION['attack'][$attackUnitId][$defendUnitId] && $_SESSION['attack'][$attackUnitId][$defendUnitId] != 0) || ($_SESSION['attack'][$attackUnitId][$defendUnitId] == 0 && $lastRoll == 6)) {
-        $wasHit = 1;
-        $gameBattleLastMessage = $attackUnitName." hit ".$defendUnitName;
+        //if the attack value needed was 0, washit = 2, deal with saving both pieces
+        if ($_SESSION['attack'][$attackUnitId][$defendUnitId] == 0 && $lastRoll == 6) {
+            $wasHit = 2;
+            //db for changing the washit value of the other gamebattlepiece
+            $gameBattleLastMessage = $attackUnitName." defense bonus survived ".$defendUnitName;
+            $notHit = 0;
+            $five = 5;
+            $six = 6;
+            $query = 'UPDATE battlePieces SET battlePieceWasHit = ? WHERE (battleGameId = ?) AND (battlePieceState = ? OR battlePieceState = ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iiii", $notHit, $gameId, $five, $six);
+            $query->execute();
+        } else {
+            $wasHit = 1;
+            $gameBattleLastMessage = $attackUnitName." hit ".$defendUnitName;
+        }
     } else {
         $wasHit = 0;
         $gameBattleLastMessage = $attackUnitName." did not hit ".$defendUnitName;
     }
 }
 
-if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "choosing_pieces" && ($attackUnitName != "destroyer" && $posType == "land")) {
-    $nextThing = "defense_bonus";
+if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "choosing_pieces") {
+    if ($attackUnitName == "destroyer" && $posType == "land"){
+        $nextThing = "continue_choosing";
+    } else {
+        $nextThing = "defense_bonus";
+    }
 } else {
     $nextThing = "continue_choosing";
 }

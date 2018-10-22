@@ -173,6 +173,8 @@ if ($points >= 12) {
     $query = $db->prepare($query);
     $query->bind_param("ii", $twelve, $gameId);
     $query->execute();
+
+
 }
 
 

@@ -1213,6 +1213,16 @@ function battleChangeSection(newSection) {
             document.getElementById("changeSectionButton").disabled = false;
         }
 
+        let centerDefend = document.getElementById("center_defender");
+        if (centerDefend.childNodes.length === 1) {
+            document.getElementById("unused_defender").append(centerDefend.childNodes[0]);
+        }
+
+        let centerAttack = document.getElementById("center_attacker");
+        if (centerAttack.childNodes.length === 1) {
+            document.getElementById("unused_attacker").appendChild(centerAttack.childNodes[0]);
+        }
+
         document.getElementById("attackButton").disabled = true;
         document.getElementById("attackButton").innerHTML = "Counter Attack";
         document.getElementById("attackButton").onclick = function() { battleAttackCenter("defend"); };
@@ -1239,6 +1249,17 @@ function battleChangeSection(newSection) {
             phpMoveBattlePiece.send();
             newParent.appendChild(oldParent.childNodes[0]);
         }
+
+        let centerDefend = document.getElementById("center_defender");
+        if (centerDefend.childNodes.length === 1) {
+            document.getElementById("unused_defender").append(centerDefend.childNodes[0]);
+        }
+
+        let centerAttack = document.getElementById("center_attacker");
+        if (centerAttack.childNodes.length === 1) {
+            document.getElementById("unused_attacker").appendChild(centerAttack.childNodes[0]);
+        }
+
         document.getElementById("attackButton").innerHTML = "Click to Repeat";
         document.getElementById("attackButton").disabled = false;
         document.getElementById("attackButton").onclick = function() { battleChangeSection("attack") };
@@ -1475,6 +1496,8 @@ function battleEndRoll() {
     let centerAttackPiece = centerAttack.childNodes[0];
     let centerDefendPiece = centerDefend.childNodes[0];
 
+    document.getElementById("battle_outcome").innerHTML = "";
+
     if (parseInt(centerAttackPiece.getAttribute("data-battlePieceWasHit")) === 1) {
         let pieceId = centerAttackPiece.getAttribute("data-battlePieceId");
         // document.querySelector("[data-placementId='" + pieceId + "']").remove();  //mainboard
@@ -1550,7 +1573,6 @@ function battleAttackCenter(type) {
         if (this.readyState === 4 && this.status === 200) {
             let decoded = JSON.parse(this.responseText);
             let new_gameBattleSubSection = decoded.new_gameBattleSubSection;
-
             let actionButton = document.getElementById("actionPopupButton");
             if (new_gameBattleSubSection === "defense_bonus") {
                 actionButton.disabled = true;
@@ -1577,15 +1599,18 @@ function battleAttackCenter(type) {
                 actionButton.onclick = function() { battleEndRoll(); };
             }
 
-            pieceAttacked.setAttribute("data-battlePieceWasHit", decoded.wasHit);
+            if (decoded.wasHit === 2) {
+                //set both pieces to wasHit = 0
+                document.getElementById("center_attacker").childNodes[0].setAttribute("data-battlePieceWasHit", 0);
+                document.getElementById("center_defender").childNodes[0].setAttribute("data-battlePieceWasHit", 0);
+            } else {
+                pieceAttacked.setAttribute("data-battlePieceWasHit", decoded.wasHit);
+            }
 
             gameBattleLastRoll = decoded.lastRoll;
-            let wasHitVariable = decoded.wasHit;
             gameBattleSubSection = decoded.new_gameBattleSubSection;
-
             gameBattleLastMessage = decoded.gameBattleLastMessage;
             document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
-
             battleChangeSection(gameBattleSection);  //This call to change roll and subsection
             document.getElementById("actionPopupButton").style.display = "none";
             document.getElementById("lastBattleMessage").style.display = "none";
@@ -1882,7 +1907,12 @@ function updateBattleAttack(wasHit) {
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
 
-            pieceAttacked.setAttribute("data-battlePieceWasHit", wasHit);
+            if (parseInt(wasHit) === 2) {
+                document.getElementById("center_attacker").childNodes[0].setAttribute("data-battlePieceWasHit", 0);
+                document.getElementById("center_defender").childNodes[0].setAttribute("data-battlePieceWasHit", 0);
+            } else {
+                pieceAttacked.setAttribute("data-battlePieceWasHit", wasHit);
+            }
 
             document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
             document.getElementById("lastBattleMessage").style.display = "none";
@@ -2237,7 +2267,7 @@ function hybridToggle(){
 //--------------------------
 
 function rollDice(){
-    let timeBetween = 250;
+    let timeBetween = 375;
     let numRolls = 12;
     let thingy;
     let i;
