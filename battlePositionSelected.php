@@ -65,15 +65,15 @@ echo json_encode($arr);
 
 $newValue = 0;
 $updateType = "positionSelected";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelectedPieces) VALUES (?, ?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelectedPieces, updateNewPositionId) VALUES (?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iisss", $gameId, $newValue, $myTeam, $updateType, $htmlString);
+$query->bind_param("iisssi", $gameId, $newValue, $myTeam, $updateType, $htmlString, $positionSelected);
 $query->execute();
 
 $Spec = "Spec";
-$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelectedPieces) VALUES (?, ?, ?, ?, ?)';
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateBattlePositionSelectedPieces, updateNewPositionId) VALUES (?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iisss", $gameId, $newValue, $Spec, $updateType, $htmlString);
+$query->bind_param("iisssi", $gameId, $newValue, $Spec, $updateType, $htmlString, $positionSelected);
 $query->execute();
 
 

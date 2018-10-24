@@ -34,20 +34,35 @@ if ($islandFrom == -4) {
     if ($myTeam == "Red") {
         //must have new postition id valid in list
         if (in_array($new_positionId, $redPlaceValid)) {
-            $thingToEcho = 0;
-//            if ($new_placementContainerId != 999999) {
-//                $thingToEcho++;
-//            }
+            //db query to see if there are any enemy team pieces there
+            $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementGameId = ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("isi", $new_positionId, $myTeam, $gameId);
+            $query->execute();
+            $results = $query->get_result();
+            $num_results = $results->num_rows;
+            if ($num_results > 0) {
+                $thingToEcho = -5;
+            } else {
+                $thingToEcho = 0;
+            }
         } else {
             $thingToEcho = -4;
         }
     } else {
         //same as red
         if (in_array($new_positionId, $bluePlaceValid)) {
-            $thingToEcho = 0;
-//            if ($new_placementContainerId != 999999) {
-//                $thingToEcho++;
-//            }
+            $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementGameId = ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("isi", $new_positionId, $myTeam, $gameId);
+            $query->execute();
+            $results = $query->get_result();
+            $num_results = $results->num_rows;
+            if ($num_results > 0) {
+                $thingToEcho = -5;
+            } else {
+                $thingToEcho = 0;
+            }
         } else {
             $thingToEcho = -4;
         }
@@ -55,10 +70,6 @@ if ($islandFrom == -4) {
 } else {
     if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
         $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
-        //if moving into a container, 1 extra move
-//        if ($old_placementContainerId != 999999) {
-//            $thingToEcho--;
-//        }
     } else {
         $thingToEcho = -1;
     }
@@ -155,6 +166,26 @@ if ($thingToEcho > 1) {
     //Force one move at a time
     echo -3;
 }
+
+
+//notes
+    //for non stealth aircraft, only have to check the adjacency for 1 or 0
+    //stealth aircraft should check that the position id is a land position
+        //land positions are > 55, water is <= 55 (check excel map for values)
+
+
+//create an empty array thingys to check
+//fill it by looping through the adjacency matrix and finding 1 or 0 for this position (new position)
+//for each position in the thingys to check array
+    //do a database query for placements unitId = sam, team id = not myteam, positionid = this array thing
+        //for each sam that is there (multiple = better chance of hit)
+            //random chance (based on attack matrix)
+                //if hit, thing to echo is -10 (used for userfeedback)
+                //delete the piece that moved (since its an aircraft, don't worry about children / container)
+                //send multiple updates to all 3 clients about the deletion
+                //break out of all future loops!!!**!*!*!
+
+
 
 echo $thingToEcho;
 

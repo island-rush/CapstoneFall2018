@@ -143,6 +143,19 @@ if ($points >= 12) {
     $query->bind_param("si", $newTeam, $gameId);
     $query->execute();
 
+    $order = 0;
+    $length = 7;
+    $activated = 1;
+    $nuke = "nukeHuman";
+    $team = "Blue";
+    if ($myTeam == "Red") {
+        $team = "Red";
+    }
+    $query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsEffect, newsLength, newsActivated) VALUES(?,?,?,?,?,?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissii",$gameId, $order, $team, $nuke, $length, $activated);
+    $query->execute();
+
     $newValue = 0;
     $updateType = "islandChange";
     $Red = "Red";
@@ -173,8 +186,6 @@ if ($points >= 12) {
     $query = $db->prepare($query);
     $query->bind_param("ii", $twelve, $gameId);
     $query->execute();
-
-
 }
 
 
