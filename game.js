@@ -823,69 +823,82 @@ function positionDrop(event, newContainerElement) {
                             //check if missile on this island
                             if (document.getElementById("posM1").childNodes.length == 1) {
                                 if (!document.getElementById("posM1").childNodes[0].classList.contains(myTeam)) {
-                                    //delete the piece that moved html
-                                    document.querySelector("[data-placementId='" + placementId + "']").remove();
-                                    //delete the piece that moved db
-                                    let phpDeleteRequest = new XMLHttpRequest();
-                                    phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
-                                    phpDeleteRequest.send();
-                                    let missileId = document.getElementById("posM1").childNodes[0].getAttribute("data-placementId");
-                                    //delete the missile html
-                                    document.querySelector("[data-placementId='" + missileId + "']").remove();
-                                    //delete the missile db
-                                    let phpDeleteRequest2 = new XMLHttpRequest();
-                                    phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
-                                    phpDeleteRequest2.send();
-                                    //user feedback
-                                    userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    //80% chance of hit here
+                                    let randomNumber = Math.floor(Math.random() * 10);  //between 0 and 9, if = 8 or 9, thats 80%
+                                    if (randomNumber >= 8) {
+                                        //delete the piece that moved html
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        //delete the piece that moved db
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM1").childNodes[0].getAttribute("data-placementId");
+                                        //delete the missile html
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        //delete the missile db
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        //user feedback
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
                                 }
                             }
                         }
                         if (missileTargets2.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                             if (document.getElementById("posM2").childNodes.length == 1) {
                                 if (!document.getElementById("posM2").childNodes[0].classList.contains(myTeam)) {
-                                    document.querySelector("[data-placementId='" + placementId + "']").remove();
-                                    let phpDeleteRequest = new XMLHttpRequest();
-                                    phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
-                                    phpDeleteRequest.send();
-                                    let missileId = document.getElementById("posM2").childNodes[0].getAttribute("data-placementId");
-                                    document.querySelector("[data-placementId='" + missileId + "']").remove();
-                                    let phpDeleteRequest2 = new XMLHttpRequest();
-                                    phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
-                                    phpDeleteRequest2.send();
-                                    userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    let randomNumber = Math.floor(Math.random() * 10);  //between 0 and 9, if = 8 or 9, thats 80%
+                                    if (randomNumber >= 8) {
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM2").childNodes[0].getAttribute("data-placementId");
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
                                 }
                             }
                         }
                         if (missileTargets3.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                             if (document.getElementById("posM3").childNodes.length == 1) {
                                 if (!document.getElementById("posM3").childNodes[0].classList.contains(myTeam)) {
-                                    document.querySelector("[data-placementId='" + placementId + "']").remove();
-                                    let phpDeleteRequest = new XMLHttpRequest();
-                                    phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
-                                    phpDeleteRequest.send();
-                                    let missileId = document.getElementById("posM3").childNodes[0].getAttribute("data-placementId");
-                                    document.querySelector("[data-placementId='" + missileId + "']").remove();
-                                    let phpDeleteRequest2 = new XMLHttpRequest();
-                                    phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
-                                    phpDeleteRequest2.send();
-                                    userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    let randomNumber = Math.floor(Math.random() * 10);  //between 0 and 9, if = 8 or 9, thats 80%
+                                    if (randomNumber >= 8) {
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM3").childNodes[0].getAttribute("data-placementId");
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
                                 }
                             }
                         }
                         if (missileTargets4.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                             if (document.getElementById("posM4").childNodes.length == 1) {
                                 if (!document.getElementById("posM4").childNodes[0].classList.contains(myTeam)) {
-                                    document.querySelector("[data-placementId='" + placementId + "']").remove();
-                                    let phpDeleteRequest = new XMLHttpRequest();
-                                    phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
-                                    phpDeleteRequest.send();
-                                    let missileId = document.getElementById("posM4").childNodes[0].getAttribute("data-placementId");
-                                    document.querySelector("[data-placementId='" + missileId + "']").remove();
-                                    let phpDeleteRequest2 = new XMLHttpRequest();
-                                    phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
-                                    phpDeleteRequest2.send();
-                                    userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    let randomNumber = Math.floor(Math.random() * 10);  //between 0 and 9, if = 8 or 9, thats 80%
+                                    if (randomNumber >= 8) {
+                                        document.querySelector("[data-placementId='" + placementId + "']").remove();
+                                        let phpDeleteRequest = new XMLHttpRequest();
+                                        phpDeleteRequest.open("POST", "pieceDelete.php?placementId=" + placementId, true);
+                                        phpDeleteRequest.send();
+                                        let missileId = document.getElementById("posM4").childNodes[0].getAttribute("data-placementId");
+                                        document.querySelector("[data-placementId='" + missileId + "']").remove();
+                                        let phpDeleteRequest2 = new XMLHttpRequest();
+                                        phpDeleteRequest2.open("POST", "pieceDelete.php?placementId=" + missileId, true);
+                                        phpDeleteRequest2.send();
+                                        userFeedback("Land Based Sea Missile destroyed a piece.");
+                                    }
                                 }
                             }
                         }
