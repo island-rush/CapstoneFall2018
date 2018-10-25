@@ -733,7 +733,7 @@ function positionDrop(event, newContainerElement) {
                         newContainerElement.appendChild(pieceDropped);
                         pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
                         pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
-                        // if (unitName === "transport" || unitName === "aircraftCarrier") {
+                        // if (unitName === "Transport" || unitName === "AircraftCarrier") {
                         //     pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
                         // }
 
@@ -817,7 +817,7 @@ function positionDrop(event, newContainerElement) {
                         let missileTargets2 = [16, 17, 18, 24, 25, 29, 30, 31];
                         let missileTargets3 = [19, 20, 21, 26, 27, 32, 33, 34];
                         let missileTargets4 = [28, 35, 36, 41, 42];
-                        let acceptableTargets = ["transport", "destroyer", "aircraftCarrier"];
+                        let acceptableTargets = ["Transport", "Destroyer", "AircraftCarrier"];
 
                         if (missileTargets1.includes(parseInt(new_positionId)) && acceptableTargets.includes(unitName)) {
                             //check if missile on this island
@@ -950,16 +950,16 @@ function positionDragover(event, callingElement) {
 function movementCheck(unitName, unitTerrain, new_placementContainerId, positionTerrain, new_positionId) {
     if (new_placementContainerId != "999999") {
         let containerParent = document.querySelector("[data-placementId='" + new_placementContainerId + "']");
-        if (containerParent.getAttribute("data-unitName") === "transport") {
-            let listPeople = ["marine", "soldier"];
-            let listMachines = ["tank", "lav", "attackHeli", "sam", "artillery"];
+        if (containerParent.getAttribute("data-unitName") === "Transport") {
+            let listPeople = ["MarinePlatoon", "ArmyCompany"];
+            let listMachines = ["TankPlatoon", "MarineConvoy", "AttackHelo", "SAM", "ArtilleryBattery"];
             if (!listPeople.includes(unitName) && !listMachines.includes(unitName)) {
-                userFeedback("This piece does not belong in a transport.");
-                return false;  //piece does not belong in transport container
+                userFeedback("This piece does not belong in a Transport.");
+                return false;  //piece does not belong in Transport container
 
             }
             if (containerParent.childNodes[0].childNodes.length === 0) {
-                return true;  //valid piece can always go into empty transport
+                return true;  //valid piece can always go into empty Transport
             }
             if (containerParent.childNodes[0].childNodes.length === 3) {
                 userFeedback("This container is full.");
@@ -970,24 +970,24 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
                     return listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName"))
                         && listPeople.includes(containerParent.childNodes[0].childNodes[1].getAttribute("data-unitName"));
                 }
-                return true;  //person dropping into transport with 1 piece in it (always allowed)
+                return true;  //person dropping into Transport with 1 piece in it (always allowed)
             } else {
-                //machine can drop in with a single person, can't drop into a transport with 2 pieces inside
+                //machine can drop in with a single person, can't drop into a Transport with 2 pieces inside
                 return    (containerParent.childNodes[0].childNodes.length === 1
                         && listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName")));
             }
-        } else {  //not transport -> must be aircraftCarrier
+        } else {  //not Transport -> must be AircraftCarrier
             return unitName === "fighter" && containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
         }
     } else {  //wasn't a container
         //if unit is a boat (carrier, destroyer, transport)
         //check if the new position has enemies in it (blockade code)
-        let boats = ["transport", "destroyer", "aircraftCarrier"];
+        let boats = ["Transport", "Destroyer", "AircraftCarrier"];
         if (boats.includes(unitName)){
             let newPosDiv = document.querySelector("[data-positionId='" + new_positionId + "']");
             for (let x = 0; x < newPosDiv.childNodes.length; x++) {
                 if (newPosDiv.childNodes[x].getAttribute("data-placementTeamId") !== myTeam){
-                    if (newPosDiv.childNodes[x].getAttribute("data-unitName") !== "submarine") {
+                    if (newPosDiv.childNodes[x].getAttribute("data-unitName") !== "Submarine") {
                         userFeedback("Blockade");
                         return false;
                     }
@@ -1746,9 +1746,9 @@ function updatePiecePurchase(placementId, unitId, updateTeam) {
     let purchaseContainer = document.getElementById("purchased_container");
     let echoString = "";
     echoString += "<div class='" + unitNames[unitId] + " gamePiece " + updateTeam + "' title='" + unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitNames[unitId]] + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitNames[unitId]] + "' data-placementContainerId='999999' data-placementTeamId='" + updateTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
-    if (unitNames[unitId] === "transport" || unitNames[unitId] === "aircraftCarrier") {
+    if (unitNames[unitId] === "Transport" || unitNames[unitId] === "AircraftCarrier") {
         let classthing;
-        if (unitNames[unitId] === "transport") {
+        if (unitNames[unitId] === "Transport") {
             classthing = "transportContainer";
         } else {
             classthing = "aircraftCarrierContainer";

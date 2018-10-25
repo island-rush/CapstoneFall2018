@@ -607,22 +607,22 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgb(255, 255, 255) inset;
 }
 
-.transport{background-image: url("resources/unitImages/transport.png");}
-.submarine{background-image: url("resources/unitImages/submarine.png");}
-.destroyer{background-image: url("resources/unitImages/destroyer.png");}
-.aircraftCarrier{background-image: url("resources/unitImages/aircraftCarrier.png");}
-.soldier{background-image: url("resources/unitImages/soldier.png");}
-.artillery{background-image: url("resources/unitImages/artillery.png");}
-.tank{background-image: url("resources/unitImages/tank.png");}
-.marine{background-image: url("resources/unitImages/marine.png");}
-.lav{background-image: url("resources/unitImages/lav.png");}
-.attackHeli{background-image: url("resources/unitImages/attackHeli.png");}
-.sam{background-image: url("resources/unitImages/sam.png");}
-.fighter{background-image: url("resources/unitImages/fighter.png");}
-.bomber{background-image: url("resources/unitImages/bomber.PNG");}
-.stealthBomber{background-image: url("resources/unitImages/stealthBomber.png");}
-.tanker{background-image: url("resources/unitImages/tanker.png");}
-.missile{background-image: url("resources/unitImages/missile.png");}
+.Transport{background-image: url("resources/unitImages/transport.png");}
+.Submarine{background-image: url("resources/unitImages/submarine.png");}
+.Destroyer{background-image: url("resources/unitImages/destroyer.png");}
+.AircraftCarrier{background-image: url("resources/unitImages/aircraftCarrier.png");}
+.ArmyCompany{background-image: url("resources/unitImages/soldier.png");}
+.ArtilleryBattery{background-image: url("resources/unitImages/artillery.png");}
+.TankPlatoon{background-image: url("resources/unitImages/tank.png");}
+.MarinePlatoon{background-image: url("resources/unitImages/marine.png");}
+.MarineConvoy{background-image: url("resources/unitImages/lav.png");}
+.AttackHelo{background-image: url("resources/unitImages/attackHeli.png");}
+.SAM{background-image: url("resources/unitImages/sam.png");}
+.FighterSquadron{background-image: url("resources/unitImages/fighter.png");}
+.BomberSquadron{background-image: url("resources/unitImages/bomber.PNG");}
+.StealthBomberSquadron{background-image: url("resources/unitImages/stealthBomber.png");}
+.Tanker{background-image: url("resources/unitImages/tanker.png");}
+.LandBasedSeaMissile{background-image: url("resources/unitImages/missile.png");}
 
 #purchased_container > .gamePiece{
     width: 15%;

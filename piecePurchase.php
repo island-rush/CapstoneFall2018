@@ -70,8 +70,8 @@ $query->execute();
 
 echo "<div class='".$unitName." gamePiece ".$placementTeamId."' title='".$unitName."&#013;Moves: ".$unitMoves."' data-unitCost='".$costOfPiece."' data-placementId='".$new_placementId."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$unitMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
-if ($unitName == "transport" || $unitName == "aircraftCarrier") {
-    if ($unitName == "transport") {
+if ($unitName == "Transport" || $unitName == "AircraftCarrier") {
+    if ($unitName == "Transport") {
         $classthing = "transportContainer";
     } else {
         $classthing = "aircraftCarrierContainer";

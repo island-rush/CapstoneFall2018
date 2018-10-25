@@ -125,7 +125,7 @@ if ($num_results > 0) {
 }
 
 //missile checks (could refactor above to not execute if missle, but this override is okay (since echo is below it))
-if ($unitName == "missile") {
+if ($unitName == "LandBasedSeaMissile") {
     //old position == 118
     //new position must be 121, 122, 123, 124
     //new position must be in an island owned by this team

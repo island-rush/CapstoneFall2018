@@ -31,10 +31,10 @@ $query->execute();
 
 //if new section == askRepeat, check turn = 2, then remove battlePiece aircraft
 if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 1) {
-    $fighter = "fighter";
-    $bomber = "bomber";
-    $stealthBomber = "stealthBomber";
-    $tanker = "tanker";
+    $fighter = "FighterSquadron";
+    $bomber = "BomberSquadron";
+    $stealthBomber = "StealthBomberSquadron";
+    $tanker = "Tanker";
     $wasNotHit = 0;
     $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
     $query = $db->prepare($query);
@@ -79,7 +79,7 @@ if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 1) {
 
 
 if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 0 && $posType == "land") {
-    $destroyer = "destroyer";
+    $destroyer = "Destroyer";
     $wasNotHit = 0;
     $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
     $query = $db->prepare($query);

@@ -291,7 +291,7 @@ function pieceClick(event, callingElement) {
                     }}, 50);
             } else {
                 let unitName = callingElement.getAttribute("data-unitName");
-                if (unitName === "transport" || unitName === "aircraftCarrier") {
+                if (unitName === "Transport" || unitName === "AircraftCarrier") {
                     hideContainers("transportContainer");
                     hideContainers("aircraftCarrierContainer");
                     if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
@@ -338,7 +338,7 @@ function pieceDragstart(event, callingElement) {
 function pieceDragleave(event, callingElement) {
     // alert("dragleave");
     event.preventDefault();
-    if (callingElement.getAttribute("data-unitName") === "transport" || callingElement.getAttribute("data-unitName") === "aircraftCarrier") {
+    if (callingElement.getAttribute("data-unitName") === "Transport" || callingElement.getAttribute("data-unitName") === "AircraftCarrier") {
         // alert("was container");
         // alert(callingElement.childNodes[0].getAttribute("data-containerPopped"));
         if (callingElement.childNodes[0].getAttribute("data-containerPopped") == "false") {
@@ -353,7 +353,7 @@ function pieceDragenter(event, callingElement) {
     event.preventDefault();
     clearTimeout(pieceTimer);
     let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier") {
+    if (unitName === "Transport" || unitName === "AircraftCarrier") {
         //only dragenter to open up container pieces
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
             clearTimeout(pieceTimer);
@@ -475,7 +475,7 @@ function containerDragenter(event, callingElement) {
 function containerHasSpotOpen(new_placementContainerId, unitName) {
     //Can't put transport inside another transport
     if (new_placementContainerId !== "999999") {
-        if (unitName === "transport" || unitName === "aircraftCarrier") {
+        if (unitName === "Transport" || unitName === "AircraftCarrier") {
             return "false";
         }
     }
@@ -721,7 +721,7 @@ function positionDrop(event, newContainerElement) {
                             newContainerElement.appendChild(pieceDropped);
                             pieceDropped.setAttribute("data-placementCurrentMoves", new_placementCurrentMoves.toString());
                             pieceDropped.setAttribute("data-placementContainerId", new_placementContainerId);
-                            // if (unitName === "transport" || unitName === "aircraftCarrier") {
+                            // if (unitName === "Transport" || unitName === "AircraftCarrier") {
                             //     pieceDropped.firstChild.setAttribute("data-positionId", newContainerElement.getAttribute("data-positionId"));
                             // }
 
@@ -806,7 +806,7 @@ function positionDrop(event, newContainerElement) {
                             let missileTargets3 = [19, 20, 21, 26, 27, 32, 33, 34];
                             let missileTargets4 = [28, 35, 36, 41, 42];
 
-                            if (missileTargets1.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets1.includes(parseInt(new_positionId)) && unitName !== "Submarine") {
                                 //check if missile on this island
                                 if (document.getElementById("posM1").childNodes.length == 1) {
                                     //check if island is owned by other team? / if missile is owned TODO: missile always owned by island owner
@@ -829,7 +829,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets2.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets2.includes(parseInt(new_positionId)) && unitName !== "Submarine") {
                                 if (document.getElementById("posM2").childNodes.length == 1) {
                                     if (!document.getElementById("posM2").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -845,7 +845,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets3.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets3.includes(parseInt(new_positionId)) && unitName !== "Submarine") {
                                 if (document.getElementById("posM3").childNodes.length == 1) {
                                     if (!document.getElementById("posM3").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -861,7 +861,7 @@ function positionDrop(event, newContainerElement) {
                                     }
                                 }
                             }
-                            if (missileTargets4.includes(parseInt(new_positionId)) && unitName !== "submarine") {
+                            if (missileTargets4.includes(parseInt(new_positionId)) && unitName !== "Submarine") {
                                 if (document.getElementById("posM4").childNodes.length == 1) {
                                     if (!document.getElementById("posM4").childNodes[0].classList.contains(myTeam)) {
                                         document.querySelector("[data-placementId='" + placementId + "']").remove();
@@ -919,9 +919,9 @@ function positionDragover(event, callingElement) {
 function movementCheck(unitName, unitTerrain, new_placementContainerId, positionTerrain) {
     if (new_placementContainerId != "999999") {
         let containerParent = document.querySelector("[data-placementId='" + new_placementContainerId + "']");
-        if (containerParent.getAttribute("data-unitName") === "transport") {
-            let listPeople = ["marine", "soldier"];
-            let listMachines = ["tank", "lav", "attackHeli", "sam", "artillery"];
+        if (containerParent.getAttribute("data-unitName") === "Transport") {
+            let listPeople = ["MarinePlatoon", "ArmyCompany"];
+            let listMachines = ["TankPlatoon", "MarineConvoy", "AttackHelo", "SAM", "ArtilleryBattery"];
             if (!listPeople.includes(unitName) && !listMachines.includes(unitName)) {
                 return false;  //piece does not belong in transport container
             }
@@ -1653,9 +1653,9 @@ function updatePiecePurchase(placementId, unitId, updateTeam) {
     let echoString = "";
     // let title1 = unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitId];
     echoString += "<div class='" + unitNames[unitId] + " gamePiece " + gameCurrentTeam + "' title='" + unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitNames[unitId]] + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitNames[unitId]] + "' data-placementContainerId='999999' data-placementTeamId='" + gameCurrentTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
-    if (unitNames[unitId] === "transport" || unitNames[unitId] === "aircraftCarrier") {
+    if (unitNames[unitId] === "Transport" || unitNames[unitId] === "AircraftCarrier") {
         let classthing;
-        if (unitNames[unitId] === "transport") {
+        if (unitNames[unitId] === "Transport") {
             classthing = "transportContainer";
         } else {
             classthing = "aircraftCarrierContainer";

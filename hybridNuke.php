@@ -87,7 +87,7 @@ if ($points >= 12) {
     $zone = $islandNum + 100;
     $disable = "disable";
     $team = "All";
-    $allPieces = '{"transport":1, "submarine":1, "destroyer":1, "aircraftCarrier":1, "soldier":1, "artillery":1, "tank":1, "marine":1, "lav":1, "attackHeli":1, "sam":1, "fighter":1, "bomber":1, "stealthBomber":1, "tanker":1}';
+    $allPieces = '{"Transport":1, "Submarine":1, "Destroyer":1, "AircraftCarrier":1, "ArmyCompany":1, "ArtilleryBattery":1, "TankPlatoon":1, "MarinePlatoon":1, "MarineConvoy":1, "AttackHelo":1, "SAM":1, "FighterSquadron":1, "BomberSquadron":1, "StealthBomberSquadron":1, "Tanker":1}';
     $query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, newsEffect, newsZone, newsLength, newsActivated) VALUES(?,?,?,?,?,?,?,?)';
     $query = $db->prepare($query);
     $query->bind_param("iisssiii",$gameId, $order, $team, $allPieces, $disable, $zone, $length, $activated);

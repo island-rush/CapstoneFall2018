@@ -60,7 +60,7 @@ if ($gameBattleSubSection == "choosing_pieces") {
 }
 
 if ($wasHit == 1 && $gameBattleSection == "attack" && $gameBattleSubSection == "choosing_pieces") {
-    if ($attackUnitName == "destroyer" && $posType == "land"){
+    if ($attackUnitName == "Destroyer" && $posType == "land"){
         $nextThing = "continue_choosing";
     } else {
         $nextThing = "defense_bonus";

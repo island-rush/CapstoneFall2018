@@ -19,7 +19,7 @@ $old_placementContainerId = $_REQUEST['old_placementContainerId'];
 $new_placementContainerId = $_REQUEST['new_placementContainerId'];
 
 
-if ($unitName == "transport" || $unitName == "aircraftCarrier") {
+if ($unitName == "Transport" || $unitName == "AircraftCarrier") {
     $query = 'UPDATE placements SET placementPositionId = ? WHERE (placementContainerId = ?)';
     $query = $db->prepare($query);
     $query->bind_param("ii", $new_positionId, $placementId);

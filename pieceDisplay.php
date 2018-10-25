@@ -30,10 +30,10 @@ if (isset($positionId)) {
                 echo "<div class='".$unitName." gamePiece ".$placementTeamId."' title='".$unitName."&#013;Moves: ".$placementCurrentMoves."' data-placementId='".$placementId."' data-unitCost='".$unitCost."' data-placementBattleUsed='".$placementBattleUsed."' data-placementCurrentMoves='".$placementCurrentMoves."' data-placementContainerId='".$placementContainerId."' data-placementTeamId='".$placementTeamId."' data-unitTerrain='".$unitTerrain."' data-unitName='".$unitName."' data-unitId='".$unitId."' draggable='true' ondragstart='pieceDragstart(event, this);' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
 
                 //build containers for container pieces + pieces inside of them
-                if ($unitName == "transport" || $unitName == "aircraftCarrier") {
-                    if ($unitName == "transport") {
+                if ($unitName == "Transport" || $unitName == "AircraftCarrier") {
+                    if ($unitName == "Transport") {
                         $classthing = "transportContainer";
-                    } elseif ($unitName == "aircraftCarrier") {
+                    } elseif ($unitName == "AircraftCarrier") {
                         $classthing = "aircraftCarrierContainer";
                     }
 

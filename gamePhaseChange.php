@@ -643,10 +643,10 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         //at each of their positions, look for aircraft
         //for each aircraft + moves
 
-        $tanker = "tanker";
-        $bomber = "bomber";
-        $fighter = "fighter";
-        $stealthBomber = "stealthBomber";
+        $tanker = "Tanker";
+        $bomber = "BomberSquadron";
+        $fighter = "FighterSquadron";
+        $stealthBomber = "StealthBomberSquadron";
         $query = 'SELECT b.placementId, b.unitName, b.placementCurrentMoves FROM (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) a Join (SELECT * FROM placements NATURAL JOIN units WHERE (placementUnitId = unitId)) b USING(placementPositionId) WHERE (a.placementTeamId = ?) AND (b.placementTeamId = ?) AND (a.placementGameId = ?) AND (b.placementGameId = ?) AND (a.placementPositionId = b.placementPositionId) AND (a.unitName = ?) AND (b.unitName = ? OR b.unitName = ? OR b.unitName = ?)';
         $query = $db->prepare($query);
         $query->bind_param("ssiissss", $myTeam,$myTeam, $gameId, $gameId, $tanker, $bomber, $fighter, $stealthBomber);
@@ -660,7 +660,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 $unitName = $r6['unitName'];
 
                 $updateValue = 2;
-                if ($unitName == "bomber" || $unitName == "stealthBomber") {
+                if ($unitName == "BomberSquadron" || $unitName == "StealthBomberSquadron") {
                     $updateValue = 3;
                 }
 
@@ -743,7 +743,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
 
         $carrierSpots = [];
         //get carrier positions
-        $carrier = "aircraftCarrier";
+        $carrier = "AircraftCarrier";
         $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ?) AND (placementTeamId = ?)';
         $query = $db->prepare($query);
         $query->bind_param("iss", $gameId, $carrier, $myTeam);
@@ -758,11 +758,11 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
             }
         }
 
-        $heli = "attackHeli";
-        $tanker = "tanker";
-        $bomber = "bomber";
-        $fighter = "fighter";
-        $stealthBomber = "stealthBomber";
+        $heli = "AttackHelo";
+        $tanker = "Tanker";
+        $bomber = "BomberSquadron";
+        $fighter = "FighterSquadron";
+        $stealthBomber = "StealthBomberSquadron";
         $purchaseSpot = 118;
         $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementTeamId = ?) AND (placementGameId = ?) AND (placementUnitId = unitId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (placementPositionId != ?)';
         $query = $db->prepare($query);
@@ -778,7 +778,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 $containerId = $r0['placementContainerId'];
                 $positionId = $r0['placementPositionId'];
                 $deletePiece = false;
-                if ($unitName == "attackHeli") {
+                if ($unitName == "AttackHelo") {
                     //over water
                     if ($positionId < 55) {
                         //but could be in container
@@ -786,7 +786,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                             $deletePiece = true;
                         }
                     }
-                } elseif ($unitName == "fighter") {
+                } elseif ($unitName == "FighterSquadron") {
                     if (!in_array($containerId, $carrierSpots) && !in_array($positionId, $airFieldSpots)) {
                         $deletePiece = true;
                     }

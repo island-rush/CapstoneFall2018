@@ -17,7 +17,7 @@ $u = $results->fetch_assoc();
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
-        var unitNames = ['transport', 'submarine', 'destroyer', 'aircraftCarrier', 'soldier', 'artillery', 'tank', 'marine', 'lav', 'attackHeli', 'sam', 'fighter', 'bomber', 'stealthBomber', 'tanker', 'missile'];
+        var unitNames = ['Transport', 'Submarine', 'Destroyer', 'AircraftCarrier', 'ArmyCompany', 'ArtilleryBattery', 'TankPlatoon', 'MarinePlatoon', 'MarineConvoy', 'AttackHelo', 'SAM', 'FighterSquadron', 'BomberSquadron', 'StealthBomberSquadron', 'Tanker', 'LandBasedSeaMissile'];
         var unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
             if ($num_results2 > 0) {
                 for ($i=0; $i < $num_results2; $i++) {
@@ -182,22 +182,22 @@ $u = $results->fetch_assoc();
         <div id="purchase_buttons_container">
             <!--            name, cost, maxmoves-->
             <!--            TODO: populate these values from database, not hardcoding-->
-            <div class="purchase_square transport" title="Transport&#013;Cost: 8&#013;Moves: 2" id="transport" data-unitCost="8" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square destroyer" title="Destroyer&#013;Cost: 10&#013;Moves: 2" id="destroyer" data-unitCost="10" data-unitId="2" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square aircraftCarrier" title="Aircraft Carrier&#013;Cost: 15&#013;Moves: 2" id="aircraftCarrier" data-unitCost="15" data-unitId="3" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square soldier" title="Soldier&#013;Cost: 4&#013;Moves: 1" id="soldier" data-unitCost="4" data-unitId="4" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square artillery" title="Artillery&#013;Cost: 5&#013;Moves: 1" id="artillery" data-unitCost="5" data-unitId="5" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square tank" title="Tank&#013;Cost: 6&#013;Moves: 2" id="tank" data-unitCost="6" data-unitId="6" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square marine" title="Marine&#013;Cost: 5&#013;Moves: 1" id="marine" data-unitCost="5" data-unitId="7" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square lav" title="LAV&#013;Cost: 8&#013;Moves: 2" id="lav" data-unitCost="8" data-unitId="8" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square attackHeli" title="AttackHeli&#013;Cost: 7&#013;Moves: 3" id="attackHeli" data-unitCost="7" data-unitId="9" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square sam" title="SAM&#013;Cost: 8&#013;Moves: 1" id="sam" data-unitCost="8" data-unitId="10" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square fighter" title="Fighter&#013;Cost: 12&#013;Moves: 4" id="fighter" data-unitCost="12" data-unitId="11" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square bomber" title="Bomber&#013;Cost: 12&#013;Moves: 6" id="bomber" data-unitCost="12" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square stealthBomber" title="StealthBomber&#013;Cost: 15&#013;Moves: 5" id="stealthBomber" data-unitCost="15" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square tanker" title="Tanker&#013;Cost: 11&#013;Moves: 5" id="tanker" data-unitCost="11" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square missile" title="Missile&#013;Cost: 10" id="missile" data-unitCost="10" data-unitId="15" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square Transport" title="Transport&#013;Cost: 8&#013;Moves: 2" id="Transport" data-unitCost="8" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square Submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="Submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square Destroyer" title="Destroyer&#013;Cost: 10&#013;Moves: 2" id="Destroyer" data-unitCost="10" data-unitId="2" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square AircraftCarrier" title="Aircraft Carrier&#013;Cost: 15&#013;Moves: 2" id="AircraftCarrier" data-unitCost="15" data-unitId="3" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square ArmyCompany" title="Soldier&#013;Cost: 4&#013;Moves: 1" id="ArmyCompany" data-unitCost="4" data-unitId="4" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square ArtilleryBattery" title="Artillery&#013;Cost: 5&#013;Moves: 1" id="ArtilleryBattery" data-unitCost="5" data-unitId="5" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square TankPlatoon" title="Tank&#013;Cost: 6&#013;Moves: 2" id="TankPlatoon" data-unitCost="6" data-unitId="6" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square MarinePlatoon" title="Marine&#013;Cost: 5&#013;Moves: 1" id="MarinePlatoon" data-unitCost="5" data-unitId="7" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square MarineConvoy" title="MarineConvoy&#013;Cost: 8&#013;Moves: 2" id="MarineConvoy" data-unitCost="8" data-unitId="8" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square AttackHelo" title="AttackHeli&#013;Cost: 7&#013;Moves: 3" id="AttackHelo" data-unitCost="7" data-unitId="9" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square SAM" title="SAM&#013;Cost: 8&#013;Moves: 1" id="SAM" data-unitCost="8" data-unitId="10" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square FighterSquadron" title="Fighter&#013;Cost: 12&#013;Moves: 4" id="FighterSquadron" data-unitCost="12" data-unitId="11" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square BomberSquadron" title="Bomber&#013;Cost: 12&#013;Moves: 6" id="BomberSquadron" data-unitCost="12" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square StealthBomberSquadron" title="StealthBomber&#013;Cost: 15&#013;Moves: 5" id="StealthBomberSquadron" data-unitCost="15" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square Tanker" title="Tanker&#013;Cost: 11&#013;Moves: 5" id="Tanker" data-unitCost="11" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square LandBasedSeaMissile" title="Missile&#013;Cost: 10" id="LandBasedSeaMissile" data-unitCost="10" data-unitId="15" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
         </div>
         <div id="purchase_seperator">Shop-Inventory</div>
         <div id="shopping_things">
