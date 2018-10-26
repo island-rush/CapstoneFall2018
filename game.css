@@ -248,7 +248,7 @@ html, body {
     border: solid black 3px;
     z-index: 500;
     margin-left: 15%;
-    margin-top: 5%;
+    margin-top: .5%;
 }
 #popupTitle{
     /*background-color:red;*/
@@ -483,8 +483,8 @@ html, body {
     background-color: #000000;
     background-position: center;
     z-index: 500;
-    margin-left: 5%;
-    margin-top: 5%;
+    margin-left: 12%;
+    margin-top: 1%;
     /*//thing to change!*/
 }
 

@@ -781,8 +781,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
                 if ($unitName == "AttackHelo") {
                     //over water
                     if ($positionId < 55) {
-                        //but could be in container
-                        if ($containerId != 999999) {
+                        if ($containerId == 999999) {
                             $deletePiece = true;
                         }
                     }

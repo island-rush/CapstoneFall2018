@@ -268,13 +268,30 @@ function pieceClick(event, callingElement) {
     if (gameBattleSection === "selectPieces" && myTeam === gameCurrentTeam) {
         if (callingElement.getAttribute("data-placementTeamId") === myTeam) {
             if (gameBattleAdjacentArray.includes(parseInt(callingElement.parentNode.getAttribute("data-positionId")))) {
-                if (callingElement.classList.contains("selected")) {
-                    userFeedback("Piece deselected.");
-                    callingElement.classList.remove("selected");
+                let planes = [11, 12, 13, 14];
+                if (planes.includes(parseInt(callingElement.getAttribute("data-unitId")))){
+                    if (callingElement.parentNode.getAttribute("data-positionId") == gameBattlePosSelected) {
+                        if (callingElement.classList.contains("selected")) {
+                            userFeedback("Piece deselected.");
+                            callingElement.classList.remove("selected");
+                        } else {
+                            if (callingElement.getAttribute("data-placementBattleUsed") == 0) {
+                                userFeedback("Piece Selected");
+                                callingElement.classList.add("selected");
+                            }
+                        }
+                    } else {
+                        userFeedback("Plane must be in same square to attack");
+                    }
                 } else {
-                    if (callingElement.getAttribute("data-placementBattleUsed") == 0) {
-                        userFeedback("Piece Selected");
-                        callingElement.classList.add("selected");
+                    if (callingElement.classList.contains("selected")) {
+                        userFeedback("Piece deselected.");
+                        callingElement.classList.remove("selected");
+                    } else {
+                        if (callingElement.getAttribute("data-placementBattleUsed") == 0) {
+                            userFeedback("Piece Selected");
+                            callingElement.classList.add("selected");
+                        }
                     }
                 }
             }
@@ -309,7 +326,7 @@ function pieceClick(event, callingElement) {
                     }}, 50);
             } else {
                 let unitName = callingElement.getAttribute("data-unitName");
-                if (unitName === "transport" || unitName === "aircraftCarrier") {
+                if (unitName === "Transport" || unitName === "AircraftCarrier") {
                     hideContainers("transportContainer");
                     hideContainers("aircraftCarrierContainer");
                     if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
@@ -748,7 +765,7 @@ function positionDrop(event, newContainerElement) {
 
                         let flagPositions = [55, 65, 75, 79, 85, 86, 90, 94, 97, 100, 103, 107, 111, 114];
                         let containerElement;
-                        let capturePieces = ["soldier", "artillery", "tank", "marine", "lav", "attackHeli"];
+                        let capturePieces = ["ArmyCompany", "ArtilleryBattery", "TankPlatoon", "MarinePlatoon", "MarineConvoy", "AttackHelo"];
                         if (flagPositions.includes(parseInt(new_positionId)) && capturePieces.includes(unitName)) {
                             if (flagPositions.includes(parseInt(new_positionId))) {
                                 containerElement = newContainerElement;
@@ -1174,7 +1191,10 @@ function battleChangeSection(newSection) {
         document.getElementById("phase_button").disabled = true;
         document.getElementById("undo_button").disabled = true;
 
-        document.getElementById("battle_button").onclick = function() { battleSelectPosition(); };
+        document.getElementById("battle_button").onclick = function() {
+
+            battleSelectPosition();
+        };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
         userFeedback("Now click on the zone that you want to attack. Then click the Select Pieces button, where the Battle button used to be.");
@@ -1337,43 +1357,44 @@ function battleChangeSection(newSection) {
         };
 
         //check to see if flag ownership changed, if the position of battle was a flag position
-        let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
-        let containerElement;
-        if (flagPositions.includes(parseInt(gameBattlePosSelected))) {
-            containerElement = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']");
-            let parentTeam = containerElement.parentNode.classList[2];
-            let newTeam;
-            if (parentTeam === "Red") {
-                newTeam = "Blue";
-            } else {
-                newTeam = "Red";
-            }
-            let changeOwnership = "true";
-            let numChildren = containerElement.childElementCount;
-            if (numChildren === 0) {
-                changeOwnership = "false";
-            }
-            for (let x = 0; x < numChildren; x++) {
-                if (containerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
-                    changeOwnership = "false";
-                }
-            }
-            if (changeOwnership === "true") {
-                //change css of parent
-                let parent = containerElement.parentNode;
-                parent.classList.remove(parentTeam);
-                parent.classList.add(newTeam);
-                //change css of parent parent
-                let parentParent = parent.parentNode;
-                parentParent.classList.remove(parentTeam);
-                parentParent.classList.add(newTeam);
-                //database change in games table
-                let islandNumber = parentParent.id;
-                let phpRequestTeamChange = new XMLHttpRequest();
-                phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam + "&myTeam=" + myTeam, true);
-                phpRequestTeamChange.send();
-            }
-        }
+        //TODO: doesn't check to see if the battle was won by a ground troop, or ground troop is available for capturing
+        // let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
+        // let containerElement;
+        // if (flagPositions.includes(parseInt(gameBattlePosSelected))) {
+        //     containerElement = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']");
+        //     let parentTeam = containerElement.parentNode.classList[2];
+        //     let newTeam;
+        //     if (parentTeam === "Red") {
+        //         newTeam = "Blue";
+        //     } else {
+        //         newTeam = "Red";
+        //     }
+        //     let changeOwnership = "true";
+        //     let numChildren = containerElement.childElementCount;
+        //     if (numChildren === 0) {
+        //         changeOwnership = "false";
+        //     }
+        //     for (let x = 0; x < numChildren; x++) {
+        //         if (containerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
+        //             changeOwnership = "false";
+        //         }
+        //     }
+        //     if (changeOwnership === "true") {
+        //         //change css of parent
+        //         let parent = containerElement.parentNode;
+        //         parent.classList.remove(parentTeam);
+        //         parent.classList.add(newTeam);
+        //         //change css of parent parent
+        //         let parentParent = parent.parentNode;
+        //         parentParent.classList.remove(parentTeam);
+        //         parentParent.classList.add(newTeam);
+        //         //database change in games table
+        //         let islandNumber = parentParent.id;
+        //         let phpRequestTeamChange = new XMLHttpRequest();
+        //         phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam + "&myTeam=" + myTeam, true);
+        //         phpRequestTeamChange.send();
+        //     }
+        // }
     }
 
     let posType = "defaultPos";
