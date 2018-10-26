@@ -916,7 +916,12 @@ function positionDrop(event, newContainerElement) {
                                     if (movementCost == -5){
                                         userFeedback("Enemy Team Prevented Drop");
                                     } else {
-                                        userFeedback("This piece is out of moves!");
+                                        if (movementCost == -10) {
+                                            userFeedback("SAM Delete");
+                                        }
+                                        else {
+                                            userFeedback("This piece is out of moves!");
+                                        }
                                     }
                                 }
                             }
@@ -924,8 +929,9 @@ function positionDrop(event, newContainerElement) {
                     }
                 }
             };
-            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId + "&old_positionId=" + old_positionId + "&placementId=" + placementId + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName, true);
+            phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId + "&old_positionId=" + old_positionId + "&placementId=" + placementId + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName + "&unitId=" + unitId, true);
             phpMoveCheck.send();
+
         } else {
             // userFeedback("This piece is out of moves!");
         }

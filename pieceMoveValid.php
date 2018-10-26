@@ -8,6 +8,7 @@ $myTeam = $_SESSION['myTeam'];
 $islandFrom = (int) $_REQUEST['islandFrom'];
 $islandTo = (int) $_REQUEST['islandTo'];
 $unitName = $_REQUEST['unitName'];
+$unitId = $_REQUEST['unitId'];
 
 $old_placementContainerId = (int) $_REQUEST['old_placementContainerId'];  //not used, don't care where come from, takes a move to board a container
 $new_placementContainerId = (int) $_REQUEST['new_placementContainerId'];
@@ -167,24 +168,71 @@ if ($thingToEcho > 1) {
     echo -3;
 }
 
+if ($unitId == 9 || $unitId == 11 || $unitId == 12 ||
+    $unitId == 13 || $unitId == 14) {
+    //if air unit
+    $adjSam = array();
+    for ($i = 0; $i < 117; ++$i) {
+        if ($_SESSION['dist'][$new_positionId][$i] <= 1) {
+            array_push($adjSam, $i);
+        }
+    }
+    for ($i = 0; $i < sizeof($adjSam); ++$i) {
+        $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementUnitId = 10)';
+        $query = $db->prepare($query);
+        $query->bind_param("is", $adjSam[$i], $myTeam);
+        $query->execute();
+        $results = $query->get_result();
+        $num_results = $results->num_rows;
+//        $diceRoll = rand(1,6);
+        $diceRoll = 6;
+        $killed = 0;
+        for ($k = 0; $k < $num_results; ++$k) {
+            if ($unitId != 13) {
+                if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
+                    $killed = 1;
+                    break;
+                }
+            }
+            else {
+                if ($new_positionId > 55) {
+                    if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
+                        $killed = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        if ($killed == 1) {
+            //Know piece ID, delete pieceID from placements, update Red, update Blue, update Spec
+            $query = 'DELETE FROM placements WHERE placementId = ?';
+            $query = $db->prepare($query);
+            $query->bind_param("i", $placementId);
+            $query->execute();
 
-//notes
-    //for non stealth aircraft, only have to check the adjacency for 1 or 0
-    //stealth aircraft should check that the position id is a land position
-        //land positions are > 55, water is <= 55 (check excel map for values)
+            $newValue = 0;
+            $updateType = "pieceTrash";
 
+            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
+            $query->execute();
 
-//create an empty array thingys to check
-//fill it by looping through the adjacency matrix and finding 1 or 0 for this position (new position)
-//for each position in the thingys to check array
-    //do a database query for placements unitId = sam, team id = not myteam, positionid = this array thing
-        //for each sam that is there (multiple = better chance of hit)
-            //random chance (based on attack matrix)
-                //if hit, thing to echo is -10 (used for userfeedback)
-                //delete the piece that moved (since its an aircraft, don't worry about children / container)
-                //send multiple updates to all 3 clients about the deletion
-                //break out of all future loops!!!**!*!*!
+            $Spec = "Spec";
+            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+            $query->execute();
 
+            //prevent future undo
+            $query = 'DELETE FROM movements WHERE movementGameId = ?';
+            $query = $db->prepare($query);
+            $query->bind_param("i", $gameId);
+            $query->execute();
+            $thingToEcho = -10;
+        }
+    }
+}
 
 
 echo $thingToEcho;
