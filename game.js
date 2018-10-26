@@ -1166,7 +1166,7 @@ function changePhase() {
                     }
 
                     if (gamePhase === "7") { // TALLY POINTS/ROUND RECAP
-                        userFeedback("Points tallied. Click next phase to advance to the other player's turn.");
+                        userFeedback("Points tallied. Discuss what you did this turn then click next phase to advance to the other player's turn.");
                         let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
                         for (let x = 0; x < allPieces.length; x++) {
                             let currentPiece = allPieces[x];
@@ -1771,7 +1771,6 @@ function updateBattlePieceRemove(placementId) {
 
 function updateRollDie(placementId) {
     document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
-    userFeedback("Rolling dice!");
 }
 
 function updateIslandChange(islandIdentifier, newTeam) {
