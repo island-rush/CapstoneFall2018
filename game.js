@@ -90,6 +90,7 @@ function bodyLoader() {
         document.getElementById("battleActionPopup").style.display = "block";
         if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "attack") {
             if (myTeam !== gameCurrentTeam) {
+                userFeedback("Wait for other team to continue.");
                 document.getElementById("actionPopupButton").disabled = false;
             } else {
                 document.getElementById("actionPopupButton").disabled = true;
@@ -98,7 +99,8 @@ function bodyLoader() {
                 "has the opportunity to knock out the Attacker's unit. Defender: roll for defense bonus!";
             document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "counter") {
-            if (myTeam !== gameCurrentTeam) {
+            if (myTeam !== gameCurrentTeam){
+                userFeedback("Wait for other team to continue.");
                 document.getElementById("actionPopupButton").disabled = true;
             } else {
                 document.getElementById("actionPopupButton").disabled = false;
@@ -108,6 +110,7 @@ function bodyLoader() {
             document.getElementById("actionPopupButton").onclick = function() { battleAttackCenter("defend"); };
         } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "attack") {
             if (myTeam !== gameCurrentTeam) {
+                userFeedback("Wait for other team to continue.")
                 document.getElementById("actionPopupButton").disabled = true;
             } else {
                 document.getElementById("actionPopupButton").disabled = false;
@@ -116,6 +119,7 @@ function bodyLoader() {
             document.getElementById("actionPopupButton").onclick = function() { battleEndRoll(); };
         } else if (gameBattleSubSection === "continue_choosing" && gameBattleSection === "counter") {
             if (myTeam !== gameCurrentTeam) {
+                userFeedback("Wait for other team to continue.");
                 document.getElementById("actionPopupButton").disabled = false;
             } else {
                 document.getElementById("actionPopupButton").disabled = true;
@@ -950,7 +954,7 @@ function positionDrop(event, newContainerElement) {
             phpMoveCheck.send();
 
         } else {
-            // userFeedback("This piece is out of moves!");
+            userFeedback("This piece cannot move here!");
         }
     } else{
         // Cannot move this piece? (not sure if this is necessary since we disable pieces that shouldn't move..)
@@ -1106,9 +1110,30 @@ function changePhase() {
                         document.getElementById("popup").style.display = "none";
                     }
 
+                    // BUY Reinforcement PHASE
+                    if (gamePhase === "2") {
+                        userFeedback("Now in reinforcement purchase phase. Please purchase reinforcements."); //tell the user what happenes in the phase
+                    }
+
+                    // COMBAT PHASE
+                    if (gamePhase === "3") {
+                        userFeedback("Now in combat phase. Move pieces or select a battle."); //tell the user what happenes in the phase
+                    }
+
+                    // FORTIFY PHASE
+                    if (gamePhase === "4") {
+                        userFeedback("Now in fortify phase. Move your pieces where you want for next tern."); //tell the user what happenes in the phase
+                    }
+
+                    // PLACE Reinforcement PHASE
+                    if (gamePhase === "5") {
+                        userFeedback("Now in reinforcement placement phase. Select a reinforcement to place."); //tell the user what happenes in the phase
+                    }
+
                     // HYBRID WAR PHASE
                     if (gamePhase === "6") {
                         //convert the battle button to be a hybrid warfare shop button
+                        userFeedback("Now in hybrid warfare phase. Begin hybrid warfare selections.")
                         document.getElementById("battle_button").innerHTML = "Hybrid Warfare";
                         document.getElementById("battle_button").disabled = false;
                         document.getElementById("battle_button").onclick =function () {
@@ -1141,7 +1166,7 @@ function changePhase() {
                     }
 
                     if (gamePhase === "7") { // TALLY POINTS/ROUND RECAP
-                        userFeedback("Click next phase to advance to the other player's turn.");
+                        userFeedback("Points tallied. Click next phase to advance to the other player's turn.");
                         let allPieces = document.querySelectorAll("[data-placementTeamId='" + myTeam + "']");
                         for (let x = 0; x < allPieces.length; x++) {
                             let currentPiece = allPieces[x];
@@ -1736,14 +1761,17 @@ function updateMissileOwner(placementId) {
     missile.classList.remove(oldTeam);
     missile.classList.add(newTeam);
     missile.setAttribute("data-placementTeamId", newTeam);
+    userFeedback("Missle has a new owner.");
 }
 
 function updateBattlePieceRemove(placementId) {
     document.querySelector("[data-battlePieceId='" + placementId + "']").remove();  //battlezone
+    userFeedback("Piece was destroyed.");
 }
 
 function updateRollDie(placementId) {
     document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
+    userFeedback("Rolling dice!");
 }
 
 function updateIslandChange(islandIdentifier, newTeam) {
@@ -1784,6 +1812,7 @@ function updatePiecePurchase(placementId, unitId, updateTeam) {
     }
     echoString += "</div>";  // end the overall piece
     purchaseContainer.innerHTML += echoString;
+    userFeedback("User bought a piece");
 }
 
 function updateMoves(placementId, newMoves) {
@@ -1806,6 +1835,8 @@ function updatePieceMove(placementId, newPositionId, newContainerId, newMoves){
     let unitName = pieceToMove.getAttribute("data-unitName");
     pieceToMove.setAttribute("title", unitName + "\n" +
         "Moves: " + newMoves);
+    userFeedback("User moved a piece.");
+
 }
 
 function updatePieceDelete(placementId) {
@@ -1817,6 +1848,7 @@ function updatePieceTrash(placementId) {
     let pieceToTrash = document.querySelector("[data-placementId='" + placementId + "']");
     if (pieceToTrash != null) {
         pieceToTrash.remove();
+        userFeedback("piece trashed.");
     }
 }
 
@@ -1936,6 +1968,7 @@ function updateNextPhase() {
     };
     phpPhaseChange.open("GET", "updateGetPhase.php", true);  // removes the element from the database
     phpPhaseChange.send();
+    userFeedback("Phase changed.");
 }
 
 function updateBattleAttack(wasHit) {
@@ -1991,6 +2024,7 @@ function updateBattleAttack(wasHit) {
 function updateBattleEnding() {
     //mostly graphical stuff for end, next battle is completely re-do the innerhtml for stuff anyways
     document.getElementById("battleZonePopup").style.display = "none";
+        userFeedback("battle ended.");
 }
 
 function updateBattlePositionSelected(positionPiecesHTML, positionSelected) {
@@ -2002,6 +2036,7 @@ function updateBattlePositionSelected(positionPiecesHTML, positionSelected) {
         positionDiv.parentNode.classList.add("selectedPos");
         positionDiv.parentNode.parentNode.classList.add("selectedPos");
     }
+    userFeedback("User selecting battle position.");
 }
 
 function updateBattlePiecesSelected(piecesSelectedHTML) {
@@ -2041,6 +2076,8 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
             newParent.appendChild(oldParent.childNodes[0]);
         }
     };
+    userFeedback("User selecting battle pieces.");
+
 }
 
 function updateBattleSection() {
@@ -2207,8 +2244,6 @@ function hybridDeletePiece() {
         if (confirm("Are you sure you want to delete a piece?")) {
             document.getElementById("popup").style.display = "none";
             deleteHybridState = "true";
-            document.getElementById("battle_button").disabled = true;
-            document.getElementById("phase_button").disabled = true;
             document.getElementById("whole_game").style.backgroundColor = "yellow";
         }
     } else {
