@@ -1217,8 +1217,9 @@ function battleChangeSection(newSection) {
         document.getElementById("undo_button").disabled = true;
 
         document.getElementById("battle_button").onclick = function() {
-
-            battleSelectPosition();
+            if (confirm("Are you sure you selected the right position? Click OK to select pieces.")) {
+                battleSelectPosition();
+            }
         };
         document.getElementById("battle_button").innerHTML = "Select Pieces";
 
@@ -1226,13 +1227,14 @@ function battleChangeSection(newSection) {
         //more visual indication of selecting position
         document.getElementById("whole_game").style.backgroundColor = "yellow";
     } else if (newSection === "selectPieces") {
-        document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
+        document.getElementById("battle_button").onclick = function() {
+            if (confirm("Are you sure you selected the right pieces? Click OK to enter the battle.")) {
+                battleSelectPieces();
+            }
+        };
         document.getElementById("battle_button").innerHTML = "Start Battle";
-
         hideIslands();
-
         gameBattleTurn = 0;
-
         userFeedback("Select the pieces you want to attack with. They must be adjacent to the zone being attacked. Then Start the Battle!");
         //more visual indication of selecting pieces
     } else if (newSection === "attack") {
@@ -2244,6 +2246,8 @@ function hybridDeletePiece() {
         if (confirm("Are you sure you want to delete a piece?")) {
             document.getElementById("popup").style.display = "none";
             deleteHybridState = "true";
+            document.getElementById("battle_button").disabled = true;
+            document.getElementById("phase_button").disabled = true;
             document.getElementById("whole_game").style.backgroundColor = "yellow";
         }
     } else {
