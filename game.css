@@ -101,7 +101,9 @@ html, body {
 #phase_indicator{
     width: 100%;
     height: 20%;
-    /*background-color: red;*/
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgba(255,255,0,0.4);
 }
 #team_indicators{
     width: 100%;
@@ -231,8 +233,8 @@ html, body {
     height: 70%;
     margin: 5.5% 10%; /*top&bottom right&left */  /*top right bottom left */
     font-family: Impact;
-    font-size: 24px;
-    background-color: burlywood;
+    font-size: 30px;
+    background-color: rgba(200, 0, 0, 1.0);
     border-color: #c19c71;
 }
 

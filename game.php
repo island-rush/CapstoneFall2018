@@ -181,9 +181,9 @@ $u = $results->fetch_assoc();
             <div class="purchase_square MarineConvoy" title="MarineConvoy&#013;Cost: 8&#013;Moves: 2" id="MarineConvoy" data-unitCost="8" data-unitId="8" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square AttackHelo" title="AttackHelo&#013;Cost: 7&#013;Moves: 3" id="AttackHelo" data-unitCost="7" data-unitId="9" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square SAM" title="SAM&#013;Cost: 8&#013;Moves: 1" id="SAM" data-unitCost="8" data-unitId="10" data-unitTerrain="land" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square FighterSquadron" title="FighterSquadron&#013;Cost: 12&#013;Moves: 4" id="FighterSquadron" data-unitCost="12" data-unitId="11" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square BomberSquadron" title="BomberSquadron&#013;Cost: 12&#013;Moves: 6" id="BomberSquadron" data-unitCost="12" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
-            <div class="purchase_square StealthBomberSquadron" title="StealthBomberSquadron&#013;Cost: 15&#013;Moves: 5" id="StealthBomberSquadron" data-unitCost="15" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square Fighter" title="FighterSquadron&#013;Cost: 12&#013;Moves: 4" id="FighterSquadron" data-unitCost="12" data-unitId="11" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square Bomber" title="BomberSquadron&#013;Cost: 12&#013;Moves: 6" id="BomberSquadron" data-unitCost="12" data-unitId="12" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
+            <div class="purchase_square StealthBomber" title="StealthBomberSquadron&#013;Cost: 15&#013;Moves: 5" id="StealthBomberSquadron" data-unitCost="15" data-unitId="13" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square Tanker" title="Tanker&#013;Cost: 11&#013;Moves: 5" id="Tanker" data-unitCost="11" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square LandBasedSeaMissile" title="LandBasedSeaMissile&#013;Cost: 10" id="LandBasedSeaMissile" data-unitCost="10" data-unitId="15" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
         </div>
@@ -195,8 +195,8 @@ $u = $results->fetch_assoc();
         <div id="rest_things">
             <div id="phase_indicator">Current Phase = Loading...</div>
             <div id="team_indicators">
-                <div id="red_team_indicator">;jlkjlkj</div>
-                <div id="blue_team_indicator">Blue</div>
+                <div id="red_team_indicator">Züün</div>
+                <div id="blue_team_indicator">Vestrland</div>
             </div>
             <div id="rPoints_indicators">
                 <div id="red_rPoints_indicator">Loading</div>
@@ -462,7 +462,7 @@ $u = $results->fetch_assoc();
             </div>
             <div id="popupBodyHybridMenu">
                 <div id="hybridInstructions">
-                    <p>Instructions:<br>Select which Hybrid Warfare Option you would like to use. Mouse over the name for more information.</p>
+                    <p>Instructions:<br>Select which Hybrid Warfare Option you would like to use. Mouse over the name for more information about what each option does.</p>
                 </div>
                 <div id="hybridTable">
                     <table>
