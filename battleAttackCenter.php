@@ -16,6 +16,8 @@ $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 
 $posType = $_REQUEST['posType'];
 
+$boostedAttack = $_REQUEST['boostedAttack'];
+
 $gameBattleLastMessage = "Test Game Battle Message";
 
 $lastRoll = rand(1, 6);
@@ -24,7 +26,7 @@ $lastRoll = rand(1, 6);
 
 if ($gameBattleSubSection == "choosing_pieces") {
     //regular attack
-    if ($lastRoll >= $_SESSION['attack'][$attackUnitId][$defendUnitId] && $_SESSION['attack'][$attackUnitId][$defendUnitId] != 0) {
+    if (($lastRoll + $boostedAttack) >= $_SESSION['attack'][$attackUnitId][$defendUnitId] && $_SESSION['attack'][$attackUnitId][$defendUnitId] != 0) {
         $wasHit = 1;
         $gameBattleLastMessage = $attackUnitName." hit ".$defendUnitName;
     } else {

@@ -67,7 +67,7 @@
                                     <tr>
                                         <td>Section</td>
                                         <td>
-                                            <input name="section" type="text" id="section">
+                                            <input name="section" type="text" id="section" autofocus="true">
                                             <div style="display: inline" id="sectionFeedback" class="formError"></div>
                                         </td>
                                     </tr>

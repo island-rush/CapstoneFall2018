@@ -37,16 +37,16 @@ session_abort();
                     return valid;
                 }
 
-                function populateGame() {
-                    let section = document.forms['login']['section'].value;
-                    let instructor = document.forms['login']['instructor'].value;
-
-                    let phpGamePopulate = new XMLHttpRequest();
-                    phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
-                    phpGamePopulate.send();
-
-                    document.getElementById("populateButton").disabled = true;
-                }
+                // function populateGame() {
+                //     let section = document.forms['login']['section'].value;
+                //     let instructor = document.forms['login']['instructor'].value;
+                //
+                //     let phpGamePopulate = new XMLHttpRequest();
+                //     phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
+                //     phpGamePopulate.send();
+                //
+                //     document.getElementById("populateButton").disabled = true;
+                // }
         </script>
     </head>
 
@@ -81,7 +81,7 @@ session_abort();
                                     <tr>
                                         <td>Section</td>
                                         <td>
-                                            <input name="section" type="text" id="section" placeholder="m1a1" required>
+                                            <input name="section" type="text" id="section" placeholder="m1a1" autofocus="true" required>
                                             <div style="display: inline" id="sectionFeedback" class="formError"></div>
                                         </td>
                                     </tr>
