@@ -32,7 +32,6 @@ $placementCurrentMoves = $r['placementCurrentMoves'];
 
 
 //purchase container
-//TODO keep aircraft from being placed anywhere on the island
 if ($islandFrom == -4) {
         //must have new postition id valid in list
         if (($myTeam == "Red" && in_array($new_positionId, $redPlaceValid)) ||
