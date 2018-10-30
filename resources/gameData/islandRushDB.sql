@@ -133,7 +133,7 @@ INSERT INTO `units` VALUES (3, 'AircraftCarrier', 'water', 2, 15);
 INSERT INTO `units` VALUES (4, 'ArmyCompany', 'land', 1, 4);
 INSERT INTO `units` VALUES (5, 'ArtilleryBattery', 'land', 1, 5);
 INSERT INTO `units` VALUES (6, 'TankPlatoon', 'land', 1, 6);
-INSERT INTO `units` VALUES (7, 'MarinePatoon', 'land', 1, 5);
+INSERT INTO `units` VALUES (7, 'MarinePlatoon', 'land', 1, 5);
 INSERT INTO `units` VALUES (8, 'MarineConvoy', 'land', 2, 8);
 INSERT INTO `units` VALUES (9, 'AttackHelo', 'air', 3, 7);
 INSERT INTO `units` VALUES (10, 'SAM', 'land', 1, 8);

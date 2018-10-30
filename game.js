@@ -264,6 +264,10 @@ function logout() {
         window.location.replace("logout.php");
     }
 }
+//TODO: post in the logout url why logging out, or message on that page about something (better user interaction)
+function logout2() {
+    window.location.replace("logout.php");
+}
 
 //---------------------------------------------------
 function pieceClick(event, callingElement) {
@@ -1643,11 +1647,44 @@ function battleAttackCenter(type) {
     let attackUnitName = unitNames[attackUnitId];
     let defendUnitName = unitNames[defendUnitId];
 
-
     let posType = "defaultPos";
     if (gameBattlePosSelected != 999999) {
         posType = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").getAttribute("data-positionType");
     }
+
+
+    let boostedAttack = 0;
+    //army company with artilley or marine platoon with heli
+    let child;
+    if (type === "attack") {
+        for (let x = 0; x < document.getElementById("unused_attacker").childNodes.length; x++) {
+            child = document.getElementById("unused_attacker").childNodes[x];
+            if ((child.getAttribute("data-unitId") == 5 && attackUnitId == 4) || (child.getAttribute("data-unitId") == 7 && attackUnitId == 9)) {
+                boostedAttack = 1;
+            }
+        }
+        for (let x = 0; x < document.getElementById("used_attacker").childNodes.length; x++) {
+            child = document.getElementById("used_attacker").childNodes[x];
+            if ((child.getAttribute("data-unitId") == 5 && attackUnitId == 4) || (child.getAttribute("data-unitId") == 7 && attackUnitId == 9)) {
+                boostedAttack = 1;
+            }
+        }
+    } else {
+        for (let x = 0; x < document.getElementById("unused_defender").childNodes.length; x++) {
+            child = document.getElementById("unused_defender").childNodes[x];
+            if ((child.getAttribute("data-unitId") == 5 && attackUnitId == 4) || (child.getAttribute("data-unitId") == 7 && attackUnitId == 9)) {
+                boostedAttack = 1;
+            }
+        }
+        for (let x = 0; x < document.getElementById("used_defender").childNodes.length; x++) {
+            child = document.getElementById("used_defender").childNodes[x];
+            if ((child.getAttribute("data-unitId") == 5 && attackUnitId == 4) || (child.getAttribute("data-unitId") == 7 && attackUnitId == 9)) {
+                boostedAttack = 1;
+            }
+        }
+    }
+
+
     let phpAttackCenter = new XMLHttpRequest();
     phpAttackCenter.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -1698,7 +1735,7 @@ function battleAttackCenter(type) {
             rollDice();
         }
     };
-    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&defendUnitId=" + defendUnitId + "&attackUnitName=" + attackUnitName + "&defendUnitName=" + defendUnitName + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId") + "&posType=" + posType, true);
+    phpAttackCenter.open("GET", "battleAttackCenter.php?attackUnitId=" + attackUnitId + "&boostedAttack=" + boostedAttack + "&defendUnitId=" + defendUnitId + "&attackUnitName=" + attackUnitName + "&defendUnitName=" + defendUnitName + "&gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&pieceId=" + pieceAttacked.getAttribute("data-battlePieceId") + "&posType=" + posType, true);
     phpAttackCenter.send();
 }
 
@@ -1714,6 +1751,8 @@ function waitForUpdate() {
 
             if (decoded.updateType === "pieceMove") {
                 updatePieceMove(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewPositionId), parseInt(decoded.updateNewContainerId), parseInt(decoded.updateNewMoves));
+            } else if (decoded.updateType === "logout") {
+                logout2();
             } else if (decoded.updateType === "pieceDelete") {
                 updatePieceDelete(decoded.updatePlacementId);
             } else if (decoded.updateType === "rollDie") {
