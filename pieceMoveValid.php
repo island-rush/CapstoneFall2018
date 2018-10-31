@@ -165,26 +165,25 @@ if ($thingToEcho > 1) {
     echo -3;
 }
 
-if ($unitId == 9 || $unitId == 11 || $unitId == 12 ||
-    $unitId == 13 || $unitId == 14) {
+if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId == 14) {
     //if air unit
     $adjSam = array();
-    for ($i = 0; $i < 117; ++$i) {
+    for ($i = 0; $i < 117; $i++) {
         if ($_SESSION['dist'][$new_positionId][$i] <= 1) {
             array_push($adjSam, $i);
         }
     }
-    for ($i = 0; $i < sizeof($adjSam); ++$i) {
+    for ($i = 0; $i < sizeof($adjSam); $i++) {
         $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementUnitId = 10)';
         $query = $db->prepare($query);
         $query->bind_param("is", $adjSam[$i], $myTeam);
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
-//        $diceRoll = rand(1,6);
-        $diceRoll = 6;
+        $diceRoll = rand(1,6);
+//        $diceRoll = 6;
         $killed = 0;
-        for ($k = 0; $k < $num_results; ++$k) {
+        for ($k = 0; $k < $num_results; $k++) {
             if ($unitId != 13) {
                 if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
                     $killed = 1;
@@ -209,15 +208,17 @@ if ($unitId == 9 || $unitId == 11 || $unitId == 12 ||
 
             $newValue = 0;
             $updateType = "pieceTrash";
+            $Blue = "Blue";
+            $Red = "Red";
 
             $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
             $query = $db->prepare($query);
-            $query->bind_param("iissi", $gameId, $newValue, "Blue", $updateType, $placementId);
+            $query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
             $query->execute();
 
             $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
             $query = $db->prepare($query);
-            $query->bind_param("iissi", $gameId, $newValue, "Red", $updateType, $placementId);
+            $query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
             $query->execute();
 
             $Spec = "Spec";
