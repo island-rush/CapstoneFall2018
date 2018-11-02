@@ -27,7 +27,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
 
         $active = $r['gameActive'];
         if ($active == 0) {
-            header("location:login.php?err2=1");
+            header("location:login.php?err=1");
             exit;
         }
 
@@ -37,13 +37,13 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
         //Update the Database to say this team has joined
         if ($team == "Red") {
             if ($r['gameRedJoined'] == 1) {
-                header("location:login.php?err=1");
+                header("location:login.php?err=2");
                 exit;
             }
             $query = 'UPDATE games SET gameRedJoined = ? WHERE (gameId = ?)';
         } else {
             if ($r['gameBlueJoined'] == 1) {
-                header("location:login.php?err=1");
+                header("location:login.php?err=2");
                 exit;
             }
             $query = 'UPDATE games SET gameBlueJoined = ? WHERE (gameId = ?)';
@@ -103,5 +103,5 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     }
 
 } else {
-    header("location:login.php?err=1");
+    header("location:login.php?err=3");
 }

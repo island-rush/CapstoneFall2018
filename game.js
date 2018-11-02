@@ -24,6 +24,10 @@ function bodyLoader() {
         phpPositionGet.send();
     }
 
+    // if (gameBattleSection == "selectPieces") {
+    //     document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+    // }
+
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
     if (gameCurrentTeam === "Red") {
@@ -83,6 +87,7 @@ function bodyLoader() {
         // userFeedback("Disable phase button?");
         document.getElementById("battle_button").disabled = true;
         document.getElementById("battle_button").innerHTML = "Select Battle";
+        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
     }
 
     //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
@@ -210,7 +215,6 @@ function bodyLoader() {
         document.getElementById("newsBodyText").innerHTML = newsText;
         document.getElementById("newsBodySubText").innerHTML = newsEffectText;
         document.getElementById("popupBodyNews").style.display = "block";
-        document.getElementById("popupBodyHybrid").style.display = "none";
         document.getElementById("popupBodyHybridMenu").style.display = "none";
         document.getElementById("popup").style.display = "block";
         userFeedback("Click Next Phase to advance to next phase.");
@@ -238,13 +242,6 @@ function bodyLoader() {
                 document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
                 document.getElementById("popupBodyNews").style.display = "none";
                 document.getElementById("popupBodyHybridMenu").style.display = "block";
-                //testing
-                document.getElementById("popupBodyHybrid").style.display = "none";
-
-                document.getElementById("setRedRpoints").value = gameRedRpoints;
-                document.getElementById("setRedHpoints").value = gameRedHpoints;
-                document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                document.getElementById("setBlueHpoints").value = gameBlueHpoints;
                 document.getElementById("popup").style.display = "block";
             }
         };
@@ -391,7 +388,7 @@ function pieceDragenter(event, callingElement) {
     event.preventDefault();
     clearTimeout(pieceTimer);
     let unitName = callingElement.getAttribute("data-unitName");
-    if (unitName === "transport" || unitName === "aircraftCarrier") {
+    if (unitName === "Transport" || unitName === "AircraftCarrier") {
         //only dragenter to open up container pieces
         if (callingElement.parentNode.getAttribute("data-positionId") !== "118") {
             clearTimeout(pieceTimer);
@@ -773,7 +770,7 @@ function positionDrop(event, newContainerElement) {
 
                         let flagPositions = [55, 65, 75, 79, 85, 86, 90, 94, 97, 100, 103, 107, 111, 114];
                         let containerElement;
-                        let capturePieces = ["ArmyCompany", "ArtilleryBattery", "TankPlatoon", "MarinePlatoon", "MarineConvoy", "AttackHelo"];
+                        let capturePieces = ["ArmyCompany", "ArtilleryBattery", "TankPlatoon", "MarinePlatoon", "MarineConvoy"];
                         if (flagPositions.includes(parseInt(new_positionId)) && capturePieces.includes(unitName)) {
                             if (flagPositions.includes(parseInt(new_positionId))) {
                                 containerElement = newContainerElement;
@@ -942,7 +939,7 @@ function positionDrop(event, newContainerElement) {
                                         userFeedback("Enemy Team Prevented Drop");
                                     } else {
                                         if (movementCost == -10) {
-                                            userFeedback("SAM Delete");
+                                            userFeedback("SAM Destroyed that piece!");
                                         }
                                         else {
                                             userFeedback("This piece is out of moves!");
@@ -1008,7 +1005,7 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
                         && listPeople.includes(containerParent.childNodes[0].childNodes[0].getAttribute("data-unitName")));
             }
         } else {  //not Transport -> must be AircraftCarrier
-            return unitName === "fighter" && containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
+            return unitName === "FighterSquadron" && containerParent.childNodes[0].childNodes.length < 2;  // room for another fighter
         }
     } else {  //wasn't a container
         //if unit is a boat (carrier, destroyer, transport)
@@ -1103,7 +1100,6 @@ function changePhase() {
                     // NEWS ALERT PHASE
                     if (gamePhase === "1") {
                         document.getElementById("popupTitle").innerHTML = "News Alert";
-                        document.getElementById("popupBodyHybrid").style.display = "none";
                         document.getElementById("popupBodyHybridMenu").style.display = "none";
                         document.getElementById("popupBodyNews").style.display = "block";
                         document.getElementById("newsBodyText").innerHTML = newsText;
@@ -1147,13 +1143,7 @@ function changePhase() {
                             else{
                                 document.getElementById("popuTitle").innerHTML = "Hybrid Warfare Menu";
                                 document.getElementById("popupBodyNews").style.display = "none";
-                                // testing
-                                document.getElementById("popupBodyHybrid").style.display = "none";
                                 document.getElementById("popupBodyHybridMenu").style.display = "block";
-                                document.getElementById("setRedRpoints").value = gameRedRpoints;
-                                document.getElementById("setRedHpoints").value = gameRedHpoints;
-                                document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                                document.getElementById("setBlueHpoints").value = gameBlueHpoints;
                                 document.getElementById("popup").style.display = "block";
                             }
 
@@ -1246,7 +1236,7 @@ function battleChangeSection(newSection) {
         document.getElementById("whole_game").style.backgroundColor = "black";
         document.getElementById("battle_button").disabled = true;
         clearSelected();
-        clearSelectedPos();
+        // clearSelectedPos();
         if (document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) {
             document.getElementById("attackButton").disabled = false;
             let upperBox = document.getElementById("battle_outcome");
@@ -1364,6 +1354,8 @@ function battleChangeSection(newSection) {
         document.getElementById("phase_button").disabled = false;
         document.getElementById("undo_button").disabled = false;
 
+        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+
         let phpBattleEnding = new XMLHttpRequest();
         phpBattleEnding.open("POST", "battleEnding.php?gameId=" + gameId, true);
         phpBattleEnding.send();
@@ -1435,8 +1427,6 @@ function battleChangeSection(newSection) {
     let phpBattleUpdate = new XMLHttpRequest();
     phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected + "&gameBattleTurn=" + gameBattleTurn + "&posType=" + posType, true);
     phpBattleUpdate.send();
-
-
 }
 
 function battleSelectPieces() {
@@ -1464,7 +1454,7 @@ function battleSelectPieces() {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     clearHighlighted();
-    clearSelectedPos();
+    // clearSelectedPos();
     clearSelected();
     battleChangeSection("attack");
 }
@@ -1946,7 +1936,6 @@ function updateNextPhase() {
             if (gamePhase === "1") {
                 document.getElementById("popupTitle").innerHTML = "News Alert";
                 document.getElementById("popupBodyNews").style.display = "block";
-                document.getElementById("popupBodyHybrid").style.display = "none";
                 document.getElementById("popupBodyHybridMenu").style.display = "none";
                 document.getElementById("popup").style.display = "block";
             } else {
@@ -1970,13 +1959,7 @@ function updateNextPhase() {
                     else{
                         document.getElementById("popupTitle").innerHTML = "Hybrid Warfare Menu";
                         document.getElementById("popupBodyNews").style.display = "none";
-                        // testing
-                        document.getElementById("popupBodyHybrid").style.display = "none";
                         document.getElementById("popupBodyHybridMenu").style.display = "block";
-                        document.getElementById("setRedRpoints").value = gameRedRpoints;
-                        document.getElementById("setRedHpoints").value = gameRedHpoints;
-                        document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-                        document.getElementById("setBlueHpoints").value = gameBlueHpoints;
                         document.getElementById("popup").style.display = "block";
                     }
                 };
@@ -2086,7 +2069,7 @@ function updateBattlePiecesSelected(piecesSelectedHTML) {
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
     clearHighlighted();
-    clearSelectedPos();
+    // clearSelectedPos();
     clearSelected();
 
     document.getElementById("battleZonePopup").style.display = "block";
@@ -2256,25 +2239,6 @@ function userFeedback(text){
 }
 
 //--------------------------
-//Function for resetting the values of the hybrid tool inputs
-function hybridResetPoints(){
-    document.getElementById("setRedRpoints").value = gameRedRpoints;
-    document.getElementById("setRedHpoints").value = gameRedHpoints;
-    document.getElementById("setBlueRpoints").value = gameBlueRpoints;
-    document.getElementById("setBlueHpoints").value = gameBlueHpoints;
-}
-//Function for sumbitting the values of the hybrid tool to the database
-function hybridSetPoints(){
-    let newRedRpoints = document.getElementById("setRedRpoints").value;
-    let newRedHpoints = document.getElementById("setRedHpoints").value;
-    let newBlueRpoints = document.getElementById("setBlueRpoints").value;
-    let newBlueHpoints = document.getElementById("setBlueHpoints").value;
-    let setPoints = new XMLHttpRequest();
-    setPoints.open("GET", "hybridSetPoints.php?newRedRpoints=" + newRedRpoints + "&newRedHpoints=" + newRedHpoints + "&newBlueRpoints=" + newBlueRpoints + "&newBlueHpoints=" + newBlueHpoints, true);
-    setPoints.send();
-    document.getElementById("hybridSubmitPoints").value = "Submitted!";
-}
-
 function hybridDeletePiece() {
     //Rods From God
     let thisPoints = gameRedHpoints;
@@ -2408,17 +2372,6 @@ function hybridBank() {
         userFeedback("Not enough Hybrid Points");
     }
 
-}
-
-//Just for testing. remove once Hybrid is done
-function hybridToggle(){
-    if(document.getElementById("popupBodyHybrid").style.display === "block"){
-        document.getElementById("popupBodyHybrid").style.display = "none";
-        document.getElementById("popupBodyHybridMenu").style.display = "block";
-    }else{
-        document.getElementById("popupBodyHybrid").style.display = "block";
-        document.getElementById("popupBodyHybridMenu").style.display = "none";
-    }
 }
 //--------------------------
 

@@ -30,8 +30,7 @@ session_abort();
                         valid = false;
                     }
                     if(team !== 'Red' && team !== 'Blue' && team != 'Spectator'){
-                        document.getElementById('formFeedback').innerHTML = "ERROR: Team not set correctly," +
-                            " how'd you even do this?";
+                        document.getElementById('formFeedback').innerHTML = "ERROR: Team not set correctly. Ensure you are using Chrome.";
                         valid = false;
                     }
                     return valid;
@@ -72,8 +71,18 @@ session_abort();
                                         <td colspan="2">
                                             <div id="formFeedback" class="formError">
                                                 <?php
-                                                if (isset($_GET['err'])) {echo 'ERROR: Something Not Valid.'; }
-                                                if (isset($_GET['err2'])) {echo 'ERROR: This game is currently inactive. Choose to spectate or choose another game.'; }
+                                                if (isset($_GET['err'])) {
+                                                    $eType = (int) $_GET['err'];
+                                                    if ($eType == 1) {
+                                                        echo 'ERROR: Something Not Valid.';
+                                                    }
+                                                    if ($eType == 2) {
+                                                        echo 'ERROR: This player is already logged in. Have your teacher disable and re-enable the game.';
+                                                    }
+                                                    if ($eType == 3) {
+                                                        echo 'ERROR: Server did not receive all 3 inputs. (Section + Instructor + Team)';
+                                                    }
+                                                }
                                                 ?>
                                             </div>
                                         </td>
@@ -93,11 +102,11 @@ session_abort();
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Red or Blue Team</td>
+                                        <td>Team</td>
                                         <td>
+                                            <input type="radio" name="team" value="Spectator" checked> Spectator<br>
+                                            <input type="radio" name="team" value="Blue"> Blue<br>
                                             <input type="radio" name="team" value="Red"> Red<br>
-                                            <input type="radio" name="team" value="Blue" checked> Blue<br>
-                                            <input type="radio" name="team" value="Spectator"> Spectator<br>
                                         </td>
                                     </tr>
                                     <tr>

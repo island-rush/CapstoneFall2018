@@ -168,7 +168,7 @@ $u = $results->fetch_assoc();
 <body onload="bodyLoader();">
 <div id="whole_game">
     <div id="side_panel">
-        <div id="titlebar">Reinforcements</div>
+        <div id="titlebar">Reinforcement Shop</div>
         <div id="purchase_buttons_container">
             <div class="purchase_square Transport" title="Transport&#013;Cost: 8&#013;Moves: 2" id="Transport" data-unitCost="8" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square Submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="Submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
@@ -187,7 +187,7 @@ $u = $results->fetch_assoc();
             <div class="purchase_square Tanker" title="Tanker&#013;Cost: 11&#013;Moves: 5" id="Tanker" data-unitCost="11" data-unitId="14" data-unitTerrain="air" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square LandBasedSeaMissile" title="LandBasedSeaMissile&#013;Cost: 10" id="LandBasedSeaMissile" data-unitCost="10" data-unitId="15" data-unitTerrain="missile" onclick="piecePurchase(event, this);"></div>
         </div>
-        <div id="purchase_seperator">Shop-Inventory</div>
+        <div id="purchase_seperator">Inventory</div>
         <div id="shopping_things">
             <div id="purchased_container" data-positionType="purchased_container" data-positionId="118" data-positionContainerId="999999"><?php $positionId = 118; include("pieceDisplay.php"); ?></div>
             <div id="trashbox" ondragover="positionDragover(event, this);" ondrop="pieceTrash(event, this);"></div>
@@ -440,26 +440,6 @@ $u = $results->fetch_assoc();
                 <div id="newsBodyText">loading text...</div>
                 <div id="newsBodySubText">loading subtext...</div>
             </div>
-            <div id="popupBodyHybrid">
-                <form id="setPoints">
-                    <h3>Set Points</h3>
-                    <label for="setRedRpoints">Red R Points</label>
-                    <input type="number" id="setRedRpoints">
-                    <label for="setBlueRpoints">Blue R Points</label>
-                    <input type="number" id="setBlueRpoints">
-                    <br>
-                    <label for="setRedHpoints">Red HW Points</label>
-                    <input type="number" id="setRedHpoints">
-                    <label for="setBlueHpoints">Blue HW Points</label>
-                    <input type="number" id="setBlueHpoints">
-                    <br>
-                    <input id="hybridSubmitPoints" type="submit" onclick= "hybridSetPoints()" value="Submit new Point Values">
-                    <input type="reset" onclick="hybridResetPoints()"value="Reset Values to Current">
-                </form>
-                <hr>
-                <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none'; document.getElementById('hybridSubmitPoints').value = 'Submit new Point Values'">Close this popup</button>
-                <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
-            </div>
             <div id="popupBodyHybridMenu">
                 <div id="hybridInstructions">
                     <p>Instructions:<br>Select which Hybrid Warfare Option you would like to use. Mouse over the name for more information about what each option does.</p>
@@ -520,7 +500,6 @@ $u = $results->fetch_assoc();
                 </div>
                 <br>
                 <button id="popupHybridClose" onclick="document.getElementById('popup').style.display = 'none';" style="margin:0 auto; width:30%;">Close this popup</button>
-                <button id="hybridToggle" onclick="hybridToggle();">Toggle Tool</button>
             </div>
         </div>
     </div>

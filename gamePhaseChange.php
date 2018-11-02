@@ -938,7 +938,6 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
             $query = $db->prepare($query);
             $query->bind_param("iissii", $gameId, $newValue, $Spec, $updateType, $placementId, $placementMovesReset);
             $query->execute();
-
         }
     }
 }

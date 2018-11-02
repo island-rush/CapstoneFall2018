@@ -38,7 +38,7 @@ if ($islandFrom == -4) {
             (($myTeam == "Blue" && in_array($new_positionId, $bluePlaceValid)))) {
             //db query to see if there are any enemy team pieces there
             $goodPlace = 0;
-            if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId == 14) {
+            if ($unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId == 14) {
                 if (in_array($new_positionId, $airfieldPosition)) {
                     $goodPlace = 1;
                 }
