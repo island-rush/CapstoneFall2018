@@ -82,6 +82,9 @@ session_abort();
                                                     if ($eType == 3) {
                                                         echo 'ERROR: Server did not receive all 3 inputs. (Section + Instructor + Team)';
                                                     }
+                                                    if ($eType == 4) {
+                                                        echo 'Teacher Forced a Logout...';
+                                                    }
                                                 }
                                                 ?>
                                             </div>

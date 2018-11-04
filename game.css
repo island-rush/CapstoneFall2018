@@ -467,7 +467,9 @@ html, body {
 
 
 .highlighted {
-    background-color: rgb(236, 1, 255);
+    /*background-color: rgb(132, 255, 252);*/
+    box-shadow: 0px 0px 0px 1px #a1ffff inset;
+
 }
 
 /*----------------------------------------------------------------------------------------------*/

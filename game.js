@@ -261,9 +261,9 @@ function logout() {
         window.location.replace("logout.php");
     }
 }
-//TODO: post in the logout url why logging out, or message on that page about something (better user interaction)
+
 function logout2() {
-    window.location.replace("logout.php");
+    window.location.replace("logout.php?reason=1");
 }
 
 //---------------------------------------------------
@@ -529,13 +529,52 @@ function hideContainers(containerType) {
 }
 //---------------------------------------------------
 
+function waterdblclick(event, callingElement){
+    event.preventDefault();
+    let pos = parseInt(callingElement.getAttribute("data-positionId"));
+    showAdjacent(pos);
+    event.stopPropagation();
+}
+
+function landdblclick(event, callingElement) {
+    event.preventDefault();
+    let pos = parseInt(callingElement.getAttribute("data-positionId"));
+    showAdjacent(pos);
+    event.stopPropagation();
+}
+
+
+function showAdjacent(pos){
+    clearHighlighted();
+    let thisPos = pos;
+    let phpAvailableMoves = new XMLHttpRequest();
+    phpAvailableMoves.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {  //movement_undo echos a JSON with info about the new placement
+            // alert(this.responseText);
+            let decoded = JSON.parse(this.responseText);
+            for (let g = 0; g < decoded.length; g++) {
+                let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
+                gridThing.classList.add("highlighted");
+                // let parent = gridThing.parentNode;
+                // let parclass = parent.classList;
+                // if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
+                //     let islandsquare = document.getElementById(parclass[0]);
+                //     islandsquare.classList.add("highlighted");
+                // }
+            }
+        }
+    };
+    phpAvailableMoves.open("GET", "gameGetAdjacent.php?thisPos=" + thisPos, true);
+    phpAvailableMoves.send();
+    event.stopPropagation();
+}
 
 function islandClick(event, callingElement) {
     event.preventDefault();
     hideIslands();  //only 1 island visible at a time
     hideContainers("transportContainer");
     hideContainers("aircraftCarrierContainer");
-    clearHighlighted();
+    // clearHighlighted();
     if (gameBattleSection === "none" || gameBattleSection === "selectPos" || gameBattleSection === "selectPieces") {
         if (bankHybridState === "true") {
             if (callingElement.classList[2] !== myTeam) {
@@ -644,6 +683,8 @@ function hideIslands() {
 
 function landClick(event, callingElement) {
     event.preventDefault();
+
+    clearHighlighted();
 
     if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
