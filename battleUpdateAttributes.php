@@ -36,9 +36,9 @@ if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 1) {
     $stealthBomber = "StealthBomberSquadron";
     $tanker = "Tanker";
     $wasNotHit = 0;
-    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
+    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (placementTeamId = ?) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
     $query = $db->prepare($query);
-    $query->bind_param("ssssii", $fighter, $bomber, $stealthBomber, $tanker, $wasNotHit, $gameId);
+    $query->bind_param("sssssii", $myTeam, $fighter, $bomber, $stealthBomber, $tanker, $wasNotHit, $gameId);
     $query->execute();
     $results = $query->get_result();
     $num_results = $results->num_rows;
@@ -78,12 +78,12 @@ if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 1) {
 }
 
 
-if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 0 && $posType == "land") {
+if ($gameBattleSection == "counter" && $posType == "land") {
     $destroyer = "Destroyer";
     $wasNotHit = 0;
-    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
+    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (placementTeamId = ?) AND (unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
     $query = $db->prepare($query);
-    $query->bind_param("sii", $destroyer, $wasNotHit, $gameId);
+    $query->bind_param("ssii", $myTeam, $destroyer, $wasNotHit, $gameId);
     $query->execute();
     $results = $query->get_result();
     $num_results = $results->num_rows;

@@ -953,7 +953,6 @@ function positionDrop(event, newContainerElement) {
             };
             phpMoveCheck.open("POST", "pieceMoveValid.php?new_positionId=" + new_positionId + "&old_placementContainerId=" + old_placementContainerId + "&new_placementContainerId=" + new_placementContainerId + "&old_positionId=" + old_positionId + "&placementId=" + placementId + "&islandFrom=" + islandFrom + "&islandTo=" + islandTo + "&unitName=" + unitName + "&unitId=" + unitId, true);
             phpMoveCheck.send();
-
         } else {
             userFeedback("This piece cannot move here!");
         }
@@ -1797,7 +1796,7 @@ function updateMissileOwner(placementId) {
 
 function updateBattlePieceRemove(placementId) {
     document.querySelector("[data-battlePieceId='" + placementId + "']").remove();  //battlezone
-    userFeedback("Piece was destroyed.");
+    userFeedback("Piece(s) left battle.");
 }
 
 function updateRollDie(placementId) {

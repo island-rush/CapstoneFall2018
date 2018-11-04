@@ -180,22 +180,19 @@ if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId =
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
-        $diceRoll = rand(1,6);
-//        $diceRoll = 6;
         $killed = 0;
-        for ($k = 0; $k < $num_results; $k++) {
-            if ($unitId != 13) {
+
+
+        for ($k = 0; $k < $num_results; $k++){
+            //for each sam
+//            $diceRoll = rand(1, 6);
+            $diceRoll = 6;
+            $thisSam = $results->fetch_assoc();
+            $samPosition = (int) $thisSam['placementPositionId'];
+            if ($new_positionId == $samPosition || $unitId != 13) {
                 if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
                     $killed = 1;
                     break;
-                }
-            }
-            else {
-                if ($new_positionId > 55) {
-                    if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
-                        $killed = 1;
-                        break;
-                    }
                 }
             }
         }
