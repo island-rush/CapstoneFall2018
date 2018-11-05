@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `updates`(
 CREATE TABLE IF NOT EXISTS `newsAlerts`(
   `newsId` int(5) NOT NULL AUTO_INCREMENT,
   `newsGameId` int(5) NOT NULL,
-  `newsOrder` int(5) NOT NULL,  -- what index is this in the list of news alerts
+  `newsOrder` int(5) NOT NULL,  -- what index is this in the list of this game's news alerts
   `newsTeam` varchar(10) NOT NULL DEFAULT 'nothing', -- 'Red', 'Blue', 'All'. Defaults to 'nothing' for effect=nothing
   `newsPieces` varchar(350) NOT NULL DEFAULT 'nothing', -- "{transport: 0, submarine: 1, destroyer: 0, ...}"  a JSON string. -access with  newsPieces->>'$.tank'. Defaults to 'nothing' for effect=nothing
   `newsEffect` varchar(20) NOT NULL, -- 'disable', 'rollDie', 'nothing',  ...
