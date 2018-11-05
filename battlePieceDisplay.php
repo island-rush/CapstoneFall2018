@@ -14,7 +14,7 @@ if ($num_results > 0) {
         $wasHit = $r['battlePieceWasHit'];
         $battleTeam = $r['placementTeamId'];
 
-        echo "<div class='".$unitName." gamePiece ".$battleTeam."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$battlePieceId."' onclick='battlePieceClick(event, this)'></div>";
+        echo "<div class='".$unitName." gamePiece ".$battleTeam."' title='".$unitName."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$battlePieceId."' onclick='battlePieceClick(event, this)'></div>";
     }
 }
 unset($boxId);

@@ -12,7 +12,7 @@ $u = $results->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Island Rush Game V0.22 Alpha</title>
+    <title>Island Rush Game V0.23.1 Alpha</title>
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Round Recap'];
@@ -221,7 +221,7 @@ $u = $results->fetch_assoc();
                 <div id="user_feedback">User Feedback Loading...</div>
             </div>
             <div id="phase_button_container">
-                <button id="phase_button" disabled onclick="userFeedback('This action will switch to the next phase! (Unrelated to battle).'); setTimeout(function thing() {changePhase();}, 100);">Next Phase</button>
+                <button id="phase_button" disabled onclick="userFeedback('This action will switch to the next phase! (Unrelated to battle).'); setTimeout(function thing() {changePhase();}, 50);">Next Phase</button>
             </div>
         </div>
     </div>

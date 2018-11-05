@@ -476,14 +476,15 @@ function pieceMoveUndo() {
                         pieceToUndo.setAttribute("title", unitName + "\n" +
                             "Moves: " + decoded.new_placementCurrentMoves);
 
-
+                        userFeedback("Move undone.");
                     }
+                } else {
+                    userFeedback("Can't undo any more.");
                 }
             }
         };
         phpUndoRequest.open("GET", "pieceMoveUndo.php?gameId=" + gameId + "&gameTurn=" + gameTurn + "&gamePhase=" + gamePhase + "&myTeam=" + myTeam, true);
         phpUndoRequest.send();
-        userFeedback("Move undone.");
     } else {
         userFeedback("Move cannot be undone.")
     }
@@ -579,7 +580,7 @@ function showAdjacent(pos){
     };
     phpAvailableMoves.open("GET", "gameGetAdjacent.php?thisPos=" + thisPos, true);
     phpAvailableMoves.send();
-    userFeedback("These are the positions adjacent. Click another position to clear.");
+    userFeedback("These are the adjacent positions. Click another position to clear.");
     event.stopPropagation();
 }
 
@@ -766,13 +767,15 @@ function hideIslands() {
 function landClick(event, callingElement) {
     event.preventDefault();
 
-    userFeedback("Double Click to show Adjacent Positions.");
     // hideIslands();
     clearHighlighted();
 
     if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
+        userFeedback("Position Selected.");
+    } else {
+        userFeedback("Double Click to show Adjacent Positions.");
     }
 
     if (disableAirfieldHybridState === "true") {
@@ -819,8 +822,11 @@ function waterClick(event, callingElement) {
     if (gameBattleSection === "selectPos" && gameCurrentTeam === myTeam) {
         clearSelectedPos();
         callingElement.classList.add("selectedPos");
+        userFeedback("Position Selected");
+    } else {
+        userFeedback("Double Click to show Adjacent Positions.");
     }
-    userFeedback("Double Click to show Adjacent Positions.");
+
 
     event.stopPropagation();
 }
@@ -1349,7 +1355,7 @@ function battleChangeSection(newSection) {
         userFeedback("Select the pieces you want to attack with. They must be adjacent to the zone being attacked. Then Start the Battle!");
         //more visual indication of selecting pieces
     } else if (newSection === "attack") {
-        userFeedback("Attack the enemy by clicking on the unit you want to attack & the unit you want to attack with. Team's Pieces are color coded and placed into Attacker and Defender squares.");
+        // userFeedback("Attack the enemy by clicking on the unit you want to attack & the unit you want to attack with. Team's Pieces are color coded and placed into Attacker and Defender squares.");
         document.getElementById("whole_game").style.backgroundColor = "black";
         document.getElementById("battle_button").disabled = true;
         clearSelected();
@@ -1400,7 +1406,7 @@ function battleChangeSection(newSection) {
             }
         };
     } else if (newSection === "counter") {
-        userFeedback("Attack the enemy by clicking on the unit you want to attack & the unit you want to attack with. Team's Pieces are color coded and placed into Attacker and Defender squares.");
+        // userFeedback("Attack the enemy by clicking on the unit you want to attack & the unit you want to attack with. Team's Pieces are color coded and placed into Attacker and Defender squares.");
 
         if (gameCurrentTeam === myTeam) {
             document.getElementById("changeSectionButton").disabled = true;

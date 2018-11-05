@@ -40,7 +40,7 @@ for ($i = 0; $i < sizeof($sentArray); $i++) {
     $query->execute();
 
     //echo the html for the battlepiece
-    $piecesSelectedHTMLstring = $piecesSelectedHTMLstring."<div class='".$unitName." gamePiece ".$myTeam."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
+    $piecesSelectedHTMLstring = $piecesSelectedHTMLstring."<div class='".$unitName." gamePiece ".$myTeam."' title='".$unitName."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
 }
 
 echo $piecesSelectedHTMLstring;

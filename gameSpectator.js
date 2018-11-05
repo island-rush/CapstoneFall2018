@@ -568,12 +568,6 @@ function showAdjacent(pos){
             for (let g = 0; g < decoded.length; g++) {
                 let gridThing = document.querySelectorAll("[data-positionId='" + decoded[g] + "']")[0];
                 gridThing.classList.add("highlighted");
-                // let parent = gridThing.parentNode;
-                // let parclass = parent.classList;
-                // if (parclass[0] !== "gridblockLeftBig" && parclass[0] !== "gridblockRightBig") {
-                //     let islandsquare = document.getElementById(parclass[0]);
-                //     islandsquare.classList.add("highlighted");
-                // }
             }
         }
     };

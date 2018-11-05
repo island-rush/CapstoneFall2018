@@ -44,7 +44,7 @@ if ($num_results > 0) {
         $query2->bind_param("iiii", $placementId, $gameId, $pieceState, $wasHit);
         $query2->execute();
 
-        $htmlString = $htmlString."<div class='".$unitName." gamePiece ".$notMyTeam."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
+        $htmlString = $htmlString."<div class='".$unitName." gamePiece ".$notMyTeam."' title='".$unitName."' data-battlePieceWasHit='".$wasHit."' data-unitId='".$unitId."' data-unitName='".$unitName."' data-battlePieceId='".$placementId."' onclick='battlePieceClick(event, this)'></div>";
     }
 }
 
