@@ -467,7 +467,9 @@ html, body {
 
 
 .highlighted {
-    background-color: rgb(236, 1, 255);
+    /*background-color: rgb(132, 255, 252);*/
+    box-shadow: 0px 0px 0px 1px #a1ffff inset;
+
 }
 
 /*----------------------------------------------------------------------------------------------*/
@@ -485,7 +487,7 @@ html, body {
     background-color: #000000;
     background-position: center;
     z-index: 500;
-    margin-left: 12%;
+    margin-left: -27%;
     margin-top: 1%;
     /*//thing to change!*/
 }
@@ -603,7 +605,7 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgba(255, 0, 0, 0.55) inset;
 }
 .Blue{
-    box-shadow: 0px 0px 0px 1px rgba(30, 208, 255, 0.67) inset;
+    box-shadow: 0px 0px 0px 1px rgba(0, 111, 255, 0.67) inset;
 }
 .Nuke{
     box-shadow: 0px 0px 0px 1px rgb(255, 255, 255) inset;
@@ -621,7 +623,7 @@ html, body {
 .AttackHelo{background-image: url("resources/unitImages/attackHeli.png");}
 .SAM{background-image: url("resources/unitImages/sam.png");}
 .FighterSquadron{background-image: url("resources/unitImages/fighter.png");}
-.BomberSquadron{background-image: url("resources/unitImages/bomber.jpg");}
+.BomberSquadron{background-image: url("resources/unitImages/bomber.png");}
 .StealthBomberSquadron{background-image: url("resources/unitImages/stealthBomber.png");}
 .Tanker{background-image: url("resources/unitImages/tanker.png");}
 .LandBasedSeaMissile{background-image: url("resources/unitImages/missile.png");}

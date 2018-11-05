@@ -10,7 +10,7 @@ $islandTo = (int) $_REQUEST['islandTo'];
 $unitName = $_REQUEST['unitName'];
 $unitId = $_REQUEST['unitId'];
 
-$old_placementContainerId = (int) $_REQUEST['old_placementContainerId'];  //not used, don't care where come from, takes a move to board a container
+$old_placementContainerId = (int) $_REQUEST['old_placementContainerId'];  //not used?
 $new_placementContainerId = (int) $_REQUEST['new_placementContainerId'];
 
 $new_positionId = (int)$_REQUEST['new_positionId'];
@@ -20,6 +20,7 @@ $thingToEcho = 0;
 
 $redPlaceValid = array(55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 0, 13, 21, 20, 19);
 $bluePlaceValid = array(65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 8, 7, 6, 12, 18, 25, 31, 38, 45, 54);
+$airfieldPosition = array(56, 57, 78, 83, 89, 113, 116, 66, 68);
 
 $query = 'SELECT * FROM placements WHERE (placementId = ?)';
 $query = $db->prepare($query);
@@ -32,42 +33,38 @@ $placementCurrentMoves = $r['placementCurrentMoves'];
 
 //purchase container
 if ($islandFrom == -4) {
-    if ($myTeam == "Red") {
         //must have new postition id valid in list
-        if (in_array($new_positionId, $redPlaceValid)) {
+        if (($myTeam == "Red" && in_array($new_positionId, $redPlaceValid)) ||
+            (($myTeam == "Blue" && in_array($new_positionId, $bluePlaceValid)))) {
             //db query to see if there are any enemy team pieces there
-            $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementGameId = ?)';
-            $query = $db->prepare($query);
-            $query->bind_param("isi", $new_positionId, $myTeam, $gameId);
-            $query->execute();
-            $results = $query->get_result();
-            $num_results = $results->num_rows;
-            if ($num_results > 0) {
-                $thingToEcho = -5;
-            } else {
-                $thingToEcho = 0;
+            $goodPlace = 0;
+            if ($unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId == 14) {
+                if (in_array($new_positionId, $airfieldPosition)) {
+                    $goodPlace = 1;
+                }
+            }
+            else {
+                $goodPlace = 1;
+            }
+            if ($goodPlace == 1) {
+                $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementGameId = ?)';
+                $query = $db->prepare($query);
+                $query->bind_param("isi", $new_positionId, $myTeam, $gameId);
+                $query->execute();
+                $results = $query->get_result();
+                $num_results = $results->num_rows;
+                if ($num_results > 0) {
+                    $thingToEcho = -5;
+                } else {
+                    $thingToEcho = 0;
+                }
+            }
+            else {
+                $thingToEcho = -4;
             }
         } else {
             $thingToEcho = -4;
         }
-    } else {
-        //same as red
-        if (in_array($new_positionId, $bluePlaceValid)) {
-            $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementGameId = ?)';
-            $query = $db->prepare($query);
-            $query->bind_param("isi", $new_positionId, $myTeam, $gameId);
-            $query->execute();
-            $results = $query->get_result();
-            $num_results = $results->num_rows;
-            if ($num_results > 0) {
-                $thingToEcho = -5;
-            } else {
-                $thingToEcho = 0;
-            }
-        } else {
-            $thingToEcho = -4;
-        }
-    }
 } else {
     if ($_SESSION['dist'][$old_positionId][$new_positionId] <= $placementCurrentMoves) {
         $thingToEcho = $_SESSION['dist'][$old_positionId][$new_positionId];
@@ -168,38 +165,34 @@ if ($thingToEcho > 1) {
     echo -3;
 }
 
-if ($unitId == 9 || $unitId == 11 || $unitId == 12 ||
-    $unitId == 13 || $unitId == 14) {
+if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId == 14) {
     //if air unit
     $adjSam = array();
-    for ($i = 0; $i < 117; ++$i) {
+    for ($i = 0; $i < 117; $i++) {
         if ($_SESSION['dist'][$new_positionId][$i] <= 1) {
             array_push($adjSam, $i);
         }
     }
-    for ($i = 0; $i < sizeof($adjSam); ++$i) {
+    for ($i = 0; $i < sizeof($adjSam); $i++) {
         $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementUnitId = 10)';
         $query = $db->prepare($query);
         $query->bind_param("is", $adjSam[$i], $myTeam);
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
-//        $diceRoll = rand(1,6);
-        $diceRoll = 6;
         $killed = 0;
-        for ($k = 0; $k < $num_results; ++$k) {
-            if ($unitId != 13) {
+
+
+        for ($k = 0; $k < $num_results; $k++){
+            //for each sam
+//            $diceRoll = rand(1, 6);
+            $diceRoll = 6;
+            $thisSam = $results->fetch_assoc();
+            $samPosition = (int) $thisSam['placementPositionId'];
+            if ($new_positionId == $samPosition || $unitId != 13) {
                 if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
                     $killed = 1;
                     break;
-                }
-            }
-            else {
-                if ($new_positionId > 55) {
-                    if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
-                        $killed = 1;
-                        break;
-                    }
                 }
             }
         }
@@ -212,10 +205,17 @@ if ($unitId == 9 || $unitId == 11 || $unitId == 12 ||
 
             $newValue = 0;
             $updateType = "pieceTrash";
+            $Blue = "Blue";
+            $Red = "Red";
 
             $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
             $query = $db->prepare($query);
-            $query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
+            $query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
+            $query->execute();
+
+            $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+            $query = $db->prepare($query);
+            $query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
             $query->execute();
 
             $Spec = "Spec";

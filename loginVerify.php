@@ -21,13 +21,53 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
 
     if ($team == "Spectator") {
         //unlimited spectators, just go there and get updates?
+
+        $filename = 'resources/gameData/adjMatrix.csv';
+        if (($handle = fopen($filename, "r")) !== FALSE) {
+            $counter = 0;
+            while(($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+                $arraySize = count($data);
+                for ($i=0; $i < $arraySize; $i++) {
+                    $_SESSION['dist'][$counter][$i] = $data[$i];
+                }
+                $counter++;
+            }
+        }
+        fclose($handle);
+
+        for ($k = 0; $k < $arraySize; ++$k) {
+            for ($i = 0; $i < $arraySize; ++$i) {
+                for ($j = 0; $j < $arraySize; ++$j) {
+                    if (($_SESSION['dist'][$i][$k] * $_SESSION['dist'][$k][$j] != 0) && ($i != $j)) {
+                        if (($_SESSION['dist'][$i][$k] + $_SESSION['dist'][$k][$j] < $_SESSION['dist'][$i][$j]) || ($_SESSION['dist'][$i][$j] == 0)) {
+                            $_SESSION['dist'][$i][$j] = $_SESSION['dist'][$i][$k] + $_SESSION['dist'][$k][$j];
+                        }
+                    }
+                }
+            }
+        }
+
+        $filename2 = 'resources/gameData/attackMatrix.csv';
+        if (($handle = fopen($filename2, "r")) !== FALSE) {
+            $counter = 0;
+            while(($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+                $arraySize = count($data);
+                for ($i=0; $i < $arraySize; $i++) {
+                    $_SESSION['attack'][$counter][$i] = $data[$i];
+                }
+                $counter++;
+            }
+        }
+        fclose($handle);
+
+
         header("location:gameSpectator.php");
         exit;
     } else {
 
         $active = $r['gameActive'];
         if ($active == 0) {
-            header("location:login.php?err2=1");
+            header("location:login.php?err=1");
             exit;
         }
 
@@ -37,13 +77,13 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
         //Update the Database to say this team has joined
         if ($team == "Red") {
             if ($r['gameRedJoined'] == 1) {
-                header("location:login.php?err=1");
+                header("location:login.php?err=2");
                 exit;
             }
             $query = 'UPDATE games SET gameRedJoined = ? WHERE (gameId = ?)';
         } else {
             if ($r['gameBlueJoined'] == 1) {
-                header("location:login.php?err=1");
+                header("location:login.php?err=2");
                 exit;
             }
             $query = 'UPDATE games SET gameBlueJoined = ? WHERE (gameId = ?)';
@@ -103,5 +143,5 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     }
 
 } else {
-    header("location:login.php?err=1");
+    header("location:login.php?err=3");
 }

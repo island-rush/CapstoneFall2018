@@ -20,7 +20,10 @@ $db->close();
 
 session_unset();  //not sure capabilities of this yet (or how to fully delete the session stuff)
 
+if (isset($_REQUEST['reason'])) {
+    header("location:index.php?err=4");
+} else {
+    header("location:index.php");
+}
 
-
-header("location:index.php");
 exit();
