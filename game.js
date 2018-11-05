@@ -1934,6 +1934,7 @@ function updateBattlePieceRemove(placementId) {
 
 function updateRollDie(placementId) {
     document.querySelector("[data-placementId='" + placementId + "']").remove();  //mainboard
+    userFeedback("Piece was destroyed");
 }
 
 function updateIslandChange(islandIdentifier, newTeam) {
@@ -1955,6 +1956,7 @@ function updateIslandChange(islandIdentifier, newTeam) {
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
     document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
+    userFeedback("Enemy selected attack pieces.");
 }
 
 function updatePiecePurchase(placementId, unitId, updateTeam) {
@@ -2006,6 +2008,8 @@ function updatePieceMove(placementId, newPositionId, newContainerId, newMoves){
     let unitName = pieceToMove.getAttribute("data-unitName");
     pieceToMove.setAttribute("title", unitName + "\n" +
         "Moves: " + newMoves);
+    userFeedback("Current player moved a piece.");
+
 }
 
 function updatePieceDelete(placementId) {
