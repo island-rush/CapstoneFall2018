@@ -222,10 +222,10 @@ $u = $results->fetch_assoc();
                 <button id="battle_button" disabled>Loading...</button>
             </div>
             <div id="user_feedback_container">
-                <div id="user_feedback">User Feedback...</div>
+                <div id="user_feedback">User Feedback Loading...</div>
             </div>
             <div id="phase_button_container">
-                <button id="phase_button" disabled onclick="changePhase();">Next Phase</button>
+                <button id="phase_button" disabled onclick="userFeedback('This action will switch to the next phase! (Unrelated to battle).'); setTimeout(function thing() {changePhase();}, 100);">Next Phase</button>
             </div>
         </div>
     </div>
