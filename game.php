@@ -13,7 +13,6 @@ $u = $results->fetch_assoc();
 <html>
 <head>
     <title>Island Rush Game V0.22 Alpha</title>
-<!--    <link rel="shortcut icon" type="image/x-icon" href="http://localhost/favicon.ico">-->
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Round Recap'];
@@ -39,8 +38,6 @@ $u = $results->fetch_assoc();
             }
             echo json_encode($arr2);
             ?>;
-
-        // var unitsMoves = [2, 2, 2, 2, 1, 1, 2, 1, 2, 3, 1, 4, 6, 5, 5, 10];
 
         var gameId = "<?php echo $_SESSION['gameId']; ?>";
         var gamePhase = "<?php echo $u['gamePhase']; ?>";
@@ -162,7 +159,6 @@ $u = $results->fetch_assoc();
         var newsEffect = "<?php echo $r3['newsEffect'] ?>";
     </script>
     <script src="game.js"></script>
-<!--    <script src="d6.js"></script>-->
 </head>
 
 <body onload="bodyLoader();">
