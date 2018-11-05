@@ -10,7 +10,7 @@ $islandTo = (int) $_REQUEST['islandTo'];
 $unitName = $_REQUEST['unitName'];
 $unitId = $_REQUEST['unitId'];
 
-$old_placementContainerId = (int) $_REQUEST['old_placementContainerId'];  //not used, don't care where come from, takes a move to board a container
+$old_placementContainerId = (int) $_REQUEST['old_placementContainerId'];  //not used?
 $new_placementContainerId = (int) $_REQUEST['new_placementContainerId'];
 
 $new_positionId = (int)$_REQUEST['new_positionId'];

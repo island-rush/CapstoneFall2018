@@ -1781,6 +1781,8 @@ function waitForUpdate() {
 
             if (decoded.updateType === "pieceMove") {
                 updatePieceMove(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewPositionId), parseInt(decoded.updateNewContainerId), parseInt(decoded.updateNewMoves));
+            } else if (decoded.updateType === "updateMoves2") {
+                updateMovesAll();
             } else if (decoded.updateType === "logout") {
                 logout2();
             } else if (decoded.updateType === "pieceDelete") {
@@ -1892,6 +1894,18 @@ function updateMoves(placementId, newMoves) {
     let unitName = pieceToUpdate.getAttribute("data-unitName");
     pieceToUpdate.setAttribute("title", unitName + "\n" +
         "Moves: " + newMoves);
+}
+
+function updateMovesAll() {
+    let allPieces = document.querySelectorAll("[data-placementTeamId='" + gameCurrentTeam + "']");
+    for (let x = 0; x < allPieces.length; x++) {
+        let pieceToUpdate = allPieces[x];
+        let pieceToUpdateName = pieceToUpdate.getAttribute("data-unitName");
+        let newMoves = unitsMoves[pieceToUpdateName];
+        pieceToUpdate.setAttribute("data-placementCurrentMoves", newMoves);
+        pieceToUpdate.setAttribute("title", pieceToUpdateName + "\n" +
+            "Moves: " + newMoves);
+    }
 }
 
 function updatePieceMove(placementId, newPositionId, newContainerId, newMoves){
