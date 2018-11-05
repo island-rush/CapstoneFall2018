@@ -37,7 +37,7 @@ $preparedQuery = $db->prepare($query);
 $preparedQuery->bind_param("ii", $gameId, $zero);
 $preparedQuery->execute();
 // whats the lowest order (for min values on order inputs)
-$firstOrder = $preparedQuery->get_result()->fetch_assoc();
+$firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
 
 
 ?>
@@ -142,7 +142,7 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc();
     <title>Island Rush Admin</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript">
-        let gameID = "<?php echo $gameId; ?>";
+        let gameId = "<?php echo $gameId; ?>";
         let section = "<?php echo $section; ?>";
         let instructor = "<?php echo $instructor; ?>";
 
@@ -164,21 +164,27 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc();
                 if(confirm("This will delete all information for the game and set it back to the initial start state of the game. " +
                     "\n\n   ARE YOU SURE YOU WANT TO RESET?")){
                     let phpGamePopulate = new XMLHttpRequest();
-                    phpGamePopulate.open("POST", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
+                    phpGamePopulate.open("GET", "gamePopulate.php?section=" + section + "&instructor=" + instructor, true);
                     phpGamePopulate.send();
 
                     document.getElementById("populateButton").disabled = true;
+                    setTimeout(function thingy() {window.location.replace("admin.php");}, 1200);
                 }
             }
         }
 
         function swapNewsAlerts(){
-            let swap1order = document.getElementById("swap1");
-            let swap2order = document.getElementById("swap2");
+            let swap1order = document.getElementById("swap1").value;
+            let swap2order = document.getElementById("swap2").value;
+
+            // alert(swap1order);
+            // alert(swap2order);
+            // alert(gameId);
 
             let phpSwapNewsAlerts  = new XMLHttpRequest();
-            phpSwapNewsAlerts.open("POST", "adminSwapNews.php?game=" + gameID + "&swap1order=" + swap1order + "&swap2order=" + swap2order, true);
+            phpSwapNewsAlerts.open("GET", "adminSwapNews.php?gameId=" + gameId + "&swap1order=" + swap1order + "&swap2order=" + swap2order, true);
             phpSwapNewsAlerts.send();
+            setTimeout(function thingy() {window.location.replace("admin.php");}, 1200);
         }
 
         </script>
@@ -226,26 +232,25 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc();
     <hr>
     <h3>News Alerts for this game:</h3>
     <div id="newsAlertsContainer">
-
-        <form id="swapNewsForm">
-            <div>Use this form to swap two news alerts. Refresh the page to show the most up-to-date news alerts for this game.</div>
-            <label>Swap #</label>
-            <input type="number" id="swap1" required min="<?php echo $firstOrder; ?>" max="<?php echo $news_rows+1; ?>">
-<!--            --><?php //$first = $newsAlerts->fetch_assoc()['newsOrder']; echo $first+1; ?>
-            <label> with #</label>
-            <input type="number" id="swap2" required min="<?php echo $firstOrder; ?>" max="<?php echo $news_rows+1; ?>">
-            <input type="submit" onclick="swapNewsAlerts()">
-        </form>
-        <!-- Setup the table for the news alerts    -->
-        <table id="newsAlertTable">
-            <tr>
-                <th>Order</th>
-                <th>Name</th>
-                <th>Effect</th>
-            </tr>
         <!-- populate the table with UNUSED news alerts for this game, using the php above.-->
         <?php
         if ($news_rows > 0){
+            // Setup the table for the news alerts
+            echo "
+            <div id='swapNewsForm'>
+                <div>Use this form to swap two news alerts. Refresh the page to show the most up-to-date news alerts for this game.</div>
+                <label>Swap #</label>
+                <input type='number' id='swap1' required min='".$firstOrder."' max='".$news_rows."'>
+                <label> with #</label>
+                <input type='number' id='swap2' required min='".$firstOrder."' max='".$news_rows."'>
+                <button onclick='swapNewsAlerts();'>swap</button>
+            </div>
+            <table id='newsAlertTable'>
+                <tr>
+                    <th>Order</th>
+                    <th>Name</th>
+                    <th>Effect</th>
+                </tr>";
             // loop through all news alerts
             for($i =0; $i < $news_rows; $i++){
                 $news = $newsAlerts->fetch_assoc();
@@ -258,6 +263,9 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc();
                         <td>".$effect."</td>
                     </tr>";
             }
+        }
+        else {
+            echo "<h3>Notice: There are no News Alerts because the game is empty/not created. <br>Use the RESET GAME button above to populate the game.</h3>";
         }
         ?>
         </table>
