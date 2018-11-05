@@ -1,18 +1,33 @@
-<!DOCTYPE html>
-<html>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<style>
-    body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
-<body class="w3-light-grey">
+<?php
+//session stuff here if applicable (not so much for rule book)
+?>
 
-<!-- w3-content defines a container for fixed size centered content,
-and is wrapped around the whole page content, except for the footer in this example -->
-<div class="w3-content" style="max-width:1400px">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Island Rush Rules</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript">
+        //functions here for administrating this page
+    </script>
+    <style>
+        h3{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Island Rush Rules</h1>
+
+<nav>
+    <a href="index.php">Home</a>
+    <a href="./login.php">Play the Game</a>
+    <a href="adminLogin.php">Teacher Admin</a>
+    <a class="active" href="ruleBook.php">Rule Book</a>
+</nav>
+
+<div class="w3-content" style="width:80%; margin: auto;">
 
     <!-- Header -->
     <header class="w3-container w3-center w3-padding-32">
@@ -84,7 +99,7 @@ and is wrapped around the whole page content, except for the footer in this exam
                     </p>
                     <p>
                         <b>Marines Commander:</b>
-                            You have been selected and worked your way up through the ranks of some of the roughest and toughest men and women in the world: the Marines. As the Marine Commander, you understand that many of your Marines will be sent into perilous situations but their bravery and courage will carry themselves and their comrades home. Their primary duty is to follow you while you bear the burden of leading them through the planning and all strategies that your branch will take part in. Do not forget that these resources have been placed under your command and are completely your responsibility. This is your chance to lead the few and the proud.
+                        You have been selected and worked your way up through the ranks of some of the roughest and toughest men and women in the world: the Marines. As the Marine Commander, you understand that many of your Marines will be sent into perilous situations but their bravery and courage will carry themselves and their comrades home. Their primary duty is to follow you while you bear the burden of leading them through the planning and all strategies that your branch will take part in. Do not forget that these resources have been placed under your command and are completely your responsibility. This is your chance to lead the few and the proud.
                     </p>
                     <p>
                         <b>Co-Commanders:</b>
@@ -126,7 +141,7 @@ and is wrapped around the whole page content, except for the footer in this exam
                                       another round of battle, or retreat.</span></li>
 
 
-                        <span><li><b>Movement:</b> Units may be moved up, down, left, right, or in any of the four
+                    <span><li><b>Movement:</b> Units may be moved up, down, left, right, or in any of the four
                                         diagonal directions.  The most basic explanation is that moving into a different
                                         zone or territory counts as one movement. In this way, each movement from one
                                         grid space to the next counts as a move, and each movement from one section
@@ -281,7 +296,7 @@ Transports may only move one set of units (as defined above) per turn.</span>
                     </li>
 
                     <li class="w3-padding-16">
-                        <span class="w3-large"><img src="resources/unitImages/bomber.jpg" height="65" width="65"><b>Bomber Squadron:</b></span><br>
+                        <span class="w3-large"><img src="resources/unitImages/bomber.png" height="65" width="65"><b>Bomber Squadron:</b></span><br>
                         <span>Consists of a 2 ship of bombers and can move 6 spaces.</span>
                     </li>
 
@@ -316,7 +331,5 @@ Transports may only move one set of units (as defined above) per turn.</span>
 
     <!-- END w3-content -->
 </div>
-
-
 </body>
 </html>
