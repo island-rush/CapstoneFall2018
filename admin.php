@@ -192,17 +192,6 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             }
         }
 
-        function swapNewsAlerts(){
-            let swap1order = document.getElementById("swap1").value;
-            let swap2order = document.getElementById("swap2").value;
-
-            // let phpSwapNewsAlerts  = new XMLHttpRequest();
-            // phpSwapNewsAlerts.open("GET", "adminSwapNews.php?gameId=" + gameId + "&swap1order=" + swap1order + "&swap2order=" + swap2order, true);
-            // phpSwapNewsAlerts.send();
-
-            // setTimeout(function thingy() {window.location.replace("admin.php");}, 7000);
-
-        }
 
         function populateAllGames() {
             if (confirm("Are you sure you want to completely reset all games?")) {
@@ -295,7 +284,7 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
                 <input name='swap1order' type='number' id='swap1' required min='".$firstOrder."' max='".$news_rows."'>
                 <label> with #</label>
                 <input name='swap2order' type='number' id='swap2' required min='".$firstOrder."' max='".$news_rows."'>
-                <button onclick='swapNewsAlerts();'>swap</button>
+                <input type='submit' value='swap'>
             </form>
             <table id=\'newsAlertTable\'>
                 <tr>

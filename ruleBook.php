@@ -67,9 +67,9 @@
                 </div>
 
                 <div class="w3-container">
-                    <p><img src="resources/mapImages/grid_special_island1.png" height="50" width="50"><b>Yellow Triangle:</b> Indicates the presence of an airfield
+                    <p><img src="resources/mapImages/grid_special_island1.png" height="100" width="100"><b>Yellow Triangle:</b> Indicates the presence of an airfield
                     </p>
-                    <p><img src="resources/mapImages/grid_special_island2.png" height="50" width="50"><b>Red Square:</b> Indicates the presence of a Land Based Sea Missile Site
+                    <p><img src="resources/mapImages/grid_special_island2.png" height="100" width="100"><b>Red Square:</b> Indicates the presence of a Land Based Sea Missile Site
                     </p>
 
                 </div>
@@ -141,13 +141,13 @@
                                       another round of battle, or retreat.</span></li>
 
 
-                    <span><li><b>Movement:</b> Units may be moved up, down, left, right, or in any of the four
+                    <li><b>Movement:</b> Units may be moved up, down, left, right, or in any of the four
                                         diagonal directions.  The most basic explanation is that moving into a different
                                         zone or territory counts as one movement. In this way, each movement from one
                                         grid space to the next counts as a move, and each movement from one section
                                         of an island to another counts as one movement.  You can only drag pieces on
                                         the board one zone at a time. Moving onto a transport or off of a transport
-                                      counts as one movement each.</span></li>
+                                      counts as one movement each.</li>
 
                     <li><span><img src="resources/mapImages/battle_zone.png" height="400" width="300"></span></li>
                     <li><b>Battle Zone:</b>  The battle zone is where all combat occurs.  When a battle starts,(described above) all defending units in the space where combat is involved and selected attacking units will be moved into the corresponding “unused unit” sections of the battle zone.  To attack a unit, click both units to move them into the center of the battle zone. Once a unit has attacked, it is then moved into the “used unit” section. The attacker, no matter the team, is on the right side of the Battle Zone.</span></li>
