@@ -1896,10 +1896,12 @@ function waitForUpdate() {
                 updateMissileOwner(parseInt(decoded.updatePlacementId));
             }
 
+            lastUpdateId = decoded.lastUpdateId;
+
             updateWait = window.setTimeout("waitForUpdate()", waitTime);
         }
     };
-    phpUpdateBoard.open("GET", "updateBoardSpectator.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database
+    phpUpdateBoard.open("GET", "updateBoardSpectator.php?gameId=" + gameId + "&myTeam=" + myTeam + "&lastUpdateId=" + lastUpdateId, true);  // removes the element from the database
     phpUpdateBoard.send();
 }
 
@@ -1945,10 +1947,10 @@ function updateBattlePieceMove(battlePieceId, battlePieceState) {
     document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
 }
 
-function updatePiecePurchase(placementId, unitId, updateTeam) {
+function updatePiecePurchase(placementId, unitId) {
     let purchaseContainer = document.getElementById("purchased_container");
     let echoString = "";
-    echoString += "<div class='" + unitNames[unitId] + " gamePiece " + updateTeam + "' title='" + unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitNames[unitId]] + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitNames[unitId]] + "' data-placementContainerId='999999' data-placementTeamId='" + updateTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
+    echoString += "<div class='" + unitNames[unitId] + " gamePiece " + gameCurrentTeam + "' title='" + unitNames[unitId] + "&#013;Moves: " + unitsMoves[unitNames[unitId]] + "' data-placementId='" + placementId + "' data-placementBattleUsed='0' data-placementCurrentMoves='" + unitsMoves[unitNames[unitId]] + "' data-placementContainerId='999999' data-placementTeamId='" + gameCurrentTeam + "' data-unitName='" + unitNames[unitId] + "' data-unitId='" + unitId + "' draggable='true' ondragstart='pieceDragstart(event, this)' onclick='pieceClick(event, this);' ondragenter='pieceDragenter(event, this);' ondragleave='pieceDragleave(event, this);'>";
     if (unitNames[unitId] === "Transport" || unitNames[unitId] === "AircraftCarrier") {
         let classthing;
         if (unitNames[unitId] === "Transport") {
@@ -1956,7 +1958,7 @@ function updatePiecePurchase(placementId, unitId, updateTeam) {
         } else {
             classthing = "aircraftCarrierContainer";
         }
-        echoString += "<div class='" + classthing + " " + updateTeam + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
+        echoString += "<div class='" + classthing + " " + gameCurrentTeam + "' data-containerPopped='false' data-positionContainerId='" + placementId + "' data-positionType='" + classthing + "' ondragleave='containerDragleave(event, this);'  ondragover='positionDragover(event, this);' ondrop='positionDrop(event, this);'></div>";
     }
     echoString += "</div>";  // end the overall piece
     purchaseContainer.innerHTML += echoString;
@@ -2363,6 +2365,8 @@ function updateBattleSection() {
                 document.getElementById("used_defender").innerHTML = null;
                 document.getElementById("center_attacker").innerHTML = null;
                 document.getElementById("center_defender").innerHTML = null;
+
+                document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
             }
         }
     };

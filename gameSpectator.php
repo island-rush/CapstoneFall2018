@@ -424,16 +424,29 @@ $u = $results->fetch_assoc();
                 <button id="changeSectionButton" disabled>Loading...</button>
             </div>
             <div id="battleActionPopup">
-                <div id="lastBattleMessage">Loading...</div>
-                <button id="actionPopupButton" disabled>Loading...</button>
-                <div id="dice_image" class="test">
-                    <div id="dice_image1" class="dice_image"></div>
-                    <div id="dice_image2" class="dice_image"></div>
-                    <div id="dice_image3" class="dice_image"></div>
-                    <div id="dice_image4" class="dice_image"></div>
-                    <div id="dice_image5" class="dice_image"></div>
-                    <div id="dice_image6" class="dice_image"></div>
+                <div id="battleActionPopupContainer">
+                    <div id="dice_image_container">
+                        <div id="dice_image1" class="dice_image"></div>
+                        <div id="dice_image2" class="dice_image"></div>
+                        <div id="dice_image3" class="dice_image"></div>
+                        <div id="dice_image4" class="dice_image"></div>
+                        <div id="dice_image5" class="dice_image"></div>
+                        <div id="dice_image6" class="dice_image"></div>
+                    </div>
+                    <div id="lastBattleMessage">Loading...</div>
+                    <button id="actionPopupButton" disabled>Loading...</button>
                 </div>
+
+<!--                <div id="lastBattleMessage">Loading...</div>-->
+<!--                <button id="actionPopupButton" disabled>Loading...</button>-->
+<!--                <div id="dice_image" class="test">-->
+<!--                    <div id="dice_image1" class="dice_image"></div>-->
+<!--                    <div id="dice_image2" class="dice_image"></div>-->
+<!--                    <div id="dice_image3" class="dice_image"></div>-->
+<!--                    <div id="dice_image4" class="dice_image"></div>-->
+<!--                    <div id="dice_image5" class="dice_image"></div>-->
+<!--                    <div id="dice_image6" class="dice_image"></div>-->
+<!--                </div>-->
             </div>
         </div>
         <div id="popup">

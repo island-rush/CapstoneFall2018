@@ -3,9 +3,9 @@ set_time_limit(0);  //to wait forever (default timeout is 30 seconds)
 include("db.php");
 
 //variables from the request
-$gameId = $_REQUEST['gameId'];
+$gameId = (int) $_REQUEST['gameId'];
 $myTeam = $_REQUEST['myTeam'];  //not used -> in the sql statement, looking for all
-$lastUpdateId = $_REQUEST['lastUpdateId'];
+$lastUpdateId = (int) $_REQUEST['lastUpdateId'];
 //$allTeam = "All";
 
 $updateId = 0;
