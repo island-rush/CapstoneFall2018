@@ -1034,3 +1034,179 @@ $query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsTeam, newsPieces, n
 $query = $db->prepare($query);
 $query->bind_param("iisssiss",$gameId, $order, $blue, $manualPieces, $disable, $zone, $text, $effectText);
 $query->execute();
+
+$order = 29;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 30;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 31;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 32;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 33;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 34;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 35;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 36;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 37;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 38;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 39;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 40;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 41;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 42;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 43;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 44;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 45;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 46;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 47;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 48;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 49;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();
+
+$order = 50;
+$text = "Out of News Alerts";
+$effectText = "Didn't anticipate getting this far. (Teachers do not swap this alert).";
+$query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, newsEffectText) VALUES(?,?,?,?,?)';
+$query = $db->prepare($query);
+$query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
+$query->execute();

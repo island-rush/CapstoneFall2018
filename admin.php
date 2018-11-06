@@ -122,7 +122,8 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             /*box-shadow: inset 0 1px #FFCCBC, 0 1px 2px rgba(0, 0, 0, 0.2);*/
         }
         .btn {
-            display: inline-block;
+            /*position: ;*/
+            display: block;
             margin-bottom: 0;
             text-align: center;
             text-transform: uppercase;
@@ -136,6 +137,7 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             border: 1px solid transparent;
             text-decoration: none;
             user-select: none;
+            /*z-index: 0;*/
         }
     </style>
     <title>Island Rush Admin</title>
@@ -245,11 +247,11 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
     <label  class="switch">
         <input id="activeToggle" type="checkbox" ';
         if ($gameChecked === 1){
-            echo "checked";
+            echo "checked ";
         }
 
         echo 'onclick="setActive()">
-        <span class="slider round"></span>
+        <span id="slider1" class="slider round"></span>
     </label>
     <span>Active</span>
 

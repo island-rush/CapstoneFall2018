@@ -21,7 +21,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     }
 
 
-    $r= $results->fetch_assoc();
+    $r = $results->fetch_assoc();
 
     $_SESSION['myTeam'] = $team;
     $_SESSION['gameId'] = $r['gameId'];
@@ -75,7 +75,7 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
 
         $active = $r['gameActive'];
         if ($active == 0) {
-            header("location:login.php?err=1");
+            header("location:login.php?err=6");
             exit;
         }
 

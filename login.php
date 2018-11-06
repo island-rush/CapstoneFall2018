@@ -88,6 +88,9 @@ session_abort();
                                                     if ($eType == 5) {
                                                         echo 'Game does not exist, check correct section and lastname';
                                                     }
+                                                    if ($eType == 6){
+                                                        echo 'Game is currently inactive.';
+                                                    }
                                                 }
                                                 ?>
                                             </div>
