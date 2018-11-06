@@ -196,11 +196,12 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             let swap1order = document.getElementById("swap1").value;
             let swap2order = document.getElementById("swap2").value;
 
-            let phpSwapNewsAlerts  = new XMLHttpRequest();
-            phpSwapNewsAlerts.open("GET", "adminSwapNews.php?gameId=" + gameId + "&swap1order=" + swap1order + "&swap2order=" + swap2order, true);
-            phpSwapNewsAlerts.send();
+            // let phpSwapNewsAlerts  = new XMLHttpRequest();
+            // phpSwapNewsAlerts.open("GET", "adminSwapNews.php?gameId=" + gameId + "&swap1order=" + swap1order + "&swap2order=" + swap2order, true);
+            // phpSwapNewsAlerts.send();
 
-            setTimeout(function thingy() {window.location.replace("admin.php");}, 7000);
+            // setTimeout(function thingy() {window.location.replace("admin.php");}, 7000);
+
         }
 
         function populateAllGames() {
@@ -287,12 +288,13 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
         if ($news_rows > 0){
             // Setup the table for the news alerts
             echo "
-            <form id='swapNewsForm'>
+            <form id='swapNewsForm' method='post' action='adminSwapNews.php'>
                 <div>Use this form to swap two news alerts. Refresh the page to show the most up-to-date news alerts for this game.</div>
                 <label>Swap #</label>
-                <input type='number' id='swap1' required min='".$firstOrder."' max='".$news_rows."'>
+                <input type='hidden' name='gameId' id='gameId' value='".$gameId."'>
+                <input name='swap1order' type='number' id='swap1' required min='".$firstOrder."' max='".$news_rows."'>
                 <label> with #</label>
-                <input type='number' id='swap2' required min='".$firstOrder."' max='".$news_rows."'>
+                <input name='swap2order' type='number' id='swap2' required min='".$firstOrder."' max='".$news_rows."'>
                 <button onclick='swapNewsAlerts();'>swap</button>
             </form>
             <table id=\'newsAlertTable\'>

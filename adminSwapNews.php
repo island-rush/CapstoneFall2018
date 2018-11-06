@@ -1,9 +1,9 @@
 <?php
 include("db.php");
 // Get the news alerts to swap from the POST
-$gameId = (int) $_REQUEST['gameId'];
-$old1order = (int) $_REQUEST['swap1order'];   //2
-$old2order = (int) $_REQUEST['swap2order'];   //3
+$gameId = (int) $_POST['gameId'];
+$old1order = (int) $_POST['swap1order'];   //2
+$old2order = (int) $_POST['swap2order'];   //3
 
 $tempOrder = 999;
 
@@ -23,3 +23,5 @@ $preparedQuery->bind_param("iii", $old2order, $gameId, $tempOrder);
 $preparedQuery->execute();
 
 $db->close();
+
+header("location:admin.php");
