@@ -73,7 +73,7 @@ $bomber = 12; //BomberSquadron
 $stealthBomber = 13; // StealthBomberSquadron
 $tanker = 14; //Tanker
 
-$moves = array(2, 2, 2, 2, 1, 1, 2, 1, 2, 3, 1, 4, 6, 5, 5);
+$moves = array(2, 2, 2, 2, 1, 1, 1, 1, 2, 3, 1, 4, 6, 5, 5);
 $noContainerId = 999999;
 $container = 999999; // overwritten later when its used with airCarriers
 $placementBattleUsed = 0;
