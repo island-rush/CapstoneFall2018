@@ -99,14 +99,14 @@ session_abort();
                                     <tr>
                                         <td>Section</td>
                                         <td>
-                                            <input name="section" type="text" id="section" placeholder="m1a1" autofocus="true" required>
+                                            <input name="section" type="text" id="section" placeholder="ex: m1a1" autofocus="autofocus" required>
                                             <div style="display: inline" id="sectionFeedback" class="formError"></div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Teacher Last Name</td>
                                         <td>
-                                            <input name="instructor" type="text" id="instructor" placeholder="Name" required>
+                                            <input name="instructor" type="text" id="instructor" placeholder="ex: Smith" required>
                                             <div style="display: inline" id="instructorFeedback" class="formError"></div>
                                         </td>
                                     </tr>
