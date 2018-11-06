@@ -11,8 +11,8 @@ $lastUpdateId = (int) $_REQUEST['lastUpdateId'];
 $updateId = 0;
 $updateTeam = "Spec";
 
+$loopCounter = 0;
 while(true) {
-    sleep(.25);
     //call to database to check for the update
     $valuecheck = 0;
     $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateId > ?) AND (updateTeam = ?) ORDER BY updateId ASC';
@@ -42,6 +42,15 @@ while(true) {
         echo json_encode($arr);
         break;
     }
+
+    $loopCounter += 1;
+
+    if ($loopCounter >= 800) {
+        echo "TIMEOUT";
+        break;
+    }
+
+    usleep(250000);
 }
 
 $results->free();

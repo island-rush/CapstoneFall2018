@@ -14,8 +14,8 @@ if ($myTeam == "Red") {
 
 $updateId = 0;
 
+$loopCounter = 0;
 while(true) {
-    sleep(.25);
     //call to database to check for the update
     $valuecheck = 0;
     $query = 'SELECT * FROM updates WHERE (updateGameId = ?) AND (updateValue = ?) AND (updateTeam = ?) ORDER BY updateId ASC';
@@ -41,15 +41,26 @@ while(true) {
             'updateIsland' => (string) $r['updateIsland'],
             'updateIslandTeam' => (string) $r['updateIslandTeam']);
         echo json_encode($arr);
+
+        $newValue = 1;
+        $query = 'UPDATE updates SET updateValue = ? WHERE (updateId = ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("ii", $newValue, $updateId);
+        $query->execute();
+
         break;
     }
+
+    $loopCounter += 1;
+
+    if ($loopCounter >= 800) {
+        echo "TIMEOUT";
+        break;
+    }
+
+    usleep(250000);
 }
 
-$newValue = 1;
-$query = 'UPDATE updates SET updateValue = ? WHERE (updateId = ?)';
-$query = $db->prepare($query);
-$query->bind_param("ii", $newValue, $updateId);
-$query->execute();
 
 $results->free();
 $db->close();

@@ -67,14 +67,14 @@
                                     <tr>
                                         <td>Section</td>
                                         <td>
-                                            <input name="section" type="text" id="section" autofocus="true">
+                                            <input name="section" type="text"  placeholder="ex: m1a1" id="section" autofocus="true">
                                             <div style="display: inline" id="sectionFeedback" class="formError"></div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Teacher Last Name</td>
                                         <td>
-                                            <input name="instructor" type="text" id="instructor">
+                                            <input name="instructor"  placeholder="ex: Smith" type="text" id="instructor">
                                             <div style="display: inline" id="instructorFeedback" class="formError"></div>
                                         </td>
                                     </tr>

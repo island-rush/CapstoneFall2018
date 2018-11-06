@@ -1873,47 +1873,52 @@ function waitForUpdate() {
     let phpUpdateBoard = new XMLHttpRequest();
     phpUpdateBoard.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let decoded = JSON.parse(this.responseText);
+            if (this.responseText === "TIMEOUT") {
+                //server checking if client is still there
+                updateWait = window.setTimeout("waitForUpdate()", waitTime);
+            } else {
+                let decoded = JSON.parse(this.responseText);
 
-            if (decoded.updateType === "pieceMove") {
-                updatePieceMove(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewPositionId), parseInt(decoded.updateNewContainerId), parseInt(decoded.updateNewMoves));
-            } else if (decoded.updateType === "updateMoves2") {
-                updateMovesAll();
-            } else if (decoded.updateType === "logout") {
-                logout2();
-            } else if (decoded.updateType === "pieceDelete") {
-                updatePieceDelete(decoded.updatePlacementId);
-            } else if (decoded.updateType === "rollDie") {
-                updateRollDie(decoded.updatePlacementId);
-            } else if (decoded.updateType === "pieceTrash") {
-                updatePieceTrash(decoded.updatePlacementId);
-            } else if (decoded.updateType === "piecePurchase") {
-                updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId), decoded.updateTeam);
-            } else if (decoded.updateType === "battlePieceMove") {
-                updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
-            } else if (decoded.updateType === "phaseChange") {
-                updateNextPhase();
-            } else if (decoded.updateType === "positionSelected") {
-                updateBattlePositionSelected(decoded.updateBattlePositionSelectedPieces, parseInt(decoded.updateNewPositionId));
-            } else if (decoded.updateType === "piecesSelected") {
-                updateBattlePiecesSelected(decoded.updateBattlePiecesSelected);
-            } else if (decoded.updateType === "battleAttacked") {
-                updateBattleAttack(parseInt(decoded.updateNewMoves));
-            } else if (decoded.updateType === "battleEnding") {
-                updateBattleEnding();
-            } else if (decoded.updateType === "battleSectionChange") {
-                updateBattleSection();
-            } else if (decoded.updateType === "islandChange") {
-                updateIslandChange(decoded.updateIsland, decoded.updateIslandTeam);
-            } else if (decoded.updateType === "battlePieceRemove") {
-                updateBattlePieceRemove(decoded.updatePlacementId);
-            } else if (decoded.updateType === "updateMoves") {
-                updateMoves(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewMoves));
-            } else if (decoded.updateType === "updateMissile") {
-                updateMissileOwner(parseInt(decoded.updatePlacementId));
+                if (decoded.updateType === "pieceMove") {
+                    updatePieceMove(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewPositionId), parseInt(decoded.updateNewContainerId), parseInt(decoded.updateNewMoves));
+                } else if (decoded.updateType === "updateMoves2") {
+                    updateMovesAll();
+                } else if (decoded.updateType === "logout") {
+                    logout2();
+                } else if (decoded.updateType === "pieceDelete") {
+                    updatePieceDelete(decoded.updatePlacementId);
+                } else if (decoded.updateType === "rollDie") {
+                    updateRollDie(decoded.updatePlacementId);
+                } else if (decoded.updateType === "pieceTrash") {
+                    updatePieceTrash(decoded.updatePlacementId);
+                } else if (decoded.updateType === "piecePurchase") {
+                    updatePiecePurchase(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewUnitId), decoded.updateTeam);
+                } else if (decoded.updateType === "battlePieceMove") {
+                    updateBattlePieceMove(parseInt(decoded.updatePlacementId), decoded.updateBattlePieceState);
+                } else if (decoded.updateType === "phaseChange") {
+                    updateNextPhase();
+                } else if (decoded.updateType === "positionSelected") {
+                    updateBattlePositionSelected(decoded.updateBattlePositionSelectedPieces, parseInt(decoded.updateNewPositionId));
+                } else if (decoded.updateType === "piecesSelected") {
+                    updateBattlePiecesSelected(decoded.updateBattlePiecesSelected);
+                } else if (decoded.updateType === "battleAttacked") {
+                    updateBattleAttack(parseInt(decoded.updateNewMoves));
+                } else if (decoded.updateType === "battleEnding") {
+                    updateBattleEnding();
+                } else if (decoded.updateType === "battleSectionChange") {
+                    updateBattleSection();
+                } else if (decoded.updateType === "islandChange") {
+                    updateIslandChange(decoded.updateIsland, decoded.updateIslandTeam);
+                } else if (decoded.updateType === "battlePieceRemove") {
+                    updateBattlePieceRemove(decoded.updatePlacementId);
+                } else if (decoded.updateType === "updateMoves") {
+                    updateMoves(parseInt(decoded.updatePlacementId), parseInt(decoded.updateNewMoves));
+                } else if (decoded.updateType === "updateMissile") {
+                    updateMissileOwner(parseInt(decoded.updatePlacementId));
+                }
+
+                updateWait = window.setTimeout("waitForUpdate()", waitTime);
             }
-
-            updateWait = window.setTimeout("waitForUpdate()", waitTime);
         }
     };
     phpUpdateBoard.open("GET", "updateBoard.php?gameId=" + gameId + "&myTeam=" + myTeam, true);  // removes the element from the database

@@ -318,3 +318,11 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
 
 </body>
 </html>
+
+
+<?php
+$preparedQuery->close();
+$query2->close();
+$db->close();
+?>
+

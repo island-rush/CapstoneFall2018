@@ -30,5 +30,6 @@ $query = $db->prepare($query);
 $query->bind_param("iiss", $gameId, $newValue, $blue, $updateType);
 $query->execute();
 
-
+$preparedQuery->close();
+$query->close();
 $db->close();
