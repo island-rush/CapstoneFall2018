@@ -85,6 +85,9 @@ session_abort();
                                                     if ($eType == 4) {
                                                         echo 'Teacher Forced a Logout...';
                                                     }
+                                                    if ($eType == 5) {
+                                                        echo 'Game does not exist, check correct section and lastname';
+                                                    }
                                                 }
                                                 ?>
                                             </div>
@@ -107,9 +110,9 @@ session_abort();
                                     <tr>
                                         <td>Team</td>
                                         <td>
-                                            <input type="radio" name="team" value="Spectator" checked> Spectator<br>
-                                            <input type="radio" name="team" value="Blue"> Blue<br>
-                                            <input type="radio" name="team" value="Red"> Red<br>
+                                            <input type="radio" name="team" value="Spectator" checked> Spectator -> Click this unless told otherwise by instructor.<br>
+                                            <input type="radio" name="team" value="Blue"> Blue Commander<br>
+                                            <input type="radio" name="team" value="Red"> Red Commander<br>
                                         </td>
                                     </tr>
                                     <tr>

@@ -3,7 +3,7 @@ session_start();
 include("db.php");
 
 if (!isset($_SESSION['secretAdminSessionVariable'])) {
-    header("location:index.php");
+    header("location:index.php?err=4");
     exit;
 }
 
@@ -38,7 +38,6 @@ $preparedQuery->bind_param("ii", $gameId, $zero);
 $preparedQuery->execute();
 // whats the lowest order (for min values on order inputs)
 $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
-
 
 ?>
 
@@ -146,6 +145,26 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
         let section = "<?php echo $section; ?>";
         let instructor = "<?php echo $instructor; ?>";
 
+        let allSections = <?php $query2 = 'SELECT * FROM games'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
+            if ($num_results2 > 0) {
+                for ($i=0; $i < $num_results2; $i++) {
+                    $z= $results2->fetch_assoc();
+                    $gameSection = $z['gameSection'];
+                    $arr[$i] = $gameSection;
+                }
+            }
+            echo json_encode($arr); ?>;
+
+        let allInstructors = <?php $query2 = 'SELECT * FROM games'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
+            if ($num_results2 > 0) {
+                for ($i=0; $i < $num_results2; $i++) {
+                    $z= $results2->fetch_assoc();
+                    $gameInstructor = $z['gameInstructor'];
+                    $arr[$i] = $gameInstructor;
+                }
+            }
+            echo json_encode($arr); ?>;
+
         function setActive(){
             let gameActive;
             if (document.getElementById("activeToggle").checked === true){
@@ -153,7 +172,6 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             }else{
                 gameActive = 0;
             }
-            // alert(gameActive);
             let setGameActivity = new XMLHttpRequest();
             setGameActivity.open("POST", "adminGameToggle.php?gameActive=" + gameActive, true);
             setGameActivity.send();
@@ -168,7 +186,8 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
                     phpGamePopulate.send();
 
                     document.getElementById("populateButton").disabled = true;
-                    setTimeout(function thingy() {window.location.replace("admin.php");}, 1200);
+                    document.getElementById("activeToggle").checked = false;
+                    setTimeout(function thingy() {window.location.replace("admin.php");}, 7000);
                 }
             }
         }
@@ -177,14 +196,33 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             let swap1order = document.getElementById("swap1").value;
             let swap2order = document.getElementById("swap2").value;
 
-            // alert(swap1order);
-            // alert(swap2order);
-            // alert(gameId);
-
             let phpSwapNewsAlerts  = new XMLHttpRequest();
             phpSwapNewsAlerts.open("GET", "adminSwapNews.php?gameId=" + gameId + "&swap1order=" + swap1order + "&swap2order=" + swap2order, true);
             phpSwapNewsAlerts.send();
-            setTimeout(function thingy() {window.location.replace("admin.php");}, 1200);
+
+            setTimeout(function thingy() {window.location.replace("admin.php");}, 7000);
+        }
+
+        function populateAllGames() {
+            if (confirm("Are you sure you want to completely reset all games?")) {
+                if (confirm("Are you really sure you want to completely reset all games?")) {
+                    if (confirm("Are you super really sure you want to completely reset all games?")) {
+                        if (confirm("Are you actually sure you want to completely reset all games?")) {
+                            if (confirm("But like, Are you for real sure you want to completely reset all games?")) {
+                                if (confirm("Are you for sure for sure you want to completely reset all games?")) {
+                                    if (confirm("CAN YOU NOT?")) {
+                                        for (let x = 0; x < allSections.length; x++) {
+                                            let phpGamePopulate = new XMLHttpRequest();
+                                            phpGamePopulate.open("GET", "gamePopulate.php?section=" + allSections[x] + "&instructor=" + allInstructors[x], true);
+                                            phpGamePopulate.send();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         </script>
@@ -206,18 +244,21 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
     <span class="important" id="section">Section: <?php echo $section; ?></span>
     <span class="important" id="instructor">Instructor: <?php echo $instructor; ?></span>
 
-    <br>
+    <?php
+        if ($instructor != "Start") {
+            echo '<br>
     <hr>
     <h3>Turn Game Off/On</h3>
     <div>Toggle if the game is active or not. If inactive, students cannot log in to make moves, but can still spectate to see the board.
         <br>(***Also logs everyone out of the game. If there are problems logging in, turn the game off and back on using this slider.)</div>
     <span>Inactive</span>
     <label  class="switch">
-        <input id="activeToggle" type="checkbox" <?php
+        <input id="activeToggle" type="checkbox" ';
         if ($gameChecked === 1){
             echo "checked";
         }
-        ?> onclick="setActive()">
+
+        echo 'onclick="setActive()">
         <span class="slider round"></span>
     </label>
     <span>Active</span>
@@ -226,33 +267,42 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
     <hr>
     <h3>Reset Game</h3>
     <span>Completely reset this particular game:</span>
-    <button class="btn btn-danger" id="populateButton" onclick="populateGame()">RESET GAME</button>
+    <button class="btn btn-danger" id="populateButton" onclick="populateGame()">RESET GAME</button>';
+        }
+    ?>
 
-    <br>
+    <?php
+        if ($instructor == "Start") {
+            echo '<br><hr><h3>Reset / Populate All Games (Never press this button)</h3><button class="btn btn-danger" id="populateButton" onclick="populateAllGames();">DO NOT PRESS THIS BUTTON</button>';
+        }
+
+    ?>
+
+    <?php
+        if ($instructor != "Start") {
+            echo '<br>
     <hr>
     <h3>News Alerts for this game:</h3>
-    <div id="newsAlertsContainer">
-        <!-- populate the table with UNUSED news alerts for this game, using the php above.-->
-        <?php
+    <div id="newsAlertsContainer">';
         if ($news_rows > 0){
             // Setup the table for the news alerts
             echo "
-            <div id='swapNewsForm'>
+            <form id='swapNewsForm'>
                 <div>Use this form to swap two news alerts. Refresh the page to show the most up-to-date news alerts for this game.</div>
                 <label>Swap #</label>
                 <input type='number' id='swap1' required min='".$firstOrder."' max='".$news_rows."'>
                 <label> with #</label>
                 <input type='number' id='swap2' required min='".$firstOrder."' max='".$news_rows."'>
                 <button onclick='swapNewsAlerts();'>swap</button>
-            </div>
-            <table id='newsAlertTable'>
+            </form>
+            <table id=\'newsAlertTable\'>
                 <tr>
                     <th>Order</th>
                     <th>Name</th>
                     <th>Effect</th>
                 </tr>";
             // loop through all news alerts
-            for($i =0; $i < $news_rows; $i++){
+            for($i = 0; $i < $news_rows; $i++){
                 $news = $newsAlerts->fetch_assoc();
                 $order = $news['newsOrder'];
                 $name = $news['newsText'];
@@ -266,10 +316,12 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
         }
         else {
             echo "<h3>Notice: There are no News Alerts because the game is empty/not created. <br>Use the RESET GAME button above to populate the game.</h3>";
+        };
+
+        echo '</table>
+    </div>';
         }
-        ?>
-        </table>
-    </div>
+    ?>
 
 </body>
 </html>

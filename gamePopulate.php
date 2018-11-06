@@ -11,6 +11,7 @@ $preparedQuery->execute();
 $results = $preparedQuery->get_result();
 $r= $results->fetch_assoc();
 $gameId = $r['gameId'];
+$gameAdminPassword = $r['gameAdminPassword'];
 
 //delete the game table + all other tables
 $query = "DELETE FROM placements WHERE placementGameId = ?";
@@ -44,9 +45,9 @@ $preparedQuery->bind_param("i", $gameId);
 $preparedQuery->execute();
 
 //insert the game table
-$query = "INSERT INTO games (gameId, gameSection, gameInstructor) VALUES (?, ?, ?)";
+$query = "INSERT INTO games (gameId, gameSection, gameInstructor, gameAdminPassword) VALUES (?, ?, ?, ?)";
 $preparedQuery = $db->prepare($query);
-$preparedQuery->bind_param("iss", $gameId, $section, $instructor);
+$preparedQuery->bind_param("isss", $gameId, $section, $instructor, $gameAdminPassword);
 $preparedQuery->execute();
 
 //insert all placements + newsalerts

@@ -12,7 +12,7 @@ $u = $results->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Island Rush Game V0.23.1 Alpha</title>
+    <title>Island Rush Game V0.23.2 Alpha</title>
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Round Recap'];

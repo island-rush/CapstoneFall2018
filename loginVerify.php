@@ -13,6 +13,14 @@ if ( (isset($_POST['section'])) && (isset($_POST['instructor'])) && (isset($_POS
     $preparedQuery->bind_param("ss", $instructor,$section);
     $preparedQuery->execute();
     $results = $preparedQuery->get_result();
+
+    $numResults = $results->num_rows;
+    if ($numResults == 0) {
+        header("location:login.php?err=5");
+        exit;
+    }
+
+
     $r= $results->fetch_assoc();
 
     $_SESSION['myTeam'] = $team;

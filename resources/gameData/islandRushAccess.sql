@@ -7,7 +7,7 @@ USE islandRushDB;
 
 
 
-SELECT * FROM games WHERE gameId = 1;
+SELECT * FROM games;
 
 SELECT * FROM units;
 
@@ -23,3 +23,4 @@ SELECT * FROM newsAlerts;
 
 -- UPDATE games SET gameRedJoined = 0 WHERE gameId = 1;
 
+INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (1, 0, 'Red', 'logout');

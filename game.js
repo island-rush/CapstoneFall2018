@@ -360,6 +360,9 @@ function pieceDragstart(event, callingElement) {
     userFeedback("Drag this piece and hover over an island, Transport, or AircraftCarrier to open them up. Drop it when ready to move.");
     //canMove is dictated by phase and current Team
     if ((canMove === "true") && callingElement.getAttribute("data-placementTeamId") === myTeam && gameBattleSection === "none") {
+        // hideContainers("transportContainer");
+        // hideContainers("aircraftCarrierContainer");
+
         //From the container (parent of the piece)(or position)
         if (callingElement.parentNode.getAttribute("data-positionId") == null) {
             event.dataTransfer.setData("positionId", callingElement.parentNode.parentNode.parentNode.getAttribute("data-positionId"));

@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `games`(
   `gameId` int(5) NOT NULL AUTO_INCREMENT,
   `gameSection` varchar(10) NOT NULL,  -- 'M1A', 'T7C'
   `gameInstructor` varchar(50) NOT NULL,  -- "Lastname"
-  `gameAdminPassword` varchar(50) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- "password"
-  `gameActive` int(1) NOT NULL DEFAULT 1, -- 1 or 0
+  `gameAdminPassword` varchar(50) NOT NULL DEFAULT 'c4a276e907f10b988d593fcd573a3cba',  -- "password"
+  `gameActive` int(1) NOT NULL DEFAULT 0, -- 1 or 0
   `gameCurrentTeam`  varchar(5) NOT NULL DEFAULT 'Blue', -- 'Red' or 'Blue'
   `gameTurn` int(4) NOT NULL DEFAULT 0, -- 0, 1, 2, 3...
   `gamePhase`  int(1) NOT NULL DEFAULT 1, --  1 = news, 2 = reinforcements...
@@ -65,6 +65,7 @@ INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive)
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword, gameActive) VALUES ('T4A1', 'test', 	'5f4dcc3b5aa765d61d8327deb882cf99', 1);
 -- REAL GAMES
 -- password = 'DFMI2019teacher'
+INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M1A1', 'Start', 			'a3890051c3b41a4b3890633eb1340248');  -- 'DFCS2019student'
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M1A1', 'German', 			'c4a276e907f10b988d593fcd573a3cba');
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M1A2', 'German', 			'c4a276e907f10b988d593fcd573a3cba');
 INSERT INTO `games` (gameSection, gameInstructor, gameAdminPassword) VALUES ('M1B1', 'Grotelueschen', 	'c4a276e907f10b988d593fcd573a3cba');
