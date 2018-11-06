@@ -20,6 +20,7 @@ $r= $results->fetch_assoc();
 $gameChecked = $r['gameActive'];
 $section = $r['gameSection'];
 $instructor = $r['gameInstructor'];
+$currentTeam = $r['gameCurrentTeam'];
 
 
 // search DB for this game's News Alerts
@@ -45,10 +46,11 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="index.css">
     <style>
         .adminWrapper{
             /*background-color: lightblue;*/
-            width: 80%;
+            width: 85%;
             margin: 60px auto;
         }
         .adminWrapper > h1{
@@ -141,7 +143,6 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
         }
     </style>
     <title>Island Rush Admin</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript">
         let gameId = "<?php echo $gameId; ?>";
         let section = "<?php echo $section; ?>";
@@ -279,6 +280,7 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
         if ($news_rows > 0){
             // Setup the table for the news alerts
             echo "
+            <h4>Current team:";if($currentTeam == "Red"){echo " <red>".$currentTeam."</red>";} else{ echo " <blue>".$currentTeam."</blue>";} echo "'s turn</h4>
             <form id='swapNewsForm' method='post' action='adminSwapNews.php'>
                 <div>Use this form to swap two news alerts. Refresh the page to show the most up-to-date news alerts for this game.</div>
                 <label>Swap #</label>
@@ -288,7 +290,12 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
                 <input name='swap2order' type='number' id='swap2' required min='".$firstOrder."' max='".$news_rows."'>
                 <input type='submit' value='swap'>
             </form>
-            <table id=\'newsAlertTable\'>
+            <table id='newsAlertTable' ";
+            if($currentTeam == "Red")
+            {echo "class='blueNext'";}
+            else {echo "class='redNext'";}
+
+            echo ">
                 <tr>
                     <th>Order</th>
                     <th>Name</th>

@@ -48,3 +48,31 @@ nav a.active {
 	background-color:#285fb7;
 	color:white;
 }
+
+h4{
+	margin: 1%;
+	padding: 0;
+	text-decoration: underline;
+}
+table{
+	color: black;
+}
+.redNext tr:nth-child(odd) td:nth-child(1){
+	 background-color: rgba(0, 0, 255, 0.31);
+ }
+.redNext tr:nth-child(even) td:nth-child(1){
+	background-color: rgba(255, 0, 0, 0.3);
+}
+.blueNext tr:nth-child(odd) td:nth-child(1){
+	background-color: rgba(255, 0, 0, 0.31);
+}
+.blueNext tr:nth-child(even) td:nth-child(1){
+	background-color: rgba(0, 0, 255, 0.3);
+}
+
+red{
+	color: red;
+}
+blue{
+	color: blue;
+}
