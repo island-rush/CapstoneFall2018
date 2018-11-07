@@ -260,11 +260,16 @@
                     </li>
 
                     <li class="w3-padding-16">
+                        <span class="w3-large"> <img src="resources/unitImages/marine.png" alt="marine platoon" height="65" width="65"><b>Marine Infantry Platoon:</b></span><br>
+                        <span>Consists of 50 Marines and is able to move 1 space.</span>
+                    </li>
+
+                    <li class="w3-padding-16">
                         <span class="w3-large"><img src="resources/unitImages/attackHeli.png" height="65" width="65"><b>Attack Helicopters:</b></span><br>
                         <span>Consists of a 2 ship of attack helicopters and is able to move up to 3 spaces.  Helicopters can fly over land or sea but must end the turn on land.</span>
                     </li>
                     <li class="w3-padding-16">
-                        <span class="w3-large"><img src="resources/unitImages/marine.png" height="65" width="65"><b>Marine Convoy:</b></span><br>
+                        <span class="w3-large"><img src="resources/unitImages/lav.png" height="65" width="65"><b>Marine Convoy:</b></span><br>
                         <span>Consists of 10 vehicles and is able to move 2 spaces.</span>
                     </li>
 
