@@ -22,11 +22,8 @@ function bodyLoader() {
         };
         phpPositionGet.open("POST", "battleGetAdjacentPos.php?positionSelected=" + gameBattlePosSelected, true);
         phpPositionGet.send();
-    }
 
-    // if (gameBattleSection == "selectPieces") {
-    //     document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
-    // }
+    }
 
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
@@ -78,11 +75,15 @@ function bodyLoader() {
         document.getElementById("battle_button").innerHTML = "Start Battle";
         document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("whole_game").style.backgroundColor = "yellow";
-        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        if (gameBattlePosSelected != 999999) {
+            document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        }
     } else {
         document.getElementById("battle_button").disabled = true;
         document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        if (gameBattlePosSelected != 999999) {
+            document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        }
     }
 
     //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
@@ -414,36 +415,37 @@ function pieceDragenter(event, callingElement) {
 function piecePurchase(event, purchaseSquare) {
     event.preventDefault();
     if (canPurchase === "true") {
-        let myPoints = gameRedRpoints;
+        let myPoints = parseInt(gameRedRpoints);
         if (myTeam === "Blue") {
-            myPoints = gameBlueRpoints;
+            myPoints = parseInt(gameBlueRpoints);
         }
         let costOfPiece = parseInt(purchaseSquare.getAttribute("data-unitCost"));
         if (myPoints >= costOfPiece) {
             let unitId = purchaseSquare.getAttribute("data-unitId");
-            let unitName = purchaseSquare.id;
-            let unitMoves = unitsMoves[unitName];
-            let terrain = purchaseSquare.getAttribute("data-unitTerrain");
-            myPoints = myPoints - costOfPiece;
-
-            if (myTeam === "Red") {
-                gameRedRpoints = myPoints;
-                document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
-            } else {
-                gameBlueRpoints = myPoints;
-                document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
-            }
-
-            userFeedback("Piece purchased for " + costOfPiece + " points.");
 
             let phpPurchaseRequest = new XMLHttpRequest();
             phpPurchaseRequest.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    let parent = document.getElementById("purchased_container");
-                    parent.innerHTML += this.responseText;
+                    if (this.responseText === "INSUFFICIENT_POINTS") {
+                        userFeedback("Did not have enough points.");
+                    } else {
+                        let parent = document.getElementById("purchased_container");
+                        parent.innerHTML += this.responseText;
+                        userFeedback("Piece purchased for " + costOfPiece + " points.");
+
+                        //change global variable
+                        //change html for this client's sidepanel points
+                        if (myTeam === "Blue") {
+                            gameBlueRpoints -= costOfPiece;
+                            document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+                        } else {
+                            gameRedRpoints -= costOfPiece;
+                            document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+                        }
+                    }
                 }
             };
-            phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId + "&costOfPiece=" + costOfPiece + "&newPoints=" + myPoints + "&myTeam=" + myTeam + "&unitName=" + unitName + "&unitMoves=" + unitMoves + "&unitTerrain=" + terrain + "&placementTeamId=" + myTeam + "&gameId=" + gameId, true);
+            phpPurchaseRequest.open("GET", "piecePurchase.php?unitId=" + unitId, true);
             phpPurchaseRequest.send();
         } else {
             userFeedback("Not enough points.");
@@ -479,6 +481,14 @@ function pieceMoveUndo() {
                         pieceToUndo.setAttribute("title", unitName + "\n" +
                             "Moves: " + decoded.new_placementCurrentMoves);
 
+                        if (pieceToUndo.getAttribute("data-placementBattleUsed") == 1) {
+                            let newTitle = pieceToUndo.getAttribute("title");
+                            newTitle = newTitle + "\nUsed in Attack";
+                            pieceToUndo.setAttribute("title", newTitle);
+                        }
+
+
+
                         userFeedback("Move undone.");
                     }
                 } else {
@@ -500,14 +510,16 @@ function pieceTrash(event, trashElement) {
             let placementId = event.dataTransfer.getData("placementId");
             document.querySelector("[data-placementId='" + placementId + "']").remove();
             let costOfPiece = parseInt(event.dataTransfer.getData("unitCost"));
-            myPoints = myPoints + costOfPiece;
 
+            let myPoints;
             if (myTeam === "Red") {
-                gameRedRpoints = gameRedRpoints + costOfPiece;
+                gameRedRpoints = gameRedRpoints - costOfPiece;
                 document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
+                myPoints = gameRedRpoints;
             } else {
                 gameBlueRpoints = gameBlueRpoints + costOfPiece;
                 document.getElementById("blue_rPoints_indicator").innerHTML = gameBlueRpoints;
+                myPoints = gameBlueRpoints;
             }
 
             let phpTrashRequest = new XMLHttpRequest();
@@ -899,6 +911,12 @@ function positionDrop(event, newContainerElement) {
                         // title='".$unitName2."&#013;Moves: ".$placementCurrentMoves2."'
                         pieceDropped.setAttribute("title", unitName + "\n" +
                             "Moves: " + new_placementCurrentMoves);
+
+                        if (pieceDropped.getAttribute("data-placementBattleUsed") == 1) {
+                            let newTitle = pieceDropped.getAttribute("title");
+                            newTitle = newTitle + "\nUsed in Attack";
+                            pieceDropped.setAttribute("title", newTitle);
+                        }
 
                         //Update the placement in the database and add a movement to the database
                         let phpRequest = new XMLHttpRequest();
@@ -1485,7 +1503,8 @@ function battleChangeSection(newSection) {
         document.getElementById("phase_button").disabled = false;
         document.getElementById("undo_button").disabled = false;
 
-        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+
+
 
         let phpBattleEnding = new XMLHttpRequest();
         phpBattleEnding.open("POST", "battleEnding.php?gameId=" + gameId, true);
@@ -1511,44 +1530,60 @@ function battleChangeSection(newSection) {
         };
 
         //check to see if flag ownership changed, if the position of battle was a flag position
-        //TODO: doesn't check to see if the battle was won by a ground troop, or ground troop is available for capturing
-        // let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
-        // let containerElement;
-        // if (flagPositions.includes(parseInt(gameBattlePosSelected))) {
-        //     containerElement = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']");
-        //     let parentTeam = containerElement.parentNode.classList[2];
-        //     let newTeam;
-        //     if (parentTeam === "Red") {
-        //         newTeam = "Blue";
-        //     } else {
-        //         newTeam = "Red";
-        //     }
-        //     let changeOwnership = "true";
-        //     let numChildren = containerElement.childElementCount;
-        //     if (numChildren === 0) {
-        //         changeOwnership = "false";
-        //     }
-        //     for (let x = 0; x < numChildren; x++) {
-        //         if (containerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
-        //             changeOwnership = "false";
-        //         }
-        //     }
-        //     if (changeOwnership === "true") {
-        //         //change css of parent
-        //         let parent = containerElement.parentNode;
-        //         parent.classList.remove(parentTeam);
-        //         parent.classList.add(newTeam);
-        //         //change css of parent parent
-        //         let parentParent = parent.parentNode;
-        //         parentParent.classList.remove(parentTeam);
-        //         parentParent.classList.add(newTeam);
-        //         //database change in games table
-        //         let islandNumber = parentParent.id;
-        //         let phpRequestTeamChange = new XMLHttpRequest();
-        //         phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam + "&myTeam=" + myTeam, true);
-        //         phpRequestTeamChange.send();
-        //     }
-        // }
+        let flagPositions = [55, 65, 75, 79, 83, 86, 90, 94, 97, 100, 103, 107, 111, 114];
+        let containerElement;
+        let capturePieces = ["ArmyCompany", "ArtilleryBattery", "TankPlatoon", "MarinePlatoon", "MarineConvoy"];
+        if (flagPositions.includes(parseInt(gameBattlePosSelected))) {
+            containerElement = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']");
+            let parentTeam = containerElement.parentNode.classList[2];
+            let newTeam;
+            if (parentTeam === "Red") {
+                newTeam = "Blue";
+            } else {
+                newTeam = "Red";
+            }
+            let changeOwnership = "true";
+            let numChildren = containerElement.childElementCount;
+            if (numChildren === 0) {
+                changeOwnership = "false";
+            }
+            for (let x = 0; x < numChildren; x++) {
+                if (containerElement.childNodes[x].getAttribute("data-placementTeamId") === parentTeam) {
+                    changeOwnership = "false";
+                }
+            }
+
+            if (changeOwnership === "true") {
+                changeOwnership = "false";
+                for (let x = 0; x < numChildren; x++) {
+                    if (capturePieces.includes(containerElement.childNodes[x].getAttribute("data-unitName"))) {
+                        changeOwnership = "true";
+                    }
+                }
+            }
+
+            if (changeOwnership === "true") {
+                //change css of parent
+                let parent = containerElement.parentNode;
+                parent.classList.remove(parentTeam);
+                parent.classList.add(newTeam);
+                //change css of parent parent
+                let parentParent = parent.parentNode;
+                parentParent.classList.remove(parentTeam);
+                parentParent.classList.add(newTeam);
+                //database change in games table
+                let islandNumber = parentParent.id;
+                let phpRequestTeamChange = new XMLHttpRequest();
+                phpRequestTeamChange.open("POST", "gameIslandOwnerChange.php?gameId=" + gameId + "&islandToChange=" + islandNumber + "&newTeam=" + newTeam + "&myTeam=" + myTeam, true);
+                phpRequestTeamChange.send();
+            }
+        }
+
+        if (gameBattlePosSelected != 999999) {
+            document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+            gameBattlePosSelected = 999999;
+        }
+
     }
 
     let posType = "defaultPos";
@@ -1568,6 +1603,11 @@ function battleSelectPieces() {
     let x;
     for (x = 0; x < allPieces.length; x++) {
         allPieces[x].setAttribute("data-placementBattleUsed", "1");
+
+        let newTitle = allPieces[x].getAttribute("title");
+        newTitle = newTitle + "\nUsed in Attack";
+
+        allPieces[x].setAttribute("title", newTitle);
         parameterArray.push(allPieces[x].getAttribute("data-placementId"));
     }
 
@@ -1973,6 +2013,25 @@ function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
     document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
     userFeedback("Enemy selected attack pieces.");
+
+    document.getElementById("battle_outcome").innerHTML = "";
+
+
+    if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
+        //show what is needed for a hit?
+        let upperBox = document.getElementById("battle_outcome");
+        let defendPieceId = parseInt(document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId"));
+        let attackPieceId = parseInt(document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId"));
+        let needToKill = 0;
+        if (gameBattleSection === "attack") {
+            needToKill = attackMatrix[attackPieceId][defendPieceId];
+        } else {
+            needToKill = attackMatrix[defendPieceId][attackPieceId];
+        }
+        upperBox.innerHTML = "They must roll a " + needToKill + " in order to kill.";
+        // userFeedback("Click the attack button to roll!");
+    }
+
 }
 
 function updatePiecePurchase(placementId, unitId, updateTeam) {
@@ -1998,6 +2057,16 @@ function updateMoves(placementId, newMoves) {
     let unitName = pieceToUpdate.getAttribute("data-unitName");
     pieceToUpdate.setAttribute("title", unitName + "\n" +
         "Moves: " + newMoves);
+
+    if (pieceToUpdate.getAttribute("data-placementBattleUsed") == 1) {
+        let newTitle = pieceToUpdate.getAttribute("title");
+        newTitle = newTitle + "\nUsed in Attack";
+        pieceToUpdate.setAttribute("title", newTitle);
+    }
+
+
+
+
 }
 
 function updateMovesAll() {
@@ -2009,6 +2078,11 @@ function updateMovesAll() {
         pieceToUpdate.setAttribute("data-placementCurrentMoves", newMoves);
         pieceToUpdate.setAttribute("title", pieceToUpdateName + "\n" +
             "Moves: " + newMoves);
+        if (pieceToUpdate.getAttribute("data-placementBattleUsed") == 1) {
+            let newTitle = pieceToUpdate.getAttribute("title");
+            newTitle = newTitle + "\nUsed in Attack";
+            pieceToUpdate.setAttribute("title", newTitle);
+        }
     }
 }
 
@@ -2024,6 +2098,11 @@ function updatePieceMove(placementId, newPositionId, newContainerId, newMoves){
     let unitName = pieceToMove.getAttribute("data-unitName");
     pieceToMove.setAttribute("title", unitName + "\n" +
         "Moves: " + newMoves);
+    if (pieceToMove.getAttribute("data-placementBattleUsed") == 1) {
+        let newTitle = pieceToMove.getAttribute("title");
+        newTitle = newTitle + "\nUsed in Attack";
+        pieceToMove.setAttribute("title", newTitle);
+    }
     userFeedback("Current player moved a piece.");
 
 }
@@ -2284,6 +2363,8 @@ function updateBattleSection() {
             gameBattleLastMessage = decoded.gameBattleLastMessage;
             document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
 
+            document.getElementById("battle_outcome").innerHTML = "";
+
             // let centerDefend = document.getElementById("center_defender");
             // if (centerDefend.childNodes.length === 1) {
             //     document.getElementById("unused_defender").append(centerDefend.childNodes[0]);
@@ -2386,6 +2467,11 @@ function updateBattleSection() {
             }
 
             if (gameBattleSection === "none") {
+                if (gameBattlePosSelected != 999999) {
+                    document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+                    gameBattlePosSelected = 999999;
+                }
+
                 document.getElementById("battleZonePopup").style.display = "none";
 
                 //clear out the pieces from html(battlepieces)
@@ -2395,8 +2481,6 @@ function updateBattleSection() {
                 document.getElementById("used_defender").innerHTML = null;
                 document.getElementById("center_attacker").innerHTML = null;
                 document.getElementById("center_defender").innerHTML = null;
-
-                document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
             }
         }
     };
@@ -2546,8 +2630,8 @@ function hybridBank() {
 //--------------------------
 
 function rollDice(){
-    let timeBetween = 375;
-    let numRolls = 12;
+    let timeBetween = 280;
+    let numRolls = 8;
     let thingy;
     let i;
     for (i = 1; i < numRolls; i++) {

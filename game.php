@@ -45,18 +45,11 @@ $u = $results->fetch_assoc();
         var gameCurrentTeam = "<?php echo $u['gameCurrentTeam']; ?>";
         var myTeam = "<?php echo $_SESSION['myTeam']; ?>";
 
-        var gameRedRpoints = "<?php echo $u['gameRedRpoints']; ?>";
-        var gameBlueRpoints = "<?php echo $u['gameBlueRpoints']; ?>";
-        var gameRedHpoints = "<?php echo $u['gameRedHpoints']; ?>";
-        var gameBlueHpoints = "<?php echo $u['gameBlueHpoints']; ?>";
+        var gameRedRpoints = <?php echo $u['gameRedRpoints']; ?>;
+        var gameBlueRpoints = <?php echo $u['gameBlueRpoints']; ?>;
+        var gameRedHpoints = <?php echo $u['gameRedHpoints']; ?>;
+        var gameBlueHpoints = <?php echo $u['gameBlueHpoints']; ?>;
 
-
-        var myPoints;
-        if (myTeam === "Red") {
-            myPoints = <?php echo $u['gameRedRpoints']; ?>;
-        } else {
-            myPoints = <?php echo $u['gameBlueRpoints']; ?>;
-        }
 
         var gameBattlePosSelected = "<?php echo $u['gameBattlePosSelected']; ?>";
         var gameBattleSection = "<?php echo $u['gameBattleSection']; ?>";

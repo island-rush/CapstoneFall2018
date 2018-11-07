@@ -24,10 +24,6 @@ function bodyLoader() {
         phpPositionGet.send();
     }
 
-    // if (gameBattleSection == "selectPieces") {
-    //     document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
-    // }
-
     document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase-1];
     // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
     if (gameCurrentTeam === "Red") {
@@ -78,11 +74,15 @@ function bodyLoader() {
         document.getElementById("battle_button").innerHTML = "Start Battle";
         // document.getElementById("battle_button").onclick = function() { battleSelectPieces(); };
         document.getElementById("whole_game").style.backgroundColor = "yellow";
-        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        if (gameBattlePosSelected != 999999) {
+            document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        }
     } else {
         document.getElementById("battle_button").disabled = true;
         document.getElementById("battle_button").innerHTML = "Select Battle";
-        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        if (gameBattlePosSelected != 999999) {
+            document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.add("selectedPos");
+        }
     }
 
     //deal with buttons and things on the battleZonePopup (as they should appear based upon game states / subsections
@@ -1467,8 +1467,9 @@ function battleChangeSection(newSection) {
 
         // document.getElementById("phase_button").disabled = false;
         // document.getElementById("undo_button").disabled = false;
-
-        document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+        if (gameBattlePosSelected != 999999) {
+            document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+        }
 
         let phpBattleEnding = new XMLHttpRequest();
         phpBattleEnding.open("POST", "battleEnding.php?gameId=" + gameId, true);
@@ -1950,6 +1951,24 @@ function updateIslandChange(islandIdentifier, newTeam) {
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
     document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
+
+
+    document.getElementById("battle_outcome").innerHTML = "";
+
+    if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
+        //show what is needed for a hit?
+        let upperBox = document.getElementById("battle_outcome");
+        let defendPieceId = parseInt(document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId"));
+        let attackPieceId = parseInt(document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId"));
+        let needToKill = 0;
+        if (gameBattleSection === "attack") {
+            needToKill = attackMatrix[attackPieceId][defendPieceId];
+        } else {
+            needToKill = attackMatrix[defendPieceId][attackPieceId];
+        }
+        upperBox.innerHTML = "They must roll a " + needToKill + " in order to kill.";
+        // userFeedback("Click the attack button to roll!");
+    }
 }
 
 function updatePiecePurchase(placementId, unitId) {
@@ -2259,6 +2278,8 @@ function updateBattleSection() {
             gameBattleLastMessage = decoded.gameBattleLastMessage;
             document.getElementById("lastBattleMessage").innerHTML = gameBattleLastMessage;
 
+            document.getElementById("battle_outcome").innerHTML = "";
+
             // let centerDefend = document.getElementById("center_defender");
             // if (centerDefend.childNodes.length === 1) {
             //     document.getElementById("unused_defender").append(centerDefend.childNodes[0]);
@@ -2371,7 +2392,10 @@ function updateBattleSection() {
                 document.getElementById("center_attacker").innerHTML = null;
                 document.getElementById("center_defender").innerHTML = null;
 
-                document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+                if (gameBattlePosSelected != 999999) {
+                    document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
+                    gameBattlePosSelected = 999999;
+                }
             }
         }
     };

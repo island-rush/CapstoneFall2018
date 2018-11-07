@@ -108,7 +108,6 @@ if ($num_results > 0) {
                     (($newsZone) == $islandFrom + 100) ||
                     (($newsZone) == $islandTo + 100) ||
                     (($newsZone > 1000) && (($newsZone - 1000 == $new_positionId) || ($newsZone - 1000 == $old_positionId)))) {
-//                    echo "bitchin";
                     $decoded = json_decode($newsPieces, true);
 
                     if ((int) $decoded[$unitName] == 1) {
@@ -174,27 +173,32 @@ if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId =
         }
     }
     for ($i = 0; $i < sizeof($adjSam); $i++) {
-        $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementUnitId = 10)';
+        $query = 'SELECT * FROM placements WHERE (placementPositionId = ?) AND (placementTeamId != ?) AND (placementUnitId = 10) AND (placementGameId = ?)';
         $query = $db->prepare($query);
-        $query->bind_param("is", $adjSam[$i], $myTeam);
+        $position = $adjSam[$i];
+        $query->bind_param("isi", $position, $myTeam, $gameId);
         $query->execute();
         $results = $query->get_result();
         $num_results = $results->num_rows;
         $killed = 0;
 
-
         for ($k = 0; $k < $num_results; $k++){
             //for each sam
-//            $diceRoll = rand(1, 6);
-            $diceRoll = 6;
+            $diceRoll = rand(1, 6);
+//            $diceRoll = 6;
             $thisSam = $results->fetch_assoc();
             $samPosition = (int) $thisSam['placementPositionId'];
-            if ($new_positionId == $samPosition || $unitId != 13) {
-                if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
-                    $killed = 1;
-                    break;
+            $samContainer = (int) $thisSam['placementContainerId'];
+
+            if ($samContainer != 999999) {
+                if ($new_positionId == $samPosition || $unitId != 13) {
+                    if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
+                        $killed = 1;
+                        break;
+                    }
                 }
             }
+
         }
         if ($killed == 1) {
             //Know piece ID, delete pieceID from placements, update Red, update Blue, update Spec

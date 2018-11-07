@@ -4,6 +4,7 @@ include("db.php");
 $instructor = $_REQUEST['instructor'];
 $section = $_REQUEST['section'];
 
+
 $query = "SELECT * FROM GAMES WHERE gameInstructor = ? AND gameSection = ?";
 $preparedQuery = $db->prepare($query);
 $preparedQuery->bind_param("ss", $instructor,$section);
@@ -12,6 +13,22 @@ $results = $preparedQuery->get_result();
 $r= $results->fetch_assoc();
 $gameId = $r['gameId'];
 $gameAdminPassword = $r['gameAdminPassword'];
+
+$red = 'Red';
+$blue = 'Blue';
+$newValue = 0;
+$updateType = "logout";
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $red, $updateType);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $blue, $updateType);
+$query->execute();
+
 
 //delete the game table + all other tables
 $query = "DELETE FROM placements WHERE placementGameId = ?";
