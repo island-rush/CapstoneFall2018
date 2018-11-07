@@ -114,8 +114,8 @@ session_abort();
                                         <td>Team</td>
                                         <td>
                                             <input type="radio" name="team" value="Spectator" checked> Spectator -> Click this unless told otherwise by instructor.<br>
-                                            <input type="radio" name="team" value="Blue"> Blue Commander<br>
-                                            <input type="radio" name="team" value="Red"> Red Commander<br>
+                                            <input type="radio" name="team" value="Blue"> Vestrland (Blue) Commander<br>
+                                            <input type="radio" name="team" value="Red"> Zuun (Red) Commander<br>
                                         </td>
                                     </tr>
                                     <tr>

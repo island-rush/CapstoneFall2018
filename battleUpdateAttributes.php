@@ -124,14 +124,6 @@ if ($gameBattleSection == "counter" && $posType == "land") {
 
 
 
-
-
-
-
-
-
-
-
 $newValue = 0;
 $updateType = "battleSectionChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
