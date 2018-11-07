@@ -273,6 +273,7 @@
                         <span>Consists of 10 vehicles and is able to move 2 spaces.</span>
                     </li>
 
+
                     <li class="w3-padding-16">
                         <span class="w3-large"><img src="resources/unitImages/destroyer.png" height="65" width="65"><b>Destroyer:</b></span><br>
                         <span>This unit is able to move 2 spaces and detect submerged units</span>
