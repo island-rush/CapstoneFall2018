@@ -906,19 +906,6 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $results = $query->get_result();
         $num_results = $results->num_rows;
 
-        for ($x = 0; $x < $num_results; $x++) {
-            $r= $results->fetch_assoc();
-
-            $placementId = $r['placementId'];
-            $placementMovesReset = $r['unitMoves'];
-            $battleUsed = 0;
-
-            $query2 = 'UPDATE placements SET placementBattleUsed = ?, placementCurrentMoves = ? WHERE (placementId = ?)';
-            $query2 = $db->prepare($query2);
-            $query2->bind_param("iii", $battleUsed, $placementMovesReset, $placementId);
-            $query2->execute();
-        }
-
         $newValue = 0;
         $Red = "Red";
         $Blue = "Blue";
@@ -939,6 +926,20 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $query = $db->prepare($query);
         $query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
         $query->execute();
+
+
+        for ($x = 0; $x < $num_results; $x++) {
+            $r= $results->fetch_assoc();
+
+            $placementId = $r['placementId'];
+            $placementMovesReset = $r['unitMoves'];
+            $battleUsed = 0;
+
+            $query2 = 'UPDATE placements SET placementBattleUsed = ?, placementCurrentMoves = ? WHERE (placementId = ?)';
+            $query2 = $db->prepare($query2);
+            $query2->bind_param("iii", $battleUsed, $placementMovesReset, $placementId);
+            $query2->execute();
+        }
     }
 }
 

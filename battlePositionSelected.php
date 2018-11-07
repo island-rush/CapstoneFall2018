@@ -15,7 +15,7 @@ if ($myTeam == "Blue") {
 
 
 if ($battleTerrain == "water") {
-    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (unitTerrain != "ground") AND (placementUnitId = unitId)';
+    $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (unitTerrain != "land") AND (placementUnitId = unitId)';
 } else {
     $query = 'SELECT * FROM placements NATURAL JOIN units WHERE (placementGameId = ?) AND (placementPositionId = ?) AND (placementTeamId = ?) AND (placementUnitId = unitId)';
 }

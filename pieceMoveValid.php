@@ -190,7 +190,7 @@ if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId =
             $samPosition = (int) $thisSam['placementPositionId'];
             $samContainer = (int) $thisSam['placementContainerId'];
 
-            if ($samContainer != 999999) {
+            if ($samContainer == 999999) {
                 if ($new_positionId == $samPosition || $unitId != 13) {
                     if ($diceRoll >= $_SESSION['attack'][10][$unitId]) {
                         $killed = 1;

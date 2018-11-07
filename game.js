@@ -1503,9 +1503,6 @@ function battleChangeSection(newSection) {
         document.getElementById("phase_button").disabled = false;
         document.getElementById("undo_button").disabled = false;
 
-
-
-
         let phpBattleEnding = new XMLHttpRequest();
         phpBattleEnding.open("POST", "battleEnding.php?gameId=" + gameId, true);
         phpBattleEnding.send();
@@ -2471,6 +2468,8 @@ function updateBattleSection() {
                     document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
                     gameBattlePosSelected = 999999;
                 }
+
+                // document.getElementsByClassName("selectedPos")[0].remove("selectedPos");
 
                 document.getElementById("battleZonePopup").style.display = "none";
 
