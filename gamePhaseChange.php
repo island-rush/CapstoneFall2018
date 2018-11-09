@@ -927,6 +927,7 @@ if ($new_gameCurrentTeam != $_SESSION['myTeam']) {
         $query->bind_param("iiss", $gameId, $newValue, $Spec, $updateType);
         $query->execute();
 
+//        usleep(250);
 
         for ($x = 0; $x < $num_results; $x++) {
             $r= $results->fetch_assoc();

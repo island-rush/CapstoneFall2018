@@ -1950,24 +1950,27 @@ function updateIslandChange(islandIdentifier, newTeam) {
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
-    document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
+
+    if (battlePiece != null) {
+        document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
 
 
-    document.getElementById("battle_outcome").innerHTML = "";
+        document.getElementById("battle_outcome").innerHTML = "";
 
-    if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
-        //show what is needed for a hit?
-        let upperBox = document.getElementById("battle_outcome");
-        let defendPieceId = parseInt(document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId"));
-        let attackPieceId = parseInt(document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId"));
-        let needToKill = 0;
-        if (gameBattleSection === "attack") {
-            needToKill = attackMatrix[attackPieceId][defendPieceId];
-        } else {
-            needToKill = attackMatrix[defendPieceId][attackPieceId];
+        if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
+            //show what is needed for a hit?
+            let upperBox = document.getElementById("battle_outcome");
+            let defendPieceId = parseInt(document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId"));
+            let attackPieceId = parseInt(document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId"));
+            let needToKill = 0;
+            if (gameBattleSection === "attack") {
+                needToKill = attackMatrix[attackPieceId][defendPieceId];
+            } else {
+                needToKill = attackMatrix[defendPieceId][attackPieceId];
+            }
+            upperBox.innerHTML = "They must roll a " + needToKill + " in order to kill.";
+            // userFeedback("Click the attack button to roll!");
         }
-        upperBox.innerHTML = "They must roll a " + needToKill + " in order to kill.";
-        // userFeedback("Click the attack button to roll!");
     }
 }
 

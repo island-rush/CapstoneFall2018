@@ -61,6 +61,5 @@ while(true) {
     usleep(250000);
 }
 
-
 $results->free();
 $db->close();
