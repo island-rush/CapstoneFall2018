@@ -24,9 +24,18 @@ html, body {
     margin-left: 1%;
     margin-top: .75%;
     float: left;
-    background-color: antiquewhite;
+
     z-index: 75;
 }
+
+.sidepanel_Blue{
+    background-color: rgba(154, 152, 250, 0.6);
+}
+
+.sidepanel_Red{
+    background-color: rgba(250, 161, 173, 0.71);
+}
+
 #titlebar{
     position: absolute;
     z-index: 50;
@@ -234,8 +243,16 @@ html, body {
     margin: 5.5% 10%; /*top&bottom right&left */  /*top right bottom left */
     font-family: Impact;
     font-size: 30px;
-    background-color: rgba(200, 0, 0, 1.0);
+    /*background-color: rgba(200, 0, 0, 1.0);*/
     border-color: #c19c71;
+}
+
+.phase_Red{
+    background-color: rgba(200, 0, 0, 1.0);
+}
+
+.phase_Blue{
+    background-color: rgb(17, 22, 200);
 }
 
 

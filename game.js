@@ -12,6 +12,8 @@ let randomTimer;
 //First function called to load the game...
 function bodyLoader() {
 
+
+
     if (gameBattlePosSelected != "999999") {
         let phpPositionGet = new XMLHttpRequest();
         phpPositionGet.onreadystatechange = function () {
@@ -513,7 +515,7 @@ function pieceTrash(event, trashElement) {
 
             let myPoints;
             if (myTeam === "Red") {
-                gameRedRpoints = gameRedRpoints - costOfPiece;
+                gameRedRpoints = gameRedRpoints + costOfPiece;
                 document.getElementById("red_rPoints_indicator").innerHTML = gameRedRpoints;
                 myPoints = gameRedRpoints;
             } else {
@@ -1094,6 +1096,7 @@ function positionDrop(event, newContainerElement) {
                                         userFeedback("Enemy Team Prevented Drop.");
                                     } else {
                                         if (movementCost == -10) {
+                                            alert("SAM Destroyed that piece!");
                                             userFeedback("SAM Destroyed that piece!");
                                         }
                                         else {
@@ -1581,6 +1584,8 @@ function battleChangeSection(newSection) {
             gameBattlePosSelected = 999999;
         }
 
+        clearSelectedPos();
+
     }
 
     let posType = "defaultPos";
@@ -1588,7 +1593,7 @@ function battleChangeSection(newSection) {
         posType = document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").getAttribute("data-positionType");
     }
     let phpBattleUpdate = new XMLHttpRequest();
-    phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected + "&gameBattleTurn=" + gameBattleTurn + "&posType=" + posType, true);
+    phpBattleUpdate.open("POST", "battleUpdateAttributes.php?gameBattleSection=" + gameBattleSection + "&gameCurrentTeam=" + gameCurrentTeam + "&gameBattleSubSection=" + gameBattleSubSection + "&gameBattleLastRoll=" + gameBattleLastRoll + "&gameBattleLastMessage=" + gameBattleLastMessage + "&gameBattlePosSelected=" + gameBattlePosSelected + "&gameBattleTurn=" + gameBattleTurn + "&posType=" + posType, true);
     phpBattleUpdate.send();
 }
 
@@ -2008,27 +2013,29 @@ function updateIslandChange(islandIdentifier, newTeam) {
 
 function updateBattlePieceMove(battlePieceId, battlePieceState) {
     let battlePiece = document.querySelector("[data-battlePieceId='" + battlePieceId + "']");
-    document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
-    userFeedback("Enemy selected attack pieces.");
 
-    document.getElementById("battle_outcome").innerHTML = "";
+    if (battlePiece != null) {
+        document.querySelector("[data-boxId='" + battlePieceState + "']").appendChild(battlePiece);
+        userFeedback("Enemy selected attack pieces.");
 
+        document.getElementById("battle_outcome").innerHTML = "";
 
-    if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1) || gameBattleSection === "askRepeat") {
-        //show what is needed for a hit?
-        let upperBox = document.getElementById("battle_outcome");
-        let defendPieceId = parseInt(document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId"));
-        let attackPieceId = parseInt(document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId"));
-        let needToKill = 0;
-        if (gameBattleSection === "attack") {
-            needToKill = attackMatrix[attackPieceId][defendPieceId];
-        } else {
-            needToKill = attackMatrix[defendPieceId][attackPieceId];
+        //used to also be true on battle section == askRepeat*
+        if ((document.getElementById("center_defender").childNodes.length === 1 && document.getElementById("center_attacker").childNodes.length === 1)) {
+            //show what is needed for a hit?
+            let upperBox = document.getElementById("battle_outcome");
+            let defendPieceId = parseInt(document.getElementById("center_defender").childNodes[0].getAttribute("data-unitId"));
+            let attackPieceId = parseInt(document.getElementById("center_attacker").childNodes[0].getAttribute("data-unitId"));
+            let needToKill = 0;
+            if (gameBattleSection === "attack") {
+                needToKill = attackMatrix[attackPieceId][defendPieceId];
+            } else {
+                needToKill = attackMatrix[defendPieceId][attackPieceId];
+            }
+            upperBox.innerHTML = "They must roll a " + needToKill + " in order to kill.";
+            // userFeedback("Click the attack button to roll!");
         }
-        upperBox.innerHTML = "They must roll a " + needToKill + " in order to kill.";
-        // userFeedback("Click the attack button to roll!");
     }
-
 }
 
 function updatePiecePurchase(placementId, unitId, updateTeam) {
@@ -2206,6 +2213,10 @@ function updateNextPhase() {
                 };
             }
 
+            if (gameBattleSection === "none") {
+                clearSelectedPos();
+            }
+
             document.getElementById("phase_indicator").innerHTML = "Current Phase = " + phaseNames[gamePhase - 1];
             // document.getElementById("team_indicator").innerHTML = "Current Team = " + gameCurrentTeam;
             if (gameCurrentTeam === "Red") {
@@ -2263,6 +2274,7 @@ function updateBattleAttack(wasHit) {
             gameBattleSubSection = decoded.gameBattleSubSection;
             gameBattleLastRoll = decoded.gameBattleLastRoll;
             gameBattleLastMessage = decoded.gameBattleLastMessage;
+            gameBattleTurn = decoded.gameBattleTurn;
 
             if (parseInt(wasHit) === 2) {
                 document.getElementById("center_attacker").childNodes[0].setAttribute("data-battlePieceWasHit", 0);
@@ -2362,16 +2374,6 @@ function updateBattleSection() {
 
             document.getElementById("battle_outcome").innerHTML = "";
 
-            // let centerDefend = document.getElementById("center_defender");
-            // if (centerDefend.childNodes.length === 1) {
-            //     document.getElementById("unused_defender").append(centerDefend.childNodes[0]);
-            // }
-            //
-            // let centerAttack = document.getElementById("center_attacker");
-            // if (centerAttack.childNodes.length === 1) {
-            //     document.getElementById("unused_attacker").appendChild(centerAttack.childNodes[0]);
-            // }
-
             if (gameBattleSubSection !== "choosing_pieces") {
                 document.getElementById("battleActionPopup").style.display = "block";
                 if (gameBattleSubSection === "defense_bonus" && gameBattleSection === "attack") {
@@ -2464,6 +2466,8 @@ function updateBattleSection() {
             }
 
             if (gameBattleSection === "none") {
+                clearSelectedPos();
+
                 if (gameBattlePosSelected != 999999) {
                     document.querySelector("[data-positionId='" + gameBattlePosSelected + "']").classList.remove("selectedPos");
                     gameBattlePosSelected = 999999;

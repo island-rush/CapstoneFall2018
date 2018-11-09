@@ -52,7 +52,7 @@ if ($new_battlePieceState != 9) {
             $noContainer = 999999;
             $query = 'UPDATE placements SET placementContainerId = ? WHERE placementId = ?';
             $query = $db->prepare($query);
-            $query->bind_param("ii", $noContainer, $thisPlacementid);
+            $query->bind_param("ii", $noContainer, $thisPlacementId);
             $query->execute();
 
             $newValue = 0;

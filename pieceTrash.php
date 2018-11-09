@@ -1,7 +1,7 @@
 <?php
 include("db.php");
 
-$placementId = $_REQUEST['placementId'];
+$placementId = (int) $_REQUEST['placementId'];
 $myTeam = $_REQUEST['myTeam'];
 $gameId = $_REQUEST['gameId'];
 $newPoints = $_REQUEST['newPoints'];

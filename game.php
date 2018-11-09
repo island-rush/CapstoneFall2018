@@ -156,8 +156,8 @@ $u = $results->fetch_assoc();
 
 <body onload="bodyLoader();">
 <div id="whole_game">
-    <div id="side_panel">
-        <div id="titlebar">Reinforcement Shop</div>
+    <div id="side_panel" class="<?php echo 'sidepanel_'.$_SESSION['myTeam']; ?>">
+        <div id="titlebar"><?php echo $u['gameSection']; ?>, <?php echo $u['gameInstructor']; ?> -- Reinforcement Shop</div>
         <div id="purchase_buttons_container">
             <div class="purchase_square Transport" title="Transport&#013;Cost: 8&#013;Moves: 2" id="Transport" data-unitCost="8" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square Submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="Submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
@@ -214,7 +214,7 @@ $u = $results->fetch_assoc();
                 <div id="user_feedback">User Feedback Loading...</div>
             </div>
             <div id="phase_button_container">
-                <button id="phase_button" disabled onclick="userFeedback('This action will switch to the next phase! (Unrelated to battle).'); setTimeout(function thing() {changePhase();}, 50);">Next Phase</button>
+                <button id="phase_button" class="<?php echo 'phase_'.$_SESSION['myTeam']; ?>" disabled onclick="userFeedback('This action will switch to the next phase! (Unrelated to battle).'); setTimeout(function thing() {changePhase();}, 50);">Next Phase</button>
             </div>
         </div>
     </div>

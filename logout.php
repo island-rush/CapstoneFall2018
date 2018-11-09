@@ -12,7 +12,7 @@ if ($myTeam == "Red") {
 
 $notJoined = 0;
 $query = $db->prepare($query);
-$query->bind_param("ii", $NotJoined, $gameId);
+$query->bind_param("ii", $notJoined, $gameId);
 $query->execute();
 
 $db->close();
@@ -26,4 +26,3 @@ if (isset($_REQUEST['reason'])) {
     header("location:login.php");
 }
 
-exit();

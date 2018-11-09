@@ -5,6 +5,8 @@ include("db.php");
 $gameId = $_SESSION['gameId'];
 $myTeam = $_SESSION['myTeam'];
 
+$gameCurrentTeam = $_REQUEST['gameCurrentTeam'];
+
 $gameBattleSection = $_REQUEST['gameBattleSection'];
 $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 $gameBattleLastRoll = $_REQUEST['gameBattleLastRoll'];
@@ -36,9 +38,10 @@ if ($gameBattleSection == "askRepeat" && $gameBattleTurn > 1) {
     $stealthBomber = "StealthBomberSquadron";
     $tanker = "Tanker";
     $wasNotHit = 0;
-    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId) a WHERE (placementId = battlePieceId) AND (placementTeamId = ?) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
+    $query = 'SELECT * FROM battlePieces NATURAL JOIN (SELECT * FROM placements NATURAL JOIN units WHERE unitId = placementUnitId AND placementTeamId = ?) a WHERE (placementId = battlePieceId) AND (placementTeamId = ?) AND (unitName = ? OR unitName = ? OR unitName = ? OR unitName = ?) AND (battlePieceWasHit = ?) AND (placementGameId = ?)';
     $query = $db->prepare($query);
-    $query->bind_param("sssssii", $myTeam, $fighter, $bomber, $stealthBomber, $tanker, $wasNotHit, $gameId);
+    //used to be myTeam instead of gameCurrentTeam...
+    $query->bind_param("ssssssii", $gameCurrentTeam, $gameCurrentTeam, $fighter, $bomber, $stealthBomber, $tanker, $wasNotHit, $gameId);
     $query->execute();
     $results = $query->get_result();
     $num_results = $results->num_rows;

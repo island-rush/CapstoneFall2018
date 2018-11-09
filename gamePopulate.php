@@ -11,7 +11,7 @@ $preparedQuery->bind_param("ss", $instructor,$section);
 $preparedQuery->execute();
 $results = $preparedQuery->get_result();
 $r= $results->fetch_assoc();
-$gameId = $r['gameId'];
+$gameId = (int) $r['gameId'];
 $gameAdminPassword = $r['gameAdminPassword'];
 
 $red = 'Red';
@@ -42,11 +42,6 @@ $preparedQuery->bind_param("i", $gameId);
 $preparedQuery->execute();
 
 $query = "DELETE FROM battlePieces WHERE battleGameId = ?";
-$preparedQuery = $db->prepare($query);
-$preparedQuery->bind_param("i", $gameId);
-$preparedQuery->execute();
-
-$query = "DELETE FROM updates WHERE updateGameId = ?";
 $preparedQuery = $db->prepare($query);
 $preparedQuery->bind_param("i", $gameId);
 $preparedQuery->execute();
@@ -1227,3 +1222,8 @@ $query = 'INSERT INTO newsAlerts (newsGameId, newsOrder, newsEffect, newsText, n
 $query = $db->prepare($query);
 $query->bind_param("iisss",$gameId, $order, $nothing, $text, $effectText );
 $query->execute();
+
+$query = "DELETE FROM updates WHERE updateGameId = ?";
+$preparedQuery = $db->prepare($query);
+$preparedQuery->bind_param("i", $gameId);
+$preparedQuery->execute();
