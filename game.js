@@ -61,7 +61,7 @@ function bodyLoader() {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
         document.getElementById("battle_button").onclick = function() {
-            if (confirm("Are you sure you want to battle?")) {
+            if (confirm("Are you sure you want to battle? Make sure your aircraft are in the zone you want to attack.")) {
                 battleChangeSection("selectPos");
             }
         };
@@ -269,9 +269,7 @@ function bodyLoader() {
 }
 
 function logout() {
-    if (confirm("Are you sure you want to logout?")) {
-        window.location.replace("logout.php");
-    }
+    window.location.replace("logout.php");
 }
 
 function logout2() {
@@ -1183,7 +1181,14 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
 
 function changePhase() {
     if (canNextPhase === "true") {
-        if ((gamePhase == 5 && confirm("Any reinforcements not placed will get deleted, are you sure?")) || (gamePhase == 4 && confirm("Any aircraft not on carriers/airstrips or heli's not over land will get deleted.\nAre you sure you want to continue?")) || ((gamePhase != 4 && gamePhase != 5) && confirm("Are you sure you want to go to the next phase?"))) {
+        if ((gamePhase == 1) || // no confirm dialogue for NewsAlert -> Buy Reinforcements
+            (gamePhase == 2) || // no confirm dialogue for Buy -> Combat
+            (gamePhase == 3 && confirm("Are you sure you want to leave the combat phase? \n\n\n You cannot battle if you leave the combat phase.\n\nUse the Select Battle button in the bottom bar to battle.\n\n Press ok to move to the Fortification phase.")) ||
+            (gamePhase == 4 && confirm("Any aircraft not on carriers or airfields and helo's not over land will get deleted.\n\nAre you sure you want to continue?")) ||
+            (gamePhase == 5 && confirm("Any reinforcements not placed will get deleted, are you sure?")) ||
+            (gamePhase == 6 && alert("Please be patient as this phase transition might take a few seconds.")) || // alert for time lag rn, can delete if fixed
+            (gamePhase == 7 && confirm("Are you sure you want to move to the other team's turn?\n"))
+            ) {
             let phpPhaseChange = new XMLHttpRequest();
             phpPhaseChange.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -1281,7 +1286,7 @@ function changePhase() {
                         //Let the canAttack check above enable or disable battle button, but set the html stuff back
                         document.getElementById("battle_button").innerHTML = "Select Battle";
                         document.getElementById("battle_button").onclick = function() {
-                            if (confirm("Are you sure you want to battle?")) {
+                            if (confirm("Are you sure you want to battle? Make sure your aircraft are in the zone that you want to attack.")) {
                                 battleChangeSection("selectPos");
                             }
                         };
@@ -1524,7 +1529,7 @@ function battleChangeSection(newSection) {
         document.getElementById("battle_button").disabled = false;
         document.getElementById("battle_button").innerHTML = "Select Battle";
         document.getElementById("battle_button").onclick = function() {
-            if(confirm("Are you sure you want to battle?")) {
+            if(confirm("Are you sure you want to battle? Make sure your aircraft are in the zone you want to attack.")) {
                 battleChangeSection("selectPos");
             }
         };
@@ -2207,7 +2212,7 @@ function updateNextPhase() {
                 //Let the canAttack check above enable or disable battle button, but set the html stuff back
                 document.getElementById("battle_button").innerHTML = "Select Battle";
                 document.getElementById("battle_button").onclick = function() {
-                    if (confirm("Are you sure you want to battle?")) {
+                    if (confirm("Are you sure you want to battle? Make sure your aircraft are in the zone you want to attack.")) {
                         battleChangeSection("selectPos");
                     }
                 };
@@ -2557,7 +2562,7 @@ function hybridDisableAircraft() {
         thisPoints = gameBlueHpoints;
     }
     if (thisPoints >= 10) {
-        if (confirm("Are you sure you want to disable all aircraft?")) {
+        if (confirm("Are you sure you want to disable all enemy aircraft?")) {
             let phpDisableAircraft = new XMLHttpRequest();
             phpDisableAircraft.open("GET", "hybridDisableAircraft.php", true);
             phpDisableAircraft.send();
@@ -2574,7 +2579,7 @@ function hybridDisableAirfield() {
         thisPoints = gameBlueHpoints;
     }
     if (thisPoints >= 3) {
-        if (confirm("Are you sure you want to disable airfield?")) {
+        if (confirm("Are you sure you want to disable an enemy airfield?")) {
             //delete the points from this team? (how to deal with this (where))
             document.getElementById("popup").style.display = "none";
             disableAirfieldHybridState = "true";
@@ -2617,7 +2622,7 @@ function hybridBank() {
         thisPoints = gameBlueHpoints;
     }
     if (thisPoints >= 4) {
-        if (confirm("Are you sure you want use Bank?")) {
+        if (confirm("Are you sure you want use Bank Drain?")) {
             hideIslands();
             document.getElementById("popup").style.display = "none";
             bankHybridState = "true";

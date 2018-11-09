@@ -24,19 +24,19 @@ html, body {
     margin-left: 1%;
     margin-top: .75%;
     float: left;
-
+    background-color: wheat;
     z-index: 75;
 }
 
-.sidepanel_Blue{
-    background-color: rgba(154, 152, 250, 0.6);
-}
-
-.sidepanel_Red{
-    background-color: rgba(250, 161, 173, 0.71);
-}
+/*.sidepanel_Blue{*/
+    /*background-color: #99ccff;*/
+/*}*/
+/*.sidepanel_Red{*/
+    /*background-color: #ff8566;*/
+/*}*/
 
 #titlebar{
+    line-height: 1em;
     position: absolute;
     z-index: 50;
     width: 100%;
@@ -44,7 +44,7 @@ html, body {
     text-align: center;
 }
 #purchase_buttons_container{
-    margin-top: 5%;
+    margin-top: 9%;
     /*margin: 0;*/
     position: absolute;
     z-index: 50;
@@ -55,9 +55,10 @@ html, body {
 .purchase_square{
     float: left;
     width: 20.1%;
-    padding-top: 20.1%;
+    padding-top: 19%;
     margin-left: 4%;
     background-size: contain;
+    background-repeat: no-repeat;
 }
 .purchase_square:hover{
     background-color: rgba(165,138,17,0.58)
@@ -1417,4 +1418,6 @@ html, body {
     transrm: rotate(0deg);
 }
 
-
+b{
+    font-weight: bold;
+}

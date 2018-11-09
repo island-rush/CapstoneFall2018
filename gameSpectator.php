@@ -170,7 +170,7 @@ $u = $results->fetch_assoc();
 <body onload="bodyLoader();">
 <div id="whole_game">
     <div id="side_panel">
-        <div id="titlebar">Reinforcement Shop</div>
+        <div id="titlebar">Logged into: <?php echo $u['gameSection']; ?>, <?php echo $u['gameInstructor']; ?> as <?php echo $_SESSION['myTeam']; ?><br>Reinforcement Shop</div>
         <div id="purchase_buttons_container">
             <div class="purchase_square Transport" title="Transport&#013;Cost: 8&#013;Moves: 2" id="Transport" data-unitCost="8" data-unitId="0" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
             <div class="purchase_square Submarine" title="Submarine&#013;Cost: 8&#013;Moves: 2" id="Submarine" data-unitCost="8" data-unitId="1" data-unitTerrain="water" onclick="piecePurchase(event, this);"></div>
