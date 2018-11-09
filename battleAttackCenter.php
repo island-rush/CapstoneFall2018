@@ -20,8 +20,8 @@ $boostedAttack = $_REQUEST['boostedAttack'];
 
 $gameBattleLastMessage = "Test Game Battle Message";
 
-//$lastRoll = rand(1, 6);
-$lastRoll = 6;
+$lastRoll = rand(1, 6);
+//$lastRoll = 6;
 //$lastRoll = 1;
 
 if ($gameBattleSubSection == "choosing_pieces") {
