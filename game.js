@@ -1095,20 +1095,33 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
             return unitName === "FighterSquadron" && containerParent.childNodes[0].childNodes.length < 2 && containerParent.getAttribute("data-placementTeamId") == myTeam;  // room for another fighter
         }
     } else {  //wasn't a container
-        //if unit is a boat (carrier, destroyer, transport)
-        //check if the new position has enemies in it (blockade code)
-        let boats = ["Destroyer", "AircraftCarrier"];
-        if (unitName != "Submarine"){  //any piece can try and move into the blockade
+        //boats block boats
+        let boatsThatBlockade = ["Destroyer", "AircraftCarrier"];
+        let boatsThatGetBlockaded = ["Destroyer", "AircraftCarrier", "Transport"];
+        if (boatsThatGetBlockaded.includes(unitName)){
             let newPosDiv = document.querySelector("[data-positionId='" + new_positionId + "']");
             for (let x = 0; x < newPosDiv.childNodes.length; x++) {
                 if (newPosDiv.childNodes[x].getAttribute("data-placementTeamId") !== myTeam){
-                    if (boats.includes(newPosDiv.childNodes[x].getAttribute("data-unitName"))) {
+                    if (boatsThatBlockade.includes(newPosDiv.childNodes[x].getAttribute("data-unitName"))) {
                         userFeedback("Blockade prevented movement.");
                         return false;
                     }
                 }
             }
         }
+        //subs block subs
+        if (unitName == "Submarine"){
+            let newPosDiv = document.querySelector("[data-positionId='" + new_positionId + "']");
+            for (let x = 0; x < newPosDiv.childNodes.length; x++) {
+                if (newPosDiv.childNodes[x].getAttribute("data-placementTeamId") !== myTeam){
+                    if (newPosDiv.childNodes[x].getAttribute("data-unitName") == "Submarine") {
+                        userFeedback("Blockade prevented movement.");
+                        return false;
+                    }
+                }
+            }
+        }
+
         //TODO: could change this return to show userfeedback on false returns (specific reasons why failed)
         return unitTerrain === "air" || unitTerrain === positionTerrain; //air anywhere, or match terrain (missile = missile)
     }
@@ -1117,7 +1130,7 @@ function movementCheck(unitName, unitTerrain, new_placementContainerId, position
 function changePhase() {
     if (canNextPhase === "true") {
         if ((gamePhase == 1) || // no confirm dialogue for NewsAlert -> Buy Reinforcements
-            (gamePhase == 2) || // no confirm dialogue for Buy -> Combat
+            (gamePhase == 2 && confirm("Are you sure you are done buying?")) || // no confirm dialogue for Buy -> Combat
             (gamePhase == 3 && confirm("Are you sure you want to leave the combat phase? \n\n\n You cannot battle if you leave the combat phase.\n\nUse the Select Battle button in the bottom bar to battle.\n\n Press ok to move to the Fortification phase.")) ||
             (gamePhase == 4 && confirm("Any aircraft not on carriers or airfields and helo's not over land will get deleted.\n\nAre you sure you want to continue?")) ||
             (gamePhase == 5 && confirm("Any reinforcements not placed will get deleted, are you sure?")) ||

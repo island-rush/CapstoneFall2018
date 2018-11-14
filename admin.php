@@ -21,6 +21,8 @@ $gameChecked = $r['gameActive'];
 $section = $r['gameSection'];
 $instructor = $r['gameInstructor'];
 $currentTeam = $r['gameCurrentTeam'];
+$currentPhase = $r['gamePhase'];
+$currentTurn = $r['gameTurn'];
 
 
 // search DB for this game's News Alerts
@@ -195,6 +197,13 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
             }
         }
 
+        function resetBattle() {
+            if(confirm("Are you sure you want to cancel / reset this battle?")){
+                let phpBattleReset = new XMLHttpRequest();
+                phpBattleReset.open("GET", "adminBattleReset.php?section=" + section + "&instructor=" + instructor, true);
+                phpBattleReset.send();
+            }
+        }
 
         function populateAllGames() {
             if (confirm("Are you sure you want to completely reset all games?")) {
@@ -236,6 +245,10 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
     <div>You are logged in for the Game:</div>
     <span class="important" id="section">Section: <?php echo $section; ?></span>
     <span class="important" id="instructor">Instructor: <?php echo $instructor; ?></span>
+    <span class="important" id="turn">Current Turn : <?php echo floor($currentTurn / 7); ?></span>
+    <span class="important" id="phase">Current Phase: <?php echo $currentPhase; ?></span>
+
+    <p>Turn starts at 0***</p>
 
     <?php
         if ($instructor != "Start") {
@@ -260,7 +273,11 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
     <hr>
     <h3>Reset Game</h3>
     <span>Completely reset this particular game:</span>
-    <button class="btn btn-danger" id="populateButton" onclick="populateGame()">RESET GAME</button>';
+    <button class="btn btn-danger" id="populateButton" onclick="populateGame();">RESET GAME</button>
+    <br>
+    <br>
+    <span>Stop and Reset the current battle (if both are stuck)</span>
+    <button class="btn btn-danger" id="populateButton" onclick="resetBattle();">RESET Battle For This Game</button>';
         }
     ?>
 

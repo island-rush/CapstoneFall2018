@@ -12,8 +12,27 @@ $gameBattleSubSection = $_REQUEST['gameBattleSubSection'];
 $gameBattleLastRoll = $_REQUEST['gameBattleLastRoll'];
 $gameBattleLastMessage = $_REQUEST['gameBattleLastMessage'];
 $gameBattlePosSelected = $_REQUEST['gameBattlePosSelected'];
-$gameBattleTurn = (int) $_REQUEST['gameBattleTurn'];
+//$gameBattleTurn = (int) $_REQUEST['gameBattleTurn'];  //client side was wrong, not getting update, server side fix
 $posType = $_REQUEST['posType'];
+
+
+$query = 'SELECT * FROM games WHERE gameId = ?';
+$query = $db->prepare($query);
+$query->bind_param("i", $gameId);
+$query->execute();
+$results = $query->get_result();
+$r = $results->fetch_assoc();
+$gameBattleTurn = (int) $r['gameBattleTurn'];
+
+
+if ($gameBattleSection == "selectPieces") {
+    $gameBattleTurn = 0;
+}
+
+if ($gameBattleSection == "askRepeat") {
+    $gameBattleTurn = $gameBattleTurn + 1;
+}
+
 
 if ($gameBattleSection == "selectPos") {
     //prevent future undo

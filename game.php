@@ -151,7 +151,7 @@ $u = $results->fetch_assoc();
         var newsText = "<?php echo $r3['newsText'] ?>";
         var newsEffect = "<?php echo $r3['newsEffect'] ?>";
     </script>
-    <script src="game.js"></script>
+    <script src="game.js?v=9"></script>
 </head>
 
 <body onload="bodyLoader();">

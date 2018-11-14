@@ -15,7 +15,7 @@ $u = $results->fetch_assoc();
     <title>Island Rush Game V0.22 Alpha</title>
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
-        var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Tally Points'];
+        var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Round Recap'];
         var unitNames = ['Transport', 'Submarine', 'Destroyer', 'AircraftCarrier', 'ArmyCompany', 'ArtilleryBattery', 'TankPlatoon', 'MarinePlatoon', 'MarineConvoy', 'AttackHelo', 'SAM', 'FighterSquadron', 'BomberSquadron', 'StealthBomberSquadron', 'Tanker', 'LandBasedSeaMissile'];
         var unitsMoves = <?php $query2 = 'SELECT * FROM units'; $query2 = $db->prepare($query2); $query2->execute(); $results2 = $query2->get_result(); $num_results2 = $results2->num_rows; $arr = array();
             if ($num_results2 > 0) {
