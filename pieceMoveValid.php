@@ -162,6 +162,7 @@ if ($unitName == "LandBasedSeaMissile") {
 if ($thingToEcho > 1) {
     //Force one move at a time
     echo -3;
+    exit();
 }
 
 if ($unitId == 9 || $unitId == 11 || $unitId == 12 || $unitId == 13 || $unitId == 14) {

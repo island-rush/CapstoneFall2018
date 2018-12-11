@@ -62,9 +62,17 @@ if ($num_results > 0) {
     //Update the other client's gameboard
     $newValue = 0;
     $updateType = "pieceMove";
+    $Blue = "Blue";
+    $Red = "Red";
+
     $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     $query = $db->prepare($query);
-    $query->bind_param("iissiiii", $movementGameId, $newValue, $myTeam, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer, $new_placementCurrentMoves);
+    $query->bind_param("iissiiii", $movementGameId, $newValue, $Blue, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer, $new_placementCurrentMoves);
+    $query->execute();
+
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissiiii", $movementGameId, $newValue, $Red, $updateType, $movementNowPlacement, $movementFromPosition, $movementFromContainer, $new_placementCurrentMoves);
     $query->execute();
 
     $Spec = "Spec";

@@ -61,9 +61,17 @@ $query->execute();
 
 $newValue = 0;
 $updateType = "islandChange";
+$Red = "Red";
+$Blue = "Blue";
+
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateIsland, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissss", $gameId, $newValue, $myTeam, $updateType, $islandToChange, $newTeam);
+$query->bind_param("iissss", $gameId, $newValue, $Red, $updateType, $islandToChange, $newTeam);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updateIsland, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissss", $gameId, $newValue, $Blue, $updateType, $islandToChange, $newTeam);
 $query->execute();
 
 $Spec = "Spec";
@@ -109,15 +117,22 @@ if ($missileCheck != 0) {
         $newValue = 0;
         $Spec = "Spec";
         $updateType = "updateMissile";
+        $Blue = "Blue";
+        $Red = "Red";
 
-        $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+        $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
         $query = $db->prepare($query);
-        $query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
+        $query->bind_param("iissis", $gameId, $newValue, $Blue, $updateType, $placementId, $newTeam);
         $query->execute();
 
-        $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+        $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
         $query = $db->prepare($query);
-        $query->bind_param("iissi", $gameId, $newValue, $Spec, $updateType, $placementId);
+        $query->bind_param("iissis", $gameId, $newValue, $Red, $updateType, $placementId, $newTeam);
+        $query->execute();
+
+        $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateIslandTeam) VALUES (?, ?, ?, ?, ?, ?)';
+        $query = $db->prepare($query);
+        $query->bind_param("iissis", $gameId, $newValue, $Spec, $updateType, $placementId, $newTeam);
         $query->execute();
     }
 }

@@ -148,9 +148,17 @@ if ($gameBattleSection == "counter" && $posType == "land") {
 
 $newValue = 0;
 $updateType = "battleSectionChange";
+$Blue = "Blue";
+$Red = "Red";
+
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->bind_param("iiss", $gameId, $newValue, $Blue, $updateType);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Red, $updateType);
 $query->execute();
 
 $Spec = "Spec";

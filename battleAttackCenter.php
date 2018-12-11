@@ -20,9 +20,9 @@ $boostedAttack = $_REQUEST['boostedAttack'];
 
 $gameBattleLastMessage = "Test Game Battle Message";
 
-$lastRoll = rand(1, 6);
+//$lastRoll = rand(1, 6);
 //$lastRoll = 6;
-//$lastRoll = 1;
+$lastRoll = 1;
 if ($lastRoll != 6){
     $lastRoll += $boostedAttack;
 }
@@ -60,7 +60,7 @@ if ($gameBattleSubSection == "choosing_pieces") {
         }
     } else {
         $wasHit = 0;
-        $gameBattleLastMessage = $attackUnitName." did not hit ".$defendUnitName;
+        $gameBattleLastMessage = $attackUnitName." did not hit back ".$defendUnitName;
     }
 }
 

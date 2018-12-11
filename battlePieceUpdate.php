@@ -15,9 +15,17 @@ if ($new_battlePieceState != 9) {
     //tell other client about the battle piece moving
     $newValue = 0;
     $updateType = "battlePieceMove";
+    $Red = "Red";
+    $Blue = "Blue";
+
     $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateBattlePieceState) VALUES (?, ?, ?, ?, ?, ?)';
     $query = $db->prepare($query);
-    $query->bind_param("iissii", $gameId, $newValue, $myTeam, $updateType, $battlePieceId, $new_battlePieceState);
+    $query->bind_param("iissii", $gameId, $newValue, $Blue, $updateType, $battlePieceId, $new_battlePieceState);
+    $query->execute();
+
+    $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateBattlePieceState) VALUES (?, ?, ?, ?, ?, ?)';
+    $query = $db->prepare($query);
+    $query->bind_param("iissii", $gameId, $newValue, $Red, $updateType, $battlePieceId, $new_battlePieceState);
     $query->execute();
 
     $Spec = "Spec";

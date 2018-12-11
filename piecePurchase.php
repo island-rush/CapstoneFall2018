@@ -5,7 +5,7 @@ include("db.php");
 $gameId = $_SESSION['gameId'];
 $myTeam = $_SESSION['myTeam'];
 
-$unitId = $_REQUEST['unitId'];
+$unitId = (int) $_REQUEST['unitId'];
 
 $query = 'SELECT * FROM units WHERE unitId = ?';
 $query = $db->prepare($query);

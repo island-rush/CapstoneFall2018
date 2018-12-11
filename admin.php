@@ -245,10 +245,8 @@ $firstOrder = $preparedQuery->get_result()->fetch_assoc()['newsOrder'];
     <div>You are logged in for the Game:</div>
     <span class="important" id="section">Section: <?php echo $section; ?></span>
     <span class="important" id="instructor">Instructor: <?php echo $instructor; ?></span>
-    <span class="important" id="turn">Current Turn : <?php echo floor($currentTurn / 7); ?></span>
+    <span class="important" id="turn">Current Turn : <?php echo floor($currentTurn / 7) + 1; ?></span>
     <span class="important" id="phase">Current Phase: <?php echo $currentPhase; ?></span>
-
-    <p>Turn starts at 0***</p>
 
     <?php
         if ($instructor != "Start") {

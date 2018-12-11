@@ -41,9 +41,17 @@ $query->execute();
 
 $newValue = 0;
 $updateType = "pieceMove";
+$Blue = "Blue";
+$Red = "Red";
+
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissiiii", $gameId, $newValue, $myTeam, $updateType, $placementId, $new_positionId, $new_placementContainerId, $new_placementCurrentMoves);
+$query->bind_param("iissiiii", $gameId, $newValue, $Red, $updateType, $placementId, $new_positionId, $new_placementContainerId, $new_placementCurrentMoves);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId, updateNewPositionId, updateNewContainerId, updateNewMoves) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissiiii", $gameId, $newValue, $Blue, $updateType, $placementId, $new_positionId, $new_placementContainerId, $new_placementCurrentMoves);
 $query->execute();
 
 $Spec = "Spec";

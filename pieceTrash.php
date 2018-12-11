@@ -13,9 +13,17 @@ $query->execute();
 
 $newValue = 0;
 $updateType = "pieceTrash";
+$Blue = "Blue";
+$Red = "Red";
+
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
+$query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
 $query->execute();
 
 $Spec = "Spec";
@@ -28,7 +36,12 @@ $newValue = 0;
 $updateType = "phaseChange";
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iiss", $gameId, $newValue, $myTeam, $updateType);
+$query->bind_param("iiss", $gameId, $newValue, $Blue, $updateType);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iiss", $gameId, $newValue, $Red, $updateType);
 $query->execute();
 
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType) VALUES (?, ?, ?, ?)';

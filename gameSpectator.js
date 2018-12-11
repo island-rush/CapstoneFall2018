@@ -2519,8 +2519,8 @@ function hybridBank() {
 //--------------------------
 
 function rollDice(){
-    let timeBetween = 375;
-    let numRolls = 12;
+    let timeBetween = 280;
+    let numRolls = 8;
     let thingy;
     let i;
     for (i = 1; i < numRolls; i++) {

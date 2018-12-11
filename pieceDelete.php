@@ -22,10 +22,17 @@ $query->execute();
 //update the other client and spectators
 $newValue = 0;
 $updateType = "pieceTrash";
+$Red = "Red";
+$Blue = "Blue";
 
 $query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
 $query = $db->prepare($query);
-$query->bind_param("iissi", $gameId, $newValue, $myTeam, $updateType, $placementId);
+$query->bind_param("iissi", $gameId, $newValue, $Red, $updateType, $placementId);
+$query->execute();
+
+$query = 'INSERT INTO updates (updateGameId, updateValue, updateTeam, updateType, updatePlacementId) VALUES (?, ?, ?, ?, ?)';
+$query = $db->prepare($query);
+$query->bind_param("iissi", $gameId, $newValue, $Blue, $updateType, $placementId);
 $query->execute();
 
 $Spec = "Spec";

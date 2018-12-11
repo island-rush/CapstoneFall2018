@@ -1,4 +1,5 @@
 <?php
+//TODO: make sure can't get here with invalid stuff or simple url typing (check session here)(session exists?)
 session_start();
 include("db.php");
 $gameId = $_SESSION['gameId'];
@@ -12,7 +13,7 @@ $u = $results->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Island Rush Game V0.23.2 Alpha</title>
+    <title>Island Rush Game V0.23.4 Alpha</title>
     <link rel="stylesheet" type="text/css" href="game.css">
     <script type="text/javascript">
         var phaseNames = ['News', 'Buy Reinforcements', 'Combat', 'Fortify Move', 'Reinforcement Place', 'Hybrid War', 'Round Recap'];
@@ -421,7 +422,7 @@ $u = $results->fetch_assoc();
                         <div id="dice_image6" class="dice_image"></div>
                     </div>
                     <div id="lastBattleMessage">Loading...</div>
-                    <button id="actionPopupButton" disabled>Loading...</button>
+                    <button id="actionPopupButton" onclick="battleEndRoll();">Loading...</button>
                 </div>
             </div>
         </div>
